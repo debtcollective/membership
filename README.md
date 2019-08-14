@@ -1,6 +1,9 @@
 # FUNDRAISING
 
-## Development
+An instance of PostgresSQL running.
+_Note:_ MacOS users can use the [Postgres app](https://postgresapp.com).
+
+## Getting started
 ### Ruby version
 This project runs on `Ruby 2.6.3`
 
@@ -15,24 +18,30 @@ You'll need to have installed the following dependencies installed, if you don't
 
 Have a ruby version installed, you can learn more about how to use multiple versions of Ruby installed in your computer with [rbenv](https://github.com/rbenv/rbenv) or [rvm](https://rvm.io).
 
-An instance of PostgresSQL running.
-_Note:_ MacOS users can use the [Postgres app](https://postgresapp.com).
-
-### Database creation
-
-Execute the command `rake db:setup`.
-
-### How to run the test suite
-
-This project uses [rspec](http://rspec.info)
+To get started with the app, clone the repo and then install the needed gems:
 
 ```bash
-bundle exec rspec
+$ bundle install
 ```
 
-### Deployment instructions
+Next, migrate the database:
 
-TBD
+```bash
+$ bundle exec rake db:migrate
+```
+
+Finally, run the test suite to verify that everything is working correctly (This project uses [rspec](http://rspec.info)):
+```bash
+$ bundle exec rspec
+```
+
+If the test suite passes, you'll be ready to run the app in a local server:
+
+```bash
+$ bundle exec rails server
+```
+
+## Developer notes
 
 ### Formatting
 
