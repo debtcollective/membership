@@ -49,6 +49,7 @@ group :test do
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'timecop', '~> 0.9.1'
+  gem 'capybara', '~> 3.28'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
