@@ -217,6 +217,8 @@ GEM
     sassc (1.12.1)
       ffi (~> 1.9.6)
       sass (>= 3.3.0)
+    shoulda-matchers (4.1.2)
+      activesupport (>= 4.2.0)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -278,6 +280,7 @@ DEPENDENCIES
   rspec-rails!
   rspec-support!
   sassc (~> 1.11, >= 1.11.4)
+  shoulda-matchers (~> 4.1, >= 4.1.2)
   spring
   spring-watcher-listen (~> 2.0.0)
   standard (~> 0.1.2)
