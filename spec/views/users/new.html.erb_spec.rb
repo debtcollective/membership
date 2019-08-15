@@ -3,16 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'users/new', type: :view do
-  let(:user_email) { Faker::Internet.email }
-
   before(:each) do
-    assign(:user, User.new(
-                    first_name: 'MyString',
-                    last_name: 'MyString',
-                    email: user_email,
-                    user_role: User::USER_ROLES[:user],
-                    discourse_id: 'MyString'
-                  ))
+    assign(:user, User.new)
   end
 
   it 'renders new user form' do
