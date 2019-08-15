@@ -2,10 +2,10 @@
 
 FactoryBot.define do
   factory :user do
-    first_name { 'John' }
-    last_name  { 'Doe' }
+    first_name { Faker::Name.first_name }
+    last_name  { Faker::Name.last_name }
     user_role { 'User' }
-    email { 'foo@bar.com' }
-    discourse_id { '12sajdh1981983jndan' }
+    email { Faker::Internet.email }
+    discourse_id { Faker::Alphanumeric.alphanumeric(number: 10) }
   end
 end
