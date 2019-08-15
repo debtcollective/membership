@@ -33,6 +33,9 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'standard', '~> 0.1.2'
   gem 'dotenv', '~> 2.7', '>= 2.7.5'
+  gem 'faker', '~> 2.1', '>= 2.1.2'
+  gem 'factory_bot', '~> 5.0', '>= 5.0.2'
+  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
 end
 
 group :development do
@@ -51,11 +54,8 @@ group :test do
   gem 'rspec-mocks', git: 'https://github.com/rspec/rspec-mocks'
   gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails', branch: '4-0-dev'
   gem 'rspec-support', git: 'https://github.com/rspec/rspec-support'
-  gem 'factory_bot', '~> 5.0', '>= 5.0.2'
-  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'timecop', '~> 0.9.1'
   gem 'capybara', '~> 3.28'
-  gem 'faker', '~> 2.1', '>= 2.1.2'
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
 end
 
