@@ -1,3 +1,46 @@
+GIT
+  remote: https://github.com/rspec/rspec-core
+  revision: 77dbc84657c5dc45e07a7fe0f5b02b4caeb6c9ad
+  specs:
+    rspec-core (3.9.0.pre)
+      rspec-support (= 3.9.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-expectations
+  revision: 75f5cc9cab09fd0728bcf95e26d2c4b46f73c466
+  specs:
+    rspec-expectations (3.9.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.9.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-mocks
+  revision: 2aab10d3e7a9c1c500acd1e88a7a408670f8cc48
+  specs:
+    rspec-mocks (3.9.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.9.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-rails
+  revision: 9c6d8f3eaa8049f940691b9489e7a7862cd912b0
+  branch: 4-0-dev
+  specs:
+    rspec-rails (4.0.0.beta2)
+      actionpack (>= 4.2)
+      activesupport (>= 4.2)
+      railties (>= 4.2)
+      rspec-core (~> 3.8)
+      rspec-expectations (~> 3.8)
+      rspec-mocks (~> 3.8)
+      rspec-support (~> 3.8)
+
+GIT
+  remote: https://github.com/rspec/rspec-support
+  revision: c69a231d7369dd165ad7ce4742e1a2e21e3462b5
+  specs:
+    rspec-support (3.9.0.pre)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -82,6 +125,8 @@ GEM
     factory_bot_rails (5.0.2)
       factory_bot (~> 5.0.2)
       railties (>= 4.2.0)
+    faker (2.1.2)
+      i18n (>= 0.8)
     ffi (1.9.25)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -153,27 +198,6 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     regexp_parser (1.6.0)
-    rspec (3.8.0)
-      rspec-core (~> 3.8.0)
-      rspec-expectations (~> 3.8.0)
-      rspec-mocks (~> 3.8.0)
-    rspec-core (3.8.2)
-      rspec-support (~> 3.8.0)
-    rspec-expectations (3.8.4)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.8.0)
-    rspec-mocks (3.8.1)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.8.0)
-    rspec-rails (3.8.2)
-      actionpack (>= 3.0)
-      activesupport (>= 3.0)
-      railties (>= 3.0)
-      rspec-core (~> 3.8.0)
-      rspec-expectations (~> 3.8.0)
-      rspec-mocks (~> 3.8.0)
-      rspec-support (~> 3.8.0)
-    rspec-support (3.8.2)
     rubocop (0.72.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -242,13 +266,17 @@ DEPENDENCIES
   dotenv (~> 2.7, >= 2.7.5)
   factory_bot (~> 5.0, >= 5.0.2)
   factory_bot_rails (~> 5.0, >= 5.0.2)
+  faker (~> 2.1, >= 2.1.2)
   jbuilder (~> 2.7)
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)
   rails (~> 6.0.0.rc2)
-  rspec (~> 3.8)
-  rspec-rails (~> 3.8, >= 3.8.2)
+  rspec-core!
+  rspec-expectations!
+  rspec-mocks!
+  rspec-rails!
+  rspec-support!
   sassc (~> 1.11, >= 1.11.4)
   spring
   spring-watcher-listen (~> 2.0.0)
