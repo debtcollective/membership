@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users, only: [:index]
     resources :plans
+    resources :subscriptions
   end
 
   root 'static_pages#home'
