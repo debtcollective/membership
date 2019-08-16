@@ -19,7 +19,10 @@ class Admin::SubscriptionsController < ApplicationController
   end
 
   # GET /admin/subscriptions/1/edit
-  def edit; end
+  def edit
+    plans = Struct.new(:id, :name)
+    @plans = Plan.all.collect { |plan| plans.new(plan[:id], plan[:name]) }
+  end
 
   # PATCH/PUT /admin/subscriptions/1
   # PATCH/PUT /admin/subscriptions/1.json
