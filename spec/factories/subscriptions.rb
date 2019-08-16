@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :subscription do
+    active { true }
     user
     plan
-    active { true }
   end
 end

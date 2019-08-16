@@ -17,6 +17,6 @@ RSpec.describe Subscription, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:user_id) }
     it { is_expected.to validate_presence_of(:plan_id) }
-    it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:plan_id, :active) }
+    it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:plan_id, :active).ignoring_case_sensitivity }
   end
 end
