@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<h1>
+  <strong>User:</strong>
+  <%= @subscription.user.blank? ? 'N/A' : @subscription.user.full_name %>
+</h1>
+
+<h3>
+  <strong>Plan:</strong>
+  <%= @subscription.plan.name %>
+</h3>
+<p>
+  <strong>Plan description:</strong>
+  <%= @subscription.plan.description %>
+</p>
+
+<%= link_to 'Edit', edit_admin_subscription_path(@subscription) %> |
+<%= link_to 'Back', admin_subscriptions_path %>

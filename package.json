@@ -1,5 +1,5 @@
 {
-  "name": "fundaraising",
+  "name": "fundraising",
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^6.0.0-alpha",
