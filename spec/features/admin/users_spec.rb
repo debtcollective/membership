@@ -9,7 +9,7 @@ describe 'Admin - Manages users', type: :feature do
 
     it 'presents a list of users' do
       visit '/admin/users'
-      expect(page).to have_content('Ugsers')
+      expect(page).to have_content('Users')
 
       expect(page).to have_content(user_1.first_name)
       expect(page).to have_content(user_1.last_name)
