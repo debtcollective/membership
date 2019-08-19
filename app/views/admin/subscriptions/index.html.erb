@@ -12,7 +12,7 @@
   <tbody>
     <% @subscriptions.each do |subscription| %>
       <tr>
-        <td><%= subscription.user.full_name %></td>
+        <td><%= subscription.user.blank? ? 'N/A' : subscription.user.full_name %></td>
         <td><%= subscription.plan.name %></td>
         <td>$<%= subscription.plan.amount %></td>
         <td><%= link_to 'Show', admin_subscription_path(subscription) %></td>

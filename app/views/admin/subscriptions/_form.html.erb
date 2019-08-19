@@ -11,10 +11,14 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :user %>
-    <%= form.text_field :user, value: subscription.user.full_name, disabled: true %>
-  </div>
+  <% if subscription.user.blank? %>
+    <p>No user available for this subscription</p>
+  <% else %>
+    <div class="field">
+      <%= form.label :user %>
+      <%= form.text_field :user, value: subscription.user.full_name, disabled: true %>
+    </div>
+  <% end %>
 
   <div class="field">
     <%= form.label :plan %>
