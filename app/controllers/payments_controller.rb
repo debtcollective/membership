@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PaymentsController < ApplicationController
-  before_action :set_user, only: %i[new]
+  before_action :current_user, only: %i[new]
 
   def new; end
 
@@ -15,7 +15,7 @@ class PaymentsController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_user
+  def current_user
     @user = User.find(params[:user_id])
   end
 end
