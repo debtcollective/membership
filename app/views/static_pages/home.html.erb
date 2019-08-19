@@ -1,2 +1,10 @@
+<p id="notice"><%= notice %></p>
 <h1>Welcome to app!</h1>
-<p>Find me in app/views/static_pages/home.html.erb</p>
+<% @plans.each do |plan| %>
+  <div id="subscription-<%= plan.name.parameterize.underscore %>">
+    <h3><%= plan.name %></h3>
+    <p><%= plan.description %></p>
+    <p>$<%= plan.amount %></p>
+    <p><%= link_to 'Subscribe', new_subscription_first_path(plan_id: plan) %></p>
+  </div>
+<% end %>
