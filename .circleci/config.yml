@@ -1,7 +1,7 @@
 ---
 version: 2
 jobs:
-  build:
+  test:
     working_directory: ~/fundraising
     docker:
       - image: circleci/ruby:2.6.3-node
@@ -27,18 +27,22 @@ jobs:
       # restore cache
       - type: cache-restore
         name: Restore bundle cache
-        key: fundraising-{{ checksum "Gemfile.lock" }}
+        keys:
+          - fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
 
       - run:
-          name: bundle install
-          command: bundle install --path vendor/bundle
+          name: install dependencies
+          command: |
+            bundle install --path vendor/bundle
+            yarn install
 
       # write cache
       - type: cache-save
         name: Store bundle cache
-        key: fundraising-{{ checksum "Gemfile.lock" }}
+        key: fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
         paths:
           - vendor/bundle
+          - ~/.cache/yarn
 
       - run:
           name: wait for postgres
@@ -52,7 +56,12 @@ jobs:
           name: setup db
           command: bundle exec rake db:setup
 
-      # Run the tests
       - run:
           name: run tests
           command: bundle exec rspec spec
+
+workflows:
+  version: 2
+  pipeline:
+    jobs:
+      - test
