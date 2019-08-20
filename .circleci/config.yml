@@ -1,0 +1,58 @@
+---
+version: 2
+jobs:
+  build:
+    working_directory: ~/fundraising
+    docker:
+      - image: circleci/ruby:2.6.3-node
+        environment:
+          PGHOST: localhost
+          PGUSER: fundraising
+          RAILS_ENV: test
+      - image: postgres:10
+        environment:
+          POSTGRES_USER: fundraising
+          POSTGRES_DB: fundraising_test
+          POSTGRES_PASSWORD: ""
+    steps:
+      - checkout
+
+      - run:
+          name: configure bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+
+      # restore cache
+      - type: cache-restore
+        name: Restore bundle cache
+        key: fundraising-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: bundle install
+          command: bundle install --path vendor/bundle
+
+      # write cache
+      - type: cache-save
+        name: Store bundle cache
+        key: fundraising-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      - run:
+          name: wait for postgres
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: dotenv
+          command: cp .env.template .env
+
+      - run:
+          name: setup db
+          command: bundle exec rake db:setup
+
+      # Run the tests
+      - run:
+          name: run tests
+          command: bundle exec rspec spec
