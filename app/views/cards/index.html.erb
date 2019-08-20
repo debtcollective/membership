@@ -1,0 +1,9 @@
+<h1>Saved Cards</h1>
+
+<% @cards.each do |card| %>
+  <div id="card-<%= card.id %>">
+    <p><b>Card Number: <%= card.brand %> </b> **** **** **** <%= card.last_digits %></p>
+    <small>Expiration date: <%= "#{sprintf '%02d', card.exp_month}/#{card.exp_year}" %></small>
+  </div>
+  <br/>
+<% end %>
