@@ -1,7 +1,25 @@
-# FUNDRAISING
+<div align="center">
+  <h1>FUNDRAISING</h1>
+</div>
 
-An instance of PostgresSQL running.
-_Note:_ MacOS users can use the [Postgres app](https://postgresapp.com).
+Fundraising is a simple app for non profit organizations, that allows users to create an account using [Discourse](https://discourse.org) and donate to the organization. It contains the following features:
+
+* Simple donations payment management through Stripe.
+* One time donations through anonymous accounts.
+* One time donations through user accounts.
+* User subscriptions based on billing plans.
+* User dashboard to manage their own subscription.
+* Simple statistics for the Organization around donations.
+* Organization dashboard to create subcription plans.
+* Organization dashboard to manage subscribed users.
+
+<hr />
+
+[![CircleCI](https://circleci.com/gh/debtcollective/fundraising.svg?style=svg)](https://circleci.com/gh/debtcollective/fundraising)
+
+## Table of Contents
+- [Getting Started](#getting-started)
+- [Developer notes](#developer-notes)
 
 ## Getting started
 ### Ruby version
@@ -13,6 +31,9 @@ You'll need to have installed the following dependencies installed, if you don't
 - Ruby `2.6.3`
 - Node `> 11.12.0`
 - PostgreSQL `> 11.4`
+
+An instance of PostgresSQL needs to be actively running.
+_Note:_ MacOS users can use the [Postgres app](https://postgresapp.com).
 
 ### Configuration
 
