@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :plans, only: %i[show index]
   resources :subscription_first, only: %i[new edit create update]
   resources :billings, only: %i[new create]
+  resources :charges, only: %i[new create]
 
   namespace :admin do
     resources :users
@@ -14,7 +15,7 @@ Rails.application.routes.draw do
     resources :subscriptions
   end
 
-  resources :user, only: %i[show new edit update create destroy] do
+  resources :users, only: %i[show new edit update create destroy] do
     resources :cards, only: %i[index destroy]
   end
 
