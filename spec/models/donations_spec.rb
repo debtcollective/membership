@@ -18,7 +18,6 @@ RSpec.describe Donation, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:amount) }
-    it { is_expected.to validate_presence_of(:card_id) }
     it { is_expected.to validate_presence_of(:customer_stripe_id) }
     it { is_expected.to validate_presence_of(:donation_type) }
     it { is_expected.to allow_value(1235.123).for(:amount) }
