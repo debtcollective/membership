@@ -1,6 +1,6 @@
 <%= form_with(model: [:admin, subscription], local: true) do |form| %>
   <% if subscription.errors.any? %>
-    <div id="error_exsubscriptionation">
+    <div id="error_explanation">
       <h2><%= pluralize(subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
 
       <ul>
