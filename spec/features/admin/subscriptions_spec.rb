@@ -49,4 +49,28 @@ describe 'Admin - Manages user subscriptions', type: :feature, js: true do
       expect(subscription.plan_id).to eq(new_plan.id)
     end
   end
+
+  describe 'subscriptions details' do
+    let!(:subscription) { FactoryBot.create(:subscription) }
+
+    it 'contains related donations' do
+      subscription_donations = FactoryBot.create_list(:subscription_donation, 5, subscription_id: subscription.id)
+
+      visit '/admin/subscriptions'
+      expect(page).to have_content('Subscriptions')
+
+      expect(page).to have_content(subscription.user.full_name)
+      click_link('Show', href: admin_subscription_path(subscription))
+
+      expect(page).to have_content(subscription.plan.name)
+
+      subscription_donations.each do |subscription_donation|
+        donation = subscription_donation.donation
+        within "#donation-#{donation.id}" do
+          expect(page).to have_content(donation.amount)
+          expect(page).to have_content(donation.created_at)
+        end
+      end
+    end
+  end
 end

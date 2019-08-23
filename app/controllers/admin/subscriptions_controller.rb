@@ -14,7 +14,10 @@ class Admin::SubscriptionsController < AdminController
 
   # GET /admin/subscriptions/1
   # GET /admin/subscriptions/1.json
-  def show; end
+  def show
+    subscription_donations = SubscriptionDonation.where(subscription_id: @subscription.id)
+    @donations_history = subscription_donations.collect(&:donation)
+  end
 
   # GET /admin/subscriptions/new
   def new
