@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :users
     resources :plans
     resources :subscriptions
+    resources :donations, only: %i[index show]
   end
 
   resources :users, only: %i[show new edit update create destroy] do
