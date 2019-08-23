@@ -14,9 +14,11 @@
   <%= @subscription.plan.description %>
 </p>
 
+<h3>Donations</h3>
 <% if @donations_history.empty? %>
   <p>We haven't received any donations from this user yet.</p>
 <% else %>
+  Total Donated: <%= number_to_currency(@donations_history.map(&:amount).inject(0, &:+)) %>
   <ul>
    <% @donations_history.each do |donation| %>
     <li id="donation-<%= donation.id %>">
