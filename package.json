@@ -10,11 +10,31 @@
       "@semantic-release/github"
     ]
   },
+  "scripts": {
+    "format": "prettier-standard 'src/**/*.js'"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "format",
+      "git add"
+    ]
+  },
   "dependencies": {
-    "@rails/actioncable": "6.0.0",
-    "@rails/activestorage": "6.0.0",
-    "@rails/ujs": "6.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@material-ui/core": "^4.3.3",
+    "@rails/actioncable": "^6.0.0",
+    "@rails/activestorage": "^6.0.0",
+    "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.0.7",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "prop-types": "^15.7.2",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "turbolinks": "5.2.0"
   },
   "devDependencies": {
@@ -23,6 +43,11 @@
     "@semantic-release/github": "5.4.3",
     "@semantic-release/release-notes-generator": "7.3.0",
     "semantic-release": "15.13.24",
+    "husky": "^3.0.4",
+    "lint-staged": "^9.2.4",
+    "prettier": "^1.18.2",
+    "prettier-standard": "^9.1.1",
+    "standard": "^14.0.2",
     "webpack-dev-server": "3.8.0"
   }
 }
