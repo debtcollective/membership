@@ -1,0 +1,11 @@
+#admin-views {
+  main {
+    padding: 24px;
+    flex-grow: 1;
+    padding-top: 64px;
+
+    @media (min-width: 600px) {
+      padding-left: 240px;
+    }
+  }
+}
