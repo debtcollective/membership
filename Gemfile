@@ -27,6 +27,7 @@ gem 'jbuilder', '~> 2.7'
 
 # front-end libraries
 gem 'react_on_rails', '~> 11.3'
+gem 'mini_racer', platforms: :ruby
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
