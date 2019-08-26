@@ -50,7 +50,7 @@ export default function UsersTable ({ users }) {
                   data-confirm='Are you sure?'
                   rel='nofollow'
                   data-method='delete'
-                  href={`/users/${user.id}`}
+                  href={`/admin/users/${user.id}`}
                 >
                   Delete
                 </a>
