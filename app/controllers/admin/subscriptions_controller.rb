@@ -2,7 +2,7 @@
 
 class Admin::SubscriptionsController < AdminController
   before_action :set_subscription, only: %i[show edit update destroy]
-  before_action -> { current_page_title('Subscriptions Management') }
+  before_action -> { current_page_title('Active Subscriptions Management') }
 
   # GET /admin/subscriptions
   # GET /admin/subscriptions.json

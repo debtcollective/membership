@@ -2,6 +2,7 @@
 
 class Admin::PlansController < AdminController
   before_action :set_plan, only: %i[show edit update destroy]
+  before_action -> { current_page_title('Subscription Plans Management') }
 
   # GET /admin/plans
   # GET /admin/plans.json
