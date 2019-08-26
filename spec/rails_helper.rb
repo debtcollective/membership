@@ -39,6 +39,7 @@ RSpec.configure do |config|
   # This will use the defaults of :js and :server_rendering meta tags
   ReactOnRails::TestHelper.configure_rspec_to_compile_assets(config, :requires_webpack_assets)
   config.define_derived_metadata(file_path: %r{spec/(features|requests)}) do |metadata|
+    Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
     metadata[:requires_webpack_assets] = true
   end
 
