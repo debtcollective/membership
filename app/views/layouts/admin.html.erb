@@ -15,7 +15,9 @@
   <body id="admin-views">
     <%= react_component("Drawer", props: {pageTitle: @current_page_title}, prerender: false) %>
     <main>
-      <%= yield %>
+      <div class="content">
+        <%= yield %>
+      </div>
     </main>
   </body>
 </html>
