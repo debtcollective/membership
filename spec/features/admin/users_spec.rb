@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Admin - Manages users', type: :feature do
+describe 'Admin - Manages users', type: :feature, js: true do
   describe 'home' do
     let!(:user_1) { FactoryBot.create(:user) }
     let!(:user_2) { FactoryBot.create(:user) }

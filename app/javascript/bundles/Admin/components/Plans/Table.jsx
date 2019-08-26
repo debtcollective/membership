@@ -40,9 +40,7 @@ export default function PlansTable ({ plans }) {
         <TableBody>
           {plans.map(plan => (
             <TableRow key={plan.id}>
-              <TableCell component='th' scope='plan'>
-                {plan.name}
-              </TableCell>
+              <TableCell scope='plan'>{plan.name}</TableCell>
               <TableCell>{plan.description}</TableCell>
               <TableCell>{numeral(plan.amount).format('$0,0.00')}</TableCell>
               <TableCell align='right'>
@@ -52,7 +50,7 @@ export default function PlansTable ({ plans }) {
                   data-confirm='Are you sure?'
                   rel='nofollow'
                   data-method='delete'
-                  href={`/plans/${plan.id}`}
+                  href={`/admin/plans/${plan.id}`}
                 >
                   Delete
                 </a>

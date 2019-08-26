@@ -37,7 +37,7 @@ export default function UsersTable ({ users }) {
         <TableBody>
           {users.map(user => (
             <TableRow key={user.id}>
-              <TableCell component='th' scope='user'>
+              <TableCell scope='user'>
                 {user.first_name} {user.last_name}
               </TableCell>
               <TableCell>{user.email}</TableCell>

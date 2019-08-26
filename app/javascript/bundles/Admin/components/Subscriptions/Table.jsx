@@ -37,7 +37,7 @@ export default function SubcriptionsTable ({ subscriptions }) {
         <TableBody>
           {subscriptions.map(subscription => (
             <TableRow key={subscription.id}>
-              <TableCell component='th' scope='subscription'>
+              <TableCell scope='subscription'>
                 {subscription.user
                   ? `${subscription.user.first_name} ${
                       subscription.user.last_name
@@ -57,7 +57,7 @@ export default function SubcriptionsTable ({ subscriptions }) {
                   data-confirm='Are you sure?'
                   rel='nofollow'
                   data-method='delete'
-                  href={`/subscriptions/${subscription.id}`}
+                  href={`/admin/subscriptions/${subscription.id}`}
                 >
                   Delete
                 </a>

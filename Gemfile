@@ -61,6 +61,8 @@ group :test do
   gem 'timecop', '~> 0.9.1'
   gem 'capybara', '~> 3.28'
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
+  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
+  gem 'webdrivers', '~> 4.1', '>= 4.1.2'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
