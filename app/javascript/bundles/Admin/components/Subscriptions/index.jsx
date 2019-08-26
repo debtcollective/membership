@@ -1,4 +1,4 @@
-import React from 'react';
-import Table from './Table';
+import React from 'react'
+import Table from './Table'
 
-export const SubscriptionsTable = props => <Table {...props} />;
+export const SubscriptionsTable = props => <Table {...props} />

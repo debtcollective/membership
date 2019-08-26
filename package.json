@@ -11,7 +11,7 @@
     ]
   },
   "scripts": {
-    "format": "prettier-standard 'src/**/*.js'"
+    "format": "prettier-standard 'app/**/*.{js,jsx}'"
   },
   "husky": {
     "hooks": {
@@ -19,8 +19,8 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,jsx}": [
-      "format",
+    "app/**/*.{js,jsx}": [
+      "npm run format",
       "git add"
     ]
   },
