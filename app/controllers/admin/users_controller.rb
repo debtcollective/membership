@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-class Admin::UsersController < ApplicationController
+class Admin::UsersController < AdminController
   before_action :set_user, only: %i[show edit update destroy]
+  before_action -> { current_page_title('Account Management') }
 
   # GET /admin/users
   # GET /admin/users.json

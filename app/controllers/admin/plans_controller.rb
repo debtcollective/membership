@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Admin::PlansController < ApplicationController
+class Admin::PlansController < AdminController
   before_action :set_plan, only: %i[show edit update destroy]
 
   # GET /admin/plans

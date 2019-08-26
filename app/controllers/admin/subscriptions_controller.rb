@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Admin::SubscriptionsController < ApplicationController
+class Admin::SubscriptionsController < AdminController
   before_action :set_subscription, only: %i[show edit update destroy]
 
   # GET /admin/subscriptions

@@ -1,9 +1,14 @@
-class AdminController < ApplicationController
-  before_action :require_admin
+# frozen_string_literal: true
 
-  def require_admin
-    unless current_user.admin?
-      redirect_to root_path
-    end
+class AdminController < ApplicationController
+  layout 'admin'
+  # before_action :require_admin
+
+  # def require_admin
+  #   redirect_to root_path unless current_user.admin?
+  # end
+
+  def current_page_title(page_title)
+    @current_page_title ||= page_title
   end
 end
