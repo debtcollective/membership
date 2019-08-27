@@ -79,18 +79,13 @@ jobs:
     working_directory: ~/fundraising
     docker:
       - image: circleci/ruby:2.6.3-node
-    environment:
-      IMAGE_TAG: $(echo $CIRCLE_SHA1 | cut -c -7)
-      GIT_TAG: $CIRCLE_TAG
     steps:
       - checkout
 
+      # debt-bot ssh key
       - add_ssh_keys:
           fingerprints:
-            - "ec:c4:3f:5b:17:2f:30:52:8d:82:22:80:6a:eb:f4:54"
-
-      - setup_remote_docker:
-          docker_layer_caching: true
+            - "90:19:0a:60:b7:db:f6:43:89:09:32:c2:95:c6:67:7f"
 
       - run:
           name: configure git
@@ -101,24 +96,12 @@ jobs:
             chmod 644 ~/.ssh/known_hosts
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             git config user.email "bot@debtcollective.org"
-            git config user.name "DebtBot"
+            git config user.name "debt-bot"
 
       - run:
-          name: login docker registry
+          name: Github release with semantic release
           command: |
-            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-
-      - run:
-          name: alias docker images
-          command: |
-            docker tag debtcollective/fundraising:$IMAGE_TAG debtcollective/fundraising:$GIT_TAG
-            docker tag debtcollective/fundraising:$GIT_TAG debtcollective/fundraising:latest
-
-      - run:
-          name: push images
-          command: |
-            docker push debtcollective/fundraising:$GIT_TAG
-            docker push debtcollective/fundraising:latest
+            npx semantic-release
 
   publish_master:
     working_directory: ~/fundraising
