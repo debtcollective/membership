@@ -18,6 +18,11 @@
     "turbolinks": "5.2.0"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "3.0.4",
+    "@semantic-release/commit-analyzer": "6.3.0",
+    "@semantic-release/github": "5.4.3",
+    "@semantic-release/release-notes-generator": "7.3.0",
+    "semantic-release": "15.13.24",
     "webpack-dev-server": "3.8.0"
   }
 }

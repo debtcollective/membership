@@ -101,7 +101,8 @@ jobs:
       - run:
           name: Github release with semantic release
           command: |
-            npx semantic-release
+            yarn install
+            yarn semantic-release
 
   publish_master:
     working_directory: ~/fundraising
