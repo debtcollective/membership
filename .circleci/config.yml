@@ -59,9 +59,148 @@ jobs:
       - run:
           name: run tests
           command: bundle exec rspec spec
+  build:
+    working_directory: ~/fundraising
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    environment:
+      IMAGE_TAG: $(echo $CIRCLE_SHA1 | cut -c -7)
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: build image
+          command: make build tag=$IMAGE_TAG
+
+  release:
+    working_directory: ~/fundraising
+    docker:
+      - image: circleci/ruby:2.6.3-node
+    environment:
+      IMAGE_TAG: $(echo $CIRCLE_SHA1 | cut -c -7)
+      GIT_TAG: $CIRCLE_TAG
+    steps:
+      - checkout
+
+      - add_ssh_keys:
+          fingerprints:
+            - "ec:c4:3f:5b:17:2f:30:52:8d:82:22:80:6a:eb:f4:54"
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: configure git
+          command: |
+            mkdir -p ~/.ssh
+            chmod 700 ~/.ssh
+            touch ~/.ssh/known_hosts
+            chmod 644 ~/.ssh/known_hosts
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+            git config user.email "bot@debtcollective.org"
+            git config user.name "DebtBot"
+
+      - run:
+          name: login docker registry
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+
+      - run:
+          name: alias docker images
+          command: |
+            docker tag debtcollective/fundraising:$IMAGE_TAG debtcollective/fundraising:$GIT_TAG
+            docker tag debtcollective/fundraising:$GIT_TAG debtcollective/fundraising:latest
+
+      - run:
+          name: push images
+          command: |
+            docker push debtcollective/fundraising:$GIT_TAG
+            docker push debtcollective/fundraising:latest
+
+  publish_master:
+    working_directory: ~/fundraising
+    docker:
+      - image: circleci/buildpack-deps:stretch
+    environment:
+      IMAGE_TAG: $(echo $CIRCLE_SHA1 | cut -c -7)
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: login docker registry
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+
+      - run:
+          name: build image
+          command: make push tag=$IMAGE_TAG
+
+  publish_tag:
+    working_directory: ~/fundraising
+    docker:
+      - image: circleci/node:latest
+    environment:
+      IMAGE_TAG: $(echo $CIRCLE_SHA1 | cut -c -7)
+      GIT_TAG: $CIRCLE_TAG
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: login docker registry
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+
+      - run:
+          name: alias docker images
+          command: |
+            docker tag debtcollective/fundraising:$IMAGE_TAG debtcollective/fundraising:$GIT_TAG
+            docker tag debtcollective/fundraising:$GIT_TAG debtcollective/fundraising:latest
+
+      - run:
+          name: push images
+          command: |
+            docker push debtcollective/fundraising:$GIT_TAG
+            docker push debtcollective/fundraising:latest
 
 workflows:
   version: 2
   pipeline:
     jobs:
       - test
+      - build
+      - release:
+          requires:
+            - test
+            - build
+          filters:
+            tags:
+              ignore: /.*/
+            branches:
+              only: master
+      - publish_master:
+          requires:
+            - test
+            - build
+          filters:
+            tags:
+              ignore: /.*/
+            branches:
+              only: master
+      - publish_tag:
+          requires:
+            - test
+            - build
+          filters:
+            tags:
+              only: /^v.*/ }
+            branches:
+              ignore: /.*/
