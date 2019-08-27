@@ -6,6 +6,7 @@ executors:
     environment:
       GIT_TAG: $CIRCLE_TAG
       IMAGE_NAME: debtcollective/fundraising
+
     docker:
       - image: circleci/buildpack-deps:stretch
 jobs:
@@ -83,7 +84,7 @@ jobs:
 
       - run:
           name: Archive Docker image
-          command: docker save -o image.tar $IMAGE_NAME:$IMAGE_TAG
+          command: docker save -o image.tar $IMAGE_NAME
 
       - persist_to_workspace:
           root: .
