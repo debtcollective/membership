@@ -33,11 +33,11 @@ jobs:
             gem install bundler
 
       # restore cache
-      - type: cache-restore
-        name: Restore bundle cache
-        keys:
-          - fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
-          - fundraising-
+      - restore_cache:
+          keys:
+            - fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - fundraising-{{ checksum "Gemfile.lock" }}
+            - fundraising-
 
       - run:
           name: install dependencies
@@ -46,12 +46,11 @@ jobs:
             yarn install
 
       # write cache
-      - type: cache-save
-        name: Store bundle cache
-        key: fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
-        paths:
-          - vendor/bundle
-          - ~/.cache/yarn
+      - save_cache:
+          key: fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - vendor/bundle
+            - ~/.cache/yarn
 
       - run:
           name: wait for postgres
@@ -215,6 +214,6 @@ workflows:
             - build
           filters:
             tags:
-              only: /^v.*/ }
+              only: /^v.*/
             branches:
               ignore: /.*/
