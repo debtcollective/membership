@@ -169,8 +169,6 @@ workflows:
           filters:
             tags:
               ignore: /.*/
-            branches:
-              only: master
       - publish_master:
           requires:
             - test
