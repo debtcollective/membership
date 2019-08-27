@@ -63,8 +63,6 @@ jobs:
     working_directory: ~/fundraising
     docker:
       - image: circleci/buildpack-deps:stretch
-    environment:
-      IMAGE_TAG: $(echo $CIRCLE_SHA1 | cut -c -7)
     steps:
       - checkout
 
@@ -73,7 +71,9 @@ jobs:
 
       - run:
           name: build image
-          command: make build tag=$IMAGE_TAG
+          command: |
+            export IMAGE_TAG=$(echo $CIRCLE_SHA1 | cut -c -7)
+            make build tag=$IMAGE_TAG
 
   release:
     working_directory: ~/fundraising
@@ -107,8 +107,6 @@ jobs:
     working_directory: ~/fundraising
     docker:
       - image: circleci/buildpack-deps:stretch
-    environment:
-      IMAGE_TAG: $(echo $CIRCLE_SHA1 | cut -c -7)
     steps:
       - checkout
 
@@ -122,14 +120,15 @@ jobs:
 
       - run:
           name: build image
-          command: make push tag=$IMAGE_TAG
+          command: |
+            export IMAGE_TAG=$(echo $CIRCLE_SHA1 | cut -c -7)
+            make push tag=$IMAGE_TAG
 
   publish_tag:
     working_directory: ~/fundraising
     docker:
       - image: circleci/node:latest
     environment:
-      IMAGE_TAG: $(echo $CIRCLE_SHA1 | cut -c -7)
       GIT_TAG: $CIRCLE_TAG
     steps:
       - checkout
@@ -145,6 +144,7 @@ jobs:
       - run:
           name: alias docker images
           command: |
+            export IMAGE_TAG=$(echo $CIRCLE_SHA1 | cut -c -7)
             docker tag debtcollective/fundraising:$IMAGE_TAG debtcollective/fundraising:$GIT_TAG
             docker tag debtcollective/fundraising:$GIT_TAG debtcollective/fundraising:latest
 
@@ -159,7 +159,7 @@ workflows:
   pipeline:
     jobs:
       - test
-      - build
+      - build:
           requires:
             - test
       - release:
