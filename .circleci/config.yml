@@ -29,6 +29,7 @@ jobs:
         name: Restore bundle cache
         keys:
           - fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+          - fundraising-
 
       - run:
           name: install dependencies
