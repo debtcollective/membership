@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_28_135726) do
+ActiveRecord::Schema.define(version: 2019_08_28_142827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_08_28_135726) do
     t.string "last_digits"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "stripe_card_id"
     t.index ["user_id"], name: "index_cards_on_user_id"
   end
 
