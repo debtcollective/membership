@@ -4,7 +4,6 @@ executors:
   docker-publisher:
     working_directory: ~/fundraising
     environment:
-      GIT_TAG: $CIRCLE_TAG
       IMAGE_NAME: debtcollective/fundraising
 
     docker:
@@ -173,12 +172,12 @@ jobs:
           name: alias docker images
           command: |
             export IMAGE_TAG=$(echo $CIRCLE_SHA1 | cut -c -7)
-            docker tag debtcollective/fundraising:$IMAGE_TAG debtcollective/fundraising:$GIT_TAG
+            docker tag debtcollective/fundraising:$IMAGE_TAG debtcollective/fundraising:$CIRCLE_TAG
 
       - run:
           name: push image to hub.docker.io
           command: |
-            docker push debtcollective/fundraising:$GIT_TAG
+            docker push debtcollective/fundraising:$CIRCLE_TAG
 
 workflows:
   version: 2
