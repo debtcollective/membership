@@ -16,9 +16,11 @@ class BillingsController < ApplicationController
     respond_to do |format|
       if @user.stripe_id.nil?
         customer = Stripe::Customer.create("email": @user.email)
-        # here we are creating a stripe customer with the help of the Stripe library and pass as parameter email.
+        # here we are creating a stripe customer with the help of the Stripe
+        # library and pass as parameter email.
         @user.update(stripe_id: customer.id)
-        # we are updating @user and giving to it stripe_id which is equal to id of customer on Stripe
+        # we are updating @user and giving to it stripe_id which is equal to
+        # id of customer on Stripe
       end
 
       card_token = params[:stripeToken]
