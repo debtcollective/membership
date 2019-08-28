@@ -96,7 +96,7 @@ RSpec.describe UsersController, type: :controller do
     it 'redirects to the users list' do
       user = User.create! valid_attributes
       delete :destroy, params: { id: user.to_param }, session: valid_session
-      expect(response).to redirect_to(users_url)
+      expect(response).to redirect_to(root_url)
     end
   end
 end

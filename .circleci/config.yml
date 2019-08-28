@@ -13,7 +13,7 @@ jobs:
   test:
     working_directory: ~/fundraising
     docker:
-      - image: circleci/ruby:2.6.3-node
+      - image: circleci/ruby:2.6.3-node-browsers
         environment:
           PGHOST: localhost
           PGUSER: fundraising

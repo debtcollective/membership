@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= full_title(yield(:title)) %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <%= javascript_pack_tag 'admin-bundle' %>
+  </head>
+
+  <body id="admin-views">
+    <%= react_component("Drawer", props: {pageTitle: @current_page_title}, prerender: false) %>
+    <main>
+      <div class="content">
+        <%= yield %>
+      </div>
+    </main>
+  </body>
+</html>

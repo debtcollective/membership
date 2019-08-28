@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
-class Admin::SubscriptionsController < ApplicationController
+class Admin::SubscriptionsController < AdminController
   before_action :set_subscription, only: %i[show edit update destroy]
+  before_action -> { current_page_title('Active Subscriptions Management') }
 
   # GET /admin/subscriptions
   # GET /admin/subscriptions.json
   def index
-    @subscriptions = Subscription.all
+    @subscriptions = Subscription.all.collect do |subscription|
+      { id: subscription.id, plan: subscription.plan, user: subscription.user }
+    end
   end
 
   # GET /admin/subscriptions/1

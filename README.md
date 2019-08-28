@@ -31,6 +31,7 @@ You'll need to have installed the following dependencies installed, if you don't
 - Ruby `2.6.3`
 - Node `> 11.12.0`
 - PostgreSQL `> 11.4`
+- Foreman `> 0.85.0`
 
 An instance of PostgresSQL needs to be actively running.
 _Note:_ MacOS users can use the [Postgres app](https://postgresapp.com).
@@ -59,10 +60,27 @@ $ bundle exec rspec
 If the test suite passes, you'll be ready to run the app in a local server:
 
 ```bash
-$ bundle exec rails server
+$ foreman start -f <Procfile>
 ```
+**Note** [Learn more about using Foreman on your local machine](#running-foreman)
+
+1. `Procfile.dev`: Starts the Webpack Dev Server and Rails with Hot Reloading.
+2. `Procfile.hot`: Starts the Rails server and the webpack server to provide hot reloading of assets, JavaScript and CSS.
+3. `Procfile.static`: Starts the Rails server and generates static assets that are used for tests.
+4. `Procfile.spec`: Starts webpack to create the static files for tests. _Good to know:_ If you want to start `rails s` separately to debug in pry, then run `Procfile.spec` to generate the assets and run rails s in a separate console.
 
 ## Developer notes
+
+### Running Foreman
+[Foreman](https://github.com/ddollar/foreman) has the following note around installing this gem.
+
+> Ruby users should take care not to install foreman in their project's Gemfile.
+
+Therefore as a developer, you're expected to run
+```bash
+ gem install foreman
+```
+And run the commands using your gemset installation of foreman.
 
 ### Formatting
 
@@ -82,3 +100,5 @@ To enable formatting on save add these lines to your `settings.json`.
   "editor.formatOnSaveTimeout": 5000
 }
 ```
+
+We're also using [standardjs](https://standardjs.com) and [prettier](https://prettier.io) to standarize our JavaScript development. This is running automatically on a **before commit** hook using [husky](https://github.com/typicode/husky#readme).

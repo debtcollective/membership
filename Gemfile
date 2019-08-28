@@ -25,6 +25,10 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
+# front-end libraries
+gem 'react_on_rails', '~> 11.3'
+gem 'mini_racer', platforms: :ruby
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
@@ -57,6 +61,8 @@ group :test do
   gem 'timecop', '~> 0.9.1'
   gem 'capybara', '~> 3.28'
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
+  gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
+  gem 'webdrivers', '~> 4.1', '>= 4.1.2'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

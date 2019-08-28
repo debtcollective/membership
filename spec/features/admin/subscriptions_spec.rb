@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Admin - Manages user subscriptions', type: :feature do
+describe 'Admin - Manages user subscriptions', type: :feature, js: true do
   describe 'home' do
     let!(:subscription_1) { FactoryBot.create(:subscription) }
     let!(:subscription_2) { FactoryBot.create(:subscription) }
