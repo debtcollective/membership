@@ -1,0 +1,52 @@
+/*
+  Place all the styles related to the matching controller here.
+  They will automatically be included in application.css.
+*/
+@import 'base/globals';
+
+#plans {
+  background: linear-gradient(rgba($primary-color, 0.3), rgba($secondary-color, 0.01));
+}
+
+#homepage {
+
+  > section {
+    height: 100vh;
+    min-height: 60rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .subscription {
+
+    &--plans {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin: 2rem auto;
+    }
+
+    &--plan {
+      flex: 1;
+      margin: 0 2rem;
+      background: white;
+      border: 1px solid $secondary-color;
+      border-radius: 5px;
+      padding: 1rem;
+
+      h3 {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+
+    &--plan-price {
+      span {
+        font-size: 60%;
+      }
+    }
+  }
+}

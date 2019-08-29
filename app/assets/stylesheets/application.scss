@@ -9,7 +9,61 @@
  * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
- *
  *= require_tree .
  *= require_self
  */
+
+html,
+body {
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+main {
+  width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+  line-height: 1.5;
+}
+
+h1,
+h3 {
+  font-weight: bold;
+}
+
+h2,
+h4,
+h5 {
+  font-weight: lighter;
+}
+
+h1 {
+  font-size: 250%;
+}
+
+h2 {
+  font-size: 200%;
+}
+
+h3 {
+  font-size: 150%;
+}
+
+h4 {
+  font-size: 125%;
+}
+
+h5 {
+  font-size: 110%;
+}
