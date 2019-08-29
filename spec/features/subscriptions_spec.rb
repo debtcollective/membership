@@ -9,7 +9,7 @@ describe 'Subscriptions', type: :feature do
 
     it 'allows going through the flow and prompts for a user account creation' do
       visit '/'
-      expect(page).to have_content('Welcome to app!')
+      expect(page).to have_content('Every membership brings us closer to our goals.')
       expect(page).to have_content(plan.name)
 
       within "#subscription-#{plan.name.parameterize.underscore}" do
