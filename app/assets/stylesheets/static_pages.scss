@@ -8,15 +8,46 @@
   background: linear-gradient(rgba($primary-color, 0.3), rgba($secondary-color, 0.01));
 }
 
+#money {
+  // background: red;
+}
+
+#cause {
+  // background: blue;
+}
+
+#money,
+#cause {
+  > .content {
+    @media(min-width: 48rem) {
+      max-width: 50%;
+    }
+  }
+
+  ul {
+    font-weight: bold;
+    font-size: 100%;
+  }
+}
+
 #homepage {
 
+  h1,
+  h4 {
+    text-align: center
+  }
+
   > section {
-    height: 100vh;
-    min-height: 60rem;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding: 2rem;
+
+    @media (min-width: 48rem) {
+      padding: 2rem 5rem;
+    }
   }
 
   .subscription {
@@ -25,12 +56,19 @@
       display: flex;
       flex-direction: row;
       justify-content: space-around;
-      margin: 2rem auto;
+      margin: 0 auto;
+      flex-wrap: wrap;
+
+      @media (min-width: 80rem) {
+        flex-wrap: nowrap;
+      }
     }
 
     &--plan {
+      min-width: 18rem;
+      max-width: 24rem;
       flex: 1;
-      margin: 0 2rem;
+      margin: 1rem 2rem;
       background: white;
       border: 1px solid $secondary-color;
       border-radius: 5px;
@@ -46,6 +84,35 @@
     &--plan-price {
       span {
         font-size: 60%;
+      }
+    }
+  }
+
+  .retail {
+    &--products {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin: 2rem auto;
+      flex-wrap: wrap;
+
+      @media (min-width: 80rem) {
+        flex-wrap: nowrap;
+      }
+    }
+
+    &--product {
+      min-width: 18rem;
+      max-width: 24rem;
+      flex: 1;
+      margin: 1rem 2rem;
+      background: $primary-color;
+      border: 1px solid $secondary-color;
+      border-radius: 5px;
+
+      img {
+        display: block;
+        width: 100%;
       }
     }
   }
