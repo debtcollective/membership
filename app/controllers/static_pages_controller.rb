@@ -2,6 +2,6 @@
 
 class StaticPagesController < ApplicationController
   def home
-    @plans = Plan.all
+    @plans = Plan.all.order('amount asc')
   end
 end
