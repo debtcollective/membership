@@ -33,7 +33,29 @@ class BillingsController < ApplicationController
       # we're attaching the card to the stripe customer
       customer.save
 
-      format.html { redirect_to success_path }
+      # to get the data of the card that we need
+      # we retrieve all customer cards from the Stripe stored customer data
+      stripe_cards = Stripe::Customer.retrieve(@user.stripe_id)&.to_h[:sources]&.data
+
+      unless stripe_cards.empty?
+        # filter the ones from our database
+        saved_cards = @user.cards.map(&:stripe_card_id)
+        new_customer_cards = stripe_cards.reject { |stripe_card| (saved_cards.include? stripe_card.id) }
+
+        new_customer_cards.each do |card|
+          # add all new cards to our database
+          Card.create(
+            user_id: @user.id,
+            brand: card.brand,
+            exp_month: card.exp_month,
+            exp_year: card.exp_year,
+            last_digits: card.last4,
+            stripe_card_id: card.id
+          )
+        end
+      end
+
+      format.html { redirect_to user_path(@user) }
     end
   end
 
