@@ -34,4 +34,10 @@ button:not(:disabled) {
       border-color: darken($primary-color, 10%);
     }
   }
+
+  &.as-block {
+    display: block;
+    max-width: 40rem;
+    width: 100%;
+  }
 }
