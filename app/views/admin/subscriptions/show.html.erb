@@ -18,16 +18,12 @@
 <% if @donations_history.empty? %>
   <p>We haven't received any donations from this user yet.</p>
 <% else %>
-  Total Donated: <%= number_to_currency(@donations_history.map(&:amount).inject(0, &:+)) %>
-  <ul>
-   <% @donations_history.each do |donation| %>
-    <li id="donation-<%= donation.id %>">
-      <p><%= number_to_currency(donation.amount) %></p>
-      <small><%= donation.created_at %></small>
-    </li>
-   <% end %>
-  </ul>
+  <p>Total Donated: <%= number_to_currency(@donations_history.map(&:amount).inject(0, &:+)) %></p>
+  <%= react_component("DonationsTable", props: {donations: @donations_history}) %>
 <% end %>
+
+<br/>
+<br/>
 
 <%= link_to 'Edit', edit_admin_subscription_path(@subscription) %> |
 <%= link_to 'Back', admin_subscriptions_path %>

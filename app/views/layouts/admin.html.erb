@@ -13,7 +13,7 @@
   </head>
 
   <body id="admin-views">
-    <%= react_component("Drawer", props: {pageTitle: @current_page_title}, prerender: false) %>
+    <%= react_component("Drawer", props: {pageTitle: @current_page_title}) %>
     <main>
       <div class="content">
         <%= yield %>
