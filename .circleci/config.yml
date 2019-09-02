@@ -8,6 +8,8 @@ executors:
 
     docker:
       - image: circleci/buildpack-deps:stretch
+orbs:
+  aws-cli: circleci/aws-cli@0.1.15
 jobs:
   test:
     working_directory: ~/fundraising
@@ -179,6 +181,21 @@ jobs:
           command: |
             docker push debtcollective/fundraising:$CIRCLE_TAG
 
+  deploy_stage:
+    executor: docker-publisher
+    environment:
+      ECS_CLUSTER: fundraising-stage
+      ECS_SERVICE: fundraising
+    steps:
+      - checkout
+      - aws-cli/install
+      - aws-cli/configure
+
+      - run:
+          name: Deploy new task in ECS
+          command: |
+            aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
+
 workflows:
   version: 2
   pipeline:
@@ -198,6 +215,12 @@ workflows:
           requires:
             - test
             - build
+          filters:
+            branches:
+              only: master
+      - deploy_stage:
+          requires:
+            - publish_latest
           filters:
             branches:
               only: master
