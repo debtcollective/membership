@@ -18,14 +18,14 @@ WORKDIR $APP_HOME
 
 ADD Gemfile* $APP_HOME/
 RUN export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ") && \
-  gem install bundler
+  gem install bundler foreman
 
 RUN bundle install
 RUN yarn install --check-files
 
 ADD . $APP_HOME
 
-EXPOSE 3000
-ENV RAILS_ENV production
+ENV PORT=5000
+EXPOSE 5000
 
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+CMD ["foreman", "start"]
