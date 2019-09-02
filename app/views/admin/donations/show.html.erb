@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Created on:</strong>
+  <%= @donation.created_at %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  $<%= @donation.amount %>
+</p>
+
+<%= link_to 'Back', admin_donations_path %>

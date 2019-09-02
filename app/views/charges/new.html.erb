@@ -1,0 +1,36 @@
+<h1>Donate today</h1>
+
+<div id="one-time-donation">
+  <%= form_with(model: Donation, url: charges_path) do |form| %>
+    <div>
+      <% if flash[:error].present? %>
+        <div id="error_explanation">
+          <p><%= flash[:error] %></p>
+        </div>
+      <% end %>
+      <div class="field">
+        <%= form.label :amount %>
+        <%= form.number_field :amount, step: 'any', min: 1, id: 'donation-amount', value: 1 %>
+      </div>
+    </div>
+
+    <script>
+      const amountInput = document.getElementById('donation-amount');
+
+      function setStripeCheckoutAmount(e) {
+        const amount = amountInput.value
+        const tag = document.getElementsByClassName('stripe-button')[0];
+        console.log(tag, amount)
+        tag.dataset.amount = amount * 100; // amount in cents
+      }
+
+      amountInput.addEventListener('input', setStripeCheckoutAmount)
+    </script>
+
+    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>"
+            data-description="A month's subscription"
+            data-amount="100"
+            data-locale="auto"></script>
+  <% end %>
+</div>

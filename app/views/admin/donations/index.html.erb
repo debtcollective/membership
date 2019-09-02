@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Donations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @donations.each do |donation| %>
+      <tr>
+        <td><%= donation.created_at %></td>
+        <td><%= number_to_currency(donation.amount) %></td>
+        <td><%= link_to 'Show', admin_donation_path(donation) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

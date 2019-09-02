@@ -21,6 +21,7 @@ gem 'jbuilder', '~> 2.7'
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem 'ffi', '~> 1.9', '>= 1.9.25'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
@@ -28,6 +29,9 @@ gem 'jbuilder', '~> 2.7'
 # front-end libraries
 gem 'react_on_rails', '~> 11.3'
 gem 'mini_racer', platforms: :ruby
+
+# Payments
+gem 'stripe', '~> 4.24'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -60,6 +64,7 @@ group :test do
   gem 'rspec-support', git: 'https://github.com/rspec/rspec-support'
   gem 'timecop', '~> 0.9.1'
   gem 'capybara', '~> 3.28'
+  gem 'capybara-screenshot', '~> 1.0', '>= 1.0.23'
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'webdrivers', '~> 4.1', '>= 4.1.2'

@@ -10,11 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_15_150836) do
+ActiveRecord::Schema.define(version: 2019_08_28_142827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "cards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id"
+    t.string "brand"
+    t.integer "exp_month"
+    t.integer "exp_year"
+    t.string "last_digits"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "stripe_card_id"
+    t.index ["user_id"], name: "index_cards_on_user_id"
+  end
+
+  create_table "donations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.money "amount", scale: 2
+    t.string "card_id"
+    t.string "customer_stripe_id"
+    t.string "donation_type"
+    t.string "customer_ip"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.json "user_data", default: {}, null: false
+    t.integer "status", default: 0
+  end
 
   create_table "plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.money "amount", scale: 2
@@ -22,6 +46,16 @@ ActiveRecord::Schema.define(version: 2019_08_15_150836) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "subscription_donations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "subscription_id"
+    t.uuid "donation_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["donation_id"], name: "index_subscription_donations_on_donation_id"
+    t.index ["subscription_id", "donation_id"], name: "index_subscription_donations_on_subscription_id_and_donation_id", unique: true
+    t.index ["subscription_id"], name: "index_subscription_donations_on_subscription_id"
   end
 
   create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

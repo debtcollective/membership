@@ -38,7 +38,7 @@ class SubscriptionFirstController < ApplicationController
     respond_to do |format|
       if @subscription.update(subscription_params)
         @user = @subscription.user
-        format.html { redirect_to new_payment_path(user_id: @user.id), notice: 'Subscription was successfully added.' }
+        format.html { redirect_to new_billing_path(user_id: @user.id), notice: 'Subscription was successfully added.' }
         format.json { render :show, status: :ok, location: @subscription }
       else
         format.html { render :edit }
