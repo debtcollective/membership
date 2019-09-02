@@ -78,7 +78,7 @@ RSpec.describe Admin::PlansController, type: :controller do
         plan.reload
         expect(plan.name).to eq(new_attributes[:name])
         expect(plan.description).to eq(new_attributes[:description])
-        expect(plan.amount).to eq(new_attributes[:amount])
+        expect(plan.amount.to_i).to eq(new_attributes[:amount].to_i)
       end
 
       it 'redirects to the plan' do
