@@ -20,10 +20,12 @@ ADD Gemfile* $APP_HOME/
 RUN export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ") && \
   gem install bundler foreman
 
-RUN bundle install
-RUN yarn install --check-files
+RUN bundle install --path=vendor/cache
 
 ADD . $APP_HOME
+
+RUN yarn install --check-files
+RUN bundle exec rails assets:precompile
 
 ENV PORT=5000
 EXPOSE 5000
