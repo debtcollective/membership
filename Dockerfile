@@ -25,6 +25,7 @@ RUN yarn install --check-files
 
 ADD . $APP_HOME
 
+ENV PORT=5000
 EXPOSE 5000
 
 CMD ["foreman", "start"]
