@@ -51,7 +51,7 @@
     "lint-staged": "9.2.5",
     "prettier": "1.18.2",
     "prettier-standard": "9.1.1",
-    "standard": "14.0.2",
+    "standard": "14.1.0",
     "webpack-dev-server": "3.8.0"
   },
   "standard": {
