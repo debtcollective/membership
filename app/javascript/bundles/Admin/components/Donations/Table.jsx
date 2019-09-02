@@ -43,7 +43,7 @@ export default function DonationsTable ({ donations }) {
         </TableHead>
         <TableBody>
           {donations.map(donation => (
-            <TableRow key={donation.id}>
+            <TableRow key={donation.id} id={`donation-${donation.id}`}>
               <TableCell scope='donation' className='capitalized'>
                 {donation.status}
               </TableCell>

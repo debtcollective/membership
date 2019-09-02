@@ -68,7 +68,7 @@ describe 'Admin - Manages user subscriptions', type: :feature, js: true do
         donation = subscription_donation.donation
         within "#donation-#{donation.id}" do
           expect(page).to have_content(donation.amount)
-          expect(page).to have_content(donation.created_at)
+          expect(page).to have_content(donation.customer_stripe_id)
         end
       end
     end
