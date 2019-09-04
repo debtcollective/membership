@@ -1,0 +1,32 @@
+.main-nav {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5rem;
+  position: absolute;
+
+  ul {
+    display: flex;
+    list-style: none;
+
+    &:first-of-type {
+      margin-right: auto;
+    }
+  }
+
+  .links {
+    li {
+      margin: 0 2rem;
+      font-weight: bold;
+    }
+  }
+
+  .button {
+    padding: 1rem 3rem;
+
+    &:first-of-type {
+      margin-right: 1rem;
+    }
+  }
+}
