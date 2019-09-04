@@ -49,7 +49,7 @@ h5 {
 }
 
 h1 {
-  font-size: 250%;
+  font-size: 300%;
 }
 
 h2 {
@@ -61,18 +61,38 @@ h3 {
 }
 
 h4 {
-  font-size: 125%;
+  font-size: 140%;
 }
 
 h5 {
   font-size: 110%;
 }
 
+.trix-content,
 p {
   font-size: 90%;
 }
 
-p,
+.trix-content,
+p {
+  line-height: 1.5;
+}
+
 ul {
   line-height: 2;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    background: none;
+    text-decoration: underline;
+  }
+
+  &:hover,
+  &:visited {
+    color: inherit;
+  }
 }

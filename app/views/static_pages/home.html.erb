@@ -1,4 +1,3 @@
-<p><%= link_to 'Make a donation today', new_charge_path %></p>
 <main id="homepage">
   <section id="plans">
     <h1>Every membership brings us closer to our goals.</h1>
@@ -9,10 +8,10 @@
         <div class="subscription--plan" id="subscription-<%= plan.name.parameterize.underscore %>">
           <h3>
             <%= plan.name %>
-            <span class="subscription--plan-price">$<%= plan.amount %><span>/mo</span></span>
+            <span class="subscription--plan-price"><%= number_to_currency(plan.amount).gsub(/\.00$/, "") %><span>/mo</span></span>
           </h3>
           <h4><%= plan.headline %></h4>
-          <p><%= plan.description %></p>
+          <%= plan.description %>
           <p><%= link_to 'Subscribe', new_subscription_first_path(plan_id: plan) %></p>
         </div>
       <% end %>

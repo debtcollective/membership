@@ -9,11 +9,11 @@
 }
 
 #money {
-  // background: red;
+  background: no-repeat center/cover url('cat-background-sample');
 }
 
 #cause {
-  // background: blue;
+  background: no-repeat center/cover url('cat-background-sample');
 }
 
 #money,
@@ -55,12 +55,14 @@
     &--plans {
       display: flex;
       flex-direction: row;
-      justify-content: space-around;
+      justify-content: center;
       margin: 0 auto;
       flex-wrap: wrap;
 
       @media (min-width: 80rem) {
         flex-wrap: nowrap;
+        overflow-x: scroll;
+        width: 100%;
       }
     }
 
@@ -71,13 +73,25 @@
       margin: 1rem 2rem;
       background: white;
       border: 1px solid $secondary-color;
-      border-radius: 5px;
-      padding: 1rem;
+      color: $secondary-color;
+      border-radius: 0.4rem;
+      padding: 1.5rem;
+
+      &:nth-child(even) {
+        background-color:lighten($primary-color,55);
+        border-color: $primary-color;
+        color: $primary-color;
+      }
 
       h3 {
         width: 100%;
         display: flex;
         justify-content: space-between;
+      }
+
+      h4 {
+        margin: 0.5rem 0;
+        text-align: left;
       }
     }
 
