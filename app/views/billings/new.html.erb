@@ -1,7 +1,7 @@
 <h1>Payment</h1>
 
 <%= form_tag create_payment_method_path, id: "billing-create-payment-method" do  %>
-  <%= link_to "Let's go", add_payment_method_path(user_id: @user.id), remote: true, class: "btn btn-primary" %>
+  <%= link_to "Provide your payment method", add_payment_method_path(user_id: @user.id), remote: true, class: "btn btn-primary" %>
 <% end %>
 
-<%= link_to 'Finish', root_path %>
+<%= link_to 'Cancel', root_path %>
