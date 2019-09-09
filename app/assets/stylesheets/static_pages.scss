@@ -10,11 +10,23 @@
 }
 
 #money {
-  background: no-repeat center/cover url('cat-background-sample');
+  background: linear-gradient(rgba($primary-color, 0.1) 0%, rgba($primary-color, 0.2) 99%);
+  
+  @media (min-width: 48rem) {
+    background: no-repeat center/cover url('donate_photo_1.jpg');
+  }
 }
 
 #cause {
-  background: no-repeat center/cover url('cat-background-sample');
+  background: linear-gradient(rgba($primary-color, 0.2) 0%, rgba($primary-color, 0.1) 99%);
+
+  @media (min-width: 48rem) {
+    background: no-repeat center/cover url('donate_photo_2.jpg');
+  }
+}
+
+#retail {
+  background: linear-gradient(rgba($primary-color, 0.1) 0%, rgba($primary-color, 0.2) 99%);
 }
 
 #money,
@@ -39,7 +51,6 @@
   }
 
   > section {
-    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,6 +59,20 @@
 
     @media (min-width: 48rem) {
       padding: 2rem 5rem;
+    }
+
+    @media (min-width: 80rem) {
+      min-height: 100vh;
+    }
+  }
+
+  .mobile-section-photo {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+
+    @media (min-width: 48rem) {
+      display: none;
     }
   }
 
@@ -86,6 +111,7 @@
 
       h3 {
         width: 100%;
+        font-weight: bold;
         display: flex;
         justify-content: space-between;
       }
@@ -93,6 +119,15 @@
       h4 {
         margin: 0.5rem 0;
         text-align: left;
+      }
+
+      p,
+      .trix-content {
+        display: none;
+
+        @media (min-width: 80rem) {
+          display: block;
+        }
       }
     }
 
@@ -123,11 +158,17 @@
       margin: 1rem 2rem;
       background: $primary-color;
       border: 1px solid $secondary-color;
-      border-radius: 5px;
+      border-radius: 1rem;
+      overflow: hidden;
 
-      img {
+      img { // fix for odd image export from Figma
         display: block;
+        height: 101%;
+        margin-left: -1px;
+        margin-top: -1px;
+        overflow: hidden;
         width: 100%;
+        width: 101%;
       }
     }
   }
