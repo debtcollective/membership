@@ -9,10 +9,10 @@ footer {
   }
 
   nav {
-    display: flex;
-    flex-direction: column;
+    display: none;
 
-    @media (min-width: 60rem) {
+    @media (min-width: 70rem) {
+      display: flex;
       flex-direction: row;
     }
 
@@ -46,12 +46,42 @@ footer {
     display: flex;
     align-items: center;
 
-    * {
+    p {
+      @media (max-width: 70rem) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin: 0;
+
+        * {
+          margin-top: 0.5rem;
+        }
+      }
+    }
+
+    img {
+      display: none;
+      
+      @media (min-width: 70rem) {
+        display: flex;
+      }
+    }
+
+    > * {
       margin: 0 2rem 0 0;
     }
 
     span {
       opacity: .6;
     }
+  }
+}
+
+
+#to-top-link {
+  @media (min-width: 70rem) {
+    display: none;
   }
 }
