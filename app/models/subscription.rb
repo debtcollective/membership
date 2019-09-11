@@ -19,6 +19,6 @@ class Subscription < ApplicationRecord
   private
 
   def store_start_date
-    self.start_date = DateTime.now
+    self.start_date = DateTime.now if start_date.nil?
   end
 end

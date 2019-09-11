@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: %i[show new edit update create destroy] do
+    resource :streak, only: %i[show]
     resources :cards, only: %i[index destroy]
   end
 
