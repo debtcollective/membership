@@ -5,12 +5,12 @@
 @import 'base/globals';
 
 #plans {
-  background: linear-gradient(rgba($primary-color, 0.3), rgba($secondary-color, 0.01));
+  background: linear-gradient($bg-color-primary, $bg-color-secondary 50%);
   padding-top: 6rem !important;
 }
 
 #money {
-  background: linear-gradient(rgba($primary-color, 0.1) 0%, rgba($primary-color, 0.2) 99%);
+  background: linear-gradient($bg-color-secondary, $bg-color-primary 50%);
   
   @media (min-width: 48rem) {
     background: no-repeat center/cover url('donate_photo_1.jpg');
@@ -18,7 +18,7 @@
 }
 
 #cause {
-  background: linear-gradient(rgba($primary-color, 0.2) 0%, rgba($primary-color, 0.1) 99%);
+  background: $bg-color-primary;
 
   @media (min-width: 48rem) {
     background: no-repeat center/cover url('donate_photo_2.jpg');
@@ -26,7 +26,7 @@
 }
 
 #retail {
-  background: linear-gradient(rgba($primary-color, 0.1) 0%, rgba($primary-color, 0.2) 99%);
+  background: linear-gradient($bg-color-primary, $bg-color-secondary 50%);
 }
 
 #money,
