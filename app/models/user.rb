@@ -26,8 +26,7 @@ class User < ApplicationRecord
 
   def current_streak
     start_date ||= subscription.start_date
-    today = DateTime.now
 
-    distance_of_time_in_words(start_date, today)
+    time_ago_in_words(start_date)
   end
 end
