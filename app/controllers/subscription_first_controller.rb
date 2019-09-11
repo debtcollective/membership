@@ -7,6 +7,7 @@ class SubscriptionFirstController < ApplicationController
   # GET /subscription_first/new
   def new
     @subscription = Subscription.new(plan: @current_plan)
+    @user = @subscription.user? ? @subscription.user : @subscription.build_user # TODO: Change for current_user
   end
 
   # GET /subscription_first/1/edit
@@ -18,30 +19,15 @@ class SubscriptionFirstController < ApplicationController
   # POST /subscription_first
   # POST /subscription_first.json
   def create
-    @subscription = Subscription.new(plan_id: subscription_params[:plan_attributes][:id])
+    @user = User.create(subscription_params[:user_attributes])
+    @subscription = Subscription.create(plan_id: subscription_params[:plan_attributes][:id], user_id: @user.id)
 
     respond_to do |format|
       if @subscription.save
-        format.html { redirect_to edit_subscription_first_path(@subscription), notice: 'Subscription was successfully created.' }
+        format.html { redirect_to new_billing_path(user_id: @user.id) }
         format.json { render :show, status: :created, location: @subscription }
       else
         format.html { render :new }
-        format.json { render json: @subscription.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /subscription_first/1
-  # PATCH/PUT /subscription_first/1.json
-  def update
-    @user = @subscription.user? ? @subscription.user : @subscription.build_user
-    respond_to do |format|
-      if @subscription.update(subscription_params)
-        @user = @subscription.user
-        format.html { redirect_to new_billing_path(user_id: @user.id), notice: 'Subscription was successfully added.' }
-        format.json { render :show, status: :ok, location: @subscription }
-      else
-        format.html { render :edit }
         format.json { render json: @subscription.errors, status: :unprocessable_entity }
       end
     end

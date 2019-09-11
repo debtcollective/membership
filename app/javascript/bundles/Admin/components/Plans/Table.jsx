@@ -22,9 +22,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function PlansTable ({ plans }) {
   const classes = useStyles()
-  // <td><%= plan.name %></td>
-  //       <td><%= plan.description %></td>
-  //   <td>$<%= plan.amount %></td>
 
   return (
     <Paper className={classes.root}>
@@ -32,31 +29,41 @@ export default function PlansTable ({ plans }) {
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
+            <TableCell>Headline</TableCell>
             <TableCell>Description</TableCell>
             <TableCell>Amount</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
-          {plans.map(plan => (
-            <TableRow key={plan.id}>
-              <TableCell scope='plan'>{plan.name}</TableCell>
-              <TableCell>{plan.description}</TableCell>
-              <TableCell>{numeral(plan.amount).format('$0,0.00')}</TableCell>
-              <TableCell align='right'>
-                <a href={`/admin/plans/${plan.id}`}>Show</a>{' '}
-                <a href={`/admin/plans/${plan.id}/edit`}>Edit</a>{' '}
-                <a
-                  data-confirm='Are you sure?'
-                  rel='nofollow'
-                  data-method='delete'
-                  href={`/admin/plans/${plan.id}`}
-                >
-                  Delete
-                </a>
-              </TableCell>
-            </TableRow>
-          ))}
+          {plans.map(plan => {
+            function createMarkup () {
+              return { __html: plan.description.body }
+            }
+
+            return (
+              <TableRow key={plan.id}>
+                <TableCell scope='plan'>{plan.name}</TableCell>
+                <TableCell>{plan.headline}</TableCell>
+                <TableCell>
+                  <span dangerouslySetInnerHTML={createMarkup()} />
+                </TableCell>
+                <TableCell>{numeral(plan.amount).format('$0,0.00')}</TableCell>
+                <TableCell align='right'>
+                  <a href={`/admin/plans/${plan.id}`}>Show</a>{' '}
+                  <a href={`/admin/plans/${plan.id}/edit`}>Edit</a>{' '}
+                  <a
+                    data-confirm='Are you sure?'
+                    rel='nofollow'
+                    data-method='delete'
+                    href={`/admin/plans/${plan.id}`}
+                  >
+                    Delete
+                  </a>
+                </TableCell>
+              </TableRow>
+            )
+          })}
         </TableBody>
       </Table>
     </Paper>

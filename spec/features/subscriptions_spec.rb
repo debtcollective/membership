@@ -9,16 +9,12 @@ describe 'Subscriptions', type: :feature do
 
     it 'allows going through the flow and prompts for a user account creation' do
       visit '/'
-      expect(page).to have_content('Welcome to app!')
+      expect(page).to have_content('Every membership brings us closer to our goals.')
       expect(page).to have_content(plan.name)
 
       within "#subscription-#{plan.name.parameterize.underscore}" do
         click_link 'Subscribe'
       end
-
-      expect(page).to have_content(plan.name)
-
-      click_button 'Start Donating'
 
       expect(page).to have_content('Please create an account')
 
@@ -33,10 +29,6 @@ describe 'Subscriptions', type: :feature do
       expect(page).to have_content('Payment')
 
       # TODO: Add Stripe elements
-
-      click_link 'Finish'
-
-      expect(page).to have_content('Subscription was successfully added.')
     end
   end
 end

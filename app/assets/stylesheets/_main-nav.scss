@@ -1,0 +1,51 @@
+.main-nav {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 5rem;
+  position: absolute;
+
+  @media(min-width: 80rem) {
+    justify-content: space-between;
+  }
+
+  ul {
+    display: none;
+    list-style: none;
+
+    &:first-of-type {
+      margin-right: auto;
+    }
+
+    @media(min-width: 80rem) {
+      display: flex;
+    }
+  }
+
+  .links {
+    display: none;
+
+    li {
+      margin: 0 2rem;
+      font-weight: bold;
+    }
+
+    @media(min-width: 80rem) {
+      display: flex;
+    }
+  }
+
+  .button {
+    display: none;
+    padding: 1rem 3rem;
+
+    &:first-of-type {
+      margin-right: 1rem;
+    }
+
+    @media(min-width: 80rem) {
+      display: flex;
+    }
+  }
+}
