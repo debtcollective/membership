@@ -1,15 +1,15 @@
-<p id="notice"><%= notice %></p>
+<div class="content">
+  <p id="notice"><%= notice %></p>
 
-<% unless @user.subscription.nil?  %>
-  You have been subscribed for <%= @user.current_streak %>
-<% end %>
+  <%= react_component("UserShow", props: {user: @user, streak: @user.current_streak, subscription: @user.subscription}) %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+  <p>
+    <strong>Name:</strong>
+    <%= @user.name %>
+  </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+  <p>
+    <strong>Email:</strong>
+    <%= @user.email %>
+  </p>
+</div>
