@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Subscription < ApplicationRecord
+  before_create :store_start_date
+
   belongs_to :user, optional: true
   belongs_to :plan
 
@@ -12,5 +14,11 @@ class Subscription < ApplicationRecord
 
   def user?
     !user_id.blank?
+  end
+
+  private
+
+  def store_start_date
+    self.start_date = DateTime.now
   end
 end
