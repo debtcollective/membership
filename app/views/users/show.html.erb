@@ -1,5 +1,9 @@
 <p id="notice"><%= notice %></p>
 
+<% unless @user.subscription.nil?  %>
+  You have been subscribed for <%= @user.current_streak %>
+<% end %>
+
 <p>
   <strong>Name:</strong>
   <%= @user.name %>
