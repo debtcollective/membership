@@ -8,7 +8,7 @@
 
 <header>
   <nav class="main-nav">
-    <img src="assets/logo-light.svg" alt="Debt Collective"/>
+    <%= image_tag('logo-light.svg', alt: 'Debt Collective')%>
     <ul class="links">
       <li><a href="#" rel="follow">Collectives</a></li>
       <li><a href="#" rel="follow">Campaigns</a></li>
@@ -124,7 +124,7 @@
     </ul>
   </nav>
   <div class="notice">
-    <img src="assets/logo-dark.svg" alt="Debt Collective"/>
+    <%= image_tag('logo-dark.svg', alt: 'Debt Collective')%>
     <p>
       <a id="to-top-link" href="#">Back to top</a>
       <span>Copyright <%= Time.new.year %></span>
