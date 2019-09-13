@@ -77,7 +77,7 @@ RSpec.describe Admin::PlansController, type: :controller do
         put :update, params: { id: plan.to_param, plan: new_attributes }, session: valid_session
         plan.reload
         expect(plan.name).to eq(new_attributes[:name])
-        expect(plan.description).to eq(new_attributes[:description])
+        expect(plan.description.body).to eq(new_attributes[:description])
         expect(plan.amount.to_i).to eq(new_attributes[:amount].to_i)
       end
 

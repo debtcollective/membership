@@ -6,7 +6,7 @@ describe 'Donations', type: :feature do
   context 'as an anonymous user' do
     it 'allows going through the flow and prompts for a user account creation' do
       visit '/'
-      expect(page).to have_content('Welcome to app!')
+      expect(page).to have_content('Pay what you can')
 
       click_link 'Make a donation today'
 

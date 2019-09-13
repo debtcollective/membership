@@ -1,13 +1,134 @@
-<p id="notice"><%= notice %></p>
-<h1>Welcome to app!</h1>
-<% @plans.each do |plan| %>
-  <div id="subscription-<%= plan.name.parameterize.underscore %>">
-    <h3><%= plan.name %></h3>
-    <p><%= plan.description %></p>
-    <p>$<%= plan.amount %></p>
-    <p><%= link_to 'Subscribe', new_subscription_first_path(plan_id: plan) %></p>
-  </div>
+<% content_for :head do %>
+  <meta property="og:title" content="Debt Collective - Fundraising" />
+  <meta property="og:description" content="Organizing for big change requires resources. Becoming a dues- paying member is not charity. Instead, your support is an act of ongoing solidarity with other people in debt." /> 
+  <meta property="og:type" content="text/html" /> 
+  <meta property="og:url" content="https://fundraising.debtcollective.org" /> 
+  <meta property="og:image" content="https://fundraising.debtcollective.org/assets/logo-small.png" /> 
 <% end %>
 
-<h3>Can't contribute regularly</h3>
-<p><%= link_to 'Make a donation today', new_charge_path %></p>
+<header>
+  <nav class="main-nav">
+    <%= image_tag('logo-light.svg', alt: 'Debt Collective')%>
+    <ul class="links">
+      <li><a href="#" rel="follow">Collectives</a></li>
+      <li><a href="#" rel="follow">Campaigns</a></li>
+      <li><a href="#" rel="follow">Events</a></li>
+      <li><a href="#" rel="follow">More</a></li>
+    </ul>
+    <ul>
+      <li><a href="#" class="button secondary" rel="nofollow">Log In</a></li>
+      <li><a href="#" class="button primary" rel="nofollow">Sign Up</a></li>
+    </ul>
+  </nav>
+</header>
+<main id="homepage">
+  <section id="plans">
+    <h1>Every membership brings us closer to our goals.</h1>
+    <h4>Your monthly contribution helps us plan for the future.</h4>
+    <p id="notice"><%= notice %></p>
+    <div class="subscription--plans">
+      <% @plans.each do |plan| %>
+        <div class="subscription--plan" id="subscription-<%= plan.name.parameterize.underscore %>">
+          <h3>
+            <%= plan.name %>
+            <span class="subscription--plan-price"><%= number_to_currency(plan.amount).gsub(/\.00$/, "") %><span>/mo</span></span>
+          </h3>
+          <h4><%= plan.headline %></h4>
+          <%= plan.description %>
+          <p><%= link_to 'Subscribe', new_subscription_first_path(plan_id: plan) %></p>
+        </div>
+      <% end %>
+      <div class="subscription--plan" id="one-time-donation">
+        <h3>Other</h3>
+        <h4>Pay what you can. Every dollar counts.</h4>
+        <p>“To each according to their ability, to each according to their need.” Contributing what you can, where you can is what we’re all about.</p>
+        <p>Folks who donate $100 on a one-time basis will receive a free gift from our store. People who pay dues at the rate of $100 per month or more will receive a thank you call from us.</p>
+        <p><%= link_to 'Make a donation today', new_charge_path %></p>
+      </div>
+    </div>
+  </section>
+  
+  <%= image_tag('donate_photo_1_mobile.jpg', class: 'mobile-section-photo', alt: 'Help us fund our mission') %>
+  
+  <section id="money">
+    <div class="content">
+      <h2>Where is your money going?</h2>
+      <p>Organizing for big change requires resources. Becoming a dues- paying member is not charity. Instead, your support is an act of ongoing solidarity with other people in debt. Your money will go directly to funding:</p>
+      <ul>
+        <li>Debt Clinics</li>
+        <li>Dispute Tools</li>
+        <li>Campaigns</li>
+        <li>And More!</li>
+      </ul>
+    </div>
+  </section>
+  
+  <%= image_tag('donate_photo_2_mobile.jpg', class: 'mobile-section-photo', alt: 'Push us closer to future projects') %>
+  
+  <section id="cause">
+    <div class="content">
+      <h2>What are we fighting for?</h2>
+      <p>The Debt Collective believes that everyone has the right to basic needs without going into debt. We believe that there is power in numbers. Our mission is to make a better world together, including:</p>
+      <ul>
+        <li>A Student Debt Jubilee</li>
+        <li>Free Public College</li>
+        <li>Medicare-For-All</li>
+        <li>An End to Fines, Fees, and Bail</li>
+        <li>And More!</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="retail">
+    <section class="retail--products">
+      <div class="retail--product">
+        <%= image_tag('product_1.jpg', alt: 'sweather') %>
+      </div>
+      <div class="retail--product">
+        <%= image_tag('product_1.jpg', alt: 't-shirt') %>
+      </div>
+      <div class="retail--product">
+        <%= image_tag('product_1.jpg', alt: 'stickers') %>
+      </div>
+    </section>
+    <h2>Rather war your cause on your sleeve?</h2>
+    <p>You can also support the Debt Collective by purchasing merchandise through our online store.</p>
+    <a href="#" class="button primary as-block">Browse the Shop</a>
+  </section>
+</main>
+
+<footer>
+  <nav>
+    <ul>
+      <li class="title"><h5>Organize</h5></li>
+      <li><a href="#">Collectives</a></li>
+      <li><a href="#">Campaigns</a></li>
+      <li><a href="#">Debt Map</a></li>
+    </ul>
+    <ul>
+      <li class="title"><h5>Take Action</h5></li>
+      <li><a href="#">Dispute Your Debt</a></li>
+      <li><a href="#">Campaigns</a></li>
+    </ul>
+    <ul>
+      <li class="title"><h5>Learn More</h5></li>
+      <li><a href="#">The Power Report</a></li>
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Community Wiki</a></li>
+    </ul>
+    <ul>
+      <li class="title"><h5>More</h5></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Donate</a></li>
+      <li><a href="#">Open Source</a></li>
+    </ul>
+  </nav>
+  <div class="notice">
+    <%= image_tag('logo-dark.svg', alt: 'Debt Collective')%>
+    <p>
+      <a id="to-top-link" href="#">Back to top</a>
+      <span>Copyright <%= Time.new.year %></span>
+      <a href="#">Terms and Conditions</a>
+    </p>
+  </div>
+</footer>

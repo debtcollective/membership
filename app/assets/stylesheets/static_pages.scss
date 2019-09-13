@@ -1,0 +1,185 @@
+/*
+  Place all the styles related to the matching controller here.
+  They will automatically be included in application.css.
+*/
+@import 'base/globals';
+
+#plans {
+  background: linear-gradient($bg-color-primary, $bg-color-secondary 50%);
+  padding-top: 10rem !important;
+}
+
+#money {
+  background: linear-gradient($bg-color-secondary, $bg-color-primary 50%);
+  
+  @media (min-width: 48rem) {
+    background: no-repeat center/cover image_url('donate_photo_1.jpg');
+  }
+}
+
+#cause {
+  background: $bg-color-primary;
+
+  @media (min-width: 48rem) {
+    background: no-repeat center/cover image_url('donate_photo_2.jpg');
+  }
+}
+
+#retail {
+  background: linear-gradient($bg-color-primary, $bg-color-secondary 50%);
+}
+
+#money,
+#cause {
+  > .content {
+    @media(min-width: 48rem) {
+      max-width: 50%;
+    }
+  }
+
+  ul {
+    font-weight: bold;
+    font-size: 100%;
+  }
+}
+
+#homepage {
+
+  h1,
+  h4 {
+    text-align: center
+  }
+
+  > section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 2rem;
+
+    @media (min-width: 48rem) {
+      padding: 2rem 5rem;
+    }
+
+    @media (min-width: 80rem) {
+      min-height: 100vh;
+    }
+  }
+
+  .mobile-section-photo {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+
+    @media (min-width: 48rem) {
+      display: none;
+    }
+  }
+
+  .subscription {
+
+    &--plans {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin: 0 auto;
+      flex-wrap: wrap;
+
+      @media (min-width: 80rem) {
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        width: 100%;
+      }
+    }
+
+    &--plan {
+      min-width: 100%;
+      max-width: 24rem;
+      flex: 1;
+      margin: 1rem 0;
+      background: white;
+      border: 1px solid $secondary-color;
+      color: $secondary-color;
+      border-radius: 0.4rem;
+      padding: 1.5rem;
+
+      @media (min-width: 80rem) {
+        min-width: 18rem;
+        margin: 1rem 2rem;
+      }
+
+      &:nth-child(even) {
+        background-color:lighten($primary-color,55);
+        border-color: $primary-color;
+        color: $primary-color;
+      }
+
+      h3 {
+        width: 100%;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      h4 {
+        margin: 0.5rem 0;
+        text-align: left;
+      }
+
+      p,
+      .trix-content {
+        display: none;
+
+        @media (min-width: 80rem) {
+          display: block;
+        }
+      }
+    }
+
+    &--plan-price {
+      span {
+        font-size: 60%;
+      }
+    }
+  }
+
+  .retail {
+    &--products {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin: 2rem auto;
+      flex-wrap: wrap;
+
+      @media (min-width: 80rem) {
+        flex-wrap: nowrap;
+      }
+    }
+
+    &--product {
+      min-width: 100%;
+      max-width: 24rem;
+      flex: 1;
+      margin: 1rem 0;
+      background: $primary-color;
+      border: 1px solid $secondary-color;
+      border-radius: 1rem;
+      overflow: hidden;
+
+      @media(min-width: 80rem) {
+        min-width: 18rem;
+        margin: 1rem 2rem;
+      }
+
+      img { // fix for odd image export from Figma
+        display: block;
+        height: 101%;
+        margin-left: -1px;
+        margin-top: -1px;
+        overflow: hidden;
+        width: 100%;
+        width: 101%;
+      }
+    }
+  }
+}

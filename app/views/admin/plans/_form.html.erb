@@ -17,8 +17,13 @@
   </div>
 
   <div class="field">
+    <%= form.label :headline %>
+    <%= form.text_field :headline %>
+  </div>
+
+  <div class="field">
     <%= form.label :description %>
-    <%= form.text_field :description %>
+    <%= form.rich_text_area :description %>
   </div>
 
   <div class="field">

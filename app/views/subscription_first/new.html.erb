@@ -1,8 +1,3 @@
-<% unless @current_plan.nil? %>
-  <h1><%= @current_plan.name %></h1>
-  <p>Benefits of the plan:</p>
-<% end %>
-
 <%= form_with(model: @subscription, url: {controller: "subscription_first", action: :create }, local: true) do |form| %>
   <% if @subscription.errors.any? %>
     <div id="error_explanation">
@@ -16,10 +11,31 @@
     </div>
   <% end %>
 
-  <%= form.fields_for :plan do |plan| %>
+  <% if @user.new_record?  %>
+    <h3>Please create an account</h3>
+    <%= form.fields_for :plan do |plan| %>
+    
+    <% end %>
+    <%= form.fields_for :user do |user| %>
+      <div class="field">
+        <%= user.label :first_name %>
+        <%= user.text_field :first_name %>
+      </div>
+
+      <div class="field">
+        <%= user.label :last_name %>
+        <%= user.text_field :last_name %>
+      </div>
+
+      <div class="field">
+        <%= user.label :email %>
+        <%= user.text_field :email %>
+      </div>
+    <% end %>
   <% end %>
 
   <div class="actions">
-    <%= form.submit "Start Donating" %>
+    <%= form.submit "Continue" %>
   </div>
 <% end %>
+
