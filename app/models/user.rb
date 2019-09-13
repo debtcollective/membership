@@ -15,4 +15,8 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def self.find_or_create_from_sso(payload)
+    # create user from SSO
+  end
 end
