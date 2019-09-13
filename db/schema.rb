@@ -106,11 +106,13 @@ ActiveRecord::Schema.define(version: 2019_09_13_204149) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "stripe_id"
-    t.string "name"
     t.boolean "admin", default: false
+    t.string "avatar_url"
     t.boolean "banned", default: false
-    t.bigint "external_id"
     t.jsonb "custom_fields"
+    t.bigint "external_id"
+    t.string "name"
+    t.string "username"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

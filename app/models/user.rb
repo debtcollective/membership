@@ -19,6 +19,6 @@ class User < ApplicationRecord
 
     user.save
 
-    user, new_record
+    [user, new_record]
   end
 end

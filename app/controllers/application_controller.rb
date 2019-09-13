@@ -4,16 +4,16 @@ class ApplicationController < ActionController::Base
   def current_user
     return nil unless sso_cookie_present?
 
-    payload = sso_payload
+    payload, headers = sso_jwt_content
 
     # this means the validation failed
     # we logout the user since it has an invalid session
     if payload == false
       redirect_to logout_path
-      return
+      return nil
     end
 
-    @current_user ||= User.find_or_create_from_sso(sso_payload)
+    @current_user ||= User.find_or_create_from_sso(payload)
   end
 
   def authenticate_user!
@@ -23,11 +23,14 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def sso_payload
+  def sso_jwt_content
     token = cookies[ENV['SSO_COOKIE_NAME']]
 
     begin
-      return JWT.decode(token, ENV['SSO_JWT_SECRET'], true, algorithm: 'HS256')
+      payload, headers = JWT.decode(token, ENV['SSO_JWT_SECRET'], true, algorithm: 'HS256')
+
+      payload = ActiveSupport::HashWithIndifferentAccess.new(payload)
+      return [payload, headers]
     rescue JWT::VerificationError
       # report to sentry
       return false
