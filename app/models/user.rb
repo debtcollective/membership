@@ -1,22 +1,24 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  before_save { email.downcase! }
-
-  USER_ROLES = { admin: 'admin', user: 'user' }.freeze
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
+  SSO_ATTRIBUTES = %i[admin banned username email avatar_url custom_fields].freeze
 
   has_one :subscription
   has_many :cards
 
-  validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
-  validates :first_name, :last_name, presence: true
-
-  def full_name
-    "#{first_name} #{last_name}"
-  end
+  validates :external_id, presence: true
 
   def self.find_or_create_from_sso(payload)
-    # create user from SSO
+    external_id = payload.fetch(:external_id)
+
+    user = User.find_or_initialize_by(external_id: external_id)
+    new_record = user.new_record?
+
+    # Update SSO fields
+    SSO_ATTRIBUTES.each { |sso_attribute| user[sso_attribute] = payload[sso_attribute] }
+
+    user.save
+
+    user, new_record
   end
 end
