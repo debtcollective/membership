@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
+  sequence :external_id do |n|
+    n
+  end
+
   factory :user do
-    first_name { Faker::Name.first_name }
-    last_name  { Faker::Name.last_name }
-    user_role { User::USER_ROLES[:user] }
+    name { Faker::Name.name }
     email { Faker::Internet.email }
-    discourse_id { Faker::Alphanumeric.alphanumeric(number: 10) }
+    external_id { generate(:external_id) }
   end
 end
