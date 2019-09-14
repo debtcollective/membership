@@ -1,9 +1,9 @@
 <% content_for :head do %>
   <meta property="og:title" content="Debt Collective - Fundraising" />
-  <meta property="og:description" content="Organizing for big change requires resources. Becoming a dues- paying member is not charity. Instead, your support is an act of ongoing solidarity with other people in debt." /> 
-  <meta property="og:type" content="text/html" /> 
-  <meta property="og:url" content="https://fundraising.debtcollective.org" /> 
-  <meta property="og:image" content="https://fundraising.debtcollective.org/assets/logo-small.png" /> 
+  <meta property="og:description" content="Organizing for big change requires resources. Becoming a dues- paying member is not charity. Instead, your support is an act of ongoing solidarity with other people in debt." />
+  <meta property="og:type" content="text/html" />
+  <meta property="og:url" content="https://fundraising.debtcollective.org" />
+  <meta property="og:image" content="https://fundraising.debtcollective.org/assets/logo-small.png" />
 <% end %>
 
 <header>
@@ -16,8 +16,8 @@
       <li><a href="#" rel="follow">More</a></li>
     </ul>
     <ul>
-      <li><a href="#" class="button secondary" rel="nofollow">Log In</a></li>
-      <li><a href="#" class="button primary" rel="nofollow">Sign Up</a></li>
+      <li><a href="<%= login_path %>" class="button secondary" rel="nofollow">Log In</a></li>
+      <li><a href="<%= signup_path %>" class="button primary" rel="nofollow">Sign Up</a></li>
     </ul>
   </nav>
 </header>
@@ -47,9 +47,9 @@
       </div>
     </div>
   </section>
-  
+
   <%= image_tag('donate_photo_1_mobile.jpg', class: 'mobile-section-photo', alt: 'Help us fund our mission') %>
-  
+
   <section id="money">
     <div class="content">
       <h2>Where is your money going?</h2>
@@ -62,9 +62,9 @@
       </ul>
     </div>
   </section>
-  
+
   <%= image_tag('donate_photo_2_mobile.jpg', class: 'mobile-section-photo', alt: 'Push us closer to future projects') %>
-  
+
   <section id="cause">
     <div class="content">
       <h2>What are we fighting for?</h2>

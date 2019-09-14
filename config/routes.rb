@@ -20,5 +20,9 @@ Rails.application.routes.draw do
     resources :cards, only: %i[index destroy]
   end
 
+  get '/login' => 'sessions#login'
+  get '/signup' => 'sessions#signup'
+  get '/logout' => 'sessions#logout'
+
   root 'static_pages#home'
 end
