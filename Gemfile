@@ -60,16 +60,17 @@ end
 
 group :test do
   # TODO: Change when rspec 4 is released
+  gem "climate_control", "~> 0.2.0"
+  gem 'capybara', '~> 3.28'
+  gem 'capybara-screenshot', '~> 1.0', '>= 1.0.23'
   gem 'rspec-core', git: 'https://github.com/rspec/rspec-core'
   gem 'rspec-expectations', git: 'https://github.com/rspec/rspec-expectations'
   gem 'rspec-mocks', git: 'https://github.com/rspec/rspec-mocks'
   gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails', branch: '4-0-dev'
   gem 'rspec-support', git: 'https://github.com/rspec/rspec-support'
-  gem 'timecop', '~> 0.9.1'
-  gem 'capybara', '~> 3.28'
-  gem 'capybara-screenshot', '~> 1.0', '>= 1.0.23'
-  gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
+  gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
+  gem 'timecop', '~> 0.9.1'
   gem 'webdrivers', '~> 4.1', '>= 4.1.2'
 end
 
