@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  helper_method :current_user, :logged_in?
+
   def current_user
     return nil unless sso_cookie_present?
 
@@ -13,12 +15,15 @@ class ApplicationController < ActionController::Base
       return nil
     end
 
-    @current_user ||= User.find_or_create_from_sso(payload)
+    return @current_user unless @current_user.nil?
+
+    user, new_record = User.find_or_create_from_sso(payload)
+
+    @current_user = CurrentUser.new(user, payload, new_record)
   end
 
-  def authenticate_user!
-    # this will check if a user exists or redirect to /login
-    # following the same API as Devise
+  def logged_in?
+    current_user != nil
   end
 
   private
@@ -27,10 +32,7 @@ class ApplicationController < ActionController::Base
     token = cookies[ENV['SSO_COOKIE_NAME']]
 
     begin
-      payload, headers = JWT.decode(token, ENV['SSO_JWT_SECRET'], true, algorithm: 'HS256')
-
-      payload = ActiveSupport::HashWithIndifferentAccess.new(payload)
-      return [payload, headers]
+      return JWT.decode(token, ENV['SSO_JWT_SECRET'], true, algorithm: 'HS256')
     rescue JWT::VerificationError
       # report to sentry
       return false

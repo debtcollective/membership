@@ -37,12 +37,14 @@ RSpec.describe User, type: :model do
 
     it 'returns existing user if exists' do
       payload = JSON.parse(file_fixture('jwt_sso_payload.json').read)
+      external_id = payload['external_id']
+      User.create(external_id: external_id)
 
       user, new_record = User.find_or_create_from_sso(payload)
 
-      expect(new_record).to eql(true)
+      expect(new_record).to eql(false)
       expect(user.persisted?).to eql(true)
-      expect(user.external_id).to eql(payload['external_id'])
+      expect(user.external_id).to eql(external_id)
       expect(user.custom_fields).to eql(payload['custom_fields'])
     end
   end
