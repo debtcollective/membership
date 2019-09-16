@@ -40,7 +40,7 @@
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "react-on-rails": "11.3.0",
-    "trix": "^1.0.0",
+    "trix": "1.2.0",
     "turbolinks": "5.2.0"
   },
   "devDependencies": {
