@@ -54,7 +54,7 @@
     "prettier": "1.18.2",
     "prettier-standard": "14.0.5",
     "semantic-release": "15.13.24",
-    "standard": "14.0.2",
+    "standard": "14.3.0",
     "webpack-dev-server": "3.8.0"
   },
   "standard": {
