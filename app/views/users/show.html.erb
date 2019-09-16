@@ -1,4 +1,4 @@
-<div class="content">
+<section class="section-content">
   <p id="notice"><%= notice %></p>
 
   <%= react_component("UserShow", props: {user: @user, streak: @user.current_streak, subscription: @user.subscription}) %>
@@ -12,4 +12,4 @@
     <strong>Email:</strong>
     <%= @user.email %>
   </p>
-</div>
+</section>

@@ -17,7 +17,11 @@ function UserShowView ({ user, subscription, streak }) {
 
   return (
     <Paper className={classes.root}>
-      {subscription && streak && <p>You have been subscribed for {streak}</p>}
+      {subscription && streak && (
+        <p className='notice--subscription'>
+          You have been subscribed for {streak}
+        </p>
+      )}
       <p>
         <strong>First name:</strong>
       </p>
@@ -32,16 +36,6 @@ function UserShowView ({ user, subscription, streak }) {
         <strong>Email:</strong>
       </p>
       <p>{user.email}</p>
-
-      <p>
-        <strong>User role:</strong>
-      </p>
-      <p>{user.user_role}</p>
-
-      <p>
-        <strong>Discourse:</strong>
-      </p>
-      <p>{user.discourse_id}</p>
     </Paper>
   )
 }

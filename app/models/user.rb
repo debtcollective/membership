@@ -25,6 +25,8 @@ class User < ApplicationRecord
   end
 
   def current_streak
+    return 'Currently, you don\'t own an active subscribption' unless subscription
+
     start_date ||= subscription.start_date
 
     time_ago_in_words(start_date)
