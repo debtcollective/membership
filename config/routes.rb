@@ -22,7 +22,6 @@ Rails.application.routes.draw do
 
   get '/login' => 'sessions#login'
   get '/signup' => 'sessions#signup'
-  get '/logout' => 'sessions#logout'
 
   root 'static_pages#home'
 end

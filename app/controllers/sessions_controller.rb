@@ -10,14 +10,7 @@ class SessionsController < ApplicationController
 
   def signup
     query_string = redirect_params.to_query
-    url = "#{ENV['DISCOURSE_URL']}/signup?#{query_string}"
-
-    redirect_to url
-  end
-
-  def logout
-    query_string = redirect_params.to_query
-    url = "#{ENV['DISCOURSE_URL']}/session/sso_provider/logout?#{query_string}"
+    url = "#{ENV['DISCOURSE_URL']}/session/sso_provider/signup?#{query_string}"
 
     redirect_to url
   end
