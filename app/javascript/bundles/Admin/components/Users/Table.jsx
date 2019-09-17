@@ -37,9 +37,7 @@ export default function UsersTable ({ users }) {
         <TableBody>
           {users.map(user => (
             <TableRow key={user.id}>
-              <TableCell scope='user'>
-                {user.first_name} {user.last_name}
-              </TableCell>
+              <TableCell scope='user'>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.user_role}</TableCell>
               <TableCell>{user.discourse_id}</TableCell>

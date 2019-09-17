@@ -16,7 +16,7 @@
   <% else %>
     <div class="field">
       <%= form.label :user %>
-      <%= form.text_field :user, value: subscription.user.full_name, disabled: true %>
+      <%= form.text_field :user, value: subscription.user.name, disabled: true %>
     </div>
   <% end %>
 

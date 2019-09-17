@@ -14,17 +14,12 @@
   <% if @user.new_record?  %>
     <h3>Please create an account</h3>
     <%= form.fields_for :plan do |plan| %>
-    
+
     <% end %>
     <%= form.fields_for :user do |user| %>
       <div class="field">
-        <%= user.label :first_name %>
-        <%= user.text_field :first_name %>
-      </div>
-
-      <div class="field">
-        <%= user.label :last_name %>
-        <%= user.text_field :last_name %>
+        <%= user.label :name %>
+        <%= user.text_field :name %>
       </div>
 
       <div class="field">
@@ -38,4 +33,3 @@
     <%= form.submit "Continue" %>
   </div>
 <% end %>
-

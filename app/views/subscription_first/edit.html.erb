@@ -15,15 +15,9 @@
     <h3>Please create an account</h3>
     <%= form.fields_for :user do |user| %>
       <div class="field">
-        <%= user.label :first_name %>
-        <%= user.text_field :first_name %>
+        <%= user.label :name %>
+        <%= user.text_field :name %>
       </div>
-
-      <div class="field">
-        <%= user.label :last_name %>
-        <%= user.text_field :last_name %>
-      </div>
-
       <div class="field">
         <%= user.label :email %>
         <%= user.text_field :email %>

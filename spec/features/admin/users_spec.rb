@@ -11,12 +11,10 @@ describe 'Admin - Manages users', type: :feature, js: true do
       visit '/admin/users'
       expect(page).to have_content('Users')
 
-      expect(page).to have_content(user_1.first_name)
-      expect(page).to have_content(user_1.last_name)
+      expect(page).to have_content(user_1.name)
       expect(page).to have_content(user_1.email)
 
-      expect(page).to have_content(user_2.first_name)
-      expect(page).to have_content(user_2.last_name)
+      expect(page).to have_content(user_2.name)
       expect(page).to have_content(user_2.email)
     end
   end
@@ -29,27 +27,23 @@ describe 'Admin - Manages users', type: :feature, js: true do
       visit '/admin/users'
       expect(page).to have_content('Users')
 
-      expect(page).to have_content(user.first_name)
-      expect(page).to have_content(user.last_name)
+      expect(page).to have_content(user.name)
       expect(page).to have_content(user.email)
 
       click_link('Edit', href: edit_admin_user_path(user))
 
       expect(page).to have_content('Editing User')
 
-      fill_in 'First name', with: user_modified_attributes[:first_name]
-      fill_in 'Last name', with: user_modified_attributes[:last_name]
+      fill_in 'Name', with: user_modified_attributes[:name]
       fill_in 'Email', with: user_modified_attributes[:email]
       click_button 'Update User'
 
       expect(page).to have_content('User was successfully updated.')
 
-      expect(page).to_not have_content(user.first_name)
-      expect(page).to_not have_content(user.last_name)
+      expect(page).to_not have_content(user.name)
       expect(page).to_not have_content(user.email)
 
-      expect(page).to have_content(user_modified_attributes[:first_name])
-      expect(page).to have_content(user_modified_attributes[:last_name])
+      expect(page).to have_content(user_modified_attributes[:name])
       expect(page).to have_content(user_modified_attributes[:email])
     end
   end

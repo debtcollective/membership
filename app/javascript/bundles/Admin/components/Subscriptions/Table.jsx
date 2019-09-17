@@ -38,11 +38,7 @@ export default function SubcriptionsTable ({ subscriptions }) {
           {subscriptions.map(subscription => (
             <TableRow key={subscription.id}>
               <TableCell scope='subscription'>
-                {subscription.user
-                  ? `${subscription.user.first_name} ${
-                      subscription.user.last_name
-                    }`
-                  : 'N/A'}
+                {subscription.user ? `${subscription.user.name}` : 'N/A'}
               </TableCell>
               <TableCell>{subscription.plan.name}</TableCell>
               <TableCell>
