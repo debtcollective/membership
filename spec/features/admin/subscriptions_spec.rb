@@ -11,11 +11,11 @@ describe 'Admin - Manages user subscriptions', type: :feature, js: true do
       visit '/admin/subscriptions'
       expect(page).to have_content('Subscriptions')
 
-      expect(page).to have_content(subscription_1.user.full_name)
+      expect(page).to have_content(subscription_1.user.name)
       expect(page).to have_content(subscription_1.plan.name)
       expect(page).to have_content(subscription_1.plan.amount)
 
-      expect(page).to have_content(subscription_2.user.full_name)
+      expect(page).to have_content(subscription_2.user.name)
       expect(page).to have_content(subscription_2.plan.name)
       expect(page).to have_content(subscription_2.plan.amount)
     end
@@ -31,7 +31,7 @@ describe 'Admin - Manages user subscriptions', type: :feature, js: true do
       visit '/admin/subscriptions'
       expect(page).to have_content('Subscriptions')
 
-      expect(page).to have_content(subscription.user.full_name)
+      expect(page).to have_content(subscription.user.name)
       click_link('Edit', href: edit_admin_subscription_path(subscription))
 
       expect(page).to have_content('Editing Subscription')
@@ -59,7 +59,7 @@ describe 'Admin - Manages user subscriptions', type: :feature, js: true do
       visit '/admin/subscriptions'
       expect(page).to have_content('Subscriptions')
 
-      expect(page).to have_content(subscription.user.full_name)
+      expect(page).to have_content(subscription.user.name)
       click_link('Show', href: admin_subscription_path(subscription))
 
       expect(page).to have_content(subscription.plan.name)

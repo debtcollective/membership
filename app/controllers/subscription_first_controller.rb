@@ -46,6 +46,6 @@ class SubscriptionFirstController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def subscription_params
-    params.require(:subscription).permit(:user_id, :plan_id, user_attributes: %i[first_name last_name email], plan_attributes: [:id])
+    params.require(:subscription).permit(:user_id, :plan_id, user_attributes: %i[name email], plan_attributes: [:id])
   end
 end
