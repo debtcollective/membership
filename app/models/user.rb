@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  include ActionView::Helpers::DateHelper
+
   SSO_ATTRIBUTES = %w[admin banned username email avatar_url custom_fields].freeze
 
   has_one :subscription
