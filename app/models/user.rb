@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   has_one :subscription
   has_many :cards
+  has_many :donations
 
   validates :external_id, presence: true
 

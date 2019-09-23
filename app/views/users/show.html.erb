@@ -2,14 +2,5 @@
   <p id="notice"><%= notice %></p>
 
   <%= react_component("UserShow", props: {user: @user, streak: @user.current_streak, subscription: @user.subscription}) %>
-
-  <p>
-    <strong>Name:</strong>
-    <%= @user.name %>
-  </p>
-
-  <p>
-    <strong>Email:</strong>
-    <%= @user.email %>
-  </p>
+  <%= react_component("DonationsHistory", props: {activePlan: @user.subscription&.plan, donations: @user.donations}) %>
 </section>
