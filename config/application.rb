@@ -16,6 +16,7 @@ require 'action_view/railtie'
 require 'action_cable/engine'
 require 'sprockets/railtie'
 require 'dotenv/load'
+require 'sidekiq'
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -39,5 +40,8 @@ module Fundraising
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
     end
+
+    config.active_job.queue_adapter = :sidekiq
+    Sidekiq.configure_server { |c| c.redis = { url: ENV['REDIS_URL'] } }
   end
 end
