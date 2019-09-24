@@ -33,7 +33,7 @@ RSpec.describe Admin::UsersController, type: :controller do
     end
   end
 
-  xdescribe 'PUT #update' do
+  describe 'PUT #update' do
     context 'with valid params' do
       let(:new_attributes) do
         FactoryBot.attributes_for(:user)
@@ -58,7 +58,7 @@ RSpec.describe Admin::UsersController, type: :controller do
       it "returns a success response (i.e. to display the 'edit' template)" do
         user = User.create! valid_attributes
         put :update, params: { id: user.to_param, user: invalid_attributes }, session: valid_session
-        expect(response).to be_successful
+        expect(response).to_not be_successful
       end
     end
   end

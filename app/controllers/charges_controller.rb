@@ -25,6 +25,8 @@ class ChargesController < ApplicationController
       customer_ip: request.remote_ip
     )
 
+    donation.user_id = @user.id if @user
+
     if donation.save!
       redirect_to root_path, notice: "Thank you for donating #{displayable_amount(@amount)}."
     else

@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  include ActionView::Helpers::DateHelper
+
   SSO_ATTRIBUTES = %w[admin banned username email avatar_url custom_fields].freeze
 
   has_one :subscription
   has_many :cards
+  has_many :donations
 
   validates :external_id, presence: true
 
@@ -22,5 +25,13 @@ class User < ApplicationRecord
     user.save
 
     [user, new_record]
+  end
+
+  def current_streak
+    return 'Currently, you don\'t own an active subscribption' unless subscription
+
+    start_date ||= subscription.start_date
+
+    time_ago_in_words(start_date)
   end
 end
