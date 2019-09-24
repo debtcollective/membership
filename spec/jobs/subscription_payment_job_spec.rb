@@ -4,10 +4,7 @@ require 'rails_helper'
 require 'stripe_mock'
 
 def create_fake_stripe_customer(user)
-  Stripe::Customer.create(
-    email: user.email,
-    source: 'tok_mastercard'
-  )
+  Stripe::Customer.create(email: user.email)
 end
 
 RSpec.describe SubscriptionPaymentJob, type: :job do
@@ -15,7 +12,7 @@ RSpec.describe SubscriptionPaymentJob, type: :job do
   let(:user) { subscription.user }
   let(:plan) { subscription.plan }
 
-  subject(:job) { described_class.perform_later(user: user, plan: plan) }
+  subject(:job) { described_class.perform_later(subscription) }
 
   it 'queues the job' do
     expect { job }
@@ -37,6 +34,7 @@ RSpec.describe SubscriptionPaymentJob, type: :job do
     perform_enqueued_jobs { job }
 
     expect(Donation.count).to eq(3)
+    expect(subscription.reload.last_charge.to_i).to be_within(100).of(DateTime.now.to_i)
   end
 
   after do
