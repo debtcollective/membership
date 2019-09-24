@@ -10,3 +10,6 @@ hot-assets: sh -c 'rm -rf public/webpack/development || true && bundle exec rake
 
 # Keep the JS fresh for server rendering. Remove if not server rendering
 rails-server-assets: sh -c 'yarn run build:dev:server'
+
+# Sidekiq runner
+sidekiq: bundle exec sidekiq -C config/sidekiq.yml

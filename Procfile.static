@@ -6,3 +6,6 @@ rails-client-assets: rm -rf public/webpack/development || true && bundle exec ra
 
 # Build server assets, watching for changes. Remove if not server rendering.
 rails-server-assets: yarn run build:dev:server
+
+# Sidekiq runner
+sidekiq: bundle exec sidekiq -C config/sidekiq.yml
