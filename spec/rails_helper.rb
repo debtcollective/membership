@@ -74,6 +74,9 @@ RSpec.configure do |config|
 
   # FactoryBot
   config.include FactoryBot::Syntax::Methods
+
+  # Sidekiq helpers
+  config.include ActiveJob::TestHelper, type: :job
 end
 
 Shoulda::Matchers.configure do |config|
