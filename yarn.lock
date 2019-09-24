@@ -8556,10 +8556,10 @@ prepend-http@^1.0.0, prepend-http@^1.0.1:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
   integrity sha1-1PRWKwzjaW5BrFLQ4ALlemNdxtw=
 
-prettier-standard@14.0.5:
-  version "14.0.5"
-  resolved "https://registry.yarnpkg.com/prettier-standard/-/prettier-standard-14.0.5.tgz#99e62095de53e500a3b8999a975022c2f6289abd"
-  integrity sha512-dKnQJ9omdybnK958nbmktsNbyznScSw74zU2oG764kQ9v83bXg8ox8zxe4P3OdB8uIQMPrQMIBH5RaLY6DoaQQ==
+prettier-standard@14.0.7:
+  version "14.0.7"
+  resolved "https://registry.yarnpkg.com/prettier-standard/-/prettier-standard-14.0.7.tgz#44a6402c4f9210a341656479158144088f4eeaa6"
+  integrity sha512-7CKIcRDfDl+PsPJcZAvs7kCg2rWgbPK5myQhs/Mi7nxhL1Mv/s81+w3TcZNmTUhM8c5ML6xd97ix2AkeHt85jg==
   dependencies:
     chalk "^2.4.2"
     diff "^4.0.1"
