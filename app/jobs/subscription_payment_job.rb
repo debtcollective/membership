@@ -9,9 +9,12 @@ class SubscriptionPaymentJob < ApplicationJob
   def perform(subscription)
     plan = subscription.plan
 
-    create_charge(subscription)
-    create_donation(subscription, plan.amount)
+    stripe_charge = create_charge(subscription)
+
+    create_donation(subscription, stripe_charge) if stripe_charge
   end
+
+  protected
 
   def displayable_amount(amount)
     return '$0' unless amount
@@ -19,19 +22,36 @@ class SubscriptionPaymentJob < ApplicationJob
     ActionController::Base.helpers.number_to_currency(amount.to_f / 100)
   end
 
+  private
+
   def create_charge(subscription)
-    customer = Stripe::Customer.retrieve(subscription.user.stripe_id)
+    customer = find_stripe_customer(subscription.user)
     plan = subscription.plan
 
-    Stripe::Charge.create(
-      customer: customer,
-      amount: (plan.amount * 100).to_i, # amount in cents
-      description: "Charged #{displayable_amount(plan.amount)} for #{plan.name}",
-      currency: 'usd'
-    )
+    client = Stripe::StripeClient.new
+    charge, resp = client.request do
+      Stripe::Charge.create(
+        customer: customer,
+        amount: (plan.amount * 100).to_i, # amount in cents
+        description: "Charged #{displayable_amount(plan.amount)} for #{plan.name}",
+        currency: 'usd',
+        metadata: { 'plan_id' => plan.id, 'user_id' => subscription.user.id }
+      )
+    end
+    resp
   rescue Stripe::CardError
     # TODO: Add Sentry log error here.
     disable_subscription(subscription)
+  end
+
+  def find_stripe_customer(user)
+    customer = Stripe::Customer.retrieve(user.stripe_id) if user.stripe_id
+
+    unless customer
+      customer = Stripe::Customer.create(email: user.email)
+      user.update(stripe_id: customer.id)
+    end
+    customer
   end
 
   def disable_subscription(subscription)
@@ -43,12 +63,15 @@ class SubscriptionPaymentJob < ApplicationJob
     end
   end
 
-  def create_donation(subscription, amount)
+  def create_donation(subscription, stripe_charge)
     new_charge = Donation.new(
-      amount: amount / 100, # transformed from cents
+      amount: subscription.plan.amount / 100, # transformed from cents
       customer_stripe_id: subscription.user.stripe_id,
-      donation_type: Donation::DONATION_TYPES[:subscription]
+      donation_type: Donation::DONATION_TYPES[:subscription],
+      user_id: subscription.user.id,
+      status: 'pending',
+      user_data: stripe_charge.to_json
     )
-    subscription.update(last_charge: DateTime.now, active: true) if new_charge.save!
+    subscription.update!(last_charge: DateTime.now, active: true) if new_charge.save!
   end
 end
