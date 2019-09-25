@@ -42,6 +42,6 @@ module Fundraising
     end
 
     config.active_job.queue_adapter = :sidekiq
-    Sidekiq.configure_server { |c| c.redis = { url: ENV['REDIS_URL'] } }
+    Sidekiq.configure_server { |c| c.redis = { url: ENV['REDIS_URL'], namespace: "sidekiq_#{Rails.application.class.module_parent_name}_#{Rails.env}".downcase } }
   end
 end
