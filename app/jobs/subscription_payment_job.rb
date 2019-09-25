@@ -38,6 +38,12 @@ class SubscriptionPaymentJob < ApplicationJob
         metadata: { 'plan_id' => plan.id, 'user_id' => subscription.user.id }
       )
     end
+
+    p '/' * 80
+    p resp.request_id
+    p charge
+    p '/' * 80
+
     resp
   rescue Stripe::CardError
     # TODO: Add Sentry log error here.
