@@ -7,7 +7,7 @@ class SubscriptionFirstController < ApplicationController
   # GET /subscription_first/new
   def new
     @subscription = Subscription.new(plan: @current_plan)
-    @user = @subscription.user? ? @subscription.user : @subscription.build_user # TODO: Change for current_user
+    @user = current_user || @subscription.build_user
   end
 
   # GET /subscription_first/1/edit
@@ -19,18 +19,54 @@ class SubscriptionFirstController < ApplicationController
   # POST /subscription_first
   # POST /subscription_first.json
   def create
-    @user = User.create(subscription_params[:user_attributes])
-    @subscription = Subscription.create(plan_id: subscription_params[:plan_attributes][:id], user_id: @user.id)
+    @user = current_user || User.create(subscription_params[:user_attributes])
+    @subscription = Subscription.create(plan_id: subscription_params[:plan_attributes][:id], user_id: @user.id, active: true)
+
+    customer = if @user.stripe_id
+                 Stripe::Customer.retrieve(@user.stripe_id)
+               else
+                 Stripe::Customer.create(
+                   email: @user.email,
+                   source: params[:stripeToken]
+                 )
+               end
+
+    amount = (@subscription.plan.amount * 100).to_i
+
+    Stripe::Charge.create(
+      customer: customer.id,
+      amount: amount, # amount in cents
+      description: "One time donation of #{displayable_amount(amount)}",
+      currency: 'usd'
+    )
+
+    donation = Donation.new(
+      amount: amount / 100, # transformed from cents
+      customer_stripe_id: customer.id,
+      donation_type: Donation::DONATION_TYPES[:subscription],
+      customer_ip: request.remote_ip,
+      user_id: @user.id
+    )
+
+    @user.update(stripe_id: customer.id) if @user.stripe.nil?
 
     respond_to do |format|
-      if @subscription.save
-        format.html { redirect_to new_billing_path(user_id: @user.id) }
+      if donation.save
+        format.html { redirect_to root_path, notice: 'Thank you for subscribing.' }
         format.json { render :show, status: :created, location: @subscription }
       else
         format.html { render :new }
         format.json { render json: @subscription.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  protected
+
+  def displayable_amount(amount)
+    return '$0' unless amount
+
+    ActionController::Base.helpers.number_to_currency(amount.to_f / 100)
   end
 
   private
