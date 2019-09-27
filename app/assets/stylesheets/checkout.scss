@@ -1,0 +1,63 @@
+@import 'base/globals';
+
+#checkout {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background: linear-gradient(90deg, $bg-color-primary 50%, $bg-color-secondary 50%);
+
+  > .content {
+    background: white;
+    display: flex;
+    margin: 0 auto;
+    max-width: 80rem;
+    padding: 2rem 1rem;
+    box-shadow: 0 0.0625rem 0.1875rem 0 rgba(0,0,0,0.2),0 0.0625rem 0.0625rem 0 rgba(0,0,0,0.14),0 2px 0.0625rem -0.0625rem rgba(0,0,0,0.12);
+
+    section {
+      flex: 1;
+      justify-content: center;
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+    }
+  }
+
+  .form-row {
+
+    label {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+#payment-form {
+  width: 100%;
+}
+
+.StripeElement {
+  box-sizing: border-box;
+  height: 2.5rem;
+  padding: 0.625rem 0.75rem;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.25rem;
+  background-color: white;
+  box-shadow: 0 0.0625rem 0.1875rem 0 #e6ebf1;
+  transition: box-shadow 150ms ease;
+  margin-bottom: 1rem;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 0.0625rem 0.1875rem 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}

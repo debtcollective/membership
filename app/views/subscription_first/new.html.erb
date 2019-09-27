@@ -1,50 +1,61 @@
-<%= form_with(model: @subscription, url: {controller: "subscription_first", action: :create }, local: true, id: 'payment-form') do |form| %>
-  <% if @subscription.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
+<div id="checkout">
+  <div class='content'>
+    <section id="checkout-plan">
+      <h1><%= @current_plan.name %></h1>
+      <p><%= @current_plan.description %></p>
+    </section>
 
-      <ul>
-        <% @subscription.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+    <section id='checkout-payment'>
+      <%= form_with(model: @subscription, url: {controller: "subscription_first", action: :create }, local: true, id: 'payment-form') do |form| %>
+        <% if @subscription.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
+
+            <ul>
+              <% @subscription.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
         <% end %>
-      </ul>
-    </div>
-  <% end %>
-  
-  <!-- Used to display form errors from stripe elements. -->
-  <div id="card-errors" role="alert"></div>
+        
+        <!-- Used to display form errors from stripe elements. -->
+        <div id="card-errors" role="alert"></div>
 
-  <% if @user.new_record?  %>
-    <h3>Please create an account</h3>
-    <%= form.fields_for :plan do |plan| %>
+        <% if @user.new_record?  %>
+          <h3>Please create an account</h3>
+          <%= form.fields_for :plan do |plan| %>
 
-    <% end %>
-    <%= form.fields_for :user do |user| %>
-      <div class="field">
-        <%= user.label :name %>
-        <%= user.text_field :name %>
-      </div>
+          <% end %>
+          <%= form.fields_for :user do |user| %>
+            <div class="field">
+              <%= user.label :name %>
+              <%= user.text_field :name %>
+            </div>
 
-      <div class="field">
-        <%= user.label :email %>
-        <%= user.text_field :email %>
-      </div>
-    <% end %>
-  <% end %>
+            <div class="field">
+              <%= user.label :email %>
+              <%= user.text_field :email %>
+            </div>
+          <% end %>
+        <% end %>
 
-  <div class="form-row">
-    <label for="card-element">
-      Credit or debit card
-    </label>
-    <div id="card-element">
-      <!-- A Stripe Element will be inserted here. -->
-    </div>
+        <div class="form-row">
+          <label for="card-element">
+            Credit or debit card
+          </label>
+          <div id="card-element">
+            <!-- A Stripe Element will be inserted here. -->
+          </div>
+        </div>
+
+        <div class="actions">
+          <%= form.submit "Submit Payment", class: 'button primary' %>
+        </div>
+      <% end %>
+    </section>
   </div>
-
-  <div class="actions">
-    <%= form.submit "Continue" %>
-  </div>
-<% end %>
+</div>
 
 <script>
   // Create a Stripe client.
