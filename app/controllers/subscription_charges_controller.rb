@@ -41,7 +41,7 @@ class SubscriptionChargesController < ApplicationController
       user_id: @user.id
     )
 
-    @user.update(stripe_id: customer.id) if @user.stripe.nil?
+    @user.update(stripe_id: customer.id) if @user.stripe_id.nil?
 
     respond_to do |format|
       if donation.save
