@@ -39,11 +39,6 @@ class SubscriptionPaymentJob < ApplicationJob
       )
     end
 
-    p '/' * 80
-    p resp.request_id
-    p charge
-    p '/' * 80
-
     resp
   rescue Stripe::CardError
     # TODO: Add Sentry log error here.
