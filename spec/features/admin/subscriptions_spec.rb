@@ -3,6 +3,12 @@
 require 'rails_helper'
 
 describe 'Admin - Manages user subscriptions', type: :feature, js: true do
+  let!(:admin) { FactoryBot.create(:user, admin: true) }
+
+  before(:each) do
+    allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(admin)
+  end
+
   describe 'home' do
     let!(:subscription_1) { FactoryBot.create(:subscription) }
     let!(:subscription_2) { FactoryBot.create(:subscription) }
