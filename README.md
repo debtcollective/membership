@@ -70,7 +70,7 @@ $ foreman start -f <Procfile>
 4. `Procfile.spec`: Starts webpack to create the static files for tests. _Good to know:_ If you want to start `rails s` separately to debug in pry, then run `Procfile.spec` to generate the assets and run rails s in a separate console.
 
 ### User sessions
-We use cookie based authentication across subdomains instead of creating sessions between apps. This provides a better experience and fixes auth of sync sessions between Discourse and other apps. [Read how to setup a user session](https://github.com/debtcollective/discourse-debtcollective-sso/blob/od/v2/README.md).
+We use cookie based authentication across subdomains instead of creating sessions between apps. This provides a better experience and fixes out of sync sessions between Discourse and other apps. [Read how to setup a user session](https://github.com/debtcollective/discourse-debtcollective-sso/blob/od/v2/README.md).
 
 ## Developer notes
 
