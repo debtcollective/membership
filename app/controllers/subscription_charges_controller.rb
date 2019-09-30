@@ -4,20 +4,20 @@ class SubscriptionFirstController < ApplicationController
   before_action :set_subscription, only: %i[edit update]
   before_action :set_current_plan, only: [:new]
 
-  # GET /subscription_first/new
+  # GET /subscription_charge/new
   def new
     @subscription = Subscription.new(plan: @current_plan)
     @user = current_user || @subscription.build_user
   end
 
-  # GET /subscription_first/1/edit
+  # GET /subscription_charge/1/edit
   def edit
     @subscription = Subscription.find(params[:id])
     @user = @subscription.build_user
   end
 
-  # POST /subscription_first
-  # POST /subscription_first.json
+  # POST /subscription_charge
+  # POST /subscription_charge.json
   def create
     @user = current_user || User.create(subscription_params[:user_attributes])
     @subscription = Subscription.create(plan_id: subscription_params[:plan_attributes][:id], user_id: @user.id, active: true)
