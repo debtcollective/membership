@@ -6,7 +6,7 @@
     </section>
 
     <section id='checkout-payment'>
-      <%= form_with(model: @subscription, url: {controller: "subscription_charge", action: :create }, local: true, id: 'payment-form') do |form| %>
+      <%= form_with(model: @subscription, url: {controller: "subscription_charges", action: :create }, local: true, id: 'payment-form') do |form| %>
         <% if @subscription.errors.any? %>
           <div id="error_explanation">
             <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>

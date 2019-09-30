@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-class SubscriptionFirstController < ApplicationController
+class SubscriptionChargesController < ApplicationController
   before_action :set_subscription, only: %i[edit update]
   before_action :set_current_plan, only: [:new]
 
-  # GET /subscription_charge/new
+  # GET /subscription_charges/new
   def new
     @subscription = Subscription.new(plan: @current_plan)
     @user = current_user || @subscription.build_user
   end
 
-  # GET /subscription_charge/1/edit
+  # GET /subscription_charges/1/edit
   def edit
     @subscription = Subscription.find(params[:id])
     @user = @subscription.build_user
   end
 
-  # POST /subscription_charge
-  # POST /subscription_charge.json
+  # POST /subscription_charges
+  # POST /subscription_charges.json
   def create
     @user = current_user || User.create(subscription_params[:user_attributes])
     @subscription = Subscription.create(plan_id: subscription_params[:plan_attributes][:id], user_id: @user.id, active: true)
