@@ -22,14 +22,7 @@ class SubscriptionFirstController < ApplicationController
     @user = current_user || User.create(subscription_params[:user_attributes])
     @subscription = Subscription.create(plan_id: subscription_params[:plan_attributes][:id], user_id: @user.id, active: true)
 
-    customer = if @user.stripe_id
-                 Stripe::Customer.retrieve(@user.stripe_id)
-               else
-                 Stripe::Customer.create(
-                   email: @user.email,
-                   source: params[:stripeToken]
-                 )
-               end
+    customer = set_stripe_customer(@user, params[:stripeToken])
 
     amount = (@subscription.plan.amount * 100).to_i
 
@@ -83,5 +76,13 @@ class SubscriptionFirstController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def subscription_params
     params.require(:subscription).permit(:user_id, :plan_id, user_attributes: %i[name email], plan_attributes: [:id])
+  end
+
+  def set_stripe_customer(user, stripe_token)
+    if user.stripe_id
+      Stripe::Customer.retrieve(user.stripe_id)
+    else
+      Stripe::Customer.create(email: user.email, source: stripe_token)
+    end
   end
 end
