@@ -56,8 +56,8 @@ class SubscriptionPaymentJob < ApplicationJob
   end
 
   def disable_subscription(subscription)
-    if subscription.last_charge
-      beyond_grace_period = subscription.last_charge >= (SUBSCRIPTION_PERIOD.ago + GRACE_PERIOD.ago)
+    if subscription.last_charge_at
+      beyond_grace_period = subscription.last_charge_at >= (SUBSCRIPTION_PERIOD.ago + GRACE_PERIOD.ago)
       subscription.update(active: false) if beyond_grace_period
     else
       subscription.update(active: false)
@@ -73,6 +73,6 @@ class SubscriptionPaymentJob < ApplicationJob
       status: 'pending',
       user_data: stripe_charge.to_json
     )
-    subscription.update!(last_charge: DateTime.now, active: true) if new_charge.save!
+    subscription.update!(last_charge_at: DateTime.now, active: true) if new_charge.save!
   end
 end

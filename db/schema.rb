@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_24_155434) do
+ActiveRecord::Schema.define(version: 2019_09_30_093321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2019_09_24_155434) do
     t.uuid "donation_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.uuid "user_id"
     t.index ["donation_id"], name: "index_subscription_donations_on_donation_id"
     t.index ["subscription_id", "donation_id"], name: "index_subscription_donations_on_subscription_id_and_donation_id", unique: true
     t.index ["subscription_id"], name: "index_subscription_donations_on_subscription_id"
@@ -98,7 +99,7 @@ ActiveRecord::Schema.define(version: 2019_09_24_155434) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "start_date"
-    t.datetime "last_charge"
+    t.datetime "last_charge_at"
     t.index ["plan_id"], name: "index_subscriptions_on_plan_id"
     t.index ["user_id", "plan_id", "active"], name: "index_subscriptions_on_user_id_and_plan_id_and_active", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"

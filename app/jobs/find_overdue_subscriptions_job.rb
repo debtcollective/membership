@@ -5,9 +5,9 @@ class FindOverdueSubscriptionsJob < ApplicationJob
 
   def perform
     subscriptions_to_charge = active_subscriptions.select do |subscription|
-      # create charge if there's no last_charge date, meaning it would be the
+      # create charge if there's no last_charge_at date, meaning it would be the
       # first time we attempt to charge this customer this subscription.
-      subscription.last_charge ? subscription.last_charge <= 30.days.ago : true
+      subscription.last_charge_at ? subscription.last_charge_at <= 30.days.ago : true
     end
 
     subscriptions_to_charge.each do |subscription_to_charge|

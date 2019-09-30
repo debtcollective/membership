@@ -34,7 +34,7 @@ RSpec.describe SubscriptionPaymentJob, type: :job do
     perform_enqueued_jobs { job }
 
     expect(Donation.count).to eq(3)
-    expect(subscription.reload.last_charge.to_i).to be_within(100).of(DateTime.now.to_i)
+    expect(subscription.reload.last_charge_at.to_i).to be_within(100).of(DateTime.now.to_i)
   end
 
   after do

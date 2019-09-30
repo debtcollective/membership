@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe FindOverdueSubscriptionsJob, type: :job do
-  let!(:recently_paid_active_subscription) { FactoryBot.create(:subscription, last_charge: 2.weeks.ago) }
+  let!(:recently_paid_active_subscription) { FactoryBot.create(:subscription, last_charge_at: 2.weeks.ago) }
   let!(:inactive_subscription) { FactoryBot.create(:subscription, active: false) }
-  let!(:active_subscription_one) { FactoryBot.create(:subscription, last_charge: 32.days.ago) }
+  let!(:active_subscription_one) { FactoryBot.create(:subscription, last_charge_at: 32.days.ago) }
   let!(:active_subscription_two) { FactoryBot.create(:subscription) }
 
   subject(:job) { described_class.perform_later }
