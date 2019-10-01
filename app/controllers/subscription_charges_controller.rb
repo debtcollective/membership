@@ -34,6 +34,7 @@ class SubscriptionChargesController < ApplicationController
     )
 
     if charge
+      @subscription.last_charge_at = DateTime.now
       @subscription.save
 
       Donation.create(
