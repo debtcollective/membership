@@ -20,34 +20,38 @@ class SubscriptionChargesController < ApplicationController
   # POST /subscription_charges.json
   def create
     @user = current_user || User.create(subscription_params[:user_attributes])
-    @subscription = Subscription.create(plan_id: subscription_params[:plan_attributes][:id], user_id: @user.id, active: true)
+    @subscription = Subscription.new(plan_id: subscription_params[:plan_attributes][:id], user_id: @user.id, active: true)
 
     customer = set_stripe_customer(@user, params[:stripeToken])
 
     amount = (@subscription.plan.amount * 100).to_i
 
-    Stripe::Charge.create(
+    charge = Stripe::Charge.create(
       customer: customer.id,
       amount: amount, # amount in cents
       description: "One time donation of #{displayable_amount(amount)}",
       currency: 'usd'
     )
 
-    donation = Donation.new(
-      amount: amount / 100, # transformed from cents
-      customer_stripe_id: customer.id,
-      donation_type: Donation::DONATION_TYPES[:subscription],
-      customer_ip: request.remote_ip,
-      user_id: @user.id
-    )
+    if charge
+      @subscription.save
 
-    @user.update(stripe_id: customer.id) if @user.stripe_id.nil?
+      Donation.create(
+        amount: amount / 100, # transformed from cents
+        customer_stripe_id: customer.id,
+        donation_type: Donation::DONATION_TYPES[:subscription],
+        customer_ip: request.remote_ip,
+        user_id: @user.id
+      )
 
-    respond_to do |format|
-      if donation.save
+      @user.update(stripe_id: customer.id) if @user.stripe_id.nil?
+
+      respond_to do |format|
         format.html { redirect_to user_path(@user), notice: 'Thank you for subscribing.' }
         format.json { render :show, status: :created, location: @subscription }
-      else
+      end
+    else
+      respond_to do |format|
         format.html { render :new }
         format.json { render json: @subscription.errors, status: :unprocessable_entity }
       end
