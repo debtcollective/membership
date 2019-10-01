@@ -45,7 +45,7 @@ class SubscriptionChargesController < ApplicationController
 
     respond_to do |format|
       if donation.save
-        format.html { redirect_to root_path, notice: 'Thank you for subscribing.' }
+        format.html { redirect_to user_path(@user), notice: 'Thank you for subscribing.' }
         format.json { render :show, status: :created, location: @subscription }
       else
         format.html { render :new }
