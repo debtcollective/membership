@@ -30,10 +30,6 @@ class CurrentUser < Delegator
     !!@payload['moderator']
   end
 
-  def admin?
-    !!@payload['admin']
-  end
-
   def active?
     !!@payload['active']
   end
