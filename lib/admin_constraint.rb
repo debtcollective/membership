@@ -8,9 +8,8 @@ class AdminConstraint
   end
 
   def matches?(request)
-    return false if @require_master && RailsMultisite::ConnectionManagement.current_db != 'default'
-
     provider = Fundraising.session_provider.new(request.env)
+
     provider.current_user&.admin? &&
       custom_admin_check(request)
   rescue Fundraising::InvalidAccess, Fundraising::ReadOnly
