@@ -8,11 +8,10 @@ class AdminConstraint
   end
 
   def matches?(request)
-    provider = Fundraising.session_provider.new(request.env)
+    current_user = SessionProvider.new(request.cookies).current_user
 
-    provider.current_user&.admin? &&
-      custom_admin_check(request)
-  rescue Fundraising::InvalidAccess, Fundraising::ReadOnly
+    current_user&.admin?
+  rescue StandardError
     false
   end
 end
