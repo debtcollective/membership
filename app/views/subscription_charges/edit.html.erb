@@ -1,4 +1,4 @@
-<%= form_with(model: @subscription, url: {controller: "subscription_first", action: :create }, local: true) do |form| %>
+<%= form_with(model: @subscription, url: {controller: "subscription_charges", action: :update }, local: true) do |form| %>
   <% if @subscription.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
@@ -13,15 +13,11 @@
 
   <% if @user.new_record?  %>
     <h3>Please create an account</h3>
-    <%= form.fields_for :plan do |plan| %>
-
-    <% end %>
     <%= form.fields_for :user do |user| %>
       <div class="field">
         <%= user.label :name %>
         <%= user.text_field :name %>
       </div>
-
       <div class="field">
         <%= user.label :email %>
         <%= user.text_field :email %>

@@ -1,0 +1,136 @@
+<div id="checkout">
+  <div class='content'>
+    <section id="checkout-plan">
+      <h1><%= @current_plan.name %></h1>
+      <p><%= @current_plan.description %></p>
+    </section>
+
+    <section id='checkout-payment'>
+      <%= form_with(model: @subscription, url: {controller: "subscription_charges", action: :create }, local: true, id: 'payment-form') do |form| %>
+        <% if @subscription.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
+
+            <ul>
+              <% @subscription.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        
+        <!-- Used to display form errors from stripe elements. -->
+        <div id="card-errors" role="alert"></div>
+
+        <% if @user.new_record?  %>
+          <h3>Please create an account</h3>
+          <%= form.fields_for :plan do |plan| %>
+
+          <% end %>
+          <%= form.fields_for :user do |user| %>
+            <div class="field">
+              <%= user.label :name %>
+              <%= user.text_field :name %>
+            </div>
+
+            <div class="field">
+              <%= user.label :email %>
+              <%= user.text_field :email %>
+            </div>
+          <% end %>
+        <% end %>
+
+        <div class="form-row">
+          <label for="card-element">
+            Credit or debit card
+          </label>
+          <div id="card-element">
+            <!-- A Stripe Element will be inserted here. -->
+          </div>
+        </div>
+
+        <div class="actions">
+          <%= form.submit "Submit Payment", class: 'button primary' %>
+        </div>
+      <% end %>
+    </section>
+  </div>
+</div>
+
+<script>
+  // Create a Stripe client.
+  const stripe = Stripe('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
+
+  // Create an instance of Elements.
+  const elements = stripe.elements();
+
+  // Custom styling can be passed to options when creating an Element.
+  const style = {
+    base: {
+      color: '#32325d',
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: 'antialiased',
+      fontSize: '16px',
+      '::placeholder': {
+        color: '#aab7c4'
+      }
+    },
+    invalid: {
+      color: '#fa755a',
+      iconColor: '#fa755a'
+    }
+  };
+
+  // Create an instance of the card Element.
+  const card = elements.create('card', {style: style});
+
+  // Add an instance of the card Element into the `card-element` <div>.
+  card.mount('#card-element');
+
+  // Handle real-time validation errors from the card Element.
+  card.addEventListener('change', function(event) {
+    const displayError = document.getElementById('card-errors');
+    if (event.error) {
+      displayError.textContent = event.error.message;
+    } else {
+      displayError.textContent = '';
+    }
+  });
+
+  // Handle form submission.
+  const form = document.getElementById('payment-form');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    stripe.createToken(card).then(function(result) {
+      if (result.error) {
+        // Inform the user if there was an error.
+        const errorElement = document.getElementById('card-errors');
+        errorElement.textContent = result.error.message;
+      } else {
+        // Send the token to your server.
+        stripeTokenHandler(result.token);
+      }
+    });
+  });
+
+  // Submit the form with the token ID.
+  function stripeTokenHandler(token) {
+    // Insert the token ID into the form so it gets submitted to the server
+    const form = document.getElementById('payment-form');
+    const stripeHiddenInput = document.createElement('input');
+    stripeHiddenInput.setAttribute('type', 'hidden');
+    stripeHiddenInput.setAttribute('name', 'stripeToken');
+    stripeHiddenInput.setAttribute('value', token.id);
+    form.appendChild(stripeHiddenInput);
+
+    const planHiddenInput = document.createElement('input');
+    planHiddenInput.setAttribute('type', 'hidden');
+    planHiddenInput.setAttribute('name', 'subscription[plan_attributes][id]');
+    planHiddenInput.setAttribute('value', '<%= @subscription&.plan&.id %>');
+    form.appendChild(planHiddenInput);
+
+    // Submit the form
+    form.submit();
+  }
+</script>

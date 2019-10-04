@@ -16,6 +16,7 @@ require 'action_view/railtie'
 require 'action_cable/engine'
 require 'sprockets/railtie'
 require 'dotenv/load'
+require 'sidekiq'
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -32,6 +33,8 @@ module Fundraising
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    config.eager_load_paths << Rails.root.join('lib')
+
     # Don't generate system test files.
     config.generators.system_tests = nil
 
@@ -39,5 +42,8 @@ module Fundraising
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
     end
+
+    config.active_job.queue_adapter = :sidekiq
+    Sidekiq.configure_server { |c| c.redis = { url: ENV['REDIS_URL'], namespace: "sidekiq_#{Rails.application.class.module_parent_name}_#{Rails.env}".downcase } }
   end
 end

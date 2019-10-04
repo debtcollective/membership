@@ -4,9 +4,13 @@ require 'rails_helper'
 
 describe 'User - manages their profile', type: :feature, js: true do
   describe 'home' do
-    let(:user) { FactoryBot.create(:user) }
+    let!(:user) { FactoryBot.create(:user) }
     let!(:subscription) { FactoryBot.create(:subscription, user_id: user.id) }
     let!(:one_time_donations) { FactoryBot.create_list(:donation, 5, user_id: user.id, donation_type: Donation::DONATION_TYPES[:one_off]) }
+
+    before(:each) do
+      allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
+    end
 
     it 'can view their subscription and donation history' do
       5.times do

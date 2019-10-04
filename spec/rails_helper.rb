@@ -74,6 +74,13 @@ RSpec.configure do |config|
 
   # FactoryBot
   config.include FactoryBot::Syntax::Methods
+
+  # Sidekiq helpers
+  config.include ActiveJob::TestHelper, type: :job
+
+  config.before(:each, js: true) do
+    Capybara.page.current_window.resize_to(1440, 990)
+  end
 end
 
 Shoulda::Matchers.configure do |config|

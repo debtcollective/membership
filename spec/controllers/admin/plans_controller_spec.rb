@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Admin::PlansController, type: :controller do
+  let!(:admin) { FactoryBot.create(:user, admin: true) }
   let(:valid_attributes) do
     FactoryBot.attributes_for(:plan)
   end
@@ -12,6 +13,10 @@ RSpec.describe Admin::PlansController, type: :controller do
   end
 
   let(:valid_session) { {} }
+
+  before(:each) do
+    allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(admin)
+  end
 
   describe 'GET #index' do
     it 'returns a success response' do

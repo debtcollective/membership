@@ -27,6 +27,10 @@ class User < ApplicationRecord
     [user, new_record]
   end
 
+  def admin?
+    !!admin
+  end
+
   def current_streak
     return 'Currently, you don\'t own an active subscribption' unless subscription
 

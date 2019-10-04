@@ -29,7 +29,7 @@ export default function UsersTable ({ users }) {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell>Email</TableCell>
-            <TableCell>Role</TableCell>
+            <TableCell>Stripe ID</TableCell>
             <TableCell>Discourse</TableCell>
             <TableCell />
           </TableRow>
@@ -39,8 +39,8 @@ export default function UsersTable ({ users }) {
             <TableRow key={user.id}>
               <TableCell scope='user'>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
-              <TableCell>{user.user_role}</TableCell>
-              <TableCell>{user.discourse_id}</TableCell>
+              <TableCell>{user.stripe_id ? user.stripe_id : 'N/A'}</TableCell>
+              <TableCell>{user.external_id}</TableCell>
               <TableCell align='right'>
                 <a href={`/admin/users/${user.id}`}>Show</a>{' '}
                 <a href={`/admin/users/${user.id}/edit`}>Edit</a>{' '}

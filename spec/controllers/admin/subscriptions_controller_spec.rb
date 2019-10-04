@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Admin::SubscriptionsController, type: :controller do
+  let!(:admin) { FactoryBot.create(:user, admin: true) }
   let(:user) { FactoryBot.create(:user) }
   let(:plan) { FactoryBot.create(:plan) }
   let(:valid_attributes) do
@@ -14,6 +15,10 @@ RSpec.describe Admin::SubscriptionsController, type: :controller do
   end
 
   let(:valid_session) { {} }
+
+  before(:each) do
+    allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(admin)
+  end
 
   describe 'GET #index' do
     it 'returns a success response' do

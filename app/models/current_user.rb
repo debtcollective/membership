@@ -26,6 +26,10 @@ class CurrentUser < Delegator
     @payload['profile_background_url']
   end
 
+  def admin?
+    !!@user.admin
+  end
+
   def moderator?
     !!@payload['moderator']
   end

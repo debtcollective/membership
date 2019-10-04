@@ -16,8 +16,12 @@
       <li><a href="#" rel="follow">More</a></li>
     </ul>
     <ul>
-      <li><a href="<%= login_path %>" class="button secondary" rel="nofollow">Log In</a></li>
-      <li><a href="<%= signup_path %>" class="button primary" rel="nofollow">Sign Up</a></li>
+      <% if @current_user %>
+        <li><a href="<%= user_path(@current_user) %>" class="button primary" rel="nofollow">My Profile</a></li>
+      <% else %>
+        <li><a href="<%= login_path %>" class="button secondary" rel="nofollow">Log In</a></li>
+        <li><a href="<%= signup_path %>" class="button primary" rel="nofollow">Sign Up</a></li>
+      <% end %>
     </ul>
   </nav>
 </header>
@@ -35,7 +39,7 @@
           </h3>
           <h4><%= plan.headline %></h4>
           <%= plan.description %>
-          <p><%= link_to 'Subscribe', new_subscription_first_path(plan_id: plan) %></p>
+          <p><%= link_to 'Subscribe', new_subscription_charge_path(plan_id: plan) %></p>
         </div>
       <% end %>
       <div class="subscription--plan" id="one-time-donation">
