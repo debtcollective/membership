@@ -6,6 +6,64 @@ class ChargesController < ApplicationController
   def new; end
 
   def create
+    donation = current_user ? save_donation_from(current_user, params) : charge_donation_of_anonymous_user(params)
+    notice = "Thank you for donating #{displayable_amount(@amount)}."
+
+    if current_user
+      redirect_to user_path(current_user), notice: notice
+    else
+      redirect_to root_path, notice: notice
+    end
+  end
+
+  protected
+
+  def displayable_amount(amount)
+    return '$0' unless amount
+
+    ActionController::Base.helpers.number_to_currency(amount.to_f / 100)
+  end
+
+  private
+
+  def save_donation_from(user, params)
+    if user.stripe_id.nil?
+      customer = Stripe::Customer.create("email": @user.email)
+      # here we are creating a stripe customer with the help of the Stripe
+      # library and pass as parameter email.
+      user.update(stripe_id: customer.id)
+      # we are updating @user and giving to it stripe_id which is equal to
+      # id of customer on Stripe
+    end
+
+    card_token = params[:stripeToken]
+    # it's the stripeToken that we added in the hidden input
+    format.html { redirect_to billing_path, error: 'Oops' } if card_token.nil?
+    # checking if a card was given.
+
+    charge = Stripe::Charge.create(
+      customer: user.stripe_id,
+      amount: @amount,
+      description: "One time donation of #{displayable_amount(@amount)}",
+      currency: 'usd'
+    )
+
+    if charge
+      donation = Donation.new(
+        amount: @amount / 100, # transformed from cents
+        customer_stripe_id: user.stripe_id,
+        donation_type: Donation::DONATION_TYPES[:one_off],
+        customer_ip: request.remote_ip,
+        user_id: current_user.id
+      )
+
+      return donation.save
+    end
+
+    false
+  end
+
+  def charge_donation_of_anonymous_user(params)
     customer = Stripe::Customer.create(
       email: params[:stripeEmail],
       source: params[:stripeToken]
@@ -18,39 +76,21 @@ class ChargesController < ApplicationController
       currency: 'usd'
     )
 
-    donation = Donation.new(
-      amount: @amount / 100, # transformed from cents
-      customer_stripe_id: customer.id,
-      donation_type: Donation::DONATION_TYPES[:one_off],
-      customer_ip: request.remote_ip
-    )
+    if charge
+      donation = Donation.new(
+        amount: @amount / 100, # transformed from cents
+        customer_stripe_id: customer.id,
+        donation_type: Donation::DONATION_TYPES[:one_off],
+        customer_ip: request.remote_ip
+      )
 
-    donation.user_id = @user.id if @user
-
-    if donation.save!
-      notice = "Thank you for donating #{displayable_amount(@amount)}."
-      if current_user
-        redirect_to user_path(current_user), notice: notice
-      else
-        redirect_to root_path, notice: notice
-      end
-    else
-      redirect_to new_charge_path
+      return donation.save
     end
+    false
   rescue Stripe::CardError => e
     flash[:error] = e.message
     redirect_to new_charge_path
   end
-
-  protected
-
-  def displayable_amount(amount)
-    return '$0' unless amount
-
-    ActionController::Base.helpers.number_to_currency(amount.to_f / 100)
-  end
-
-  private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_amount
