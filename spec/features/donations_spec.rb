@@ -10,9 +10,9 @@ describe 'Donations', type: :feature do
 
       click_link 'Make a donation today'
 
-      expect(page).to have_content('Donate today')
+      expect(page).to have_content('Pay what you can. Every dollar counts.')
 
-      within '#one-time-donation' do
+      within '.one-time-donation' do
         fill_in 'donation-amount', with: 25
         # TODO: add stripe elements expectations
         # click_button 'Pay with Card'

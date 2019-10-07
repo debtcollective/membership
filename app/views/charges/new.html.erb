@@ -1,36 +1,42 @@
-<h1>Donate today</h1>
-
-<div id="one-time-donation">
-  <%= form_with(model: Donation, url: charges_path) do |form| %>
-    <div>
-      <% if flash[:error].present? %>
-        <div id="error_explanation">
-          <p><%= flash[:error] %></p>
+<div id="checkout" class="one-time-donation">
+  <div class="content">
+    <section id="checkout-plan">
+      <h4>Pay what you can. Every dollar counts.</h4>
+      <p>“To each according to their ability, to each according to their need.” Contributing what you can, where you can is what we’re all about.</p>
+      <p>Folks who donate $100 on a one-time basis will receive a free gift from our store. People who pay dues at the rate of $100 per month or more will receive a thank you call from us.</p>
+    </section>
+    <section id='checkout-payment'>
+    <%= form_with(model: Donation, url: charges_path) do |form| %>
+      <div>
+        <% if flash[:error].present? %>
+          <div id="error_explanation">
+            <p><%= flash[:error] %></p>
+          </div>
+        <% end %>
+        <div class="field">
+          <%= form.label :amount %>
+          <%= form.number_field :amount, step: 'any', min: 1, id: 'donation-amount', placeholder: '$1' %>
         </div>
-      <% end %>
-      <div class="field">
-        <%= form.label :amount %>
-        <%= form.number_field :amount, step: 'any', min: 1, id: 'donation-amount', value: 1 %>
       </div>
-    </div>
 
-    <script>
-      const amountInput = document.getElementById('donation-amount');
+      <script>
+        const amountInput = document.getElementById('donation-amount');
 
-      function setStripeCheckoutAmount(e) {
-        const amount = amountInput.value
-        const tag = document.getElementsByClassName('stripe-button')[0];
-        console.log(tag, amount)
-        tag.dataset.amount = amount * 100; // amount in cents
-      }
+        function setStripeCheckoutAmount(e) {
+          const amount = amountInput.value
+          const tag = document.getElementsByClassName('stripe-button')[0];
+          tag.dataset.amount = amount * 100; // amount in cents
+        }
 
-      amountInput.addEventListener('input', setStripeCheckoutAmount)
-    </script>
+        amountInput.addEventListener('input', setStripeCheckoutAmount)
+      </script>
 
-    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-            data-key="<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>"
-            data-description="One time donation"
-            data-amount="100"
-            data-locale="auto"></script>
-  <% end %>
+      <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+              data-key="<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>"
+              data-description="One time donation"
+              data-amount="100"
+              data-locale="auto"></script>
+    <% end %>
+    </section>
+  </div>
 </div>
