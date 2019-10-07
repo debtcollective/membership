@@ -29,8 +29,11 @@ class ChargesController < ApplicationController
 
     if donation.save!
       notice = "Thank you for donating #{displayable_amount(@amount)}."
-      redirect_to user_path(current_user), notice: notice if current_user
-      redirect_to root_path, notice: notice
+      if current_user
+        redirect_to user_path(current_user), notice: notice
+      else
+        redirect_to root_path, notice: notice
+      end
     else
       redirect_to new_charge_path
     end
