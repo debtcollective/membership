@@ -6,3 +6,6 @@ build:
 
 push:
 	docker push debtcollective/fundraising:$(tag)
+
+pull:
+	docker push debtcollective/fundraising:$(tag)

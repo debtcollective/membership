@@ -78,6 +78,11 @@ jobs:
           docker_layer_caching: true
 
       - run:
+          name: pull latest image
+          command: |
+            make pull
+
+      - run:
           name: build image
           command: |
             export IMAGE_TAG=$(echo $CIRCLE_SHA1 | cut -c -7)
@@ -211,10 +216,11 @@ jobs:
           name: install dependencies
           command: |
             bundle install --path vendor/bundle
+
       - run:
           name: Migrate database
           command: |
-            ruby scripts/ecs_db_migrate.rb
+            bundle exec ruby scripts/ecs_db_migrate.rb
 
       - run:
           name: Deploy task with new version
