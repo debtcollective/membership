@@ -192,7 +192,12 @@ jobs:
       - aws-cli/configure
 
       - run:
-          name: Deploy new task in ECS
+          name: Migrate database
+          command: |
+            ruby scripts/ecs_db_migrate.rb
+
+      - run:
+          name: Deploy task with new version
           command: |
             aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
 
