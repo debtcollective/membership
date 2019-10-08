@@ -231,30 +231,7 @@ workflows:
   version: 2
   pipeline:
     jobs:
-      - test
-      - build:
-          requires:
-            - test
-          filters:
-            branches:
-              only: master
-      - release:
-          requires:
-            - test
-            - build
-          filters:
-            branches:
-              only: master
-      - publish_latest:
-          requires:
-            - test
-            - build
-          filters:
-            branches:
-              only: master
       - deploy_stage:
-          requires:
-            - publish_latest
           filters:
             branches:
               only: master
