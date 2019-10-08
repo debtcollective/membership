@@ -182,7 +182,9 @@ jobs:
             docker push debtcollective/fundraising:$CIRCLE_TAG
 
   deploy_stage:
-    executor: docker-publisher
+    working_directory: ~/fundraising
+    docker:
+      - image: circleci/ruby:2.6.4-node
     environment:
       ECS_CLUSTER: fundraising-stage
       ECS_SERVICE: fundraising
