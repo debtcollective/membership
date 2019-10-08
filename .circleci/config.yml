@@ -95,7 +95,7 @@ jobs:
   release:
     working_directory: ~/fundraising
     docker:
-      - image: circleci/ruby:2.6.4-node
+      - image: circleci/ruby:2.6.4-node-browsers
     steps:
       - checkout
 
@@ -184,7 +184,7 @@ jobs:
   deploy_stage:
     working_directory: ~/fundraising
     docker:
-      - image: circleci/ruby:2.6.4-node
+      - image: circleci/ruby:2.6.4-node-browsers
     environment:
       ECS_CLUSTER: fundraising-stage
       ECS_SERVICE: fundraising
@@ -193,6 +193,24 @@ jobs:
       - aws-cli/install
       - aws-cli/configure
 
+      # restore cache
+      - restore_cache:
+          keys:
+            - fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - fundraising-{{ checksum "Gemfile.lock" }}
+            - fundraising-
+
+      - run:
+          name: configure bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --path vendor/bundle
       - run:
           name: Migrate database
           command: |

@@ -20,7 +20,7 @@ WORKDIR $APP_HOME
 ADD Gemfile* $APP_HOME/
 RUN export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ") && \
   gem install bundler
-RUN bundle install --path=vendor/cache
+RUN bundle install --path=vendor/bundle
 
 # install forego
 RUN curl -O https://bin.equinox.io/c/ekMN3bCZFUn/forego-stable-linux-amd64.deb
