@@ -8,4 +8,4 @@ push:
 	docker push debtcollective/fundraising:$(tag)
 
 pull:
-	docker push debtcollective/fundraising:$(tag)
+	docker pull debtcollective/fundraising:$(tag)
