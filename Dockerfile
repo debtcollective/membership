@@ -16,11 +16,15 @@ ENV APP_HOME /myapp
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
+# install gems
 ADD Gemfile* $APP_HOME/
 RUN export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ") && \
-  gem install bundler foreman
-
+  gem install bundler
 RUN bundle install --path=vendor/cache
+
+# install forego
+RUN curl -O https://bin.equinox.io/c/ekMN3bCZFUn/forego-stable-linux-amd64.deb
+RUN apt install ./forego-stable-linux-amd64.deb
 
 ADD . $APP_HOME
 
@@ -30,4 +34,4 @@ RUN bundle exec rails assets:precompile
 ENV PORT=5000
 EXPOSE 5000
 
-CMD ["foreman", "start"]
+CMD ["forego", "start"]
