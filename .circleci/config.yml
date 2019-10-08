@@ -208,9 +208,6 @@ workflows:
   pipeline:
     jobs:
       - test
-      - build:
-          requires:
-            - test
       - release:
           requires:
             - test
