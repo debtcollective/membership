@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/ianheggie/health_check.git
+  revision: 0b799ead604f900ed50685e9b2d469cd2befba5b
+  ref: 0b799ea
+  specs:
+    health_check (4.0.0.pre)
+      rails (>= 4.0)
+
+GIT
   remote: https://github.com/rspec/rspec-core
   revision: 4ab682260afe252b90c4330bb7f91430f68f68c4
   specs:
@@ -344,6 +352,7 @@ DEPENDENCIES
   factory_bot_rails (~> 5.0, >= 5.0.2)
   faker (~> 2.1, >= 2.1.2)
   ffi (~> 1.9, >= 1.9.25)
+  health_check!
   jbuilder (~> 2.7)
   jwt (~> 2.2.1)
   listen (>= 3.0.5, < 3.3)

@@ -18,7 +18,8 @@ end
 overrides = {
   containerOverrides: [{
     name: container,
-    command: ['bundle', 'exec', 'rake', 'db:migrate']
+    memoryReservation: 256,
+    command: ['bundle', 'exec', 'rails', 'db:migrate']
   }]
 }
 
