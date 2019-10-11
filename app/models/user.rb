@@ -3,7 +3,7 @@
 class User < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
-  SSO_ATTRIBUTES = %w[admin banned username email avatar_url custom_fields].freeze
+  SSO_ATTRIBUTES = %w[admin avatar_url banned custom_fields email name username].freeze
 
   has_one :subscription
   has_many :cards
