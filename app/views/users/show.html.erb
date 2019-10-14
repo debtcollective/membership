@@ -3,4 +3,5 @@
 
   <%= react_component("UserShow", props: {user: @user, streak: @user.current_streak, subscription: @user.subscription}) %>
   <%= react_component("DonationsHistory", props: {activePlan: @user.subscription&.plan, donations: @user.donations}) %>
+  <%= react_component("SubscriptionCancel", props: {user: @user, subscription: @user.subscription}) %>
 </section>

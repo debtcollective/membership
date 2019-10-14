@@ -16,24 +16,25 @@ function UserShowView ({ user, subscription, streak }) {
   const classes = useStyles()
 
   return (
-    <Paper className={classes.root}>
-      <h3>Contact Data</h3>
-      <p>
-        <strong>Name:</strong>
-      </p>
-      <p>{user.name}</p>
-
-      <p>
-        <strong>Email:</strong>
-      </p>
-      <p>{user.email}</p>
-
-      {subscription && streak && (
+    <>
+      {subscription && subscription.active && streak && (
         <p className='notice--subscription'>
           You have been subscribed for {streak}
         </p>
       )}
-    </Paper>
+      <Paper className={classes.root}>
+        <h3>Contact Data</h3>
+        <p>
+          <strong>Name:</strong>
+        </p>
+        <p>{user.name}</p>
+
+        <p>
+          <strong>Email:</strong>
+        </p>
+        <p>{user.email}</p>
+      </Paper>
+    </>
   )
 }
 
