@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2019_09_30_093321) do
     t.uuid "donation_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.uuid "user_id"
     t.index ["donation_id"], name: "index_subscription_donations_on_donation_id"
     t.index ["subscription_id", "donation_id"], name: "index_subscription_donations_on_subscription_id_and_donation_id", unique: true
     t.index ["subscription_id"], name: "index_subscription_donations_on_subscription_id"
