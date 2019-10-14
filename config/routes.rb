@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :users, only: %i[show new edit update create destroy] do
     resource :streak, only: %i[show]
     resources :cards, only: %i[index destroy]
+    resource :subscription, only: %i[destroy]
   end
 
   get '/login' => 'sessions#login'
