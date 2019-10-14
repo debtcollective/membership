@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   SSO_ATTRIBUTES = %w[admin avatar_url banned custom_fields email name username].freeze
 
-  has_one :subscription
+  has_one :subscription, -> { where active: true }
   has_many :cards
   has_many :donations
 
