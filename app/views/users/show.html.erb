@@ -1,7 +1,7 @@
 <section class="section-content">
   <p id="notice"><%= notice %></p>
 
-  <%= react_component("UserShow", props: {user: @user, streak: @user.current_streak, subscription: @user.subscription}) %>
-  <%= react_component("DonationsHistory", props: {activePlan: @user.subscription&.plan, donations: @user.donations}) %>
-  <%= react_component("SubscriptionCancel", props: {user: @user, subscription: @user.subscription}) %>
+  <%= react_component("UserShow", props: {user: @user, streak: @user.current_streak, subscription: @user.active_subscription}) %>
+  <%= react_component("DonationsHistory", props: {activePlan: @user.active_subscription&.plan, donations: @user.donations}) %>
+  <%= react_component("SubscriptionCancel", props: {user: @user, subscription: @user.active_subscription}) %>
 </section>

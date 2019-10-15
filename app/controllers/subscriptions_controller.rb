@@ -8,7 +8,7 @@ class SubscriptionsController < ApplicationController
   def destroy
     head :not_authorized unless current_user == @user
 
-    subscription = @user.subscription
+    subscription = @user.active_subscription
 
     subscription.active = false
     if subscription.save
