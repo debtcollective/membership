@@ -40,6 +40,6 @@ class User < ApplicationRecord
   end
 
   def active_subscription
-    subscriptions.active
+    subscriptions.active unless subscriptions.active.blank?
   end
 end
