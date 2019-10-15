@@ -10,6 +10,7 @@ const SUBSCRIPTION_CANCEL_URL = userID => `/users/${userID}/subscription`
 
 function SubscriptionCancelView ({ user, subscription }) {
   const [open, setOpen] = useState(false)
+  const [active, toggleActive] = useState(subscription.active)
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -20,9 +21,14 @@ function SubscriptionCancelView ({ user, subscription }) {
   }
 
   const handleSubscriptionCancellation = async () => {
-    await fetch(SUBSCRIPTION_CANCEL_URL(user.id), {
-      method: 'delete'
-    })
+    const isSubscriptionCancelled = await fetch(
+      SUBSCRIPTION_CANCEL_URL(user.id),
+      {
+        method: 'delete'
+      }
+    )
+
+    toggleActive(!subscription.active)
 
     handleClose()
   }
@@ -36,6 +42,7 @@ function SubscriptionCancelView ({ user, subscription }) {
       <Button color='secondary' onClick={handleClickOpen}>
         Cancel Subscription
       </Button>
+      {!active && 'No active subscription'}
       <Dialog
         open={open}
         onClose={handleClose}

@@ -43,7 +43,7 @@ describe 'User - manages their profile', type: :feature, js: true do
         click_button 'Cancel Subscription'
       end
 
-      sleep 2
+      expect(page).to have_content('No active subscription')
       subscription.reload
       expect(subscription.active).to eq(false)
     end
