@@ -27,17 +27,28 @@ const DONATION_TYPES = {
   SUBSCRIPTION: 'Monthly Subscription'
 }
 
+const calcDonationTotal = donations => {
+  return donations.reduce((acc, donation) => (acc += donation), 0)
+}
+
 function DonationsView ({ activePlan, donations }) {
   const classes = useStyles()
+  const donatedAmount = calcDonationTotal(
+    donations.map(donation => Number(donation.amount))
+  )
 
   return (
     <Paper className={classes.root}>
       <h3>Your Donations History</h3>
       {activePlan && (
         <p>
-          Your're <strong>currently subscribed to {activePlan.name}</strong>.
+          You're <strong>currently subscribed to {activePlan.name}</strong>.
         </p>
       )}
+      <p>
+        You have donated:{' '}
+        <strong>{numeral(donatedAmount).format('$0,0.00')}</strong>
+      </p>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
