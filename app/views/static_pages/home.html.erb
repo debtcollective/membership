@@ -39,7 +39,11 @@
           </h3>
           <h4><%= plan.headline %></h4>
           <%= plan.description %>
-          <p><%= link_to 'Subscribe', @current_user ? new_subscription_charge_path(plan_id: plan) : login_path  %></p>
+          <% if @current_user_subscription&.plan&.id == plan.id %>
+            <p>Subscribed</p>
+          <% else %>
+            <p><%= link_to 'Subscribe', @current_user ? new_subscription_charge_path(plan_id: plan) : login_path  %></p>
+          <% end %>
         </div>
       <% end %>
       <div class="subscription--plan" id="one-time-donation">

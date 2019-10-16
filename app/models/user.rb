@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   SSO_ATTRIBUTES = %w[admin avatar_url banned custom_fields email name username].freeze
 
-  has_one :subscription
+  has_many :subscriptions
   has_many :cards
   has_many :donations
 
@@ -32,10 +32,14 @@ class User < ApplicationRecord
   end
 
   def current_streak
-    return 'Currently, you don\'t own an active subscribption' unless subscription
+    return 'Currently, you don\'t own an active subscription' unless active_subscription
 
-    start_date ||= subscription.start_date
+    start_date ||= active_subscription.start_date
 
     time_ago_in_words(start_date)
+  end
+
+  def active_subscription
+    subscriptions.active unless subscriptions.active.blank?
   end
 end
