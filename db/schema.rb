@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_30_093321) do
+ActiveRecord::Schema.define(version: 2019_10_17_102956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -103,6 +103,14 @@ ActiveRecord::Schema.define(version: 2019_09_30_093321) do
     t.index ["plan_id"], name: "index_subscriptions_on_plan_id"
     t.index ["user_id", "plan_id", "active"], name: "index_subscriptions_on_user_id_and_plan_id_and_active", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
+  create_table "user_plan_changes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "old_plan_id"
+    t.string "new_plan_id"
+    t.string "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
