@@ -40,11 +40,6 @@ function DonationsView ({ activePlan, donations }) {
   return (
     <Paper className={classes.root}>
       <h3>Your Donations History</h3>
-      {activePlan && (
-        <p>
-          You're <strong>currently subscribed to {activePlan.name}</strong>.
-        </p>
-      )}
       <p>
         You have donated:{' '}
         <strong>{numeral(donatedAmount).format('$0,0.00')}</strong>
@@ -90,7 +85,6 @@ function DonationsView ({ activePlan, donations }) {
 }
 
 DonationsView.propTypes = {
-  activePlan: PropTypes.object,
   donations: PropTypes.array
 }
 

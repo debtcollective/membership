@@ -1,14 +1,29 @@
 import React, { useState } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import Paper from '@material-ui/core/Paper'
 
 const SUBSCRIPTION_CANCEL_URL = userID => `/users/${userID}/subscription`
 
-function SubscriptionCancelView ({ user, subscription }) {
+const useStyles = makeStyles(theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(4),
+    overflowX: 'auto'
+  },
+  table: {
+    minWidth: 650
+  }
+}))
+
+function SubscriptionCancelView ({ user, subscription, activePlan }) {
+  const classes = useStyles()
   const [open, setOpen] = useState(false)
   const [active, toggleActive] = useState(subscription.active)
 
@@ -38,10 +53,24 @@ function SubscriptionCancelView ({ user, subscription }) {
   }
 
   return (
-    <div>
-      <Button color='secondary' onClick={handleClickOpen}>
-        Cancel Subscription
-      </Button>
+    <>
+      <Paper className={classes.root}>
+        <h3>You're subscribed</h3>
+        <p>
+          The plan you're using to contribute is{' '}
+          <strong> {activePlan.name}</strong>.
+        </p>
+        <Button
+          component='a'
+          href={`/users/${user.id}/plan_changes`}
+          color='primary'
+        >
+          Change Subscription
+        </Button>
+        <Button color='secondary' onClick={handleClickOpen}>
+          Cancel Subscription
+        </Button>
+      </Paper>
       {!active && 'No active subscription'}
       <Dialog
         open={open}
@@ -72,7 +101,7 @@ function SubscriptionCancelView ({ user, subscription }) {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   )
 }
 
