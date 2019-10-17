@@ -22,7 +22,12 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function SubscriptionCancelView ({ user, subscription, activePlan }) {
+function SubscriptionCancelView ({
+  user,
+  subscription,
+  activePlan,
+  isSubscriptionChanging
+}) {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const [active, toggleActive] = useState(subscription.active)
@@ -60,13 +65,15 @@ function SubscriptionCancelView ({ user, subscription, activePlan }) {
           The plan you're using to contribute is{' '}
           <strong> {activePlan.name}</strong>.
         </p>
-        <Button
-          component='a'
-          href={`/users/${user.id}/plan_changes`}
-          color='primary'
-        >
-          Change Subscription
-        </Button>
+        {!isSubscriptionChanging && (
+          <Button
+            component='a'
+            href={`/users/${user.id}/plan_changes`}
+            color='primary'
+          >
+            Change Subscription
+          </Button>
+        )}
         <Button color='secondary' onClick={handleClickOpen}>
           Cancel Subscription
         </Button>
