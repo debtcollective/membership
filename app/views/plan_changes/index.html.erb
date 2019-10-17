@@ -1,0 +1,3 @@
+<section class="section-content">
+  <%= react_component("CurrentPlan", props: {user: @user, activePlan: @user.active_subscription&.plan, plans: @plans}) %>
+</section>

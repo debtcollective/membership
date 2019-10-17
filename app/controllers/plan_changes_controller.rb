@@ -3,25 +3,31 @@
 class PlanChangesController < ApplicationController
   before_action :set_current_user_plan, only: %i[index create]
 
-  # GET /plan_change
+  # GET /users/:user_id/plan_change
   def index
     redirect_to root_path unless current_user&.active_subscription
+    @user = current_user
+    @plans = Plan.all
   end
 
-  # GET /plan_change/new
+  # GET /users/:user_id/plan_change/new
+  # GET /users/:user_id/plan_change/new.json
   def new
     @plan_change = UserPlanChange.new
   end
 
-  # POST /plan_change/new
+  # POST /users/:user_id/plan_change
+  # POST /users/:user_id/plan_change.json
   def create
-    @plan = UserPlanChange.new(user_id: current_user.id, old_plan_id: @current_plan.id, new_plan_id: plan_params[:plan_id])
+    head :not_authorized unless current_user
+
+    @plan = UserPlanChange.new(user_id: plan_change_params[:user_id], old_plan_id: plan_change_params[:old_plan_id], new_plan_id: plan_change_params[:new_plan_id])
 
     respond_to do |format|
       if @plan.save
-        format.html { redirect_to users_path(current_user), notice: 'Plan was successfully updated.' }
+        format.json { render json: @plan, status: :ok }
       else
-        format.html { render :new }
+        format.html { render :index }
       end
     end
   end
@@ -34,6 +40,6 @@ class PlanChangesController < ApplicationController
   end
 
   def plan_change_params
-    params.require(:plan_change).permit(:plan_id)
+    params.require(:plan_change).permit(:user_id, :old_plan_id, :new_plan_id)
   end
 end
