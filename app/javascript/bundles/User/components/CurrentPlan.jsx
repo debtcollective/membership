@@ -70,7 +70,7 @@ function CurrentPlanView ({ user, activePlan, plans }) {
         }
 
         return (
-          <Paper className={classes.root} key={plan.id}>
+          <Paper className={classes.root} key={plan.id} id={`plan-${plan.id}`}>
             <h4>{plan.name}</h4>
             <p>Price: {numeral(plan.amount).format('$0,0.00')}</p>
             <p dangerouslySetInnerHTML={createMarkup()} />
