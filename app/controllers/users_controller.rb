@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     redirect_to root_path unless current_user == @user
-    @is_subscription_changing = UserPlanChange.where(user_id: @user.id).first
+    @is_subscription_changing = UserPlanChange.where(user_id: @user.id, status: 'pending').first
   end
 
   private
