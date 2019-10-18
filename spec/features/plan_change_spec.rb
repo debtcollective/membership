@@ -10,7 +10,7 @@ describe 'As a logged user that wants to change plans', type: :feature do
 
   it 'I am able to downgrade/upgrade my plan', js: true do
     allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
-
+    expect(UserPlanChange.where(user_id: user.id).length).to be(0)
     visit "/users/#{user.id}"
 
     within '#contact-data' do
@@ -32,5 +32,6 @@ describe 'As a logged user that wants to change plans', type: :feature do
     end
 
     expect(page).to have_content('We have changed your subscription successfully.')
+    expect(UserPlanChange.where(user_id: user.id).length).to be(1)
   end
 end

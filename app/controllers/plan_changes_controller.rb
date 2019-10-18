@@ -21,7 +21,7 @@ class PlanChangesController < ApplicationController
   def create
     head :not_authorized unless current_user
 
-    @plan = UserPlanChange.new(user_id: plan_change_params[:user_id], old_plan_id: plan_change_params[:old_plan_id], new_plan_id: plan_change_params[:new_plan_id])
+    @plan = UserPlanChange.new(user_id: plan_change_params[:user_id], old_plan_id: plan_change_params[:old_plan_id], new_plan_id: plan_change_params[:new_plan_id], status: 'pending')
 
     respond_to do |format|
       if @plan.save
