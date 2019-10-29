@@ -14,7 +14,7 @@ jobs:
   test:
     working_directory: ~/fundraising
     docker:
-      - image: circleci/ruby:2.6.4-node-browsers
+      - image: circleci/ruby:2.6.5-node-browsers
         environment:
           PGHOST: localhost
           PGUSER: fundraising
@@ -95,7 +95,7 @@ jobs:
   release:
     working_directory: ~/fundraising
     docker:
-      - image: circleci/ruby:2.6.4-node-browsers
+      - image: circleci/ruby:2.6.5-node-browsers
     steps:
       - checkout
 
@@ -184,7 +184,7 @@ jobs:
   deploy_stage:
     working_directory: ~/fundraising
     docker:
-      - image: circleci/ruby:2.6.4-node-browsers
+      - image: circleci/ruby:2.6.5-node-browsers
     environment:
       ECS_CLUSTER: fundraising-stage
       ECS_SERVICE: fundraising
