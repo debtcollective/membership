@@ -22,7 +22,7 @@ function UserShowView ({ user, subscription, streak }) {
           You have been subscribed for {streak}
         </p>
       )}
-      <Paper className={classes.root}>
+      <Paper className={classes.root} id='contact-data'>
         <h3>Contact Data</h3>
         <p>
           <strong>Name:</strong>
