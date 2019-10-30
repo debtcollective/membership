@@ -2,6 +2,7 @@
 
 class PlanChangesController < ApplicationController
   before_action :set_current_user_plan, only: %i[index create]
+  before_action :not_authorized_user, only: %i[create]
 
   # GET /users/:user_id/plan_change
   def index
@@ -19,8 +20,6 @@ class PlanChangesController < ApplicationController
   # POST /users/:user_id/plan_change
   # POST /users/:user_id/plan_change.json
   def create
-    head :not_authorized unless current_user
-
     @plan = UserPlanChange.new(user_id: plan_change_params[:user_id], old_plan_id: plan_change_params[:old_plan_id], new_plan_id: plan_change_params[:new_plan_id], status: 'pending')
 
     respond_to do |format|
@@ -34,7 +33,10 @@ class PlanChangesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
+  def not_authorized_user
+    head :not_authorized unless current_user
+  end
+
   def set_current_user_plan
     @current_plan = current_user&.active_subscription
   end
