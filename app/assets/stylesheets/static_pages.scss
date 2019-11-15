@@ -31,9 +31,12 @@
 
 #money,
 #cause {
+  font-size: 120%;
+
   > .content {
     @media(min-width: 48rem) {
       max-width: 50%;
+      font-size: 130%;
     }
   }
 
@@ -62,7 +65,7 @@
     }
 
     @media (min-width: 80rem) {
-      min-height: 100vh;
+      min-height: 50vh;
     }
   }
 
@@ -145,6 +148,26 @@
     &--plan-price {
       span {
         font-size: 60%;
+      }
+    }
+  }
+
+  .section {
+    &__with-background {
+      position: relative;
+
+      .overlay {
+        z-index: 1;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: black;
+        opacity: 0.5;
+      }
+
+      .content {
+        z-index: 2;
+        color: white;
       }
     }
   }
