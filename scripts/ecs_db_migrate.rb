@@ -5,9 +5,10 @@ require 'json'
 require 'active_support/core_ext/object/blank'
 
 cluster = ENV['ECS_CLUSTER']
-container = ENV['ECS_SERVICE']
+service = ENV['ECS_SERVICE']
+task_definition = "#{service}_#{cluster}"
 
-errors = [cluster.blank? ? 'ECS_CLUSTER' : nil, container.blank? ? 'ECS_SERVICE' : nil].compact
+errors = [cluster.blank? ? 'ECS_CLUSTER' : nil, service.blank? ? 'ECS_SERVICE' : nil].compact
 
 if errors.any?
   message = "ABORTED! #{errors.join(', ')} not present"
@@ -17,8 +18,8 @@ end
 
 overrides = {
   containerOverrides: [{
-    name: container,
-    memoryReservation: 256,
+    name: service,
+    memoryReservation: 64,
     command: ['bundle', 'exec', 'rails', 'db:migrate']
   }]
 }
@@ -26,7 +27,7 @@ overrides = {
 migration_command = 'aws ecs run-task ' \
                     '--started-by db-migrate ' \
                     "--cluster #{cluster} " \
-                    "--task-definition #{cluster} " \
+                    "--task-definition #{task_definition} " \
                     "--overrides '#{overrides.to_json}' "
 
 puts migration_command
