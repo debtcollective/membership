@@ -102,6 +102,7 @@
       color: $secondary-color;
       border-radius: 0.4rem;
       padding: 1.5rem;
+      text-decoration: none;
 
       @media (min-width: 80rem) {
         min-width: 18rem;
@@ -112,6 +113,11 @@
         background-color:lighten($primary-color,55);
         border-color: $primary-color;
         color: $primary-color;
+      }
+
+      &:hover {
+        background-color:lighten($primary-color,50);
+        border-color: lighten($primary-color,40);
       }
 
       h3 {
