@@ -45,9 +45,9 @@
   },
   "devDependencies": {
     "@semantic-release/changelog": "3.0.5",
-    "@semantic-release/commit-analyzer": "6.3.2",
+    "@semantic-release/commit-analyzer": "6.3.3",
     "@semantic-release/github": "5.5.5",
-    "@semantic-release/release-notes-generator": "7.3.2",
+    "@semantic-release/release-notes-generator": "7.3.3",
     "eslint-plugin-react-hooks": "2.2.0",
     "husky": "3.0.9",
     "lint-staged": "9.4.2",
