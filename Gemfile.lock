@@ -1,5 +1,5 @@
 GIT
-  remote: https://github.com/ianheggie/health_check.git
+  remote: https://github.com/ianheggie/health_check
   revision: 0b799ead604f900ed50685e9b2d469cd2befba5b
   ref: 0b799ea
   specs:
