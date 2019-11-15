@@ -186,7 +186,7 @@ jobs:
     docker:
       - image: circleci/ruby:2.6.5-node-browsers
     environment:
-      ECS_CLUSTER: fundraising-stage
+      ECS_CLUSTER: stage
       ECS_SERVICE: fundraising
     steps:
       - checkout
