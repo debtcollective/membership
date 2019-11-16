@@ -12,7 +12,7 @@ describe 'Donations', type: :feature do
       expect(page).to_not have_content('Log In') # checking user is logged in
       expect(page).to have_content('Pay what you can')
 
-      click_link 'Make a donation today'
+      click_link 'one-time-donation'
 
       expect(page).to have_content('Pay what you can. Every dollar counts.')
 
