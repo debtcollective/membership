@@ -1,0 +1,5 @@
+<section class="section-content">
+  <p id="notice"><%= notice %></p>
+
+  <%= react_component("SubscriptionCancel", props: {user: @user, subscription: @user.active_subscription, activePlan: @user.active_subscription&.plan, isSubscriptionChanging: @is_subscription_changing}) %>
+</section>
