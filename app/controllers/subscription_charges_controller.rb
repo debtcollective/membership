@@ -26,6 +26,8 @@ class SubscriptionChargesController < ApplicationController
 
     amount = (@subscription.plan.amount * 100).to_i
 
+    return unless verify_recaptcha(model: @subscription)
+
     charge = Stripe::Charge.create(
       customer: customer.id,
       amount: amount, # amount in cents
