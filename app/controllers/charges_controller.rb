@@ -64,6 +64,8 @@ class ChargesController < ApplicationController
   end
 
   def charge_donation_of_anonymous_user(params)
+    return unless verify_recaptcha
+
     customer = Stripe::Customer.create(
       email: params[:stripeEmail],
       source: params[:stripeToken]

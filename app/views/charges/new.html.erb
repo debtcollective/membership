@@ -17,6 +17,7 @@
           <%= form.label :amount %>
           <%= form.number_field :amount, step: 'any', min: 1, id: 'donation-amount', placeholder: '$1' %>
         </div>
+        <%= recaptcha_tags %>
       </div>
 
       <script>
