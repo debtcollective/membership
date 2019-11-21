@@ -16,6 +16,9 @@ describe 'As a logged user that wants to change plans', type: :feature do
     within '#contact-data' do
       expect(page).to have_content(user.name)
     end
+
+    visit user_current_subscription_path(user)
+
     expect(page).to have_content("You're subscribed")
 
     click_link 'Change Subscription'
