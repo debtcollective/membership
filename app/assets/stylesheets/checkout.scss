@@ -38,6 +38,7 @@
   width: 100%;
 }
 
+.input-field,
 .StripeElement {
   box-sizing: border-box;
   height: 2.5rem;
@@ -48,8 +49,9 @@
   box-shadow: 0 0.0625rem 0.1875rem 0 #e6ebf1;
   transition: box-shadow 150ms ease;
   margin-bottom: 1rem;
+  width: 100%;;
 }
-
+.input-field:focus,
 .StripeElement--focus {
   box-shadow: 0 0.0625rem 0.1875rem 0 #cfd7df;
 }

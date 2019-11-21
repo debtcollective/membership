@@ -17,9 +17,36 @@ describe 'Donations', type: :feature do
       expect(page).to have_content('Pay what you can. Every dollar counts.')
 
       within '.one-time-donation' do
-        fill_in 'donation-amount', with: 25
-        click_button 'Pay with Card'
-        # can't access elements inside iframe within capybara
+        fill_stripe_elements(card: '4242424242424242')
+        fill_in 'donation_amount', with: 25
+        click_button 'Make my donation'
+      end
+
+      using_wait_time(10) do
+        expect(page).to have_content('Thank you for donating $25.00')
+      end
+    end
+  end
+
+  context 'as anonymous', js: true do
+    it 'allows going through the flow and prompts for a user account creation' do
+      allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(nil)
+      visit '/'
+      expect(page).to have_content('Log In') # checking user is logged in
+      expect(page).to have_content('Pay what you can')
+
+      click_link 'Make a donation today'
+
+      expect(page).to have_content('Pay what you can. Every dollar counts.')
+
+      within '.one-time-donation' do
+        fill_stripe_elements(card: '4242424242424242')
+        fill_in 'donation_amount', with: 25
+        click_button 'Make my donation'
+      end
+
+      using_wait_time(10) do
+        expect(page).to have_content('Thank you for donating $25.00')
       end
     end
   end
