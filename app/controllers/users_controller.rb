@@ -1,18 +1,38 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show]
+  layout 'backoffice'
+  before_action :set_user
+  before_action :verify_current_user
 
   # GET /users/1
   # GET /users/1.json
   def show
-    redirect_to root_path unless current_user == @user
+    current_page_title('Your dashboard')
+  end
+
+  # pages
+  def subscription
+    current_page_title('Subscription management')
     @is_subscription_changing = UserPlanChange.where(user_id: @user.id, status: 'pending').first
+  end
+
+  def donation_history
+    current_page_title('Donation history')
   end
 
   private
 
+  def current_page_title(page_title)
+    @current_page_title ||= page_title
+  end
+
+  def verify_current_user
+    redirect_to root_path unless current_user == @user
+  end
+
   def set_user
-    @user = User.find(params[:id])
+    user_param_id = params[:id] || params[:user_id]
+    @user = User.find(user_param_id)
   end
 end
