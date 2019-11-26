@@ -6,36 +6,34 @@
       <p>Folks who donate $100 on a one-time basis will receive a free gift from our store. People who pay dues at the rate of $100 per month or more will receive a thank you call from us.</p>
     </section>
     <section id='checkout-payment'>
-    <%= form_with(model: Donation, url: charges_path) do |form| %>
+    <%= form_with(model: Donation, url: {controller: "charges", action: :create }, local: true, id: 'payment-form') do |form| %>
       <div>
         <% if flash[:error].present? %>
           <div id="error_explanation">
             <p><%= flash[:error] %></p>
           </div>
         <% end %>
-        <div class="field">
-          <%= form.label :amount %>
-          <%= form.number_field :amount, step: 'any', min: 1, id: 'donation-amount', placeholder: '$1' %>
+        <div class="form-row">
+          <label for="card-element">
+            Credit or debit card
+          </label>
+          <div id="card-element">
+            <!-- A Stripe Element will be inserted here. -->
+          </div>
+
+          <!-- Used to display form errors. -->
+          <div id="card-errors" role="alert"></div>
         </div>
+
+        <%= form.number_field :amount, step: 1, placeholder: '$0', class: 'input-field' %>
+
+        <%= recaptcha_tags %>
+        <button class="button primary">Make my donation</button>
       </div>
 
-      <script>
-        const amountInput = document.getElementById('donation-amount');
-
-        function setStripeCheckoutAmount(e) {
-          const amount = amountInput.value
-          const tag = document.getElementsByClassName('stripe-button')[0];
-          tag.dataset.amount = amount * 100; // amount in cents
-        }
-
-        amountInput.addEventListener('input', setStripeCheckoutAmount)
-      </script>
-
-      <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-              data-key="<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>"
-              data-description="One time donation"
-              data-locale="auto"></script>
     <% end %>
     </section>
   </div>
 </div>
+
+<%= render 'shared/stripe_scripts'%>

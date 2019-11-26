@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
+require 'recaptcha'
+
 class ChargesController < ApplicationController
   before_action :set_amount, only: [:create]
 
   def new; end
 
   def create
+    return unless verify_recaptcha
+
     donation = current_user ? save_donation_from(current_user, params) : charge_donation_of_anonymous_user(params)
     notice = "Thank you for donating #{displayable_amount(@amount)}."
 
@@ -28,7 +32,7 @@ class ChargesController < ApplicationController
 
   def save_donation_from(user, params)
     if user.stripe_id.nil?
-      customer = Stripe::Customer.create("email": @user.email)
+      customer = Stripe::Customer.create("email": user.email, source: params[:stripeToken])
       # here we are creating a stripe customer with the help of the Stripe
       # library and pass as parameter email.
       user.update(stripe_id: customer.id)

@@ -19,6 +19,8 @@ class SubscriptionChargesController < ApplicationController
   # POST /subscription_charges
   # POST /subscription_charges.json
   def create
+    return unless verify_recaptcha(model: @subscription)
+
     @user = current_user || User.create(subscription_params[:user_attributes])
     @subscription = Subscription.new(plan_id: subscription_params[:plan_attributes][:id], user_id: @user.id, active: true)
 
