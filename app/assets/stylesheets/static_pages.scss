@@ -7,6 +7,7 @@
 #plans {
   background: linear-gradient($bg-color-primary, $bg-color-secondary 50%);
   padding-top: 10rem !important;
+  padding-bottom: 10rem !important;
 }
 
 #money {
@@ -31,9 +32,12 @@
 
 #money,
 #cause {
+  font-size: 120%;
+
   > .content {
     @media(min-width: 48rem) {
       max-width: 50%;
+      font-size: 130%;
     }
   }
 
@@ -62,7 +66,7 @@
     }
 
     @media (min-width: 80rem) {
-      min-height: 100vh;
+      min-height: 50vh;
     }
   }
 
@@ -102,6 +106,7 @@
       color: $secondary-color;
       border-radius: 0.4rem;
       padding: 1.5rem;
+      text-decoration: none;
 
       @media (min-width: 80rem) {
         min-width: 18rem;
@@ -112,6 +117,11 @@
         background-color:lighten($primary-color,55);
         border-color: $primary-color;
         color: $primary-color;
+      }
+
+      &:hover {
+        background-color:lighten($primary-color,50);
+        border-color: lighten($primary-color,40);
       }
 
       h3 {
@@ -139,6 +149,26 @@
     &--plan-price {
       span {
         font-size: 60%;
+      }
+    }
+  }
+
+  .section {
+    &__with-background {
+      position: relative;
+
+      .overlay {
+        z-index: 1;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: black;
+        opacity: 0.5;
+      }
+
+      .content {
+        z-index: 2;
+        color: white;
       }
     }
   }

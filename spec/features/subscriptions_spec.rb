@@ -41,9 +41,7 @@ describe 'Subscriptions', type: :feature do
       expect(page).to_not have_content('Log In') # checking user is logged in
       expect(page).to have_content(plan.name)
 
-      within "#subscription-#{plan.name.parameterize.underscore}" do
-        click_link 'Subscribe'
-      end
+      click_link "subscription-#{plan.name.parameterize.underscore}"
 
       expect(page).to have_content(plan.name)
       expect(page).to have_content(plan.description)
