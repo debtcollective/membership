@@ -27,7 +27,7 @@ class CurrentUser < Delegator
   end
 
   def admin?
-    !!@user.admin
+    !!@user.admin || @user&.groups&.include?(ENV['DISCOURSE_ADMIN_ROLE'])
   end
 
   def moderator?
