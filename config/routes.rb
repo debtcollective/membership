@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   get '/login' => 'sessions#login'
   get '/signup' => 'sessions#signup'
 
+  get '/admin' => redirect('/admin/users')
+
   if Rails.env.production?
     mount Sidekiq::Web => '/sidekiq', constraints: AdminConstraint.new(require_master: true)
   else
