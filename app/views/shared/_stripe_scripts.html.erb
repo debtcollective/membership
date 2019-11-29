@@ -1,12 +1,12 @@
 <script>
         // Create a Stripe client.
-        const stripe = Stripe('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
+        let stripe = Stripe('<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>');
 
         // Create an instance of Elements.
-        const elements = stripe.elements();
+        let elements = stripe.elements();
 
         // Custom styling can be passed to options when creating an Element.
-        const style = {
+        let style = {
           base: {
             color: '#32325d',
             fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
@@ -23,7 +23,7 @@
         };
 
         // Create an instance of the card Element.
-        const card = elements.create('card', {style: style});
+        let card = elements.create('card', {style: style});
 
         // Add an instance of the card Element into the `card-element` <div>.
         card.mount('#card-element');
@@ -39,7 +39,7 @@
         });
 
         // Handle form submission.
-        const form = document.getElementById('payment-form');
+        let form = document.getElementById('payment-form');
         form.addEventListener('submit', function(event) {
           event.preventDefault();
 
