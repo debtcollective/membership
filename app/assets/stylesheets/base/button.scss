@@ -32,6 +32,7 @@ button:not(:disabled) {
     color: white;
     background-color: gray;
     border-color: darkgrey;
+    cursor: not-allowed;
   }
 
   &:not(:disabled).primary {
