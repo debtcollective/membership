@@ -2,6 +2,6 @@
 
 class AddUserToDonation < ActiveRecord::Migration[6.0]
   def change
-    add_column :donations, :user_id, :uuid, index: true
+    add_belongs_to :donations, :user, index: true
   end
 end

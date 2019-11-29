@@ -38,11 +38,6 @@ module Fundraising
     # Don't generate system test files.
     config.generators.system_tests = nil
 
-    # Use UUID instead of Integer ID
-    config.generators do |g|
-      g.orm :active_record, primary_key_type: :uuid
-    end
-
     config.active_job.queue_adapter = :sidekiq
     Sidekiq.configure_server do |c|
       c.redis = {

@@ -18,7 +18,5 @@ RSpec.describe UserPlanChange, type: :model do
     it { is_expected.to validate_presence_of(:user_id) }
     it { is_expected.to validate_presence_of(:old_plan_id) }
     it { is_expected.to validate_presence_of(:new_plan_id) }
-
-    it { is_expected.to validate_uniqueness_of(:user_id) }
   end
 end

@@ -2,8 +2,8 @@
 
 class CreateCards < ActiveRecord::Migration[6.0]
   def change
-    create_table :cards, id: :uuid do |t|
-      t.belongs_to :user, type: :uuid, index: true
+    create_table :cards do |t|
+      t.belongs_to :user, index: true
       t.string :brand
       t.integer :exp_month
       t.integer :exp_year
