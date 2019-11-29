@@ -2,7 +2,7 @@
 
 class CreateDonations < ActiveRecord::Migration[6.0]
   def change
-    create_table :donations, id: :uuid do |t|
+    create_table :donations do |t|
       t.money :amount
       t.string :card_id
       t.string :customer_stripe_id
