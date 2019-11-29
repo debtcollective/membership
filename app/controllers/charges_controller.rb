@@ -9,8 +9,9 @@ class ChargesController < ApplicationController
 
   def create
     return unless verify_recaptcha
+    return if @amount.nil? || @amount.zero? || @amount.negative?
 
-    donation = current_user ? save_donation_from(current_user, params) : charge_donation_of_anonymous_user(params)
+    current_user ? save_donation_from(current_user, params) : charge_donation_of_anonymous_user(params)
     notice = "Thank you for donating #{displayable_amount(@amount)}."
 
     if current_user
