@@ -42,7 +42,7 @@ class ChargesController < ApplicationController
 
     card_token = params[:stripeToken]
     # it's the stripeToken that we added in the hidden input
-    format.html { redirect_to billing_path, error: 'Oops' } if card_token.nil?
+    redirect_to billing_path, error: 'Oops' if card_token.nil?
     # checking if a card was given.
 
     charge = Stripe::Charge.create(

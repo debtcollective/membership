@@ -28,7 +28,13 @@ button:not(:disabled) {
     text-decoration: none;
   }
 
-  &.primary {
+  &:disabled {
+    color: white;
+    background-color: gray;
+    border-color: darkgrey;
+  }
+
+  &:not(:disabled).primary {
     color: white;
     background-color: $primary-color;
     border-color: $primary-color;
@@ -39,7 +45,7 @@ button:not(:disabled) {
     }
   }
 
-  &.secondary {
+  &:not(:disabled).secondary {
     border-color: #212529;
 
     &:hover {
