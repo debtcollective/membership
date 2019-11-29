@@ -18,7 +18,7 @@ describe 'Donations', type: :feature do
 
       within '.one-time-donation' do
         fill_stripe_elements(card: '4242424242424242')
-        fill_in 'donation_amount', with: 25
+        fill_in 'amount-field', with: 25
         click_button 'Make my donation'
       end
 
@@ -41,7 +41,7 @@ describe 'Donations', type: :feature do
 
       within '.one-time-donation' do
         fill_stripe_elements(card: '4242424242424242')
-        fill_in 'donation_amount', with: 25
+        fill_in 'amount-field', with: 25
         click_button 'Make my donation'
       end
 
