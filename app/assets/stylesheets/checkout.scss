@@ -15,6 +15,11 @@
     max-width: 80rem;
     padding: 2rem 1rem;
     box-shadow: 0 0.0625rem 0.1875rem 0 rgba(0,0,0,0.2),0 0.0625rem 0.0625rem 0 rgba(0,0,0,0.14),0 2px 0.0625rem -0.0625rem rgba(0,0,0,0.12);
+    flex-direction: column;
+
+    @media screen and (min-width: 48rem) {
+      flex-direction: row;
+    }
 
     section {
       flex: 1;

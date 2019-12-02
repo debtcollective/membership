@@ -32,7 +32,7 @@ describe 'Subscriptions', type: :feature do
   end
 
   context 'with a logged in user', js: true do
-    let!(:plan) { FactoryBot.create(:plan) }
+    let!(:plan) { FactoryBot.create(:plan, amount: 10.0) }
     let(:user) { FactoryBot.create(:user, stripe_id: nil) }
 
     it('can start a subscription') do
@@ -48,7 +48,7 @@ describe 'Subscriptions', type: :feature do
       expect(page).to have_content('Credit or debit card')
       fill_stripe_elements(card: '4242424242424242')
 
-      click_button('Submit Payment')
+      click_button('Enroll Membership for $10/mo')
       using_wait_time(10) do
         expect(page).to have_content('Thank you for subscribing')
       end

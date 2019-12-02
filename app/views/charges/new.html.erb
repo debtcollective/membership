@@ -13,6 +13,7 @@
             <p><%= flash[:error] %></p>
           </div>
         <% end %>
+        <div id="card-errors" role="alert"></div>
         <div class="form-row">
           <label for="card-element">
             Credit or debit card
@@ -22,13 +23,12 @@
           </div>
 
           <!-- Used to display form errors. -->
-          <div id="card-errors" role="alert"></div>
         </div>
 
-        <%= form.number_field :amount, step: 1, placeholder: '$0', class: 'input-field' %>
+        <%= form.number_field :amount, step: 1, placeholder: '$0', class: 'input-field', id: 'amount-field' %>
 
         <%= recaptcha_tags %>
-        <button class="button primary">Make my donation</button>
+        <button id="submit-payment" class="button primary">Make my donation</button>
       </div>
 
     <% end %>
