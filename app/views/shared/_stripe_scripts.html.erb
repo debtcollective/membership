@@ -57,8 +57,9 @@
 
     function verifyCaptcha() {
       let isCaptchaValidated = false;
-      const captchResponse = document.getElementById('g-recaptcha-response').value;
-      if(captchResponse.length == 0) {
+      const captchaField = document.getElementById('g-recaptcha-response');
+
+      if(captchaField && captchaField.value.length == 0) {
           isCaptchaValidated = false;
           displayError.textContent = 'Please verify that you are a Human.';
       } else {

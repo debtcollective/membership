@@ -43,7 +43,7 @@ class ChargesController < ApplicationController
 
     card_token = params[:stripeToken]
     # it's the stripeToken that we added in the hidden input
-    Raven.capture_message("We couldn't process payment for user_id: #{user.id}", params: params)
+    Raven.capture_message("We couldn't process payment for user_id: #{user.id}", extra: {params: params})
     redirect_to billing_path, error: "We couldn't process your payment, please try again or contact us at admin@debtcollective.org for support" if card_token.nil?
     # checking if a card was given.
 
