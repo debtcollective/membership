@@ -40,7 +40,7 @@ function UserShowView ({ user, subscription, streak }) {
 
 UserShowView.propTypes = {
   user: PropTypes.object.isRequired,
-  streak: PropTypes.string,
+  streak: PropTypes.number,
   subscription: PropTypes.object.isRequired
 }
 
