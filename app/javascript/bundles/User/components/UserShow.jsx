@@ -19,7 +19,7 @@ function UserShowView ({ user, subscription, streak }) {
     <>
       {subscription && subscription.active && streak && (
         <p className='notice--subscription'>
-          You have been subscribed for {streak}
+          You have been a member for {streak} month{streak > 1 ? 's' : ''}
         </p>
       )}
       <Paper className={classes.root} id='contact-data'>

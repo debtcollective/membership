@@ -36,7 +36,7 @@ class User < ApplicationRecord
 
     start_date ||= active_subscription.start_date
 
-    time_ago_in_words(start_date)
+    ((Date.today - start_date.to_date).to_f / 365 * 12).round
   end
 
   def active_subscription
