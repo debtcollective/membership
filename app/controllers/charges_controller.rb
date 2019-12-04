@@ -73,7 +73,7 @@ class ChargesController < ApplicationController
     end
 
     false
-  rescue StandardError => e
+  rescue Stripe::StripeError => e
     e.message
   end
 
@@ -101,7 +101,7 @@ class ChargesController < ApplicationController
       return donation.save
     end
     false
-  rescue StandardError => e
+  rescue Stripe::StripeError => e
     e.message
   end
 
