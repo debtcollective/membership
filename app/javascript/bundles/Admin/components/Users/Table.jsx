@@ -43,15 +43,7 @@ export default function UsersTable ({ users }) {
               <TableCell>{user.external_id}</TableCell>
               <TableCell align='right'>
                 <a href={`/admin/users/${user.id}`}>Show</a>{' '}
-                <a href={`/admin/users/${user.id}/edit`}>Edit</a>{' '}
-                <a
-                  data-confirm='Are you sure?'
-                  rel='nofollow'
-                  data-method='delete'
-                  href={`/admin/users/${user.id}`}
-                >
-                  Delete
-                </a>
+                <a href={`/admin/users/${user.id}/edit`}>Edit</a>
               </TableCell>
             </TableRow>
           ))}

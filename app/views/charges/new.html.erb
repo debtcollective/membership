@@ -1,3 +1,8 @@
+<% flash.each do |name, msg| %>
+<div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+  <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
+</div>
+<% end %>
 <div id="checkout" class="one-time-donation">
   <div class="content">
     <section id="checkout-plan">
@@ -8,11 +13,6 @@
     <section id='checkout-payment'>
     <%= form_with(model: Donation, url: {controller: "charges", action: :create }, local: true, id: 'payment-form') do |form| %>
       <div>
-        <% if flash[:error].present? %>
-          <div id="error_explanation">
-            <p><%= flash[:error] %></p>
-          </div>
-        <% end %>
         <div id="card-errors" role="alert"></div>
         <div class="form-row">
           <label for="card-element">

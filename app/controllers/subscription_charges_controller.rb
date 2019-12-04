@@ -24,7 +24,13 @@ class SubscriptionChargesController < ApplicationController
     @user = current_user || User.create(subscription_params[:user_attributes])
     @subscription = Subscription.new(plan_id: subscription_params[:plan_attributes][:id], user_id: @user.id, active: true)
 
-    customer = set_stripe_customer(@user, params[:stripeToken])
+    customer, error = set_stripe_customer(@user, params[:stripeToken])
+
+    unless error.nil?
+      flash[:error] = error
+      redirect_to new_subscription_charge_path(plan_id: subscription_params[:plan_attributes][:id])
+      return
+    end
 
     amount = (@subscription.plan.amount * 100).to_i
 
@@ -88,9 +94,11 @@ class SubscriptionChargesController < ApplicationController
 
   def set_stripe_customer(user, stripe_token)
     if user.stripe_id
-      Stripe::Customer.retrieve(user.stripe_id)
+      [Stripe::Customer.retrieve(user.stripe_id), nil]
     else
-      Stripe::Customer.create(email: user.email, source: stripe_token)
+      [Stripe::Customer.create(email: user.email, source: stripe_token), nil]
     end
+  rescue Stripe::CardError => e
+    [nil, e.message]
   end
 end

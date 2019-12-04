@@ -11,8 +11,14 @@ class ChargesController < ApplicationController
     return unless verify_recaptcha
     return if @amount.nil? || @amount.zero? || @amount.negative?
 
-    current_user ? save_donation_from(current_user, params) : charge_donation_of_anonymous_user(params)
+    charge = current_user ? save_donation_from(current_user, params) : charge_donation_of_anonymous_user(params)
     notice = "Thank you for donating #{displayable_amount(@amount)}."
+
+    if charge.instance_of?(String)
+      flash[:error] = charge
+      redirect_to new_charge_path
+      return
+    end
 
     if current_user
       redirect_to user_path(current_user), notice: notice
@@ -43,9 +49,12 @@ class ChargesController < ApplicationController
 
     card_token = params[:stripeToken]
     # it's the stripeToken that we added in the hidden input
-    Raven.capture_message("We couldn't process payment for user_id: #{user.id}", extra: {params: params})
-    redirect_to billing_path, error: "We couldn't process your payment, please try again or contact us at admin@debtcollective.org for support" if card_token.nil?
+
     # checking if a card was given.
+    if card_token.nil?
+      Raven.capture_message("We couldn't process payment for user_id: #{user.id}", extra: { params: params })
+      redirect_to billing_path, error: "We couldn't process your payment, please try again or contact us at admin@debtcollective.org for support"
+    end
 
     charge = Stripe::Charge.create(
       customer: user.stripe_id,
@@ -67,6 +76,8 @@ class ChargesController < ApplicationController
     end
 
     false
+  rescue Stripe::StripeError => e
+    e.message
   end
 
   def charge_donation_of_anonymous_user(params)
@@ -93,9 +104,8 @@ class ChargesController < ApplicationController
       return donation.save
     end
     false
-  rescue Stripe::CardError => e
-    flash[:error] = e.message
-    redirect_to new_charge_path
+  rescue Stripe::StripeError => e
+    e.message
   end
 
   # Use callbacks to share common setup or constraints between actions.

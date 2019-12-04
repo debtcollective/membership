@@ -53,5 +53,24 @@ describe 'Subscriptions', type: :feature do
         expect(page).to have_content('Thank you for subscribing')
       end
     end
+
+    it 'notifies when the transaction was declined' do
+      allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
+      visit '/'
+      expect(page).to_not have_content('Log In') # checking user is logged in
+      expect(page).to have_content(plan.name)
+
+      click_link "subscription-#{plan.name.parameterize.underscore}"
+
+      expect(page).to have_content(plan.name)
+      expect(page).to have_content(plan.description)
+      expect(page).to have_content('Credit or debit card')
+      fill_stripe_elements(card: '4000000000000002')
+
+      click_button('Enroll Membership for $10/mo')
+      using_wait_time(10) do
+        expect(page).to have_content('Your card was declined')
+      end
+    end
   end
 end
