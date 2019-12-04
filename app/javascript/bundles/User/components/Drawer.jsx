@@ -49,11 +49,15 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3)
+  },
+  rootLink: {
+    padding: '0.25rem 0.5rem 0',
+    display: 'block'
   }
 }))
 
 function ResponsiveDrawer (props) {
-  const { container } = props
+  const { container, logoUrl } = props
   const classes = useStyles()
   const theme = useTheme()
   const [mobileOpen, setMobileOpen] = React.useState(false)
@@ -62,9 +66,13 @@ function ResponsiveDrawer (props) {
     setMobileOpen(!mobileOpen)
   }
 
-  const drawer = (
+  const drawer = logoUrl => (
     <div>
-      <div className={classes.toolbar} />
+      <div className={classes.toolbar}>
+        <a href='/' className={classes.rootLink}>
+          <img src={logoUrl} alt='Debt Collective' />
+        </a>
+      </div>
       <Divider />
       <List>
         <ListItem button component='a' href={`/users/${props.user.id}`}>
@@ -132,7 +140,7 @@ function ResponsiveDrawer (props) {
               keepMounted: true // Better open performance on mobile.
             }}
           >
-            {drawer}
+            {drawer(logoUrl)}
           </Drawer>
         </Hidden>
         <Hidden xsDown implementation='css'>
@@ -143,7 +151,7 @@ function ResponsiveDrawer (props) {
             variant='permanent'
             open
           >
-            {drawer}
+            {drawer(logoUrl)}
           </Drawer>
         </Hidden>
       </nav>
@@ -153,7 +161,8 @@ function ResponsiveDrawer (props) {
 
 ResponsiveDrawer.propTypes = {
   pageTitle: PropTypes.string.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  logoUrl: PropTypes.string.isRequired
 }
 
 export default props => <ResponsiveDrawer {...props} />
