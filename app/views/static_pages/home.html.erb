@@ -10,10 +10,10 @@
   <nav class="main-nav">
     <%= image_tag('logo-light.svg', alt: 'Debt Collective')%>
     <ul class="links">
-      <li><a href="http://tools.debtcollective.org/" rel="follow">Dispute your debt</a></li>
-      <li><a href="https://powerreport.debtcollective.org/" rel="follow">The Power Report</a></li>
-      <li><a href="http://community.debtcollective.org/" rel="follow">Community</a></li>
-      <% if @current_user.admin? %>
+      <li><a href="http://tools.debtcollective.org/" target="_blank" rel="follow">Dispute your debt</a></li>
+      <li><a href="https://powerreport.debtcollective.org/" target="_blank" rel="follow">The Power Report</a></li>
+      <li><a href="http://community.debtcollective.org/" target="_blank" rel="follow">Community</a></li>
+      <% if @current_user && @current_user.admin? %>
         <li><a href="https://membership.debtcollective.org/admin" rel="nofollow">Admin</a></li>
       <% end %>
     </ul>
