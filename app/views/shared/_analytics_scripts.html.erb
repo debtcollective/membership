@@ -38,3 +38,8 @@ ga('send', 'pageview');
   amplitude.getInstance().init("<%= ENV['AMPLITUDE_API_KEY'] %>");
 </script>
 <!-- End Amplitude Analytics -->
+
+<script>
+  let currentUserId = <%= @current_user ? @current_user.id : 0 %>;
+  amplitude.getInstance().setUserId(currentUserId !== 0 ? currentUserId : null);
+</script>
