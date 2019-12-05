@@ -10,10 +10,12 @@
   <nav class="main-nav">
     <%= image_tag('logo-light.svg', alt: 'Debt Collective')%>
     <ul class="links">
-      <li><a href="#" rel="follow">Collectives</a></li>
-      <li><a href="#" rel="follow">Campaigns</a></li>
-      <li><a href="#" rel="follow">Events</a></li>
-      <li><a href="#" rel="follow">More</a></li>
+      <li><a href="http://tools.debtcollective.org/" target="_blank" rel="follow">Dispute your debt</a></li>
+      <li><a href="https://powerreport.debtcollective.org/" target="_blank" rel="follow">The Power Report</a></li>
+      <li><a href="http://community.debtcollective.org/" target="_blank" rel="follow">Community</a></li>
+      <% if @current_user && @current_user.admin? %>
+        <li><a href="https://membership.debtcollective.org/admin" rel="nofollow">Admin</a></li>
+      <% end %>
     </ul>
     <ul>
       <% if @current_user %>
@@ -100,7 +102,7 @@
         <%= image_tag('https://vangogh.teespring.com/v3/image/AHXiaeMgyuBvCGgDpAWoNcqR3dw/756/560.jpg', alt: 'women comfort tee') %>
       </a>
     </section>
-    <h2>Rather war your cause on your sleeve?</h2>
+    <h2>Rather wear your cause on your sleeve?</h2>
     <p>You can also support the Debt Collective by purchasing merchandise through our online store.</p>
     <a href="https://teespring.com/stores/debt-collective" class="button primary as-block" target="_blank">Browse the Shop</a>
   </section>

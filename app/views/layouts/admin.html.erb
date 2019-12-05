@@ -15,7 +15,7 @@
   </head>
 
   <body id="admin-views">
-    <%= react_component("Drawer", props: {pageTitle: @current_page_title}) %>
+    <%= react_component("Drawer", props: {pageTitle: @current_page_title, logoUrl: asset_url('logo-light.svg')}) %>
     <main>
       <div class="content">
         <%= yield %>
