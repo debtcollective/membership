@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import UsersIcon from '@material-ui/icons/SupervisedUserCircle'
+import DashboardIcon from '@material-ui/icons/Dashboard'
 import BookIcon from '@material-ui/icons/Book'
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -75,6 +76,12 @@ function ResponsiveDrawer (props) {
       </div>
       <Divider />
       <List>
+        <ListItem button component='a' href='/admin/dashboard'>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary='Dashboard' />
+        </ListItem>
         <ListItem button component='a' href='/admin/users'>
           <ListItemIcon>
             <UsersIcon />

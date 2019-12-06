@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :charges, only: %i[new create]
 
   namespace :admin do
+    get '/dashboard' => 'dashboard#index'
     resources :users
     resources :plans
     resources :subscriptions
