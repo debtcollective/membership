@@ -32,11 +32,13 @@ class User < ApplicationRecord
   end
 
   def current_streak
-    return 'Currently, you don\'t own an active subscription' unless active_subscription
+    return nil unless active_subscription
 
     start_date ||= active_subscription.start_date
 
-    time_ago_in_words(start_date)
+    return 1 if (Date.today - start_date.to_date).zero? # first month of subscription
+
+    ((Date.today - start_date.to_date).to_f / 365 * 12).round
   end
 
   def active_subscription
