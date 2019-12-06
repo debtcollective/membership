@@ -1,0 +1,5 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Dashboard</h1>
+
+<%= react_component("Dashboard", props: {amountFromDonations: @amount_from_donations, donationsCount: @donations_count, amountFromSubscriptions: @amount_from_subscriptions, activeSubsctiptions: @active_subscriptions_count}, prerender: false) %>
