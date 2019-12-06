@@ -4,7 +4,7 @@ class StreaksController < ApplicationController
   before_action :set_user, only: %i[show]
 
   def show
-    render json: { current_streak: "#{@user.current_streak} months" }
+    render json: { current_streak: @user.current_streak ? "#{@user.current_streak} months" : 'Currently don\'t own an activr subscription' }
   end
 
   private
