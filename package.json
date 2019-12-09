@@ -32,7 +32,7 @@
     "@rails/activestorage": "6.0.1",
     "@rails/actiontext": "6.0.1",
     "@rails/ujs": "6.0.1",
-    "@rails/webpacker": "4.2.0",
+    "@rails/webpacker": "4.2.2",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "moment": "2.24.0",
     "numeral": "2.0.6",
