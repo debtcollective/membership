@@ -11,6 +11,11 @@ class ChargesController < ApplicationController
     return unless verify_recaptcha
     return if @amount.nil? || @amount.zero? || @amount.negative?
 
+    if @amount < 500
+      Raven.capture_message("#{current_user&.id ? "We couldn't process payment for user_id: #{current_user.id}. " : ''} To increase the security of our payment provider integration, the minimum amount that can be donated is $5 USD", extra: { params: params })
+      return
+    end
+
     charge = current_user ? save_donation_from(current_user, params) : charge_donation_of_anonymous_user(params)
     notice = "Thank you for donating #{displayable_amount(@amount)}."
 
