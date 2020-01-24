@@ -40,6 +40,9 @@
         displayError.textContent = '';
         submitPaymentButton.removeAttribute("disabled", "disabled");
       }
+      if(amountField.value < 5) {
+        submitPaymentButton.setAttribute("disabled", "disabled")
+      }
     });
 
     // disable submit button by default
