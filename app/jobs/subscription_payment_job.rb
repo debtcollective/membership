@@ -33,7 +33,7 @@ class SubscriptionPaymentJob < ApplicationJob
       Stripe::Charge.create(
         customer: customer,
         amount: (plan.amount * 100).to_i, # amount in cents
-        description: "Charged #{displayable_amount(plan.amount)} for #{plan.name}",
+        description: "Charged #{displayable_amount(plan.amount * 100)} for #{plan.name}",
         currency: 'usd',
         metadata: { 'plan_id' => plan.id, 'user_id' => subscription.user.id }
       )
