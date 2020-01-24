@@ -49,7 +49,10 @@
       amountField.addEventListener('input', function(event) {
         if (amountField.value.length === 0) {
           submitPaymentButton.setAttribute("disabled", "disabled")
-        } else {
+        } else if(amountField.value < 5) {
+          submitPaymentButton.setAttribute("disabled", "disabled")
+        }
+        else {
           submitPaymentButton.removeAttribute("disabled", "disabled");
         };
       });
