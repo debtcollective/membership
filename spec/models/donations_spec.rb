@@ -21,5 +21,6 @@ RSpec.describe Donation, type: :model do
     it { is_expected.to validate_presence_of(:customer_stripe_id) }
     it { is_expected.to validate_presence_of(:donation_type) }
     it { is_expected.to allow_value(1235.123).for(:amount) }
+    it { is_expected.to_not allow_value(4.123).for(:amount) }
   end
 end

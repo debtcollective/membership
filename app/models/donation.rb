@@ -4,7 +4,6 @@ class Donation < ApplicationRecord
   DONATION_TYPES = { one_off: 'ONE_OFF', subscription: 'SUBSCRIPTION' }.freeze
   enum status: %i[finished pending archived failed]
 
-
   validates :amount, :customer_stripe_id, :donation_type, presence: true
-  validates :amount, numericality: true
+  validates :amount, numericality: { greater_than_or_equal_to: 5 }, presence: true
 end

@@ -66,7 +66,7 @@ class SubscriptionPaymentJob < ApplicationJob
 
   def create_donation(subscription, stripe_charge)
     new_charge = Donation.new(
-      amount: subscription.plan.amount / 100, # transformed from cents
+      amount: subscription.plan.amount,
       customer_stripe_id: subscription.user.stripe_id,
       donation_type: Donation::DONATION_TYPES[:subscription],
       user_id: subscription.user.id,
