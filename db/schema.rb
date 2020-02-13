@@ -13,9 +13,10 @@
 ActiveRecord::Schema.define(version: 2019_10_18_102113) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "action_text_rich_texts", force: :cascade do |t|
+  create_table "action_text_rich_texts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
     t.string "record_type", null: false
@@ -25,17 +26,17 @@ ActiveRecord::Schema.define(version: 2019_10_18_102113) do
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
-  create_table "active_storage_attachments", force: :cascade do |t|
+  create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
+    t.uuid "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", force: :cascade do |t|
+  create_table "active_storage_blobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -46,8 +47,8 @@ ActiveRecord::Schema.define(version: 2019_10_18_102113) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "cards", force: :cascade do |t|
-    t.bigint "user_id"
+  create_table "cards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id"
     t.string "brand"
     t.integer "exp_month"
     t.integer "exp_year"
@@ -58,7 +59,7 @@ ActiveRecord::Schema.define(version: 2019_10_18_102113) do
     t.index ["user_id"], name: "index_cards_on_user_id"
   end
 
-  create_table "donations", force: :cascade do |t|
+  create_table "donations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.money "amount", scale: 2
     t.string "card_id"
     t.string "customer_stripe_id"
@@ -68,11 +69,10 @@ ActiveRecord::Schema.define(version: 2019_10_18_102113) do
     t.datetime "updated_at", precision: 6, null: false
     t.json "user_data", default: {}, null: false
     t.integer "status", default: 0
-    t.bigint "user_id"
-    t.index ["user_id"], name: "index_donations_on_user_id"
+    t.uuid "user_id"
   end
 
-  create_table "plans", force: :cascade do |t|
+  create_table "plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.money "amount", scale: 2
     t.text "description"
     t.string "name"
@@ -81,9 +81,9 @@ ActiveRecord::Schema.define(version: 2019_10_18_102113) do
     t.string "headline"
   end
 
-  create_table "subscription_donations", force: :cascade do |t|
-    t.bigint "subscription_id"
-    t.bigint "donation_id"
+  create_table "subscription_donations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "subscription_id"
+    t.uuid "donation_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["donation_id"], name: "index_subscription_donations_on_donation_id"
@@ -91,9 +91,9 @@ ActiveRecord::Schema.define(version: 2019_10_18_102113) do
     t.index ["subscription_id"], name: "index_subscription_donations_on_subscription_id"
   end
 
-  create_table "subscriptions", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "plan_id"
+  create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id"
+    t.uuid "plan_id"
     t.boolean "active"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2019_10_18_102113) do
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
-  create_table "user_plan_changes", force: :cascade do |t|
+  create_table "user_plan_changes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "old_plan_id"
     t.string "new_plan_id"
     t.string "user_id"
@@ -113,7 +113,7 @@ ActiveRecord::Schema.define(version: 2019_10_18_102113) do
     t.integer "status", default: 0
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
