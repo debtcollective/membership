@@ -1,0 +1,7 @@
+import * as Sentry from '@sentry/browser'
+
+Sentry.init({
+  dsn: '<%= ENV['SENTRY_DSN'] %>',
+})
+
+window.Sentry = Sentry
