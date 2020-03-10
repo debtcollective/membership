@@ -19,11 +19,12 @@ jobs:
           PGHOST: localhost
           PGUSER: fundraising
           RAILS_ENV: test
-      - image: postgres:10
+          DATABASE_URL: postgres://fundraising:letmein@postgres/fundraising_test?pool=5
+      - image: postgres:10=
         environment:
           POSTGRES_USER: fundraising
           POSTGRES_DB: fundraising_test
-          POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: "letmein"
     steps:
       - checkout
 
