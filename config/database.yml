@@ -82,4 +82,3 @@ production:
   <<: *default
   database: fundraising_production
   username: fundraising
-  password: <%= ENV['FUNDRAISING_DATABASE_PASSWORD'] %>

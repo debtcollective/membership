@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:10
+    expose:
+      - 5432
+
+  redis:
+    image: redis:4
+    expose:
+      - 6379
+
+  web:
+    build: .
+    command: forego start
+    environment:
+      - RAILS_ENV=production
+      - PORT=5000
+    ports:
+      - "5000:5000"
+    links:
+      - postgres
+      - redis
+    volumes:
+      - .:/myapp
