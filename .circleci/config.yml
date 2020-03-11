@@ -20,7 +20,7 @@ jobs:
           PGUSER: fundraising
           RAILS_ENV: test
           DATABASE_URL: postgres://fundraising:letmein@postgres/fundraising_test?pool=5
-      - image: postgres:10=
+      - image: postgres:10
         environment:
           POSTGRES_USER: fundraising
           POSTGRES_DB: fundraising_test
