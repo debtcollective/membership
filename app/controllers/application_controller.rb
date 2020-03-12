@@ -19,10 +19,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def set_hostname
-    @hostname = request.host || 'https://membership.debtcollective.org'
-  end
-
   def set_raven_context
     Raven.user_context(
       id: current_user&.id,
