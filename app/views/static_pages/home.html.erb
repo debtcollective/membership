@@ -2,7 +2,7 @@
   <meta property="og:title" content="Debt Collective - Membership" />
   <meta property="og:description" content="Organizing for big change requires resources. Becoming a dues- paying member is not charity. Instead, your support is an act of ongoing solidarity with other people in debt." />
   <meta property="og:type" content="text/html" />
-  <meta property="og:url" content="https://membership.debtcollective.org" />
+  <meta property="og:url" content="<%= request.original_url %>" />
   <meta property="og:image" content="<%= asset_url('logo-small.png') %>" />
 <% end %>
 
@@ -14,7 +14,9 @@
       <li><a href="https://powerreport.debtcollective.org/" target="_blank" rel="follow">The Power Report</a></li>
       <li><a href="http://community.debtcollective.org/" target="_blank" rel="follow">Community</a></li>
       <% if @current_user && @current_user.admin? %>
-        <li><a href="https://membership.debtcollective.org/admin" rel="nofollow">Admin</a></li>
+        <li>
+          <%= link_to "Admin", admin_dashboard_path, data: { turbolinks: false } %>
+        </li>
       <% end %>
     </ul>
     <ul>
