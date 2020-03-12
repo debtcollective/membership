@@ -137,6 +137,9 @@ GEM
     dante (0.2.0)
     diff-lcs (1.3)
     dotenv (2.7.5)
+    dotenv-rails (2.7.5)
+      dotenv (= 2.7.5)
+      railties (>= 3.2, < 6.1)
     erubi (1.9.0)
     et-orbi (1.2.2)
       tzinfo
@@ -373,7 +376,7 @@ DEPENDENCIES
   capybara (~> 3.28)
   capybara-screenshot (~> 1.0, >= 1.0.23)
   climate_control (~> 0.2.0)
-  dotenv (~> 2.7, >= 2.7.5)
+  dotenv-rails (= 2.7.5)
   factory_bot (~> 5.0, >= 5.0.2)
   factory_bot_rails (~> 5.0, >= 5.0.2)
   faker (~> 2.1, >= 2.1.2)

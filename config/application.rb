@@ -15,7 +15,6 @@ require 'action_text/engine'
 require 'action_view/railtie'
 require 'action_cable/engine'
 require 'sprockets/railtie'
-require 'dotenv/load'
 require 'sidekiq'
 require 'sidekiq-scheduler'
 # require "rails/test_unit/railtie"
