@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     resources :donations, only: %i[index show]
   end
 
+  get '/admin', to: redirect('/admin/dashboard')
+
   resources :users, only: %i[show new edit update create destroy] do
     get '/subscription' => 'users#subscription', as: :current_subscription
     get '/donations' => 'users#donation_history', as: :latest_donations
@@ -31,8 +33,6 @@ Rails.application.routes.draw do
 
   get '/login' => 'sessions#login'
   get '/signup' => 'sessions#signup'
-
-  get '/admin' => redirect('/admin/users')
 
   if Rails.env.production?
     mount Sidekiq::Web => '/sidekiq', constraints: AdminConstraint.new(require_master: true)
