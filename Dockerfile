@@ -7,6 +7,8 @@ RUN apt-get update -qq && apt-get install -y \
   libxml2-dev \
   libxslt1-dev
 
+ENV NODE_ENV=production RAILS_ENV=production
+
 # install node
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
   apt-get install -y nodejs && \
@@ -20,7 +22,8 @@ WORKDIR $APP_HOME
 ADD Gemfile* $APP_HOME/
 RUN export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ") && \
   gem install bundler
-RUN bundle install --path=vendor/bundle
+RUN bundle config set without 'development test' && \
+  bundle install --path=vendor/bundle
 
 # install forego
 RUN curl -O https://bin.equinox.io/c/ekMN3bCZFUn/forego-stable-linux-amd64.deb
@@ -29,7 +32,7 @@ RUN apt install ./forego-stable-linux-amd64.deb
 ADD . $APP_HOME
 
 RUN yarn install --check-files
-RUN bundle exec rails assets:precompile
+RUN SECRET_KEY_BASE=`bundle exec rake secret` bundle exec rake assets:precompile --trace
 
 ENV PORT=5000
 EXPOSE 5000
