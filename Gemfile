@@ -49,7 +49,7 @@ gem "health_check", github: 'ianheggie/health_check', :ref => '0b799ea'
 gem 'sentry-raven', '~> 2.12', '>= 2.12.3'
 
 # Performance monitoring
-gem 'skylight', '4.2.1'
+gem 'skylight', '4.2.3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
