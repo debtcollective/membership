@@ -17,6 +17,11 @@ class ApplicationController < ActionController::Base
     current_user != nil
   end
 
+  def authenticate_user!
+    # TODO: redirect to login instead
+    head :unauthorized unless logged_in?
+  end
+
   private
 
   def set_raven_context

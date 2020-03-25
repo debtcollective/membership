@@ -42,6 +42,6 @@ class User < ApplicationRecord
   end
 
   def active_subscription
-    subscriptions.active unless subscriptions.active.blank?
+    subscriptions.where(active: true).first
   end
 end

@@ -2,7 +2,7 @@
 
 class PlanChangesController < ApplicationController
   before_action :set_current_user_plan, only: %i[index create]
-  before_action :not_authorized_user, only: %i[create]
+  before_action :authenticate_user!, only: %i[create]
 
   # GET /users/:user_id/plan_change
   def index
@@ -32,10 +32,6 @@ class PlanChangesController < ApplicationController
   end
 
   private
-
-  def not_authorized_user
-    head :not_authorized unless current_user
-  end
 
   def set_current_user_plan
     @current_plan = current_user&.active_subscription
