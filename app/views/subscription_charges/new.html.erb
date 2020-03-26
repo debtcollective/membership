@@ -5,10 +5,12 @@
 <% end %>
 <div id="checkout">
   <div class='content'>
-    <section id="checkout-plan">
-      <h1><%= @current_plan.name %></h1>
-      <p><%= @current_plan.description %></p>
-    </section>
+    <% if @current_plan %>
+      <section id="checkout-plan">
+        <h1><%= @current_plan.name %></h1>
+        <p><%= @current_plan.description %></p>
+      </section>
+    <% end %>
 
     <section id='checkout-payment'>
       <%= form_with(model: @subscription, url: {controller: "subscription_charges", action: :create }, local: true, id: 'payment-form') do |form| %>
@@ -23,7 +25,7 @@
             </ul>
           </div>
         <% end %>
-        
+
         <!-- Used to display form errors from stripe elements. -->
         <div id="card-errors" role="alert"></div>
 

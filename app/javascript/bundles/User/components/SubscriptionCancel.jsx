@@ -29,8 +29,9 @@ function SubscriptionCancelView ({
   isSubscriptionChanging
 }) {
   const classes = useStyles()
+  const isSubscriptionActive = subscription && subscription.active
   const [open, setOpen] = useState(false)
-  const [active, toggleActive] = useState(subscription.active)
+  const [active, toggleActive] = useState(isSubscriptionActive)
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -44,17 +45,22 @@ function SubscriptionCancelView ({
     const isSubscriptionCancelled = await fetch(
       SUBSCRIPTION_CANCEL_URL(user.id),
       {
-        method: 'delete'
+        method: 'delete',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
       }
     )
 
-    toggleActive(!subscription.active)
+    toggleActive(!isSubscriptionActive)
 
     handleClose()
   }
 
-  if (!subscription.active) {
-    return null
+  if (!isSubscriptionActive) {
+    return "You don't have an active membership"
   }
 
   return (

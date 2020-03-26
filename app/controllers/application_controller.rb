@@ -14,7 +14,12 @@ class ApplicationController < ActionController::Base
   end
 
   def logged_in?
-    current_user != nil
+    !!current_user
+  end
+
+  def authenticate_user!
+    # TODO: redirect to login instead
+    head :unauthorized unless logged_in?
   end
 
   private

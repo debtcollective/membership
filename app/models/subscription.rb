@@ -12,10 +12,14 @@ class Subscription < ApplicationRecord
   validates :plan_id, presence: true
   validates :user_id, uniqueness: { scope: %i[plan_id active] }, if: :user?
 
-  scope :active, -> { where(active: true).first }
-
   def user?
     !user_id.blank?
+  end
+
+  def cancel!
+    self.active = false
+
+    save
   end
 
   private

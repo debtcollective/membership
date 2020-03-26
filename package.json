@@ -20,8 +20,7 @@
   },
   "lint-staged": {
     "app/**/*.{js,jsx}": [
-      "npm run format",
-      "git add"
+      "npm run format"
     ]
   },
   "dependencies": {

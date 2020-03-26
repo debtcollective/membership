@@ -25,17 +25,18 @@ function CurrentPlanView ({ user, activePlan, plans }) {
   const changePlan = async selectedPlanId => {
     try {
       await fetch(CHANGE_PLAN_ENDPOINT(user.id), {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json'
-        },
         body: JSON.stringify({
           plan_change: {
-            user_id: user.id,
             old_plan_id: activePlan.id,
             new_plan_id: selectedPlanId
           }
-        })
+        }),
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'post'
       })
       setPlanChanged(true)
     } catch (error) {

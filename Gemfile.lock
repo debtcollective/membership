@@ -206,7 +206,7 @@ GEM
       byebug (~> 11.0)
       pry (~> 0.13.0)
     public_suffix (3.1.1)
-    puma (4.3.0)
+    puma (4.3.3)
       nio4r (~> 2.0)
     raabro (1.1.6)
     rack (2.2.2)
@@ -388,7 +388,7 @@ DEPENDENCIES
   mini_racer
   pg (>= 0.18, < 2.0)
   pry-byebug (~> 3.9.0)
-  puma (~> 4.3.0)
+  puma (= 4.3.3)
   rails (~> 6.0.2.1)
   react_on_rails (~> 11.3)
   recaptcha (~> 5.2, >= 5.2.1)
