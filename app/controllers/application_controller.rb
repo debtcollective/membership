@@ -18,8 +18,13 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user!
-    # TODO: redirect to login instead
-    head :unauthorized unless logged_in?
+    unless logged_in?
+      if request.format.json?
+        head :unauthorized
+      else
+        redirect_to root_path
+      end
+    end
   end
 
   private

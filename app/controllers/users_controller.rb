@@ -2,8 +2,8 @@
 
 class UsersController < ApplicationController
   layout 'backoffice'
+  before_action :authenticate_user!
   before_action :set_user
-  before_action :verify_current_user
 
   # GET /users/1
   # GET /users/1.json
