@@ -21,7 +21,9 @@
     </ul>
     <ul>
       <% if @current_user %>
-        <li><a href="<%= user_path(@current_user) %>" class="button primary" rel="nofollow">My Profile</a></li>
+        <li>
+          <%= link_to "My Account", user_path(@current_user), class: "button primary", data: { turbolinks: false } %>
+        </li>
       <% else %>
         <li><a href="<%= login_path %>" class="button secondary" rel="nofollow">Log In</a></li>
         <li><a href="<%= signup_path %>" class="button primary" rel="nofollow">Sign Up</a></li>
