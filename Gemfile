@@ -32,7 +32,7 @@ gem 'react_on_rails', '~> 11.3'
 gem 'mini_racer', platforms: :ruby
 
 # Payments
-gem 'stripe', '~> 5.0'
+gem 'stripe', '5.17.0'
 
 # Authentication
 gem 'jwt', '~> 2.2.1'
