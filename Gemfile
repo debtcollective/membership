@@ -3,6 +3,13 @@ git_source(:github) { |repo| "https://github.com/#{repo}" }
 
 ruby '2.7.1'
 
+# Gems required for running several rails components with RUBY_VERSION >= 2.7
+# Mroe info here https://github.com/moove-it/sidekiq-scheduler/issues/298#issuecomment-573451653
+if RUBY_VERSION >= '2.7'
+  gem 'e2mmap'
+  gem 'thwait'
+end
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.0.2.2'
 # Use postgresql as the database for Active Record
@@ -39,7 +46,7 @@ gem 'jwt', '~> 2.2.1'
 gem 'recaptcha', '~> 5.2', '>= 5.2.1'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.4.2', require: false
+gem 'bootsnap', '1.4.6', require: false
 
 # Delayed jobs
 gem 'sidekiq', '~> 6.0'
