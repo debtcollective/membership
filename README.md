@@ -4,28 +4,32 @@
 
 Fundraising is a simple app for non profit organizations, that allows users to create an account using [Discourse](https://discourse.org) and donate to the organization. It contains the following features:
 
-* Simple donations payment management through Stripe.
-* One time donations through anonymous accounts.
-* One time donations through user accounts.
-* User subscriptions based on billing plans.
-* User dashboard to manage their own subscription.
-* Simple statistics for the Organization around donations.
-* Organization dashboard to create subcription plans.
-* Organization dashboard to manage subscribed users.
+- Simple donations payment management through Stripe.
+- One time donations through anonymous accounts.
+- One time donations through user accounts.
+- User subscriptions based on billing plans.
+- User dashboard to manage their own subscription.
+- Simple statistics for the Organization around donations.
+- Organization dashboard to create subcription plans.
+- Organization dashboard to manage subscribed users.
 
 <hr />
 
 [![CircleCI](https://circleci.com/gh/debtcollective/fundraising.svg?style=svg)](https://circleci.com/gh/debtcollective/fundraising)
 
 ## Table of Contents
+
 - [Getting Started](#getting-started)
 - [Developer notes](#developer-notes)
 
 ## Getting started
+
 ### Ruby version
+
 This project runs on `Ruby 2.6.3`
 
 ### System dependencies
+
 You'll need to have installed the following dependencies installed, if you don't want to use the provided Docker containers.
 
 - Ruby `2.6.3`
@@ -53,6 +57,7 @@ $ bundle exec rake db:migrate
 ```
 
 Finally, run the test suite to verify that everything is working correctly (This project uses [rspec](http://rspec.info)):
+
 ```bash
 $ bundle exec rspec
 ```
@@ -62,6 +67,7 @@ If the test suite passes, you'll be ready to run the app in a local server:
 ```bash
 $ foreman start -f <Procfile>
 ```
+
 **Note** [Learn more about using Foreman on your local machine](#running-foreman)
 
 1. `Procfile.dev`: Starts the Webpack Dev Server and Rails with Hot Reloading.
@@ -70,19 +76,33 @@ $ foreman start -f <Procfile>
 4. `Procfile.spec`: Starts webpack to create the static files for tests. _Good to know:_ If you want to start `rails s` separately to debug in pry, then run `Procfile.spec` to generate the assets and run rails s in a separate console.
 
 ### User sessions
+
 We use cookie based authentication across subdomains instead of creating sessions between apps. This provides a better experience and fixes out of sync sessions between Discourse and other apps. [Read how to setup a user session](https://github.com/debtcollective/discourse-debtcollective-sso/blob/od/v2/README.md).
 
 ## Developer notes
 
+### Ruby 2.7 deprecations warnings
+
+Rails and other gems have to fix warnings in Ruby 2.7. Until that happens, we can supress these warnings by passing `RUBYOPT='-W:no-deprecated -W:no-experimental'` environment variable when running commands. ex `RUBYOPT='-W:no-deprecated -W:no-experimental' bundle exec rake db:migrate`
+
+To supress this warnings globally until are fixed, you can add `export RUBYOPT='-W:no-deprecated -W:no-experimental'` to `~/.zshrc` file. This is the recommended way to not keep writing the same command over and over again.
+
+We have added a make command to run specs with this env variable set, so you can run `make spec` and it will run without warnings.
+
+Another way to supress this warnings globally
+
 ### Running Foreman
+
 [Foreman](https://github.com/ddollar/foreman) has the following note around installing this gem.
 
 > Ruby users should take care not to install foreman in their project's Gemfile.
 
 Therefore as a developer, you're expected to run
+
 ```bash
  gem install foreman
 ```
+
 And run the commands using your gemset installation of foreman.
 
 ### Formatting
