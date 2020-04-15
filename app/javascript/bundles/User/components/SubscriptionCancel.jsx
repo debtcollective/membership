@@ -22,6 +22,12 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
+const NoSubscriptionView = ({}) => (
+  <div>
+    <p>no sub</p>
+  </div>
+)
+
 function SubscriptionCancelView ({
   user,
   subscription,
@@ -60,7 +66,7 @@ function SubscriptionCancelView ({
   }
 
   if (!isSubscriptionActive) {
-    return "You don't have an active membership"
+    return <NoSubscriptionView />
   }
 
   return (
