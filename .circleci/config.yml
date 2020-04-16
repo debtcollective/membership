@@ -82,7 +82,7 @@ jobs:
           name: build image
           command: |
             export IMAGE_TAG=$(echo $CIRCLE_SHA1 | cut -c -7)
-            make build tag=$IMAGE_TAG
+            docker build --build-arg sentry_release=$IMAGE_TAG -t debtcollective/fundraising:$IMAGE_TAG .
 
       - run:
           name: Archive Docker image
@@ -262,7 +262,76 @@ jobs:
       - run:
           name: Deploy task with new version
           command: |
-                    aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
+            aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
+
+  sentry_release:
+    working_directory: ~/fundraising
+    docker:
+      - image: circleci/ruby:2.7.1-node-browsers
+        environment:
+          PGHOST: localhost
+          PGUSER: fundraising
+          RAILS_ENV: test
+          DATABASE_URL: postgres://fundraising:letmein@localhost/fundraising_test?pool=5
+      - image: postgres:10
+        environment:
+          POSTGRES_USER: fundraising
+          POSTGRES_DB: fundraising_test
+          POSTGRES_PASSWORD: "letmein"
+    steps:
+      - checkout
+
+      - run:
+          name: configure bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+
+      # restore cache
+      - restore_cache:
+          keys:
+            - fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - fundraising-{{ checksum "Gemfile.lock" }}
+            - fundraising-
+
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --path vendor/bundle
+            yarn install
+
+      # write cache
+      - save_cache:
+          key: fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - vendor/bundle
+            - ~/.cache/yarn
+
+      - run:
+          name: wait for postgres
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: dotenv
+          command: cp .env.template .env
+
+      - run:
+          name: setup db
+          command: bundle exec rake db:setup
+
+      - run:
+          name: compile assets
+          command: |
+            export IMAGE_TAG=$(echo $CIRCLE_SHA1 | cut -c -7)
+            env SENTRY_RELEASE=$IMAGE_TAG SECRET_KEY_BASE=`bundle exec rake secret` bundle exec rake assets:precompile --trace
+
+      - run:
+          name: sentry release
+          command: |
+            export IMAGE_TAG=$(echo $CIRCLE_SHA1 | cut -c -7)
+            ./node_modules/.bin/sentry-cli releases deploys $IMAGE_TAG new -e production
+
 
 workflows:
   version: 2
@@ -283,6 +352,13 @@ workflows:
             branches:
               only: master
       - publish_latest:
+          requires:
+            - test
+            - build
+          filters:
+            branches:
+              only: master
+      - sentry_release:
           requires:
             - test
             - build
