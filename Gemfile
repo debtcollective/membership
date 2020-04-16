@@ -67,6 +67,7 @@ group :development, :test do
   gem 'faker', '~> 2.1', '>= 2.1.2'
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
+  gem 'annotate', '3.1.1'
 end
 
 group :development do
