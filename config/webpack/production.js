@@ -3,8 +3,8 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'production'
 const environment = require('./environment')
 const SentryCliPlugin = require('@sentry/webpack-plugin');
 
-// Only generate sentry releases when SENTRY_RELEASE is available
-if (process.env.SENTRY_RELEASE) {
+// Only generate sentry releases when Senry is configured
+if (process.env.SENTRY_RELEASE && process.env.SENTRY_ORG) {
   const release = process.env.SENTRY_RELEASE
 
   environment.plugins.append('sentry', new SentryCliPlugin({
