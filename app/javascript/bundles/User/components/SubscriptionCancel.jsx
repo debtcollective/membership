@@ -1,26 +1,49 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Paper from '@material-ui/core/Paper'
+
+import {
+  Grid,
+  Box,
+  Typography,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Paper
+} from '@material-ui/core'
 
 const SUBSCRIPTION_CANCEL_URL = userID => `/users/${userID}/subscription`
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%',
+    height: '100%',
     marginTop: theme.spacing(3),
+    overflowX: 'auto',
     padding: theme.spacing(4),
-    overflowX: 'auto'
+    width: '100%'
   },
   table: {
     minWidth: 650
   }
 }))
+
+const NoSubscriptionView = ({ user }) => {
+  return (
+    <Grid container direction='column' justify='center' alignItems='center'>
+      <Box mb={2} textAlign='center'>
+        <i className='material-icons md-48'>feedback</i>
+        <Typography component='h2' variant='h5'>
+          You don't have an active subscription
+        </Typography>
+      </Box>
+      <Button href={`/`} variant='contained' color='primary'>
+        Start a subscription
+      </Button>
+    </Grid>
+  )
+}
 
 function SubscriptionCancelView ({
   user,
@@ -60,7 +83,11 @@ function SubscriptionCancelView ({
   }
 
   if (!isSubscriptionActive) {
-    return "You don't have an active membership"
+    return (
+      <Paper className={classes.root}>
+        <NoSubscriptionView user={user} />
+      </Paper>
+    )
   }
 
   return (

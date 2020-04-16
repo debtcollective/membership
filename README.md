@@ -85,11 +85,7 @@ We use cookie based authentication across subdomains instead of creating session
 
 Rails and other gems have to fix warnings in Ruby 2.7. Until that happens, we can supress these warnings by passing `RUBYOPT='-W:no-deprecated -W:no-experimental'` environment variable when running commands. ex `RUBYOPT='-W:no-deprecated -W:no-experimental' bundle exec rake db:migrate`
 
-To supress this warnings globally until are fixed, you can add `export RUBYOPT='-W:no-deprecated -W:no-experimental'` to `~/.zshrc` file. This is the recommended way to not keep writing the same command over and over again.
-
 We have added a make command to run specs with this env variable set, so you can run `make spec` and it will run without warnings.
-
-Another way to supress this warnings globally
 
 ### Running Foreman
 

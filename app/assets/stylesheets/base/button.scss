@@ -1,9 +1,9 @@
 @import './globals';
 
 a.button,
-[type=button]:not(:disabled),
-[type=reset]:not(:disabled),
-[type=submit]:not(:disabled),
+[type='button']:not(:disabled),
+[type='reset']:not(:disabled),
+[type='submit']:not(:disabled),
 button:not(:disabled) {
   cursor: pointer;
 }
@@ -17,11 +17,12 @@ button:not(:disabled) {
   user-select: none;
   background-color: transparent;
   border: 1px solid transparent;
-  padding: .375rem .75rem;
+  padding: 0.375rem 0.75rem;
   font-size: 1rem;
   line-height: 1.5;
-  border-radius: .4rem;
-  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  border-radius: 0.4rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   text-decoration: none;
 
   &:hover {

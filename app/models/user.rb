@@ -36,12 +36,14 @@ class User < ApplicationRecord
 
     start_date ||= active_subscription.start_date
 
-    return 1 if (Date.today - start_date.to_date).zero? # first month of subscription
+    if (Date.today - start_date.to_date).zero?
+      return 1
+    end # first month of subscription
 
     ((Date.today - start_date.to_date).to_f / 365 * 12).round
   end
 
   def active_subscription
-    subscriptions.where(active: true).first
+    subscriptions.eager_load(:plan).where(active: true).first
   end
 end

@@ -14,7 +14,9 @@ class UsersController < ApplicationController
   # pages
   def subscription
     current_page_title('Subscription management')
+
     @is_subscription_changing = UserPlanChange.where(user_id: @user.id, status: 'pending').first
+    @subscription = @user.active_subscription
   end
 
   def donation_history
@@ -27,12 +29,9 @@ class UsersController < ApplicationController
     @current_page_title ||= page_title
   end
 
-  def verify_current_user
-    redirect_to root_path unless current_user == @user
-  end
-
+  # TODO: Check why we can't use current_user helper method when passing props to react_component
+  #       only instance variable seems to work
   def set_user
-    user_param_id = params[:id] || params[:user_id]
-    @user = User.find(user_param_id)
+    @user = current_user
   end
 end
