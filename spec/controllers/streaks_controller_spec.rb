@@ -8,6 +8,8 @@ RSpec.describe StreaksController, type: :controller do
 
   describe 'GET #show' do
     it 'returns a success response' do
+      allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
+
       get :show, params: { user_id: user.to_param }
 
       json_response = JSON.parse(response.body)
