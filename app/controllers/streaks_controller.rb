@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class StreaksController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_user, only: %i[show]
 
   def show
@@ -10,6 +11,6 @@ class StreaksController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:user_id])
+    @user = current_user
   end
 end

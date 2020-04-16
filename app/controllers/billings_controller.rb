@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class BillingsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_user, only: %i[new new_card create_card]
 
   def new; end
@@ -70,8 +71,7 @@ class BillingsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = User.find(params[:user_id])
+    @user = current_user
   end
 end
