@@ -19,6 +19,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Libre Franklin', sans-serif;
+  height: 100%;
 }
 
 body {
@@ -29,7 +30,8 @@ body {
   box-sizing: border-box;
 }
 
-main {
+body > main {
+  height: 100%;
   width: 100%;
 }
 
@@ -95,10 +97,5 @@ a {
   &:hover {
     background: none;
     text-decoration: underline;
-  }
-
-  &:hover,
-  &:visited {
-    color: inherit;
   }
 }
