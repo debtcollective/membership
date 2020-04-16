@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: user_plan_changes
+#
+#  id          :bigint           not null, primary key
+#  status      :integer          default("finished")
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  new_plan_id :string
+#  old_plan_id :string
+#  user_id     :string
+#
 require 'rails_helper'
 
 RSpec.describe UserPlanChange, type: :model do

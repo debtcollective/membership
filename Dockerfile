@@ -31,8 +31,12 @@ RUN apt install ./forego-stable-linux-amd64.deb
 
 ADD . $APP_HOME
 
+# set sentry release
+ARG sentry_release=
+ENV SENTRY_RELEASE=${sentry_release}
+
 RUN yarn install --check-files
-RUN SECRET_KEY_BASE=`bundle exec rake secret` bundle exec rake assets:precompile --trace
+RUN env SECRET_KEY_BASE=`bundle exec rake secret` bundle exec rake assets:precompile --trace
 
 # set this until Rails warnings are fixed in Ruby 2.7
 ENV RUBYOPT='-W:no-deprecated -W:no-experimental'
