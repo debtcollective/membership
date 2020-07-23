@@ -53,7 +53,7 @@ gem 'sidekiq', '~> 6.0'
 gem 'sidekiq-scheduler', '~> 3.0'
 
 gem "health_check", github: 'ianheggie/health_check', :ref => '0b799ea'
-gem 'sentry-raven', '~> 2.12', '>= 2.12.3'
+gem 'sentry-raven', '~> 3.0', '>= 3.0.0'
 
 # Performance monitoring
 gem 'skylight', '4.2.3'
