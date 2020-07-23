@@ -143,6 +143,7 @@ GEM
     dotenv-rails (2.7.5)
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
+    e2mmap (0.1.0)
     erubi (1.9.0)
     et-orbi (1.2.2)
       tzinfo
@@ -334,6 +335,8 @@ GEM
       stripe (> 5, < 6)
     thor (0.20.3)
     thread_safe (0.3.6)
+    thwait (0.2.0)
+      e2mmap
     tilt (2.0.10)
     timecop (0.9.1)
     turbolinks (5.2.0)
@@ -375,6 +378,7 @@ DEPENDENCIES
   capybara-screenshot (~> 1.0, >= 1.0.23)
   climate_control (~> 0.2.0)
   dotenv-rails (= 2.7.5)
+  e2mmap
   factory_bot (~> 5.0, >= 5.0.2)
   factory_bot_rails (~> 5.0, >= 5.0.2)
   faker (~> 2.1, >= 2.1.2)
@@ -410,6 +414,7 @@ DEPENDENCIES
   standard (~> 0.4.0)
   stripe (= 5.17.0)
   stripe-ruby-mock (~> 3.0.0)
+  thwait
   timecop (~> 0.9.1)
   turbolinks (~> 5)
   tzinfo-data
