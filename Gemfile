@@ -17,7 +17,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '4.3.3'
 # Use SCSS for stylesheets
-gem 'sassc', '~> 1.11', '>= 1.11.4'
+gem 'sassc', '~> 2.4', '>= 2.4.0'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 5.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
