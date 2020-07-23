@@ -92,7 +92,7 @@ group :test do
   gem 'rspec-support', git: 'https://github.com/rspec/rspec-support'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
-  gem 'stripe-ruby-mock', '~> 2.5.8', :require => 'stripe_mock'
+  gem 'stripe-ruby-mock', '~> 3.0.0', :require => 'stripe_mock'
   gem 'timecop', '~> 0.9.1'
   gem 'webdrivers', '~> 4.1', '>= 4.1.2'
 end
