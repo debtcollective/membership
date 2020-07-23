@@ -2,7 +2,7 @@
   <h1>FUNDRAISING</h1>
 </div>
 
-Fundraising is a simple app for non profit organizations, that allows users to create an account using [Discourse](https://discourse.org) and donate to the organization. It contains the following features:
+Membership is a simple app for non profit organizations, that allows users to create an account using [Discourse](https://discourse.org) and donate to the organization. It contains the following features:
 
 - Simple donations payment management through Stripe.
 - One time donations through anonymous accounts.
@@ -15,7 +15,7 @@ Fundraising is a simple app for non profit organizations, that allows users to c
 
 <hr />
 
-[![CircleCI](https://circleci.com/gh/debtcollective/fundraising.svg?style=svg)](https://circleci.com/gh/debtcollective/fundraising)
+[![CircleCI](https://circleci.com/gh/debtcollective/membership.svg?style=svg)](https://circleci.com/gh/debtcollective/membership)
 
 ## Table of Contents
 

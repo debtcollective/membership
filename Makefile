@@ -2,13 +2,13 @@ tag = latest
 export tag
 
 build:
-	docker build -t debtcollective/fundraising:$(tag) .
+	docker build -t debtcollective/membership:$(tag) .
 
 push:
-	docker push debtcollective/fundraising:$(tag)
+	docker push debtcollective/membership:$(tag)
 
 pull:
-	docker pull debtcollective/fundraising:$(tag)
+	docker pull debtcollective/membership:$(tag)
 
 # run rspec supressing rails ruby 2.7 warnings
 test:
