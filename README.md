@@ -17,25 +17,41 @@ Membership is a simple app for non profit organizations, that allows users to cr
 
 [![CircleCI](https://circleci.com/gh/debtcollective/membership.svg?style=svg)](https://circleci.com/gh/debtcollective/membership)
 
-## Table of Contents
+## Table of contents
 
-- [Getting Started](#getting-started)
+- [Getting started](#getting-started)
+  * [Setup](#setup)
+  * [System dependencies](#system-dependencies)
+  * [Configuration](#configuration)
+  * [User sessions](#user-sessions)
 - [Developer notes](#developer-notes)
+  * [Ruby 2.7 deprecations warnings](#ruby-27-deprecations-warnings)
+  * [Running Forego](#running-forego)
+  * [Formatting](#formatting)
 
 ## Getting started
 
-### Ruby version
+### Setup
 
-This project runs on `Ruby 2.6.3`
+```bash
+bundle install # install gems
+yarn install # install packages
+rake db:create # create database
+rake db:migrate # migrate database
+rake db:seed # seed database
+
+# run project with
+forego start
+```
 
 ### System dependencies
 
 You'll need to have installed the following dependencies installed, if you don't want to use the provided Docker containers.
 
-- Ruby `2.6.3`
-- Node `> 11.12.0`
-- PostgreSQL `> 11.4`
-- Foreman `> 0.85.0`
+- Ruby
+- Node
+- PostgreSQL
+- Forego `brew install forego`
 
 An instance of PostgresSQL needs to be actively running.
 _Note:_ MacOS users can use the [Postgres app](https://postgresapp.com).
@@ -65,10 +81,10 @@ $ bundle exec rspec
 If the test suite passes, you'll be ready to run the app in a local server:
 
 ```bash
-$ foreman start -f <Procfile>
+$ forego start -f <Procfile>
 ```
 
-**Note** [Learn more about using Foreman on your local machine](#running-foreman)
+**Note** [Learn more about using Forego on your local machine](#running-forego)
 
 1. `Procfile.dev`: Starts the Webpack Dev Server and Rails with Hot Reloading.
 2. `Procfile.hot`: Starts the Rails server and the webpack server to provide hot reloading of assets, JavaScript and CSS.
@@ -87,19 +103,19 @@ Rails and other gems have to fix warnings in Ruby 2.7. Until that happens, we ca
 
 We have added a make command to run specs with this env variable set, so you can run `make spec` and it will run without warnings.
 
-### Running Foreman
+### Running Forego
 
-[Foreman](https://github.com/ddollar/foreman) has the following note around installing this gem.
+[Forego](https://github.com/ddollar/forego) has the following note around installing this gem.
 
-> Ruby users should take care not to install foreman in their project's Gemfile.
+> Ruby users should take care not to install forego in their project's Gemfile.
 
 Therefore as a developer, you're expected to run
 
 ```bash
- gem install foreman
+ gem install forego
 ```
 
-And run the commands using your gemset installation of foreman.
+And run the commands using your gemset installation of forego.
 
 ### Formatting
 
