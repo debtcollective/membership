@@ -115,7 +115,7 @@ GEM
     ast (2.4.0)
     backport (1.1.2)
     bindex (0.8.1)
-    bootsnap (1.4.6)
+    bootsnap (1.4.7)
       msgpack (~> 1.0)
     builder (3.2.4)
     byebug (11.1.1)
@@ -372,7 +372,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate (= 3.1.1)
-  bootsnap (= 1.4.6)
+  bootsnap (= 1.4.7)
   byebug
   capybara (~> 3.28)
   capybara-screenshot (~> 1.0, >= 1.0.23)
