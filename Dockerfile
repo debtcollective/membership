@@ -50,4 +50,4 @@ ENV RUBYOPT='-W:no-deprecated -W:no-experimental'
 ENV PORT=5000
 EXPOSE 5000
 
-CMD ["forego", "start"]
+CMD ["forego", "start", "-f", "Procfile.prod"]

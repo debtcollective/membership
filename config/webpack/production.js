@@ -13,7 +13,7 @@ if (process.env.SENTRY_RELEASE && process.env.SENTRY_ORG) {
     release,
     setCommits: {
       commit: release,
-      repo: 'debtcollective/fundraising',
+      repo: 'debtcollective/membership',
     }
   }))
 }

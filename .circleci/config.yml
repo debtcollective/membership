@@ -2,9 +2,9 @@
 version: 2.1
 executors:
   docker-publisher:
-    working_directory: ~/fundraising
+    working_directory: ~/membership
     environment:
-      IMAGE_NAME: debtcollective/fundraising
+      IMAGE_NAME: debtcollective/membership
 
     docker:
       - image: circleci/buildpack-deps:stretch
@@ -12,18 +12,18 @@ orbs:
   aws-cli: circleci/aws-cli@0.1.15
 jobs:
   test:
-    working_directory: ~/fundraising
+    working_directory: ~/membership
     docker:
       - image: circleci/ruby:2.7.1-node-browsers
         environment:
           PGHOST: localhost
-          PGUSER: fundraising
+          PGUSER: membership
           RAILS_ENV: test
-          DATABASE_URL: postgres://fundraising:letmein@localhost/fundraising_test?pool=5
+          DATABASE_URL: postgres://membership:letmein@localhost/membership_test?pool=5
       - image: postgres:10
         environment:
-          POSTGRES_USER: fundraising
-          POSTGRES_DB: fundraising_test
+          POSTGRES_USER: membership
+          POSTGRES_DB: membership_test
           POSTGRES_PASSWORD: "letmein"
     steps:
       - checkout
@@ -38,9 +38,9 @@ jobs:
       # restore cache
       - restore_cache:
           keys:
-            - fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
-            - fundraising-{{ checksum "Gemfile.lock" }}
-            - fundraising-
+            - membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - membership-{{ checksum "Gemfile.lock" }}
+            - membership-
 
       - run:
           name: install dependencies
@@ -50,7 +50,7 @@ jobs:
 
       # write cache
       - save_cache:
-          key: fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+          key: membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
           paths:
             - vendor/bundle
             - ~/.cache/yarn
@@ -86,7 +86,7 @@ jobs:
               --build-arg sentry_project=$SENTRY_PROJECT \
               --build-arg sentry_org=$SENTRY_ORG \
               --build-arg sentry_auth_token=$SENTRY_AUTH_TOKEN \
-              -t debtcollective/fundraising:$IMAGE_TAG .
+              -t debtcollective/membership:$IMAGE_TAG .
 
       - run:
           name: Archive Docker image
@@ -98,7 +98,7 @@ jobs:
             - ./image.tar
 
   release:
-    working_directory: ~/fundraising
+    working_directory: ~/membership
     docker:
       - image: circleci/ruby:2.7.1-node-browsers
     steps:
@@ -152,7 +152,7 @@ jobs:
             export IMAGE_TAG=$(echo $CIRCLE_SHA1 | cut -c -7)
             make push tag=$IMAGE_TAG
 
-            docker tag debtcollective/fundraising:$IMAGE_TAG debtcollective/fundraising:latest
+            docker tag debtcollective/membership:$IMAGE_TAG debtcollective/membership:latest
             make push
 
   publish_tag:
@@ -179,20 +179,20 @@ jobs:
           name: alias docker images
           command: |
             export IMAGE_TAG=$(echo $CIRCLE_SHA1 | cut -c -7)
-            docker tag debtcollective/fundraising:$IMAGE_TAG debtcollective/fundraising:$CIRCLE_TAG
+            docker tag debtcollective/membership:$IMAGE_TAG debtcollective/membership:$CIRCLE_TAG
 
       - run:
           name: push image to hub.docker.io
           command: |
-            docker push debtcollective/fundraising:$CIRCLE_TAG
+            docker push debtcollective/membership:$CIRCLE_TAG
 
   deploy_stage:
-    working_directory: ~/fundraising
+    working_directory: ~/membership
     docker:
       - image: circleci/ruby:2.7.1-node-browsers
     environment:
       ECS_CLUSTER: stage
-      ECS_SERVICE: fundraising
+      ECS_SERVICE: membership
     steps:
       - checkout
       - aws-cli/install
@@ -201,9 +201,9 @@ jobs:
       # restore cache
       - restore_cache:
           keys:
-            - fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
-            - fundraising-{{ checksum "Gemfile.lock" }}
-            - fundraising-
+            - membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - membership-{{ checksum "Gemfile.lock" }}
+            - membership-
 
       - run:
           name: configure bundler
@@ -228,12 +228,12 @@ jobs:
             aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
 
   deploy_prod:
-    working_directory: ~/fundraising
+    working_directory: ~/membership
     docker:
       - image: circleci/ruby:2.7.1-node-browsers
     environment:
       ECS_CLUSTER: prod
-      ECS_SERVICE: fundraising
+      ECS_SERVICE: membership
     steps:
       - checkout
       - aws-cli/install
@@ -242,9 +242,9 @@ jobs:
       # restore cache
       - restore_cache:
           keys:
-            - fundraising-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
-            - fundraising-{{ checksum "Gemfile.lock" }}
-            - fundraising-
+            - membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - membership-{{ checksum "Gemfile.lock" }}
+            - membership-
 
       - run:
           name: configure bundler
