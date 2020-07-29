@@ -10,5 +10,4 @@ node_modules
 log
 lib
 db
-config
 bin

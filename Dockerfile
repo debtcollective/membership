@@ -33,12 +33,8 @@ ADD . $APP_HOME
 
 # set sentry release
 ARG sentry_release=""
-ARG sentry_project=""
-ARG sentry_org=""
 ARG sentry_auth_token=""
 ENV SENTRY_RELEASE=${sentry_release}
-ENV SENTRY_PROJECT=${sentry_project}
-ENV SENTRY_ORG=${sentry_org}
 ENV SENTRY_AUTH_TOKEN=${sentry_auth_token}
 
 RUN yarn install --check-files

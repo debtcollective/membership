@@ -19,7 +19,7 @@
     }
   },
   "lint-staged": {
-    "app/**/*.{js,jsx}": [
+    "*.{js,jsx,json}": [
       "npm run format"
     ]
   },

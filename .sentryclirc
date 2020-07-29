@@ -1,0 +1,6 @@
+[defaults]
+org=debtcollective
+project=membership
+
+[log]
+level = debug
