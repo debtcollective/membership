@@ -32,7 +32,7 @@
     "@rails/activestorage": "6.0.1",
     "@rails/ujs": "6.0.1",
     "@rails/webpacker": "5.1.1",
-    "@sentry/browser": "5.15.4",
+    "@sentry/browser": "5.20.1",
     "@sentry/webpack-plugin": "1.12.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
     "moment": "2.27.0",
