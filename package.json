@@ -54,7 +54,7 @@
     "husky": "4.2.5",
     "lint-staged": "10.2.11",
     "prettier": "2.0.5",
-    "prettier-standard": "16.2.1",
+    "prettier-standard": "16.4.1",
     "semantic-release": "17.1.1",
     "standard": "14.3.4",
     "webpack-dev-server": "3.10.3"
