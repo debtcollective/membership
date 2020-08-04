@@ -10,29 +10,16 @@ if RUBY_VERSION >= '2.7'
   gem 'thwait'
 end
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.0.3.2'
-# Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
-# Use Puma as the app server
 gem 'puma', '4.3.5'
-# Use SCSS for stylesheets
 gem 'sassc', '~> 2.4', '>= 2.4.0'
-# Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 5.0'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
-# Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 gem 'redis-namespace', '~> 1.6'
-# Use Active Model has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 gem 'ffi', '~> 1.9', '>= 1.9.25'
-
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
 
 # front-end libraries
 gem 'react_on_rails', '~> 11.3'
@@ -52,11 +39,10 @@ gem 'bootsnap', '1.4.7', require: false
 gem 'sidekiq', '~> 6.0'
 gem 'sidekiq-scheduler', '~> 3.0'
 
+# monitoring
+gem 'skylight', '4.3.1'
 gem "health_check", github: 'ianheggie/health_check', :ref => '0b799ea'
 gem 'sentry-raven', '~> 3.0', '>= 3.0.0'
-
-# Performance monitoring
-gem 'skylight', '4.3.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -71,25 +57,19 @@ group :development, :test do
 end
 
 group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.3'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'solargraph', '~> 0.39.0'
 end
 
 group :test do
-  # TODO: Change when rspec 4 is released
   gem "climate_control", "~> 0.2.0"
   gem 'capybara', '~> 3.28'
   gem 'capybara-screenshot', '~> 1.0', '>= 1.0.23'
-  gem 'rspec-core', git: 'https://github.com/rspec/rspec-core'
-  gem 'rspec-expectations', git: 'https://github.com/rspec/rspec-expectations'
-  gem 'rspec-mocks', git: 'https://github.com/rspec/rspec-mocks'
-  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails', branch: '4-0-dev'
-  gem 'rspec-support', git: 'https://github.com/rspec/rspec-support'
+  gem 'rspec-rails', '4.0.1'
+  gem 'rspec-mocks', '3.9.1'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
   gem 'stripe-ruby-mock', '~> 3.0.0', :require => 'stripe_mock'
