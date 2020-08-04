@@ -20,14 +20,14 @@ Membership is a simple app for non profit organizations, that allows users to cr
 ## Table of contents
 
 - [Getting started](#getting-started)
-  * [Setup](#setup)
-  * [System dependencies](#system-dependencies)
-  * [Configuration](#configuration)
-  * [User sessions](#user-sessions)
+  - [Setup](#setup)
+  - [System dependencies](#system-dependencies)
+  - [Configuration](#configuration)
+  - [User sessions](#user-sessions)
 - [Developer notes](#developer-notes)
-  * [Ruby 2.7 deprecations warnings](#ruby-27-deprecations-warnings)
-  * [Running Forego](#running-forego)
-  * [Formatting](#formatting)
+  - [Ruby 2.7 deprecations warnings](#ruby-27-deprecations-warnings)
+  - [Running Forego](#running-forego)
+  - [Formatting](#formatting)
 
 ## Getting started
 
@@ -56,40 +56,11 @@ You'll need to have installed the following dependencies installed, if you don't
 An instance of PostgresSQL needs to be actively running.
 _Note:_ MacOS users can use the [Postgres app](https://postgresapp.com).
 
-### Configuration
-
-Have a ruby version installed, you can learn more about how to use multiple versions of Ruby installed in your computer with [rbenv](https://github.com/rbenv/rbenv) or [rvm](https://rvm.io).
-
-To get started with the app, clone the repo and then install the needed gems:
-
-```bash
-$ bundle install
-```
-
-Next, migrate the database:
-
-```bash
-$ bundle exec rake db:migrate
-```
-
-Finally, run the test suite to verify that everything is working correctly (This project uses [rspec](http://rspec.info)):
+### Running tests
 
 ```bash
 $ bundle exec rspec
 ```
-
-If the test suite passes, you'll be ready to run the app in a local server:
-
-```bash
-$ forego start -f <Procfile>
-```
-
-**Note** [Learn more about using Forego on your local machine](#running-forego)
-
-1. `Procfile.dev`: Starts the Webpack Dev Server and Rails with Hot Reloading.
-2. `Procfile.hot`: Starts the Rails server and the webpack server to provide hot reloading of assets, JavaScript and CSS.
-3. `Procfile.static`: Starts the Rails server and generates static assets that are used for tests.
-4. `Procfile.spec`: Starts webpack to create the static files for tests. _Good to know:_ If you want to start `rails s` separately to debug in pry, then run `Procfile.spec` to generate the assets and run rails s in a separate console.
 
 ### User sessions
 
