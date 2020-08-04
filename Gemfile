@@ -11,6 +11,7 @@ if RUBY_VERSION >= '2.7'
 end
 
 gem 'rails', '6.0.3.2'
+gem 'rake', '13.0.1'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '4.3.5'
 gem 'sassc', '~> 2.4', '>= 2.4.0'
@@ -74,7 +75,7 @@ group :test do
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
   gem 'stripe-ruby-mock', '~> 3.0.0', :require => 'stripe_mock'
   gem 'timecop', '~> 0.9.1'
-  gem 'webdrivers', '~> 4.1', '>= 4.1.2'
+  gem 'webdrivers', '4.4.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
