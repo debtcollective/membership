@@ -34,6 +34,7 @@ Membership is a simple app for non profit organizations, that allows users to cr
 ### Setup
 
 ```bash
+cp .env.sample .env # copy .env file
 bundle install # install gems
 yarn install # install packages
 rake db:create # create database
@@ -43,6 +44,22 @@ rake db:seed # seed database
 # run project with
 forego start
 ```
+
+At this point, you should be able to see the app at http://membership.lvh.me:5000
+
+### Dotenv
+
+We are using Dotenv to set our environment variables. Once you copy the `.env.sample` file to `.env` you need to replace a few variables there, most of them will work with defaults.
+
+#### Stripe
+
+You can get the Stripe keys by registering for a free Stripe account and generating test keys. Here's a link to their Docs on how to obtain these keys https://stripe.com/docs/keys#obtain-api-keys.
+
+#### Google reCAPTCHA
+
+In order to obtain this key, you need to go to this address and generate one https://www.google.com/recaptcha/admin/create. Be sure to use the reCAPTCHA V2 and select the I'm not a robot" checkbox option. Also, set the correct domain names the app is running on, these are `membership.lvh.me` and `localhost`.
+
+If you need help to get some of these key right or setting this up, please ask other devs for help.
 
 ### System dependencies
 
