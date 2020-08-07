@@ -5,80 +5,16 @@
   <meta property="og:image" content="<%= asset_url('logo-small.png') %>" />
 <% end %>
 
-<div class="content">
-  <header>
-      <%= link_to image_tag("logo-light.svg", :alt => "Debt Collective"), '/' %>
-      <ul class="links">
-        <li><a href="http://tools.debtcollective.org/" target="_blank" rel="follow">Dispute your debt</a></li>
-        <li><a href="https://powerreport.debtcollective.org/" target="_blank" rel="follow">The Power Report</a></li>
-        <li><a href="http://community.debtcollective.org/" target="_blank" rel="follow">Community</a></li>
-        <% if @current_user && @current_user.admin? %>
-          <li>
-            <%= link_to "Admin", admin_dashboard_path, data: { turbolinks: false } %>
-          </li>
-        <% end %>
-      </ul>
-      <ul>
-        <% if @current_user %>
-          <li>
-            <%= link_to "My Account", user_path(@current_user), class: "button primary", data: { turbolinks: false } %>
-          </li>
-        <% else %>
-          <li><a href="<%= login_path %>" class="button secondary" rel="nofollow">Log In</a></li>
-          <li><a href="<%= signup_path %>" class="button primary" rel="nofollow">Sign Up</a></li>
-        <% end %>
-      </ul>
-    </nav>
-  </header>
-  <main id="homepage">
-    <section id="plans">
-      <h1>Every membership brings us closer to our goals.</h1>
-      <h4>Your monthly contribution helps us plan for the future.</h4>
-      <p id="notice"><%= notice %></p>
-      <div class="subscription--plans">
-        <%= link_to new_charge_path, class: "subscription--plan", id: "one-time-donation" do %>
-          <h3>Other</h3>
-          <h4>Pay what you can. Every dollar counts.</h4>
-          <p>“To each according to their ability, to each according to their need.” Contributing what you can, where you can is what we’re all about.</p>
-          <p>Folks who donate $100 on a one-time basis will receive a free gift from our store. People who pay dues at the rate of $100 per month or more will receive a thank you call from us.</p>
-        <%end%>
-      </div>
-    </section>
-  </main>
-</div>
-
-  <footer>
-    <nav>
-      <ul>
-        <li class="title"><h5>Organize</h5></li>
-        <li><a href="https://community.debtcollective.org/">Community</a></li>
-      </ul>
-      <ul>
-        <li class="title"><h5>Take Action</h5></li>
-        <li><a href="https://community.debtcollective.org/calendar">Events</a></li>
-        <li><a href="https://tools.debtcollective.org/">Dispute Your Debt</a></li>
-      </ul>
-      <ul>
-        <li class="title"><h5>Learn More</h5></li>
-        <li><a href="https://powerreport.debtcollective.org/">The Power Report</a></li>
-        <li><a href="https://debtcollective.org/#about">About Us</a></li>
-        <li><a href="https://wiki.debtcollective.org/">Community Wiki</a></li>
-      </ul>
-      <ul>
-        <li class="title"><h5>More</h5></li>
-        <li><a href="https://tools.debtcollective.org/contact">Contact</a></li>
-        <li><a href="https://membership.debtcollective.org">Donate</a></li>
-        <li><a href="https://github.com/debtcollective/">Open Source</a></li>
-      </ul>
-    </nav>
-    <div class="notice">
-      <a href="https://debtcollective.org">
-        <%= image_tag('logo-dark.svg', alt: 'Debt Collective')%>
-      </a>
-      <p>
-        <a id="to-top-link" href="#">Back to top</a>
-        <span>Copyright <%= Time.new.year %></span>
-        <a href="https://community.debtcollective.org/tos">Terms and Conditions</a>
-      </p>
+<main id="thank-you">
+  <section id="">
+    <h1>Thank you for supporting the Debt Collective!</h1>
+    <h4>Your monthly contribution helps us plan for the future.</h4>
+        <p>If you know other who support this missing, please help us by spreading the word: https://debtcollective.org</p>
+    <div class="subscription--plans">
+      <%= link_to new_charge_path, class: "subscription--plan", id: "one-time-donation" do %>
+        <h3>Other</h3>
+        <h4>Pay what you can. Every dollar counts.</h4>
+      <%end%>
     </div>
-  </footer>
+  </section>
+</main>

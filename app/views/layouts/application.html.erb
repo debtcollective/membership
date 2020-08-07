@@ -6,30 +6,143 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= content_for?(:head) ? yield(:head) : '' %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap" rel="stylesheet">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap"
+      rel="stylesheet"
+    />
 
-    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
 
     <%= render 'layouts/sentry' %>
-
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'https://checkout.stripe.com/checkout.js' %>
     <%= javascript_include_tag 'https://js.stripe.com/v3/' %>
     <%= javascript_pack_tag 'user-bundle' %>
+
+    <%= render 'shared/analytics_scripts'%>
   </head>
 
-  <%= render 'shared/analytics_scripts'%>
-
   <body>
-    <%= yield %>
+    <header>
+      <nav class="main-nav">
+        <%= link_to image_tag("logo-light.svg", :alt => "Debt Collective"), '/' %>
+        <ul class="links">
+          <li>
+            <a
+              href="http://tools.debtcollective.org/"
+              target="_blank"
+              rel="follow"
+              >Dispute your debt
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://powerreport.debtcollective.org/"
+              target="_blank"
+              rel="follow">
+            </a>
+              The Power Report
+          </li>
+          <li>
+            <a
+              href="http://community.debtcollective.org/"
+              target="_blank"
+              rel="follow"
+              >Community</a
+            >
+          </li>
+          <% if @current_user && @current_user.admin? %>
+          <li>
+            <%= link_to "Admin", admin_dashboard_path, data: { turbolinks: false
+            } %>
+          </li>
+          <% end %>
+        </ul>
+        <ul>
+          <% if @current_user %>
+          <li>
+            <%= link_to "My Account", user_path(@current_user), class: "button
+            primary", data: { turbolinks: false } %>
+          </li>
+          <% else %>
+          <li>
+            <a href="<%= login_path %>" class="button secondary" rel="nofollow"
+              >Log In</a
+            >
+          </li>
+          <li>
+            <a href="<%= signup_path %>" class="button primary" rel="nofollow"
+              >Sign Up</a
+            >
+          </li>
+          <% end %>
+        </ul>
+      </nav>
+    </header>
+
+    <%= flash_messages %>
+
+    <div class="content">
+      <%= yield %>
+    </div>
+
+    <footer>
+      <nav>
+        <ul>
+          <li class="title"><h5>Organize</h5></li>
+          <li><a href="https://community.debtcollective.org/">Community</a></li>
+        </ul>
+        <ul>
+          <li class="title"><h5>Take Action</h5></li>
+          <li>
+            <a href="https://community.debtcollective.org/calendar">Events</a>
+          </li>
+          <li>
+            <a href="https://tools.debtcollective.org/">Dispute Your Debt</a>
+          </li>
+        </ul>
+        <ul>
+          <li class="title"><h5>Learn More</h5></li>
+          <li>
+            <a href="https://powerreport.debtcollective.org/"
+              >The Power Report</a
+            >
+          </li>
+          <li><a href="https://debtcollective.org/#about">About Us</a></li>
+          <li><a href="https://wiki.debtcollective.org/">Community Wiki</a></li>
+        </ul>
+        <ul>
+          <li class="title"><h5>More</h5></li>
+          <li>
+            <a href="https://tools.debtcollective.org/contact">Contact</a>
+          </li>
+          <li><a href="https://membership.debtcollective.org">Donate</a></li>
+          <li><a href="https://github.com/debtcollective/">Open Source</a></li>
+        </ul>
+      </nav>
+      <div class="notice">
+        <a href="https://debtcollective.org">
+          <%= image_tag('logo-dark.svg', alt: 'Debt Collective')%>
+        </a>
+        <p>
+          <a id="to-top-link" href="#">Back to top</a>
+          <span>Copyright <%= Time.new.year %></span>
+          <a href="https://community.debtcollective.org/tos"
+            >Terms and Conditions</a
+          >
+        </p>
+      </div>
+    </footer>
   </body>
 </html>

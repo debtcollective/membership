@@ -10,4 +10,18 @@ module ApplicationHelper
       page_title + ' | ' + base_title
     end
   end
+
+  def flash_messages(_opts = {})
+    flash.each do |msg_type, message|
+      concat(
+        content_tag(:div, message, class: "alert alert-#{msg_type}", role: 'alert') do
+          concat message
+          concat content_tag(:button, content_tag(:span, '×', data: { 'aria-hidden': 'true' }),
+                             class: 'close', data: { dismiss: 'alert' })
+        end
+      )
+    end
+
+    nil
+  end
 end

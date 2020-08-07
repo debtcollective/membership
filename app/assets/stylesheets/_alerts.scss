@@ -1,0 +1,88 @@
+@import 'base/globals';
+
+.alert {
+  margin: 0 2rem 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding-right: 1rem;
+  color: $alert-info-text-color;
+  background-color: $alert-info-background;
+  border-color: $alert-info-border-color;
+  position: relative;
+
+  // Adjust close link position
+  .close {
+    background: none;
+    border: 0;
+    color: inherit;
+    font-size: 1.5rem;
+    padding: .75rem 1.25rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  // Headings for larger alerts
+  h4 {
+    margin-top: 0;
+    color: inherit; // Specified for the h4 to prevent conflicts of changing $headings-color
+  }
+
+  // Provide class for links that match alerts
+  .alert-link {
+    font-weight: normal;
+  }
+
+  // Improve alignment and spacing of inner content
+  > p,
+  > ul {
+    margin-bottom: 0;
+  }
+
+  > p + p {
+    margin-top: 5px;
+  }
+}
+
+.alert-info {
+  color: $alert-info-text-color;
+  background-color: $alert-info-background;
+  border-color: $alert-info-border-color;
+
+  hr {
+    border-top-color: darken($alert-info-border-color, 5%);
+  }
+
+  .alert-link {
+    color: darken($alert-info-text-color, 10%);
+  }
+}
+
+.alert-success {
+  color: $alert-success-text-color;
+  background-color: $alert-success-background;
+  border-color: $alert-success-border-color;
+
+  hr {
+    border-top-color: darken($alert-success-border-color, 5%);
+  }
+
+  .alert-link {
+    color: darken($alert-success-text-color, 10%);
+  }
+}
+
+.alert-error {
+  color: $alert-error-text-color;
+  background-color: $alert-error-background;
+  border-color: $alert-error-border-color;
+
+  hr {
+    border-top-color: darken($alert-error-border-color, 5%);
+  }
+
+  .alert-link {
+    color: darken($alert-error-text-color, 10%);
+  }
+}

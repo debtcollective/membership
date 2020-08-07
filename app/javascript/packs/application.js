@@ -17,3 +17,11 @@ require('channels')
 
 require('trix')
 require('@rails/actiontext')
+
+document.addEventListener('DOMContentLoaded', function (event) {
+  document
+    .querySelector('.alert button.close')
+    .addEventListener('click', function () {
+      this.parentElement.remove()
+    })
+})
