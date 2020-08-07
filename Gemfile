@@ -19,7 +19,7 @@ gem 'webpacker', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
 gem 'redis', '~> 4.0'
-gem 'redis-namespace', '~> 1.6'
+gem 'redis-namespace', '1.7'
 gem 'ffi', '~> 1.9', '>= 1.9.25'
 
 # front-end libraries
@@ -36,9 +36,9 @@ gem 'recaptcha', '~> 5.2', '>= 5.2.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '1.4.7', require: false
 
-# Delayed jobs
-gem 'sidekiq', '~> 6.0'
-gem 'sidekiq-scheduler', '~> 3.0'
+# Background jobs
+gem 'sidekiq', '6.1.1'
+gem 'sidekiq-scheduler', '3.0.1'
 
 # monitoring
 gem 'skylight', '4.3.1'
@@ -77,6 +77,3 @@ group :test do
   gem 'timecop', '~> 0.9.1'
   gem 'webdrivers', '4.4.1'
 end
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
