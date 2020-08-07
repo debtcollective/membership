@@ -41,10 +41,15 @@
   }
 }
 
-#homepage {
+#homepage,
+#thank-you {
   h1,
   h4 {
     text-align: center;
+
+    a {
+      color: blue;
+    }
   }
 
   > section {
@@ -203,5 +208,11 @@
         width: 101%;
       }
     }
+  }
+}
+
+#thank-you {
+  .home-link {
+    margin-top: 2rem;
   }
 }
