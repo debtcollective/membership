@@ -37,7 +37,7 @@ class SubscriptionChargesController < ApplicationController
     charge = Stripe::Charge.create(
       customer: customer.id,
       amount: amount, # amount in cents
-      description: "One time donation of #{displayable_amount(amount)}",
+      description: "One time donation of #{DonationService.displayable_amount(amount)}",
       currency: 'usd'
     )
 
@@ -66,14 +66,6 @@ class SubscriptionChargesController < ApplicationController
         format.json { render json: @subscription.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  protected
-
-  def displayable_amount(amount)
-    return '$0' unless amount
-
-    ActionController::Base.helpers.number_to_currency(amount.to_f / 100)
   end
 
   private

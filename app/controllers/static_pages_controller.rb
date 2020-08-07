@@ -6,4 +6,7 @@ class StaticPagesController < ApplicationController
     @current_user_subscription = @current_user&.active_subscription
     @plans = Plan.all.order('amount asc')
   end
+
+  def thank_you
+  end
 end

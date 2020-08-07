@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get '/card/new' => 'billings#new_card', as: :add_payment_method
   post '/card' => 'billings#create_card', as: :create_payment_method
 
+  get '/thank-you' => 'static_pages#thank_you'
+
   resources :plans, only: %i[show index]
   resources :subscription_charges, only: %i[new edit create update]
   resources :billings, only: %i[new create]

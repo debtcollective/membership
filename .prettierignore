@@ -11,3 +11,4 @@ log
 lib
 db
 bin
+*.html.erb
