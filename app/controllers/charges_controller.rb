@@ -3,20 +3,27 @@
 require 'recaptcha'
 
 class ChargesController < ApplicationController
-  before_action :set_amount, only: [:create]
-
   def new; end
 
   def create
     return unless verify_recaptcha
-    return if @amount.nil? || @amount.zero? || @amount.negative?
 
-    return Raven.capture_message(I18n.t('charge.errors.min_amount'), extra: { params: params }) if @amount < 500
+    amount = charges_params[:amount].to_i
+    amount_cents = amount * 100
+
+    if amount.nil? || amount.zero? || amount.negative?
+      flash[:error] = 'You must set a valid amount'
+      render new
+    end
+
+    return Raven.capture_message(I18n.t('charge.errors.min_amount'), extra: { params: params }) if amount_cents < 500
+
+    donation_params = params.merge({ amount: amount_cents, customer_ip: request.remote_ip })
 
     charge = if current_user
-               DonationService.save_donation_from(current_user, params)
+               DonationService.save_donation_from(current_user, donation_params)
              else
-               DonationService.charge_donation_of_anonymous_user(params)
+               DonationService.charge_donation_of_anonymous_user(donation_params)
              end
 
     if charge.instance_of?(String)
@@ -24,20 +31,12 @@ class ChargesController < ApplicationController
       return redirect_to new_charge_path
     end
 
+    flash[:success] = "Your #{DonationService.displayable_amount(amount_cents)} donation has been successfully processed"
     redirect_to thank_you_path
   end
 
-  def thank_you; end
-
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_amount
-    # Amount in cents
-    @amount = charges_params[:amount].to_i * 100
-  end
-
-  # Never trust parameters from the scary internet, only allow the white list through.
   def charges_params
     params.require(:donation).permit(:amount)
   end

@@ -1,12 +1,11 @@
 @import 'base/globals';
 
 #checkout {
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  background: linear-gradient(90deg, $bg-color-primary 50%, $bg-color-secondary 50%);
+  margin-top: 2rem;
 
   > .content {
     background: white;

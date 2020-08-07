@@ -35,13 +35,19 @@
     }
   }
 
+  .buttons {
+    li {
+      margin-right: 1rem;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+
   .button {
     display: none;
     padding: 1rem 3rem;
-
-    &:first-of-type {
-      margin-right: 1rem;
-    }
 
     @media(min-width: 80rem) {
       display: flex;

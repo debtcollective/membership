@@ -12,6 +12,9 @@ class DonationService
         user.update(stripe_id: customer.id)
       end
 
+      amount = params[:amount]
+      customer_ip = params[:customer_ip]
+
       card_token = params[:stripeToken]
       # it's the stripeToken that we added in the hidden input
 
@@ -23,17 +26,17 @@ class DonationService
 
       charge = Stripe::Charge.create(
         customer: user.stripe_id,
-        amount: @amount,
-        description: "One time donation of #{displayable_amount(@amount)}",
+        amount: amount,
+        description: "One time donation of #{displayable_amount(amount)}",
         currency: 'usd'
       )
 
       if charge
         donation = Donation.new(
-          amount: @amount / 100, # transformed from cents
+          amount: amount / 100, # transformed from cents
           customer_stripe_id: user.stripe_id,
           donation_type: Donation::DONATION_TYPES[:one_off],
-          customer_ip: request.remote_ip,
+          customer_ip: customer_ip,
           user_id: current_user.id
         )
 
@@ -51,19 +54,22 @@ class DonationService
         source: params[:stripeToken]
       )
 
+      amount = params[:amount]
+      customer_ip = params[:customer_ip]
+
       charge = Stripe::Charge.create(
         customer: customer.id,
-        amount: @amount,
-        description: "One time donation of #{displayable_amount(@amount)}",
+        amount: amount,
+        description: "One time donation of #{displayable_amount(amount)}",
         currency: 'usd'
       )
 
       if charge
         donation = Donation.new(
-          amount: @amount / 100, # transformed from cents
+          amount: amount / 100, # transformed from cents
           customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
-          customer_ip: request.remote_ip
+          customer_ip: customer_ip
         )
 
         return donation.save

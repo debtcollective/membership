@@ -81,9 +81,10 @@
       event.preventDefault();
       const isCaptchaValid = verifyCaptcha()
 
-      if (isCaptchaValid ) {
+      if (isCaptchaValid) {
         //you can now submit your form
         stripe.createToken(card).then(function(result) {
+          debugger;
           if (result.error) {
             // Inform the user if there was an error.
             const errorElement = document.getElementById('card-errors');
@@ -97,7 +98,7 @@
     });
 
     // Submit the form with the token ID.
-    function stripeTokenHandler(token) {
+    function stripeTokenHandler(token, data) {
       // Insert the token ID into the form so it gets submitted to the server
       const form = document.getElementById('payment-form');
       const stripeHiddenInput = document.createElement('input');
