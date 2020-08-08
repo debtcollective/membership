@@ -31,7 +31,7 @@ class ChargesController < ApplicationController
       return redirect_to new_charge_path
     end
 
-    flash[:success] = "Your #{DonationService.displayable_amount(amount_cents)} donation has been successfully processed"
+    flash[:success] = I18n.t('charge.alerts.success', amount: DonationService.displayable_amount(amount_cents))
     redirect_to thank_you_path
   end
 

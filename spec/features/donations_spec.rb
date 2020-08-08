@@ -23,7 +23,7 @@ describe 'Donations', type: :feature do
       end
 
       using_wait_time(10) do
-        expect(page).to have_content('Thank you for donating $25.00')
+        expect(page).to have_content(I18n.t('charge.alerts.success', amount: '$25.00'))
       end
     end
 
@@ -48,7 +48,7 @@ describe 'Donations', type: :feature do
       end
 
       using_wait_time(10) do
-        expect(page).to_not have_content('Thank you for donating $4.00')
+        expect(page).to_not have_content(I18n.t('charge.alerts.success', amount: '$4.00'))
       end
     end
 
@@ -92,7 +92,7 @@ describe 'Donations', type: :feature do
       end
 
       using_wait_time(10) do
-        expect(page).to have_content('Thank you for donating $25.00')
+        expect(page).to have_content(I18n.t('charge.alerts.success', amount: '$25.00'))
       end
     end
 

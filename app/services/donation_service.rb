@@ -37,7 +37,7 @@ class DonationService
           customer_stripe_id: user.stripe_id,
           donation_type: Donation::DONATION_TYPES[:one_off],
           customer_ip: customer_ip,
-          user_id: current_user.id
+          user_id: user.id
         )
 
         return donation.save

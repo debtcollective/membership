@@ -31,5 +31,7 @@
 
 en:
   charge:
+    alerts:
+      success: Your %{amount} donation has been successfully processed
     errors:
       min_amount: "We couldn't the process payment the minimum amount that can be donated is $5 USD due fees charged by our payments provider"
