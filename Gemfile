@@ -22,6 +22,10 @@ gem 'redis', '~> 4.0'
 gem 'redis-namespace', '1.7'
 gem 'ffi', '~> 1.9', '>= 1.9.25'
 
+# Emails
+gem 'inky-rb', '1.3.8.0'
+gem 'premailer-rails', '1.11.1'
+
 # front-end libraries
 gem 'react_on_rails', '~> 11.3'
 gem 'mini_racer', platforms: :ruby
