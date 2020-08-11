@@ -23,7 +23,7 @@ gem 'redis-namespace', '1.7'
 gem 'ffi', '~> 1.9', '>= 1.9.25'
 
 # Emails
-gem 'inky-rb', '1.3.8.0'
+gem 'inky-rb', '1.3.8.0', require: 'inky'
 gem 'premailer-rails', '1.11.1'
 
 # front-end libraries
