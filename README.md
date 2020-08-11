@@ -105,6 +105,10 @@ Therefore as a developer, you're expected to run
 
 And run the commands using your gemset installation of forego.
 
+### Solargraph
+
+Install [Ruby Solargraph](https://marketplace.visualstudio.com/items?itemName=castwide.solargraph) VSCode extension to enable autocompletion.
+
 ### Formatting
 
 We are using [Standard](https://github.com/testdouble/standard) that is a wrapper on top of Rubocop with a predefined set of Rules. If you use VS Code you will want to install [vscode-ruby](https://marketplace.visualstudio.com/items?itemName=rebornix.Ruby) extension and enable formatting on save.
@@ -117,9 +121,10 @@ To enable formatting on save add these lines to your `settings.json`.
     "editor.formatOnSave": true
   },
   "ruby.lint": {
-    "rubocop": true
+    "standard": true
   },
-  "ruby.format": "rubocop",
+  "ruby.format": "standard",
+  "ruby.useLanguageServer": true,
   "editor.formatOnSaveTimeout": 5000
 }
 ```
