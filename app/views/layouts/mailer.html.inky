@@ -11,12 +11,10 @@
     <wrapper bgcolor="#F7F7F7" class="header">
       <container bgcolor="#F7F7F7">
         <row>
-          <column small="12">
-            <p class="text-center">
-              <spacer size="50"></spacer>
-              <%= image_tag('logo-light.png') %>
-              <spacer size="50"></spacer>
-            </p>
+          <column large="12">
+            <spacer size="25"></spacer>
+            <%= image_tag('logo-light.png', class: 'email-logo') %>
+            <spacer size="25"></spacer>
           </column>
         </row>
       </container>
