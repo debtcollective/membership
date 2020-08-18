@@ -20,15 +20,17 @@ class DonationService
 
       # checking if a card was given.
       if card_token.nil?
-        Raven.capture_message("We couldn't process payment for user_id: #{user.id}", extra: { params: params })
-        redirect_to billing_path, error: "We couldn't process your payment, please try again or contact us at admin@debtcollective.org for support"
+        Raven.capture_message("We couldn't process payment for user_id: #{user.id}", extra: {params: params})
+        error = "We couldn't process your payment, please try again or contact us at admin@debtcollective.org for support"
+
+        return nil, error
       end
 
       charge = Stripe::Charge.create(
         customer: user.stripe_id,
         amount: amount,
         description: "One time donation of #{displayable_amount(amount)}",
-        currency: 'usd'
+        currency: "usd"
       )
 
       if charge
@@ -40,12 +42,15 @@ class DonationService
           user_id: user.id
         )
 
-        return donation.save
+        donation.save
+        return donation, nil
       end
 
       false
     rescue Stripe::StripeError => e
-      e.message
+      Raven.capture_exception(e)
+
+      [nil, e.message]
     end
 
     def charge_donation_of_anonymous_user(params)
@@ -61,7 +66,7 @@ class DonationService
         customer: customer.id,
         amount: amount,
         description: "One time donation of #{displayable_amount(amount)}",
-        currency: 'usd'
+        currency: "usd"
       )
 
       if charge
@@ -72,16 +77,20 @@ class DonationService
           customer_ip: customer_ip
         )
 
-        return donation.save
+        donation.save
+
+        return donation
       end
-      false
+
+      [false, nil]
     rescue Stripe::StripeError => e
       Raven.capture_exception(e)
-      e.message
+
+      [nil, e.message]
     end
 
     def displayable_amount(amount)
-      return '$0' unless amount
+      return "$0" unless amount
 
       ActionController::Base.helpers.number_to_currency(amount.to_f / 100)
     end
