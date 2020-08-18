@@ -377,7 +377,7 @@ DEPENDENCIES
   bootsnap (= 1.4.7)
   byebug
   capybara (~> 3.28)
-  capybara-screenshot (~> 1.0, >= 1.0.23)
+  capybara-screenshot (= 1.0.24)
   climate_control (~> 0.2.0)
   codecov (= 0.2.6)
   dotenv-rails (= 2.7.6)
