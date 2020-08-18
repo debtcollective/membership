@@ -73,8 +73,9 @@ group :test do
   gem "climate_control", "~> 0.2.0"
   gem 'capybara', '~> 3.28'
   gem 'capybara-screenshot', '~> 1.0', '>= 1.0.23'
-  gem 'rspec-rails', '4.0.1'
+  gem 'codecov', '0.2.6', require: false
   gem 'rspec-mocks', '3.9.1'
+  gem 'rspec-rails', '4.0.1'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
   gem 'stripe-ruby-mock', '~> 3.0.0', :require => 'stripe_mock'

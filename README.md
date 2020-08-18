@@ -130,3 +130,7 @@ To enable formatting on save add these lines to your `settings.json`.
 ```
 
 We're also using [standardjs](https://standardjs.com) and [prettier](https://prettier.io) to standarize our JavaScript development. This is running automatically on a **before commit** hook using [husky](https://github.com/typicode/husky#readme).
+
+### Codecov
+
+We use [codecov](https://github.com/codecov/codecov-ruby) for our test coverage metrics. In CI we need to provide a `CODECOV_TOKEN` env variable to upload code coverage stats correctly.

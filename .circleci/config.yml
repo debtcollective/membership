@@ -69,6 +69,8 @@ jobs:
       - run:
           name: run tests
           command: bundle exec rspec spec
+      - store_artifacts:
+        path: coverage
   build:
     executor: docker-publisher
     steps:
