@@ -20,20 +20,21 @@ Membership is a simple app for non profit organizations, that allows users to cr
 ## Table of contents
 
 - [Getting started](#getting-started)
-  * [Setup](#setup)
-  * [System dependencies](#system-dependencies)
-  * [Configuration](#configuration)
-  * [User sessions](#user-sessions)
+  - [Setup](#setup)
+  - [System dependencies](#system-dependencies)
+  - [Configuration](#configuration)
+  - [User sessions](#user-sessions)
 - [Developer notes](#developer-notes)
-  * [Ruby 2.7 deprecations warnings](#ruby-27-deprecations-warnings)
-  * [Running Forego](#running-forego)
-  * [Formatting](#formatting)
+  - [Ruby 2.7 deprecations warnings](#ruby-27-deprecations-warnings)
+  - [Running Forego](#running-forego)
+  - [Formatting](#formatting)
 
 ## Getting started
 
 ### Setup
 
 ```bash
+cp .env.sample .env # copy .env file
 bundle install # install gems
 yarn install # install packages
 rake db:create # create database
@@ -43,6 +44,22 @@ rake db:seed # seed database
 # run project with
 forego start
 ```
+
+At this point, you should be able to see the app at http://membership.lvh.me:5000
+
+### Dotenv
+
+We are using Dotenv to set our environment variables. Once you copy the `.env.sample` file to `.env` you need to replace a few variables there, most of them will work with defaults.
+
+#### Stripe
+
+You can get the Stripe keys by registering for a free Stripe account and generating test keys. Here's a link to their Docs on how to obtain these keys https://stripe.com/docs/keys#obtain-api-keys.
+
+#### Google reCAPTCHA
+
+In order to obtain this key, you need to go to this address and generate one https://www.google.com/recaptcha/admin/create. Be sure to use the reCAPTCHA V2 and select the I'm not a robot" checkbox option. Also, set the correct domain names the app is running on, these are `membership.lvh.me` and `localhost`.
+
+If you need help to get some of these key right or setting this up, please ask other devs for help.
 
 ### System dependencies
 
@@ -56,40 +73,11 @@ You'll need to have installed the following dependencies installed, if you don't
 An instance of PostgresSQL needs to be actively running.
 _Note:_ MacOS users can use the [Postgres app](https://postgresapp.com).
 
-### Configuration
-
-Have a ruby version installed, you can learn more about how to use multiple versions of Ruby installed in your computer with [rbenv](https://github.com/rbenv/rbenv) or [rvm](https://rvm.io).
-
-To get started with the app, clone the repo and then install the needed gems:
-
-```bash
-$ bundle install
-```
-
-Next, migrate the database:
-
-```bash
-$ bundle exec rake db:migrate
-```
-
-Finally, run the test suite to verify that everything is working correctly (This project uses [rspec](http://rspec.info)):
+### Running tests
 
 ```bash
 $ bundle exec rspec
 ```
-
-If the test suite passes, you'll be ready to run the app in a local server:
-
-```bash
-$ forego start -f <Procfile>
-```
-
-**Note** [Learn more about using Forego on your local machine](#running-forego)
-
-1. `Procfile.dev`: Starts the Webpack Dev Server and Rails with Hot Reloading.
-2. `Procfile.hot`: Starts the Rails server and the webpack server to provide hot reloading of assets, JavaScript and CSS.
-3. `Procfile.static`: Starts the Rails server and generates static assets that are used for tests.
-4. `Procfile.spec`: Starts webpack to create the static files for tests. _Good to know:_ If you want to start `rails s` separately to debug in pry, then run `Procfile.spec` to generate the assets and run rails s in a separate console.
 
 ### User sessions
 
@@ -117,6 +105,10 @@ Therefore as a developer, you're expected to run
 
 And run the commands using your gemset installation of forego.
 
+### Solargraph
+
+Install [Ruby Solargraph](https://marketplace.visualstudio.com/items?itemName=castwide.solargraph) VSCode extension to enable autocompletion.
+
 ### Formatting
 
 We are using [Standard](https://github.com/testdouble/standard) that is a wrapper on top of Rubocop with a predefined set of Rules. If you use VS Code you will want to install [vscode-ruby](https://marketplace.visualstudio.com/items?itemName=rebornix.Ruby) extension and enable formatting on save.
@@ -129,9 +121,10 @@ To enable formatting on save add these lines to your `settings.json`.
     "editor.formatOnSave": true
   },
   "ruby.lint": {
-    "rubocop": true
+    "standard": true
   },
-  "ruby.format": "rubocop",
+  "ruby.format": "standard",
+  "ruby.useLanguageServer": true,
   "editor.formatOnSaveTimeout": 5000
 }
 ```

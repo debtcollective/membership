@@ -10,8 +10,11 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *= require_tree .
+ *= stub "mailer"
  *= require_self
  */
+
+ @import 'base/globals.scss';
 
 html,
 body {
@@ -31,7 +34,7 @@ body {
 }
 
 body {
-  background: #FCFBF7;
+  background: linear-gradient($bg-color-primary, $bg-color-secondary 50%);
   display: flex;
   flex-direction: column;
 }

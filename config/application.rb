@@ -23,6 +23,8 @@ require 'sidekiq-scheduler'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+require_relative '../lib/redis/namespace_extensions'
+
 module Membership
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -39,6 +41,7 @@ module Membership
     config.generators.system_tests = nil
 
     config.active_job.queue_adapter = :sidekiq
+
     Sidekiq.configure_server do |config|
       config.redis = {
         url: ENV['REDIS_URL'],

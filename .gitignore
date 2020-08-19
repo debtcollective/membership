@@ -78,3 +78,6 @@ build-iPhoneSimulator/
 /vendor/bundle
 /lib/bundler/man/
 .env
+
+## OS files
+.DS_Store

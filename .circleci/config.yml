@@ -61,7 +61,7 @@ jobs:
 
       - run:
           name: dotenv
-          command: cp .env.template .env
+          command: cp .env.sample .env
 
       - run:
           command: bundle exec rake db:setup

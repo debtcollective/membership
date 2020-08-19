@@ -1,0 +1,19 @@
+<% content_for :head do %>
+  <meta property="og:title" content="Thank you for your support | Debt Collective" />
+  <meta property="og:type" content="text/html" />
+  <meta property="og:url" content="<%= request.original_url %>" />
+  <meta property="og:image" content="<%= asset_url('logo-small.png') %>" />
+<% end %>
+
+<main id="thank-you">
+  <section id="">
+    <h1>Thank you for supporting the Debt Collective!</h1>
+    <h4>
+      If you know other who support our cause, please help us by spreading the word:
+      <a href="https://debtcollective.org">https://debtcollective.org</a>
+    </h4>
+
+    <%= link_to 'Back to home', root_path, class: 'button secondary home-link'%>
+
+  </section>
+</main>

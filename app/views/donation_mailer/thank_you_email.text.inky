@@ -1,0 +1,3 @@
+Donation#thank_you
+
+<%= @greeting %>, find me in app/views/donation_mailer/thank_you.text.erb

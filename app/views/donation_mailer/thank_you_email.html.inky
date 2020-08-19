@@ -1,0 +1,119 @@
+<style>
+  .receipt {
+    border: 1px solid #ccd3de;
+  }
+
+  .divider {
+    border-top: 2px solid #ccd3de
+  }
+</style>
+<container>
+  <row>
+    <columns small="12">
+      <spacer size="25"></spacer>
+      <h1 class="text-center ">Thank you for your contribution.</h1>
+      <spacer size="25"></spacer>
+
+      <p>
+        We are working hard to build the the movement to end predatory debt.
+      </p>
+
+      <p>
+        If you know others who support this mission, please help us spreading the word: <a href="https://membership.debtcollective.org/">https://membership.debtcollective.org/</a>
+      </p>
+
+      <p>
+        <i>
+          Laura Hanna<br/>
+          Director<br/>
+          laura@debtcollective.org<br/>
+        </i>
+      </p>
+    </columns>
+  </row>
+  <row>
+    <columns small="12">
+      <p>
+        <i>
+          Here's a receipt for your records:
+        </i>
+      </p>
+      <spacer size="25"></spacer>
+    </columns>
+  </row>
+</container>
+
+<container class="receipt">
+  <row>
+    <columns large="12">
+      <h4>
+        Your contribution receipt
+      </h4>
+      <p class="text-right">
+        $3.00
+      </p>
+      <p class="text-right">
+        One-time contribution
+      </p>
+      <p>
+        <small>
+          Thank you for your contribution in support of The Debt Collective!
+        </small>
+      </p>
+    </columns>
+  </row>
+  <row>
+    <columns large="6">
+      Debt Collective
+    </columns>
+    <columns large="6">
+      <p class="text-right">
+        $3.00
+      </p>
+    </columns>
+  </row>
+  <row class="divider">
+    <columns large="6">
+      Total
+    </columns>
+    <columns large="6">
+      <p class="text-right">
+        $3.00
+      </p>
+    </columns>
+  </row>
+  <row>
+    <columns large="6">
+      <p class="text-right">
+        Name
+      </p>
+    </columns>
+    <columns large="6">
+      <p class="text-left">
+        Orlando Aguila
+      </p>
+    </columns>
+  </row>
+  <row>
+    <columns large="6">
+      <p class="text-right">
+        Order
+      </p>
+    </columns>
+    <columns large="6">
+      <p class="text-left">
+        #	AB136687813
+      </p>
+    </columns>
+  </row>
+</container>
+<container>
+  <row>
+    <columns large="12">
+      <spacer size="25"></spacer>
+      <p class="text-justify">
+        Note: Contributions, donations, and gifts to Debt Collective are not tax deductible. They support our advocacy and political efforts and allow us to build the most powerful movement we can to stop climate change and create millions of good jobs. Debt Collective is a non-profit, tax-exempt, 501(c)(4) social welfare organization.
+      </p>
+    </columns>
+  </row>
+</container>

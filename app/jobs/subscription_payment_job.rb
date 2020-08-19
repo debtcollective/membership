@@ -14,14 +14,6 @@ class SubscriptionPaymentJob < ApplicationJob
     create_donation(subscription, stripe_charge) if stripe_charge
   end
 
-  protected
-
-  def displayable_amount(amount)
-    return '$0' unless amount
-
-    ActionController::Base.helpers.number_to_currency(amount.to_f / 100)
-  end
-
   private
 
   def create_charge(subscription)
@@ -33,7 +25,7 @@ class SubscriptionPaymentJob < ApplicationJob
       Stripe::Charge.create(
         customer: customer,
         amount: (plan.amount * 100).to_i, # amount in cents
-        description: "Charged #{displayable_amount(plan.amount * 100)} for #{plan.name}",
+        description: "Charged #{DonationService.displayable_amount(plan.amount * 100)} for #{plan.name}",
         currency: 'usd',
         metadata: { 'plan_id' => plan.id, 'user_id' => subscription.user.id }
       )
