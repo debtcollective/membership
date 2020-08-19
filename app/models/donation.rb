@@ -31,10 +31,10 @@ class Donation < ApplicationRecord
   validates :amount, numericality: {greater_than_or_equal_to: 5}, presence: true
 
   def receipt_url
-    charge_data["data"]["receipt_url"]
+    charge_data.dig("data", "receipt_url")
   end
 
   def receipt_number
-    charge_data["receipt_number"]
+    charge_data.dig("data", "receipt_number")
   end
 end
