@@ -4,15 +4,19 @@ class DonationMailer < ApplicationMailer
   #
   #   en.donation_mailer.thank_you_email.subject
   #
-  def thank_you_email
+  def thank_you_email(params)
+    # first and last name
     # donation amount
     # donation description
     # donation id
     # donation date
     # payment type
-    # first and last name
-    @greeting = "Hi"
+    @user = params[:user]
+    @donation = params[:donation]
 
-    mail to: "to@example.org"
+    # email
+    email = @user&.email || @donation.user_data["email"]
+
+    mail to: email
   end
 end

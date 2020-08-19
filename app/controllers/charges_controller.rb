@@ -17,11 +17,15 @@ class ChargesController < ApplicationController
       return render :new
     end
 
-    return Raven.capture_message(I18n.t("charge.errors.min_amount"), extra: {params: params}) if amount_cents < 500
+    if amount_cents < 500
+      flash[:error] = I18n.t("charge.errors.min_amount")
+
+      return render :new
+    end
 
     donation_params = params.merge({amount: amount_cents, customer_ip: request.remote_ip})
 
-    charge, error = if current_user
+    donation, error = if current_user
       DonationService.save_donation_with_user(current_user, donation_params)
     else
       DonationService.save_donation_without_user(donation_params)
@@ -32,10 +36,13 @@ class ChargesController < ApplicationController
       return render :new
     end
 
-    if charge.instance_of?(String)
-      flash[:error] = charge
+    if donation.instance_of?(String)
+      flash[:error] = donation
       return render :new
     end
+
+    # send thank you email
+    DonationMailer.thank_you_email({user: current_user, donation: donation})
 
     flash[:success] = I18n.t("charge.alerts.success", amount: DonationService.displayable_amount(amount_cents))
     redirect_to thank_you_path
