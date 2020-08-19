@@ -32,20 +32,21 @@ class DonationService
         return nil, error
       end
 
-      charge = Stripe::Charge.create(
+      stripe_charge = Stripe::Charge.create(
         customer: user.stripe_id,
         amount: amount,
         description: "One time donation of #{displayable_amount(amount)}",
         currency: "usd"
       )
 
-      if charge
+      if stripe_charge
         donation = Donation.new(
           amount: amount / 100, # transformed from cents
-          charge_id: charge.id,
+          charge_id: stripe_charge.id,
           charge_provider: "stripe",
+          charge_data: stripe_charge.to_json,
           customer_ip: customer_ip,
-          customer_stripe_id: user.stripe_id,
+          customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
           user_id: user.id
         )
@@ -70,19 +71,22 @@ class DonationService
       amount = params[:amount]
       customer_ip = params[:customer_ip]
 
-      charge = Stripe::Charge.create(
+      stripe_charge = Stripe::Charge.create(
         customer: customer.id,
         amount: amount,
         description: "One time donation of #{displayable_amount(amount)}",
         currency: "usd"
       )
 
-      if charge
+      if stripe_charge
         donation = Donation.new(
           amount: amount / 100, # transformed from cents
+          charge_id: stripe_charge.id,
+          charge_provider: "stripe",
+          charge_data: stripe_charge.to_json,
+          customer_ip: customer_ip,
           customer_stripe_id: customer.id,
-          donation_type: Donation::DONATION_TYPES[:one_off],
-          customer_ip: customer_ip
+          donation_type: Donation::DONATION_TYPES[:one_off]
         )
 
         donation.save

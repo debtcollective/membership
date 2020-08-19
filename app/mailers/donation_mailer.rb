@@ -5,8 +5,14 @@ class DonationMailer < ApplicationMailer
   #   en.donation_mailer.thank_you_email.subject
   #
   def thank_you_email
+    # donation amount
+    # donation description
+    # donation id
+    # donation date
+    # payment type
+    # first and last name
     @greeting = "Hi"
 
-    mail to: "to@example.org", subject: "Thank you for your contribution to Debt Collective!"
+    mail to: "to@example.org"
   end
 end
