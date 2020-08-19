@@ -11,6 +11,7 @@
 #  customer_ip        :string
 #  donation_type      :string
 #  status             :integer          default("finished")
+#  user_data          :jsonb
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  card_id            :string

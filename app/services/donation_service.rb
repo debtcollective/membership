@@ -6,7 +6,7 @@ class DonationService
       if user.stripe_id.nil?
         # here we are creating a stripe customer with the help of the Stripe
         # library and pass as parameter email.
-        # TODO: Add phone number
+        # TODO: Add phone number and address
         customer = Stripe::Customer.create(
           name: user.name,
           email: user.email,
@@ -42,12 +42,14 @@ class DonationService
       if stripe_charge
         donation = Donation.new(
           amount: amount / 100, # transformed from cents
+          charge_data: stripe_charge.to_json,
           charge_id: stripe_charge.id,
           charge_provider: "stripe",
-          charge_data: stripe_charge.to_json,
           customer_ip: customer_ip,
           customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
+          # TODO: add phone number and address
+          user_data: {email: user.email, name: user.name},
           user_id: user.id
         )
 
@@ -63,8 +65,10 @@ class DonationService
     end
 
     def save_donation_without_user(params)
+      email = params[:stripeEmail]
+
       customer = Stripe::Customer.create(
-        email: params[:stripeEmail],
+        email: email,
         source: params[:stripeToken]
       )
 
@@ -81,12 +85,13 @@ class DonationService
       if stripe_charge
         donation = Donation.new(
           amount: amount / 100, # transformed from cents
+          charge_data: stripe_charge.to_json,
           charge_id: stripe_charge.id,
           charge_provider: "stripe",
-          charge_data: stripe_charge.to_json,
           customer_ip: customer_ip,
           customer_stripe_id: customer.id,
-          donation_type: Donation::DONATION_TYPES[:one_off]
+          donation_type: Donation::DONATION_TYPES[:one_off],
+          user_data: {email: email}
         )
 
         donation.save
