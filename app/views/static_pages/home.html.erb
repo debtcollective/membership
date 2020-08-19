@@ -30,9 +30,9 @@
           >
         </h3>
         <h4><%= plan.headline %></h4>
-        <%= plan.description %> <% if @current_user_subscription&.plan&.id ==
-        plan.id %>
-        <p><strong>Current subscription</strong></p>
+        <%= plan.description %>
+        <% if @current_user_subscription&.plan&.id == plan.id %>
+          <p><strong>Current subscription</strong></p>
         <% end %>
       </div>
       <% end %> <% end %> <%= link_to new_charge_path, class:
@@ -42,11 +42,6 @@
       <p>
         “To each according to their ability, to each according to their need.”
         Contributing what you can, where you can is what we’re all about.
-      </p>
-      <p>
-        Folks who donate $100 on a one-time basis will receive a free gift from
-        our store. People who pay dues at the rate of $100 per month or more
-        will receive a thank you call from us.
       </p>
       <%end%>
     </div>
