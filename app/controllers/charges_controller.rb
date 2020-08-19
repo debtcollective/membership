@@ -22,9 +22,9 @@ class ChargesController < ApplicationController
     donation_params = params.merge({amount: amount_cents, customer_ip: request.remote_ip})
 
     charge, error = if current_user
-      DonationService.save_donation_from(current_user, donation_params)
+      DonationService.save_donation_with_user(current_user, donation_params)
     else
-      DonationService.charge_donation_of_anonymous_user(donation_params)
+      DonationService.save_donation_without_user(donation_params)
     end
 
     if error

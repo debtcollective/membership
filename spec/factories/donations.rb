@@ -6,19 +6,22 @@
 #
 #  id                 :bigint           not null, primary key
 #  amount             :money
+#  charge_data        :json             not null
+#  charge_provider    :string           default("stripe")
 #  customer_ip        :string
 #  donation_type      :string
 #  status             :integer          default("finished")
-#  user_data          :json             not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  card_id            :string
+#  charge_id          :string
 #  customer_stripe_id :string
 #  user_id            :bigint
 #
 # Indexes
 #
-#  index_donations_on_user_id  (user_id)
+#  index_donations_on_charge_id  (charge_id) UNIQUE
+#  index_donations_on_user_id    (user_id)
 #
 FactoryBot.define do
   factory :donation do

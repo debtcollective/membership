@@ -21,15 +21,15 @@ class SubscriptionPaymentJob < ApplicationJob
     plan = subscription.plan
 
     client = Stripe::StripeClient.new
-    charge, resp = client.request do
+    charge, resp = client.request {
       Stripe::Charge.create(
         customer: customer,
         amount: (plan.amount * 100).to_i, # amount in cents
         description: "Charged #{DonationService.displayable_amount(plan.amount * 100)} for #{plan.name}",
-        currency: 'usd',
-        metadata: { 'plan_id' => plan.id, 'user_id' => subscription.user.id }
+        currency: "usd",
+        metadata: {"plan_id" => plan.id, "user_id" => subscription.user.id}
       )
-    end
+    }
 
     resp
   rescue Stripe::CardError
@@ -62,8 +62,8 @@ class SubscriptionPaymentJob < ApplicationJob
       customer_stripe_id: subscription.user.stripe_id,
       donation_type: Donation::DONATION_TYPES[:subscription],
       user_id: subscription.user.id,
-      status: 'pending',
-      user_data: stripe_charge.to_json
+      status: "pending",
+      charge_data: stripe_charge.to_json
     )
     subscription.update!(last_charge_at: DateTime.now, active: true) if new_charge.save!
   end

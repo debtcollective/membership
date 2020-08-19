@@ -2,11 +2,17 @@
 
 class DonationService
   class << self
-    def save_donation_from(user, params)
+    def save_donation_with_user(user, params)
       if user.stripe_id.nil?
         # here we are creating a stripe customer with the help of the Stripe
         # library and pass as parameter email.
-        customer = Stripe::Customer.create("email": user.email, source: params[:stripeToken])
+        # TODO: Add phone number
+        customer = Stripe::Customer.create(
+          name: user.name,
+          email: user.email,
+          source: params[:stripeToken]
+        )
+
         # we are updating @user and giving to it stripe_id which is equal to
         # id of customer on Stripe
         user.update(stripe_id: customer.id)
@@ -15,8 +21,8 @@ class DonationService
       amount = params[:amount]
       customer_ip = params[:customer_ip]
 
-      card_token = params[:stripeToken]
       # it's the stripeToken that we added in the hidden input
+      card_token = params[:stripeToken]
 
       # checking if a card was given.
       if card_token.nil?
@@ -36,9 +42,11 @@ class DonationService
       if charge
         donation = Donation.new(
           amount: amount / 100, # transformed from cents
+          charge_id: charge.id,
+          charge_provider: "stripe",
+          customer_ip: customer_ip,
           customer_stripe_id: user.stripe_id,
           donation_type: Donation::DONATION_TYPES[:one_off],
-          customer_ip: customer_ip,
           user_id: user.id
         )
 
@@ -53,7 +61,7 @@ class DonationService
       [nil, e.message]
     end
 
-    def charge_donation_of_anonymous_user(params)
+    def save_donation_without_user(params)
       customer = Stripe::Customer.create(
         email: params[:stripeEmail],
         source: params[:stripeToken]
