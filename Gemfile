@@ -59,6 +59,7 @@ group :development, :test do
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'annotate', '3.1.1'
+  gem 'guard-rspec', '4.7.3', require: false
 end
 
 group :development do
