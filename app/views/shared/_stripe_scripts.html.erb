@@ -84,7 +84,6 @@
       if (isCaptchaValid) {
         //you can now submit your form
         stripe.createToken(card).then(function(result) {
-          debugger;
           if (result.error) {
             // Inform the user if there was an error.
             const errorElement = document.getElementById('card-errors');
