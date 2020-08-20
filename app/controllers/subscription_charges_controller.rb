@@ -32,25 +32,30 @@ class SubscriptionChargesController < ApplicationController
       return
     end
 
-    amount = (@subscription.plan.amount * 100).to_i
+    plan = @subscription.plan
+    amount = plan.amount
+    amount_in_cents = (plan.amount * 100).to_i
 
-    charge = Stripe::Charge.create(
+    stripe_charge = Stripe::Charge.create(
       customer: customer.id,
-      amount: amount, # amount in cents
-      description: "#{plan.name} membership monthly payment",
+      amount: amount_in_cents,
+      description: "Debt Collective #{plan.name} membership monthly payment",
       currency: "usd"
     )
 
-    if charge
+    if stripe_charge
       @subscription.active = true
       @subscription.last_charge_at = DateTime.now
       @subscription.save
 
       Donation.create(
-        amount: amount / 100, # transformed from cents
+        amount: amount,
+        charge_data: JSON.parse(stripe_charge.to_json),
+        customer_ip: request.remote_ip,
         customer_stripe_id: customer.id,
         donation_type: Donation::DONATION_TYPES[:subscription],
-        customer_ip: request.remote_ip,
+        status: stripe_charge.status,
+        user_data: {email: @user.email, name: @user.name},
         user_id: @user.id
       )
 

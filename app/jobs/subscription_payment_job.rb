@@ -22,18 +22,19 @@ class SubscriptionPaymentJob < ApplicationJob
 
     client = Stripe::StripeClient.new
     plan_amount_in_cents = (plan.amount * 100).to_i
+
     charge, resp = client.request {
       Stripe::Charge.create(
         customer: customer,
         amount: plan_amount_in_cents,
-        description: "Charged #{DonationService.displayable_amount(plan_amount_in_cents)} for #{plan.name}",
+        description: "Debt Collective #{plan.name} membership monthly payment",
         currency: "usd",
         metadata: {"plan_id" => plan.id, "user_id" => subscription.user.id}
       )
     }
 
-    resp
-  rescue Stripe::CardError
+    charge
+  rescue Stripe::CardError => e
     # TODO: Add Sentry log error here.
     disable_subscription(subscription)
   end
@@ -58,13 +59,15 @@ class SubscriptionPaymentJob < ApplicationJob
   end
 
   def create_donation(subscription, stripe_charge)
+    user = subscription.user
+
     donation = Donation.new(
       amount: subscription.plan.amount,
       charge_data: JSON.parse(stripe_charge.to_json),
       customer_stripe_id: subscription.user.stripe_id,
       donation_type: Donation::DONATION_TYPES[:subscription],
       status: stripe_charge.status,
-      user_id: subscription.user.id,
+      user: user,
       user_data: {emai: user.email, name: user.name}
     )
     subscription.update!(last_charge_at: DateTime.now, active: true) if donation.save!
