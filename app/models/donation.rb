@@ -6,7 +6,7 @@
 #
 #  id                 :bigint           not null, primary key
 #  amount             :money
-#  charge_data        :json             not null
+#  charge_data        :jsonb            not null
 #  charge_provider    :string           default("stripe")
 #  customer_ip        :string
 #  donation_type      :string
@@ -26,16 +26,50 @@
 #
 class Donation < ApplicationRecord
   DONATION_TYPES = {one_off: "ONE_OFF", subscription: "SUBSCRIPTION"}.freeze
-  enum status: %i[finished pending archived failed]
+  enum status: %i[succeeded pending failed]
+
+  belongs_to :user, optional: true
 
   validates :amount, :customer_stripe_id, :donation_type, presence: true
   validates :amount, numericality: {greater_than_or_equal_to: 5}, presence: true
 
+  def date
+    created_at.strftime("%m/%d/%Y")
+  end
+
+  def payment_type
+    payment_method_details = charge_data.dig("data", "payment_method_details", "card")
+    return "" unless payment_method_details
+
+    brand = payment_method_details.fetch("brand", "Credit Card")
+    last4 = payment_method_details["last4"]
+
+    "#{brand.capitalize} #{last4}"
+  end
+
+  def contributor_name
+    user_id? ? user.name : user_data.dig("name")
+  end
+
+  def contributor_email
+    user_id? ? user.email : user_data.dig("email")
+  end
+
   def receipt_url
-    charge_data.dig("data", "receipt_url")
+    # backwards compatibility
+    if data = charge_data.dig("data")
+      return data.dig("receipt_url")
+    end
+
+    charge_data.dig("receipt_url")
   end
 
   def receipt_number
-    charge_data.dig("data", "receipt_number")
+    # backwards compatibility
+    if data = charge_data.dig("data")
+      return data.dig("receipt_number")
+    end
+
+    charge_data.dig("receipt_number")
   end
 end

@@ -42,7 +42,7 @@ class ChargesController < ApplicationController
     end
 
     # send thank you email
-    DonationMailer.thank_you_email({user: current_user, donation: donation})
+    DonationMailer.thank_you_email(donation: donation).deliver_later
 
     flash[:success] = I18n.t("charge.alerts.success", amount: DonationService.displayable_amount(amount_cents))
     redirect_to thank_you_path

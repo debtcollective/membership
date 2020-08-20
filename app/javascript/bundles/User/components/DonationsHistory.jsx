@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const DONATION_TYPES = {
-  ONE_OFF: 'One time Donation',
+  ONE_OFF: 'One time Contribution',
   SUBSCRIPTION: 'Monthly Subscription'
 }
 

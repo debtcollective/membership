@@ -6,7 +6,7 @@
 #
 #  id                 :bigint           not null, primary key
 #  amount             :money
-#  charge_data        :json             not null
+#  charge_data        :jsonb            not null
 #  charge_provider    :string           default("stripe")
 #  customer_ip        :string
 #  donation_type      :string
@@ -71,6 +71,22 @@ RSpec.describe Donation, type: :model do
       expect(user_donation.contributor_email).to eq(user_donation.user.email)
       expect(donation.contributor_email).to eq("test@example.com")
       expect(donation_without_data.contributor_email).to be_nil
+    end
+  end
+
+  describe "#receipt_url" do
+    it "returns receipt_url from charge_data" do
+      donation = FactoryBot.create(:donation, charge_data: {"data": {"receipt_url": "https://receipt.com", "receipt_number": "123"}})
+
+      expect(donation.receipt_url).to eq("https://receipt.com")
+      expect(donation.receipt_number).to eq("123")
+    end
+
+    it "returns receipt_url from charge_data without data key" do
+      donation = FactoryBot.create(:donation, charge_data: {"receipt_url": "https://receipt.com", "receipt_number": "123"})
+
+      expect(donation.receipt_url).to eq("https://receipt.com")
+      expect(donation.receipt_number).to eq("123")
     end
   end
 end

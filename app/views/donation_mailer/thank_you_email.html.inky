@@ -59,7 +59,7 @@
         Your contribution receipt
       </h4>
       <p class="text-right donation-amount mb-0">
-        $3.00
+        <%= displayable_amount(@donation.amount) %>
       </p>
       <p class="text-right text-md">
         One-time contribution
@@ -78,7 +78,7 @@
     </columns>
     <columns large="6">
       <p class="text-right mb-0">
-        $3.00
+        <%= displayable_amount(@donation.amount) %>
       </p>
     </columns>
   </row>
@@ -98,7 +98,7 @@
     <columns large="6">
       <p class="text-right">
         <b>
-          $3.00
+          <%= displayable_amount(@donation.amount) %>
         </b>
       </p>
     </columns>
@@ -111,19 +111,19 @@
     </columns>
     <columns large="6">
       <p class="text-left mb-0">
-        Orlando Del Aguila
+        <%= @donation.contributor_name %>
       </p>
     </columns>
   </row>
   <row>
     <columns large="6">
       <p class="text-right mb-0">
-        <b>Order:</b>
+        <b>Receipt Number:</b>
       </p>
     </columns>
     <columns large="6">
       <p class="text-left mb-0">
-        <a href="#">AB136687813</a>
+        <%= link_to @donation.receipt_number, @donation.receipt_url%>
       </p>
     </columns>
   </row>
@@ -135,7 +135,7 @@
     </columns>
     <columns large="6">
       <p class="text-left mb-0">
-        08/05/2020
+        <%= @donation.date %>
       </p>
     </columns>
   </row>
@@ -147,14 +147,14 @@
     </columns>
     <columns large="6">
       <p class="text-left mb-0">
-        VISA 4072
+        <%= @donation.payment_type %>
       </p>
     </columns>
   </row>
   <row>
     <columns large="6">
       <p class="text-md mb-0">
-        This transaction will appear as one or more charges to <b>Sustainable Markets Foundation</b> on your credit card statement.
+        This transaction will appear as one or more charges to <b>DEBT COLLECTIVE DEBTCOLLECTIV NY</b> on your credit card statement.
       </p>
     </columns>
   </row>

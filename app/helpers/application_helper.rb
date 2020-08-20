@@ -24,4 +24,8 @@ module ApplicationHelper
 
     nil
   end
+
+  def displayable_amount(amount)
+    DonationService.displayable_amount(amount)
+  end
 end

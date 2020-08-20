@@ -6,7 +6,7 @@
 #
 #  id                 :bigint           not null, primary key
 #  amount             :money
-#  charge_data        :json             not null
+#  charge_data        :jsonb            not null
 #  charge_provider    :string           default("stripe")
 #  customer_ip        :string
 #  donation_type      :string

@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: tr
 
 class DonationService
   class << self
@@ -18,6 +18,7 @@ class DonationService
         user.update(stripe_id: customer.id)
       end
 
+      # amount needs to be in cents
       amount = params[:amount]
       customer_ip = params[:customer_ip]
 
@@ -35,19 +36,20 @@ class DonationService
       stripe_charge = Stripe::Charge.create(
         customer: user.stripe_id,
         amount: amount,
-        description: "One time donation of #{displayable_amount(amount)}",
+        description: "One time contribution of #{displayable_amount(amount)}",
         currency: "usd"
       )
 
       if stripe_charge
         donation = Donation.new(
-          amount: amount / 100, # transformed from cents
-          charge_data: stripe_charge.to_json,
+          amount: amount,
+          charge_data: JSON.parse(stripe_charge.to_json),
           charge_id: stripe_charge.id,
           charge_provider: "stripe",
           customer_ip: customer_ip,
           customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
+          status: stripe_charge.status,
           # TODO: add phone number and address
           user_data: {email: user.email, name: user.name},
           user_id: user.id
@@ -78,19 +80,21 @@ class DonationService
       stripe_charge = Stripe::Charge.create(
         customer: customer.id,
         amount: amount,
-        description: "One time donation of #{displayable_amount(amount)}",
+        description: "One time contribution of #{displayable_amount(amount)}",
         currency: "usd"
       )
 
       if stripe_charge
         donation = Donation.new(
-          amount: amount / 100, # transformed from cents
-          charge_data: stripe_charge.to_json,
+          amount: amount,
+          charge_data: JSON.parse(stripe_charge.to_json),
           charge_id: stripe_charge.id,
           charge_provider: "stripe",
           customer_ip: customer_ip,
           customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
+          status: stripe_charge.status,
+          # TODO: add name here
           user_data: {email: email}
         )
 

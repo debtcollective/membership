@@ -37,8 +37,8 @@ class SubscriptionChargesController < ApplicationController
     charge = Stripe::Charge.create(
       customer: customer.id,
       amount: amount, # amount in cents
-      description: "One time donation of #{DonationService.displayable_amount(amount)}",
-      currency: 'usd'
+      description: "#{plan.name} membership monthly payment",
+      currency: "usd"
     )
 
     if charge
@@ -57,7 +57,7 @@ class SubscriptionChargesController < ApplicationController
       @user.update(stripe_id: customer.id) if @user.stripe_id.nil?
 
       respond_to do |format|
-        format.html { redirect_to user_path(@user), notice: 'Thank you for subscribing.' }
+        format.html { redirect_to user_path(@user), notice: "Thank you for subscribing." }
         format.json { render :show, status: :created, location: @subscription }
       end
     else

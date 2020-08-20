@@ -21,11 +21,12 @@ class SubscriptionPaymentJob < ApplicationJob
     plan = subscription.plan
 
     client = Stripe::StripeClient.new
+    plan_amount_in_cents = (plan.amount * 100).to_i
     charge, resp = client.request {
       Stripe::Charge.create(
         customer: customer,
-        amount: (plan.amount * 100).to_i, # amount in cents
-        description: "Charged #{DonationService.displayable_amount(plan.amount * 100)} for #{plan.name}",
+        amount: plan_amount_in_cents,
+        description: "Charged #{DonationService.displayable_amount(plan_amount_in_cents)} for #{plan.name}",
         currency: "usd",
         metadata: {"plan_id" => plan.id, "user_id" => subscription.user.id}
       )
@@ -57,14 +58,15 @@ class SubscriptionPaymentJob < ApplicationJob
   end
 
   def create_donation(subscription, stripe_charge)
-    new_charge = Donation.new(
+    donation = Donation.new(
       amount: subscription.plan.amount,
+      charge_data: JSON.parse(stripe_charge.to_json),
       customer_stripe_id: subscription.user.stripe_id,
       donation_type: Donation::DONATION_TYPES[:subscription],
+      status: stripe_charge.status,
       user_id: subscription.user.id,
-      status: "pending",
-      charge_data: stripe_charge.to_json
+      user_data: {emai: user.email, name: user.name}
     )
-    subscription.update!(last_charge_at: DateTime.now, active: true) if new_charge.save!
+    subscription.update!(last_charge_at: DateTime.now, active: true) if donation.save!
   end
 end
