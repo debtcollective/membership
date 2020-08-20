@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 2020_08_19_211804) do
     t.bigint "user_id"
     t.string "charge_id"
     t.string "charge_provider", default: "stripe"
-    t.jsonb "user_data"
+    t.jsonb "user_data", default: {}
     t.index ["charge_id"], name: "index_donations_on_charge_id", unique: true
     t.index ["user_id"], name: "index_donations_on_user_id"
   end
