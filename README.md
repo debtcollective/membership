@@ -141,5 +141,5 @@ We use [Mailcatcher](https://github.com/sj26/mailcatcher) to get emails in devel
 
 - `gem install mailcatcher`
 - `rbenv rehash` (optional)
-- `mailcatcher`
+- `mailcatcher --http-ip=0.0.0.0`
 - `open http://127.0.0.1:1080`

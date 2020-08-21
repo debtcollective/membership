@@ -8,7 +8,16 @@
     <section id='checkout-payment'>
     <%= form_with(model: Donation, url: {controller: "charges", action: :create }, local: true, id: 'payment-form') do |form| %>
       <div>
-        <div id="card-errors" role="alert"></div>
+        <label>
+          Full name
+          <%= form.text_field :name, placeholder: 'Betsy DeVos', class: 'input-field', id: 'name-field' %>
+        </label>
+
+        <label>
+          Email
+          <%= form.email_field :email, placeholder: 'example@domain.com', class: 'input-field', id: 'email-field' %>
+        </label>
+
         <div class="form-row">
           <label for="card-element">
             Credit or debit card
@@ -16,11 +25,12 @@
           <div id="card-element">
             <!-- A Stripe Element will be inserted here. -->
           </div>
-
-          <!-- Used to display form errors. -->
         </div>
 
-        <%= form.number_field :amount, step: 1, placeholder: '$5', class: 'input-field', id: 'amount-field' %>
+        <label>
+          Amount
+          <%= form.number_field :amount, step: 1, placeholder: '$5', class: 'input-field', id: 'amount-field' %>
+        </label>
 
         <%= recaptcha_tags %>
         <button id="submit-payment" class="button primary">Make my donation</button>

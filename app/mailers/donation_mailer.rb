@@ -8,6 +8,6 @@ class DonationMailer < ApplicationMailer
     @donation = donation
     email = @donation.contributor_email
 
-    mail to: email
+    mail to: email, from: ENV["MAIL_FROM"]
   end
 end
