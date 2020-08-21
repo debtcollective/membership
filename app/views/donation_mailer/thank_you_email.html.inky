@@ -118,19 +118,19 @@
   <row>
     <columns large="6">
       <p class="text-right mb-0">
-        <b>Receipt Number:</b>
+        <b>Receipt:</b>
       </p>
     </columns>
     <columns large="6">
       <p class="text-left mb-0">
-        <%= link_to @donation.receipt_number, @donation.receipt_url%>
+        <%= link_to (@donation.receipt_number || @donation.id), @donation.receipt_url %>
       </p>
     </columns>
   </row>
   <row>
     <columns large="6">
       <p class="text-right mb-0">
-        <b>Order Date:</b>
+        <b>Date:</b>
       </p>
     </columns>
     <columns large="6">
