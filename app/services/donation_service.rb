@@ -10,7 +10,7 @@ class DonationService
         customer = Stripe::Customer.create(
           name: user.name,
           email: user.email,
-          source: params[:stripeToken]
+          source: params[:stripe_token]
         )
 
         # we are updating @user and giving to it stripe_id which is equal to
@@ -22,8 +22,8 @@ class DonationService
       amount = params[:amount]
       customer_ip = params[:customer_ip]
 
-      # it's the stripeToken that we added in the hidden input
-      card_token = params[:stripeToken]
+      # it's the stripe_token that we added in the hidden input
+      card_token = params[:stripe_token]
 
       # checking if a card was given.
       if card_token.nil?
@@ -51,7 +51,7 @@ class DonationService
           donation_type: Donation::DONATION_TYPES[:one_off],
           status: stripe_charge.status,
           # TODO: add phone number and address
-          user_data: {email: user.email, name: user.name},
+          user_data: {name: user.name, email: user.email},
           user_id: user.id
         )
 
@@ -67,13 +67,13 @@ class DonationService
     end
 
     def save_donation_without_user(params)
-      email = params[:stripeEmail]
-
       customer = Stripe::Customer.create(
-        email: email,
-        source: params[:stripeToken]
+        name: params[:name],
+        email: params[:email],
+        source: params[:stripe_token]
       )
 
+      # amount is in cents
       amount = params[:amount]
       customer_ip = params[:customer_ip]
 
@@ -94,8 +94,7 @@ class DonationService
           customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
           status: stripe_charge.status,
-          # TODO: add name here
-          user_data: {email: email}
+          user_data: {name: params[:name], email: params[:email]}
         )
 
         donation.save

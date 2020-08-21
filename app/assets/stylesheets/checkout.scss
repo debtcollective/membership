@@ -8,12 +8,10 @@
   margin-top: 2rem;
 
   > .content {
-    background: white;
     display: flex;
     margin: 0 auto;
     max-width: 80rem;
     padding: 2rem 1rem;
-    box-shadow: 0 0.0625rem 0.1875rem 0 rgba(0,0,0,0.2),0 0.0625rem 0.0625rem 0 rgba(0,0,0,0.14),0 2px 0.0625rem -0.0625rem rgba(0,0,0,0.12);
     flex-direction: column;
 
     @media screen and (min-width: 48rem) {
@@ -31,8 +29,11 @@
   }
 
   .form-row {
-
     label {
+      margin-bottom: 1rem;
+    }
+
+    .input-field {
       margin-bottom: 1rem;
     }
   }
@@ -40,35 +41,4 @@
 
 #payment-form {
   width: 100%;
-}
-
-.input-field,
-.StripeElement {
-  box-sizing: border-box;
-  height: 2.5rem;
-  padding: 0.625rem 0.75rem;
-  border: 0.0625rem solid transparent;
-  border-radius: 0.25rem;
-  background-color: white;
-  box-shadow: 0 0.0625rem 0.1875rem 0 #e6ebf1;
-  transition: box-shadow 150ms ease;
-  margin-bottom: 1rem;
-  width: 100%;
-  font-size: 16px;
-}
-.input-field:focus,
-.StripeElement--focus {
-  box-shadow: 0 0.0625rem 0.1875rem 0 #cfd7df;
-}
-
-.StripeElement--invalid {
-  border-color: #fa755a;
-}
-
-.StripeElement--webkit-autofill {
-  background-color: #fefde5 !important;
-}
-
-.g-recaptcha {
-  margin-bottom: 1rem;;
 }

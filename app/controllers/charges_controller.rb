@@ -7,23 +7,28 @@ class ChargesController < ApplicationController
   end
 
   def create
-    return unless verify_recaptcha
+    unless verify_recaptcha
+      return render "new"
+    end
 
-    amount = charges_params[:amount].to_i
-    amount_cents = amount * 100
+    amount = charge_params[:amount].to_i
 
     if amount.nil? || amount.zero? || amount.negative?
       flash[:error] = "You must set a valid amount"
       return render :new
     end
 
+    amount_cents = amount * 100
     if amount_cents < 500
       flash[:error] = I18n.t("charge.errors.min_amount")
 
       return render :new
     end
 
-    donation_params = params.merge({amount: amount_cents, customer_ip: request.remote_ip})
+    donation_params = charge_params.to_h.merge({
+      amount: amount_cents,
+      customer_ip: request.remote_ip
+    })
 
     donation, error = if current_user
       DonationService.save_donation_with_user(current_user, donation_params)
@@ -50,7 +55,7 @@ class ChargesController < ApplicationController
 
   private
 
-  def charges_params
-    params.require(:donation).permit(:amount)
+  def charge_params
+    params.require(:donation).permit(:name, :email, :amount, :stripe_token)
   end
 end
