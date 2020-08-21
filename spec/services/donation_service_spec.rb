@@ -12,7 +12,7 @@ RSpec.describe DonationService, type: :service do
       params = {
         amount: 10_000, # 10 USD
         customer_ip: "127.0.0.1",
-        stripeToken: stripe_helper.generate_card_token
+        stripe_token: stripe_helper.generate_card_token
       }
 
       donation, error = DonationService.save_donation_with_user(user, params)
@@ -22,6 +22,7 @@ RSpec.describe DonationService, type: :service do
       expect(donation.amount).to eq(10_000)
       expect(donation.charge_data).to have_key("id")
       expect(donation.status).to eq("succeeded")
+      expect(donation.customer_ip).to eq(params[:customer_ip])
       expect(error).to be_nil
     end
 
@@ -29,7 +30,7 @@ RSpec.describe DonationService, type: :service do
       params = {
         amount: 10_000,
         customer_ip: "127.0.0.1",
-        stripeToken: Faker::Internet.uuid
+        stripe_token: Faker::Internet.uuid
       }
 
       donation, error = DonationService.save_donation_with_user(user, params)
@@ -43,18 +44,21 @@ RSpec.describe DonationService, type: :service do
     it "creates a donation record" do
       params = {
         amount: 10_000,
-        stripeEmail: Faker::Internet.email,
-        stripeToken: stripe_helper.generate_card_token,
+        name: Faker::Name.name,
+        email: Faker::Internet.email,
+        stripe_token: stripe_helper.generate_card_token,
         customer_ip: "127.0.0.1"
       }
 
       donation, error = DonationService.save_donation_without_user(params)
 
       expect(donation).to be_persisted
-      expect(donation.user_data["email"]).to eq(params[:stripeEmail])
+      expect(donation.user_data["email"]).to eq(params[:email])
+      expect(donation.user_data["name"]).to eq(params[:name])
       expect(donation.amount).to eq(10_000)
       expect(donation.charge_data).to have_key("id")
       expect(donation.status).to eq("succeeded")
+      expect(donation.customer_ip).to eq(params[:customer_ip])
       expect(error).to be_nil
     end
   end
