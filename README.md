@@ -134,3 +134,12 @@ We're also using [standardjs](https://standardjs.com) and [prettier](https://pre
 ### Codecov
 
 We use [codecov](https://github.com/codecov/codecov-ruby) for our test coverage metrics. In CI we need to provide a `CODECOV_TOKEN` env variable to upload code coverage stats correctly.
+
+### Debugging emails
+
+We use [Mailcatcher](https://github.com/sj26/mailcatcher) to get emails in development. To install do:
+
+- `gem install mailcatcher`
+- `rbenv rehash` (optional)
+- `mailcatcher`
+- `open http://127.0.0.1:1080`

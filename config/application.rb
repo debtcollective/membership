@@ -1,29 +1,29 @@
 # frozen_string_literal: true
 
-require_relative 'boot'
+require_relative "boot"
 
-require 'rails'
+require "rails"
 # Pick the frameworks you want:
-require 'active_model/railtie'
-require 'active_job/railtie'
-require 'active_record/railtie'
-require 'active_storage/engine'
-require 'action_controller/railtie'
-require 'action_mailer/railtie'
-require 'action_mailbox/engine'
-require 'action_text/engine'
-require 'action_view/railtie'
-require 'action_cable/engine'
-require 'sprockets/railtie'
-require 'sidekiq'
-require 'sidekiq-scheduler'
+require "active_model/railtie"
+require "active_job/railtie"
+require "active_record/railtie"
+require "active_storage/engine"
+require "action_controller/railtie"
+require "action_mailer/railtie"
+require "action_mailbox/engine"
+require "action_text/engine"
+require "action_view/railtie"
+require "action_cable/engine"
+require "sprockets/railtie"
+require "sidekiq"
+require "sidekiq-scheduler"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require_relative '../lib/redis/namespace_extensions'
+require_relative "../lib/redis/namespace_extensions"
 
 module Membership
   class Application < Rails::Application
@@ -35,18 +35,11 @@ module Membership
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
-    config.eager_load_paths << Rails.root.join('lib')
+    config.eager_load_paths << Rails.root.join("lib")
 
     # Don't generate system test files.
     config.generators.system_tests = nil
 
     config.active_job.queue_adapter = :sidekiq
-
-    Sidekiq.configure_server do |config|
-      config.redis = {
-        url: ENV['REDIS_URL'],
-        namespace: "sidekiq_#{Rails.application.class.module_parent_name}_#{Rails.env}".downcase
-      }
-    end
   end
 end
