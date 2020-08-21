@@ -102,7 +102,7 @@
       const form = document.getElementById('payment-form');
       const stripeHiddenInput = document.createElement('input');
       stripeHiddenInput.setAttribute('type', 'hidden');
-      stripeHiddenInput.setAttribute('name', 'donation[stripe_token]');
+      stripeHiddenInput.setAttribute('name', 'charge[stripe_token]');
       stripeHiddenInput.setAttribute('value', token.id);
       form.appendChild(stripeHiddenInput);
 
@@ -111,7 +111,7 @@
       if (planId) {
         const planHiddenInput = document.createElement('input');
         planHiddenInput.setAttribute('type', 'hidden');
-        planHiddenInput.setAttribute('name', 'subscription[plan_attributes][id]');
+        planHiddenInput.setAttribute('name', 'plan_id');
         planHiddenInput.setAttribute('value', planId);
         form.appendChild(planHiddenInput);
       }

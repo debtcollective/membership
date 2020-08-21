@@ -13,7 +13,7 @@ RSpec.describe ChargesController, type: :controller do
 
       expect(DonationMailer).to receive_message_chain(:thank_you_email, :deliver_later)
 
-      params = {donation: {amount: 24}, stripeEmail: user.email, stripeToken: stripe_helper.generate_card_token}
+      params = {charge: {amount: 24}, stripeEmail: user.email, stripeToken: stripe_helper.generate_card_token}
       expect { post :create, params: params, session: {} }.to change { Donation.count }.by(1)
 
       expect(response).to redirect_to("/thank-you")

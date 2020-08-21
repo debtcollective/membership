@@ -6,7 +6,7 @@
     </section>
     <section id='checkout-payment'>
       <%= form_with(url: charges_path, method: 'post', local: true, id: 'payment-form') do %>
-        <%= fields_for(:donation) do |f|%>
+        <%= fields_for(:charge) do |f|%>
           <div class="form-row">
             <%= f.label(:name) do %>
               Name

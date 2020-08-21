@@ -56,6 +56,6 @@ class ChargesController < ApplicationController
   private
 
   def charge_params
-    params.require(:donation).permit(:name, :email, :amount, :stripe_token)
+    params.require(:charge).permit(:name, :email, :amount, :stripe_token)
   end
 end
