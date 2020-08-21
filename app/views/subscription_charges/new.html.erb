@@ -5,10 +5,10 @@
 <% end %>
 <div id="checkout">
   <div class='content'>
-    <% if @current_plan %>
+    <% if @plan %>
       <section id="checkout-plan">
-        <h1><%= @current_plan.name %></h1>
-        <p><%= @current_plan.description %></p>
+        <h1><%= @plan.name %></h1>
+        <p><%= @plan.description %></p>
       </section>
     <% end %>
 
@@ -26,25 +26,6 @@
           </div>
         <% end %>
 
-
-        <% if @user.new_record?  %>
-          <h3>Please create an account</h3>
-          <%= form.fields_for :plan do |plan| %>
-
-          <% end %>
-          <%= form.fields_for :user do |user| %>
-            <div class="field">
-              <%= user.label :name %>
-              <%= user.text_field :name %>
-            </div>
-
-            <div class="field">
-              <%= user.label :email %>
-              <%= user.text_field :email %>
-            </div>
-          <% end %>
-        <% end %>
-
         <div class="form-row">
           <label for="card-element">
             Credit or debit card
@@ -60,7 +41,7 @@
         <%= recaptcha_tags %>
 
         <div class="actions">
-          <%= form.submit "Enroll Membership for #{number_to_currency(@current_plan.amount).gsub(/\.00$/, "")}/mo", class: 'button primary', id: "submit-payment" %>
+          <%= form.submit "Enroll Membership for #{number_to_currency(@plan.amount).gsub(/\.00$/, "")}/mo", class: 'button primary', id: "submit-payment" %>
         </div>
       <% end %>
     </section>
