@@ -10,14 +10,14 @@
           <div class="form-row">
             <%= f.label(:name) do %>
               Name
-              <%= f.text_field(:name, placeholder: 'First and Last Name', class: 'input-field', id: 'name-field') %>
+              <%= f.text_field(:name, placeholder: 'First and Last Name', class: 'input-field', id: 'name-field', value: current_user&.name) %>
             <% end %>
           </div>
 
           <div class="form-row">
             <%= f.label(:email) do %>
               Email
-              <%= f.email_field(:email, placeholder: 'example@domain.com', class: 'input-field', id: 'email-field') %>
+              <%= f.email_field(:email, placeholder: 'example@domain.com', class: 'input-field', id: 'email-field', value: current_user&.email) %>
             <% end %>
           </div>
 
