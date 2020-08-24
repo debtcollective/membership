@@ -3,20 +3,11 @@
 class DonationService
   class << self
     def save_donation_with_user(user, params)
-      if user.stripe_id.nil?
-        # here we are creating a stripe customer with the help of the Stripe
-        # library and pass as parameter email.
-        # TODO: Add phone number and address
-        customer = Stripe::Customer.create(
-          name: user.name,
-          email: user.email,
-          source: params[:stripe_token]
-        )
-
-        # we are updating @user and giving to it stripe_id which is equal to
-        # id of customer on Stripe
-        user.update(stripe_id: customer.id)
-      end
+      customer = Stripe::Customer.create(
+        name: user.name,
+        email: user.email,
+        source: params[:stripe_token]
+      )
 
       # amount needs to be in cents
       amount = params[:amount]
