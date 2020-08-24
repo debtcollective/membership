@@ -86,6 +86,8 @@ describe "Donations", type: :feature do
       expect(page).to have_content("Pay what you can. Every dollar counts.")
 
       within ".one-time-donation" do
+        fill_in "name-field", with: Faker::Name.name
+        fill_in "email-field", with: Faker::Internet.email
         fill_stripe_elements(card: "4242424242424242")
         fill_in "amount-field", with: 25
         click_button "Make my donation"
@@ -107,6 +109,8 @@ describe "Donations", type: :feature do
       expect(page).to have_content("Pay what you can. Every dollar counts.")
 
       within ".one-time-donation" do
+        fill_in "name-field", with: Faker::Name.name
+        fill_in "email-field", with: Faker::Internet.email
         fill_stripe_elements(card: "4000000000000002")
         fill_in "amount-field", with: 25
         click_button "Make my donation"

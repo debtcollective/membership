@@ -3,32 +3,35 @@
 class DonationService
   class << self
     def save_donation_with_user(user, params)
-      customer = Stripe::Customer.create(
-        name: user.name,
-        email: user.email,
-        source: params[:stripe_token]
-      )
-
-      # amount needs to be in cents
-      amount = params[:amount]
-      customer_ip = params[:customer_ip]
-
-      # it's the stripe_token that we added in the hidden input
-      card_token = params[:stripe_token]
+      name = params[:name] || user.name
+      email = params[:email] || user.email
+      stripe_token = params[:stripe_token]
 
       # checking if a card was given.
-      if card_token.nil?
+      if stripe_token.nil?
         Raven.capture_message("We couldn't process payment for user_id: #{user.id}", extra: {params: params})
         error = "We couldn't process your payment, please try again or contact us at admin@debtcollective.org for support"
 
         return nil, error
       end
 
+      customer = Stripe::Customer.create(
+        name: name,
+        email: email,
+        source: stripe_token
+      )
+
+      user.update(stripe_id: customer.id)
+
+      # amount needs to be in cents
+      amount = params[:amount]
+      customer_ip = params[:customer_ip]
+
       stripe_charge = Stripe::Charge.create(
-        customer: user.stripe_id,
         amount: amount,
-        description: "One time contribution of #{displayable_amount(amount)}",
-        currency: "usd"
+        currency: "usd",
+        customer: customer.id,
+        description: "One time contribution of #{displayable_amount(amount)}"
       )
 
       if stripe_charge
@@ -58,10 +61,14 @@ class DonationService
     end
 
     def save_donation_without_user(params)
+      name = params[:name]
+      email = params[:email]
+      stripe_token = params[:stripe_token]
+
       customer = Stripe::Customer.create(
-        name: params[:name],
-        email: params[:email],
-        source: params[:stripe_token]
+        name: name,
+        email: email,
+        source: stripe_token
       )
 
       # amount is in cents
@@ -85,7 +92,10 @@ class DonationService
           customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
           status: stripe_charge.status,
-          user_data: {name: params[:name], email: params[:email]}
+          user_data: {
+            name: name,
+            email: email
+          }
         )
 
         donation.save
