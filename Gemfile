@@ -19,7 +19,7 @@ gem 'webpacker', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
 gem 'redis', '~> 4.0'
-gem 'redis-namespace', '1.7'
+gem 'redis-namespace', '1.8.0'
 gem 'ffi', '~> 1.9', '>= 1.9.25'
 
 # Emails

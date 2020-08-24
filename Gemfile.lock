@@ -227,7 +227,7 @@ GEM
     recaptcha (5.5.0)
       json
     redis (4.2.1)
-    redis-namespace (1.7.0)
+    redis-namespace (1.8.0)
       redis (>= 3.0.4)
     regexp_parser (1.7.1)
     reverse_markdown (2.0.0)
@@ -390,7 +390,7 @@ DEPENDENCIES
   react_on_rails (~> 11.3)
   recaptcha (~> 5.2, >= 5.2.1)
   redis (~> 4.0)
-  redis-namespace (= 1.7)
+  redis-namespace (= 1.8.0)
   rspec-mocks (= 3.9.1)
   rspec-rails (= 4.0.1)
   sassc (~> 2.4, >= 2.4.0)
