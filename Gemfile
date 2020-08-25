@@ -21,6 +21,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'redis', '~> 4.0'
 gem 'redis-namespace', '1.8'
 gem 'ffi', '~> 1.9', '>= 1.9.25'
+gem 'valid_email2', '3.3.1'
 
 # Emails
 gem 'inky-rb', '1.3.8.0', require: 'inky'
