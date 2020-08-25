@@ -24,7 +24,7 @@
           <div class="form-row">
             <%= f.label(:phone_number) do %>
               Phone number
-              <%= f.telephone_field(:phone_number, placeholder: '+1 (202) 401-3000', maxlength: 20, class: 'input-field', id: 'phone-number-field', required: true) %>
+              <%= f.telephone_field(:phone_number, placeholder: '+1 (202) 401-3000', minlength: 5, maxlength: 20, class: 'input-field', id: 'phone-number-field', required: true) %>
             <% end %>
           </div>
 
