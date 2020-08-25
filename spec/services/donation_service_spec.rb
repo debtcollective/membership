@@ -4,6 +4,8 @@ require "rails_helper"
 
 RSpec.describe DonationService, type: :service do
   let(:stripe_helper) { StripeMock.create_test_helper }
+  before { StripeMock.start }
+  after { StripeMock.stop }
 
   describe ".save_donation_with_user" do
     let(:user) { FactoryBot.create(:user) }
