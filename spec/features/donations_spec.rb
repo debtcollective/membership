@@ -18,6 +18,9 @@ describe "Donations", type: :feature do
 
       within ".one-time-donation" do
         fill_stripe_elements(card: "4242424242424242")
+        fill_in "name-field", with: Faker::Name.name
+        fill_in "email-field", with: Faker::Internet.email
+        fill_in "phone-number-field", with: Faker::PhoneNumber.phone_number_with_country_code
         fill_in "amount-field", with: 25
         click_button "Make my donation"
       end
@@ -64,6 +67,9 @@ describe "Donations", type: :feature do
 
       within ".one-time-donation" do
         fill_stripe_elements(card: "4000000000000002")
+        fill_in "name-field", with: Faker::Name.name
+        fill_in "email-field", with: Faker::Internet.email
+        fill_in "phone-number-field", with: Faker::PhoneNumber.phone_number_with_country_code
         fill_in "amount-field", with: 25
         click_button "Make my donation"
       end
@@ -88,6 +94,7 @@ describe "Donations", type: :feature do
       within ".one-time-donation" do
         fill_in "name-field", with: Faker::Name.name
         fill_in "email-field", with: Faker::Internet.email
+        fill_in "phone-number-field", with: Faker::PhoneNumber.phone_number_with_country_code
         fill_stripe_elements(card: "4242424242424242")
         fill_in "amount-field", with: 25
         click_button "Make my donation"
@@ -111,6 +118,7 @@ describe "Donations", type: :feature do
       within ".one-time-donation" do
         fill_in "name-field", with: Faker::Name.name
         fill_in "email-field", with: Faker::Internet.email
+        fill_in "phone-number-field", with: Faker::PhoneNumber.phone_number_with_country_code
         fill_stripe_elements(card: "4000000000000002")
         fill_in "amount-field", with: 25
         click_button "Make my donation"

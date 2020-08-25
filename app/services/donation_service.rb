@@ -5,19 +5,28 @@ class DonationService
     def save_donation_with_user(user, params)
       name = params[:name] || user.name
       email = params[:email] || user.email
+      phone_number = params[:phone_number].to_s
       stripe_token = params[:stripe_token]
+      valid_email = ValidEmail2::Address.new(email).valid?
+
+      if name.blank? || !valid_email || phone_number.blank?
+        return [nil, "Please make sure all fields are valid"]
+      end
 
       # checking if a card was given.
-      if stripe_token.nil?
+      if stripe_token.blank?
         Raven.capture_message("We couldn't process payment for user_id: #{user.id}", extra: {params: params})
         error = "We couldn't process your payment, please try again or contact us at admin@debtcollective.org for support"
 
         return nil, error
       end
 
+      # Stripe max length for the phone field is 20
+      stripe_phone_number = phone_number.truncate(20, omission: "")
       customer = Stripe::Customer.create(
         name: name,
         email: email,
+        phone: stripe_phone_number,
         source: stripe_token
       )
 
@@ -31,7 +40,7 @@ class DonationService
         amount: amount,
         currency: "usd",
         customer: customer.id,
-        description: "One time contribution of #{displayable_amount(amount)}"
+        description: "One-time contribution."
       )
 
       if stripe_charge
@@ -44,9 +53,13 @@ class DonationService
           customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
           status: stripe_charge.status,
+          user_id: user.id,
           # TODO: add phone number and address
-          user_data: {name: user.name, email: user.email},
-          user_id: user.id
+          user_data: {
+            name: name,
+            email: email,
+            phone_number: phone_number
+          }
         )
 
         donation.save
@@ -63,11 +76,28 @@ class DonationService
     def save_donation_without_user(params)
       name = params[:name]
       email = params[:email]
+      phone_number = params[:phone_number].to_s
       stripe_token = params[:stripe_token]
+      valid_email = ValidEmail2::Address.new(email).valid?
 
+      if name.blank? || !valid_email || phone_number.blank?
+        return [nil, "Please make sure all fields are valid"]
+      end
+
+      # checking if a card was given.
+      if stripe_token.blank?
+        Raven.capture_message("We couldn't process payment for user_id: #{user.id}", extra: {params: params})
+        error = "We couldn't process your payment, please try again or contact us at admin@debtcollective.org for support"
+
+        return nil, error
+      end
+
+      # Stripe max length for the phone field is 20
+      stripe_phone_number = phone_number.truncate(20, omission: "")
       customer = Stripe::Customer.create(
         name: name,
         email: email,
+        phone: stripe_phone_number,
         source: stripe_token
       )
 
@@ -78,7 +108,7 @@ class DonationService
       stripe_charge = Stripe::Charge.create(
         customer: customer.id,
         amount: amount,
-        description: "One time contribution of #{displayable_amount(amount)}",
+        description: "One time contribution",
         currency: "usd"
       )
 
@@ -94,7 +124,8 @@ class DonationService
           status: stripe_charge.status,
           user_data: {
             name: name,
-            email: email
+            email: email,
+            phone_number: phone_number
           }
         )
 

@@ -38,7 +38,7 @@ class Donation < ApplicationRecord
   end
 
   def payment_type
-    payment_method_details = charge_data.dig("data", "payment_method_details", "card")
+    payment_method_details = charge_data.dig("payment_method_details", "card")
     return "" unless payment_method_details
 
     brand = payment_method_details.fetch("brand", "Credit Card")
@@ -48,11 +48,23 @@ class Donation < ApplicationRecord
   end
 
   def contributor_name
-    user_id? ? user.name : user_data.dig("name")
+    name = user_data.dig("name")
+
+    if name.blank? && user_id
+      name = user.name
+    end
+
+    name
   end
 
   def contributor_email
-    user_id? ? user.email : user_data.dig("email")
+    email = user_data.dig("email")
+
+    if email.blank? && user_id
+      email = user.email
+    end
+
+    email
   end
 
   def receipt_url
