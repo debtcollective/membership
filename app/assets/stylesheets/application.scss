@@ -14,7 +14,7 @@
  *= require_self
  */
 
- @import 'base/globals.scss';
+@import 'base/globals.scss';
 
 html,
 body {
@@ -26,7 +26,7 @@ body {
 }
 
 .content {
-  flex: 1 0 auto;
+  flex: 1;
 }
 
 .footer {
