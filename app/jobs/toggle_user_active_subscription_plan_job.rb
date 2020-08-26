@@ -21,7 +21,7 @@ class ToggleUserActiveSubscriptionPlanJob < ApplicationJob
       )
 
       if new_subscription.save
-        UserPlanChange.find(user_plan_change.id).update(status: 'finished')
+        UserPlanChange.find(user_plan_change.id).update(status: "succeeded")
       end
     end
   end

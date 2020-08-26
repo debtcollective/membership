@@ -26,7 +26,9 @@
 #
 class Donation < ApplicationRecord
   DONATION_TYPES = {one_off: "ONE_OFF", subscription: "SUBSCRIPTION"}.freeze
-  enum status: %i[succeeded pending failed]
+
+  # These status are the same Stripe transactions return
+  enum status: {succeeded: 0, pending: 1, failed: 2}
 
   belongs_to :user, optional: true
 
