@@ -5,7 +5,7 @@
 # Table name: user_plan_changes
 #
 #  id          :bigint           not null, primary key
-#  status      :integer          default("finished")
+#  status      :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  new_plan_id :string

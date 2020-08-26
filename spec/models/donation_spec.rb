@@ -10,7 +10,7 @@
 #  charge_provider    :string           default("stripe")
 #  customer_ip        :string
 #  donation_type      :string
-#  status             :integer          default("finished")
+#  status             :integer
 #  user_data          :jsonb
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
