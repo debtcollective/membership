@@ -41,7 +41,7 @@
     "rails-erb-loader": "5.5.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-on-rails": "11.3.0",
+    "react-on-rails": "12.0.2",
     "trix": "1.2.3",
     "turbolinks": "5.2.0"
   },
