@@ -26,7 +26,7 @@
 #
 FactoryBot.define do
   factory :donation do
-    amount { Faker::Number.decimal(l_digits: 2, r_digits: 2) }
+    amount { Faker::Number.within(range: 5..500) }
     customer_stripe_id { Faker::Alphanumeric.alphanumeric(number: 10) }
     card_id { Faker::Alphanumeric.alphanumeric(number: 10) }
     donation_type { [Donation::DONATION_TYPES[:one_off], Donation::DONATION_TYPES[:subscription]].sample }
