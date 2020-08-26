@@ -2,11 +2,11 @@
 
 class SubscriptionChargesController < ApplicationController
   before_action :set_subscription, only: %i[edit update]
-  before_action :set_current_plan, only: [:new]
+  before_action :set_plan, only: [:new]
 
   # GET /subscription_charges/new
   def new
-    @subscription = Subscription.new(plan: @current_plan)
+    @subscription = Subscription.new(plan: @plan)
     @user = current_user || @subscription.build_user
   end
 
@@ -19,45 +19,50 @@ class SubscriptionChargesController < ApplicationController
   # POST /subscription_charges
   # POST /subscription_charges.json
   def create
-    return unless verify_recaptcha(model: @subscription)
+    return render "new" unless verify_recaptcha(model: @subscription)
 
-    @user = current_user || User.create(subscription_params[:user_attributes])
-    @subscription = Subscription.new(plan_id: subscription_params[:plan_attributes][:id], user_id: @user.id, active: true)
+    @user = current_user
+    @subscription = Subscription.new(plan_id: params[:plan_id], user_id: @user.id, active: true)
 
-    customer, error = set_stripe_customer(@user, params[:stripeToken])
+    customer, error = set_stripe_customer(@user, charge_params[:stripe_token])
 
     unless error.nil?
       flash[:error] = error
-      redirect_to new_subscription_charge_path(plan_id: subscription_params[:plan_attributes][:id])
+      redirect_to new_subscription_charge_path(plan_id: params[:plan_id])
       return
     end
 
-    amount = (@subscription.plan.amount * 100).to_i
+    plan = @subscription.plan
+    amount = plan.amount
+    amount_in_cents = (plan.amount * 100).to_i
 
-    charge = Stripe::Charge.create(
+    stripe_charge = Stripe::Charge.create(
       customer: customer.id,
-      amount: amount, # amount in cents
-      description: "One time donation of #{DonationService.displayable_amount(amount)}",
-      currency: 'usd'
+      amount: amount_in_cents,
+      description: "Debt Collective #{plan.name} membership monthly payment",
+      currency: "usd"
     )
 
-    if charge
+    if stripe_charge
       @subscription.active = true
       @subscription.last_charge_at = DateTime.now
       @subscription.save
 
       Donation.create(
-        amount: amount / 100, # transformed from cents
+        amount: amount,
+        charge_data: JSON.parse(stripe_charge.to_json),
+        customer_ip: request.remote_ip,
         customer_stripe_id: customer.id,
         donation_type: Donation::DONATION_TYPES[:subscription],
-        customer_ip: request.remote_ip,
+        status: stripe_charge.status,
+        user_data: {email: @user.email, name: @user.name},
         user_id: @user.id
       )
 
       @user.update(stripe_id: customer.id) if @user.stripe_id.nil?
 
       respond_to do |format|
-        format.html { redirect_to user_path(@user), notice: 'Thank you for subscribing.' }
+        format.html { redirect_to user_path(@user), notice: "Thank you for subscribing." }
         format.json { render :show, status: :created, location: @subscription }
       end
     else
@@ -70,18 +75,16 @@ class SubscriptionChargesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_subscription
     @subscription = Subscription.find(params[:id])
   end
 
-  def set_current_plan
-    @current_plan = params[:plan_id] && Plan.find(params[:plan_id])
+  def set_plan
+    @plan = Plan.find(params[:plan_id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def subscription_params
-    params.require(:subscription).permit(:user_id, :plan_id, user_attributes: %i[name email], plan_attributes: [:id])
+  def charge_params
+    params.require(:charge).permit(:stripe_token)
   end
 
   def set_stripe_customer(user, stripe_token)

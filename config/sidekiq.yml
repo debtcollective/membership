@@ -1,7 +1,8 @@
-:concurrency: 2
+:concurrency: 5
 :logfile: ./log/sidekiq.log
 :queues:
   - default
+  - mailers
 :schedule:
   find_overdue_subscriptions:
     every: '45m'

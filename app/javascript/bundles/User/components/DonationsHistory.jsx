@@ -19,11 +19,14 @@ const useStyles = makeStyles(theme => ({
   },
   table: {
     minWidth: 650
+  },
+  link: {
+    color: 'blue'
   }
 }))
 
 const DONATION_TYPES = {
-  ONE_OFF: 'One time Donation',
+  ONE_OFF: 'One time Contribution',
   SUBSCRIPTION: 'Monthly Subscription'
 }
 
@@ -34,12 +37,14 @@ const calcDonationTotal = donations => {
 function DonationsView ({ activePlan, donations }) {
   const classes = useStyles()
   const donatedAmount = calcDonationTotal(
-    donations.map(donation => Number(donation.amount))
+    donations.map(donation => {
+      return Number(donation.amount) / 100
+    })
   )
 
   return (
     <Paper className={classes.root}>
-      <h3>Your Donations History</h3>
+      <h3>Your Donation History</h3>
       <p>
         You have donated:{' '}
         <strong>{numeral(donatedAmount).format('$0,0.00')}</strong>
@@ -50,28 +55,47 @@ function DonationsView ({ activePlan, donations }) {
             <TableCell>Status</TableCell>
             <TableCell>Customer Stripe ID</TableCell>
             <TableCell>Type</TableCell>
-            <TableCell>Donated at</TableCell>
             <TableCell>Amount</TableCell>
+            <TableCell>Donated at</TableCell>
+            <TableCell>Receipt</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {donations.map(donation => (
-            <TableRow key={donation.id} id={`donation-${donation.id}`}>
-              <TableCell scope='donation' className='capitalized'>
-                {donation.status}
-              </TableCell>
-              <TableCell>{donation.customer_stripe_id}</TableCell>
-              <TableCell>
-                {DONATION_TYPES[donation.donation_type] || 'Other'}
-              </TableCell>
-              <TableCell>
-                {moment(donation.created_at).format('MMMM Do YYYY, h:mm:ss a')}
-              </TableCell>
-              <TableCell>
-                {numeral(donation.amount).format('$0,0.00')}
-              </TableCell>
-            </TableRow>
-          ))}
+          {donations.map(donation => {
+            // Amount comes in cents
+            const amount = numeral(Number(donation.amount) / 100).format(
+              '$0,0.00'
+            )
+
+            return (
+              <TableRow key={donation.id} id={`donation-${donation.id}`}>
+                <TableCell scope='donation' className='capitalized'>
+                  {donation.status}
+                </TableCell>
+                <TableCell>{donation.customer_stripe_id}</TableCell>
+                <TableCell>
+                  {DONATION_TYPES[donation.donation_type] || 'Other'}
+                </TableCell>
+                <TableCell>{amount}</TableCell>
+                <TableCell>
+                  {moment(donation.created_at).format(
+                    'MMMM Do YYYY, h:mm:ss a'
+                  )}
+                </TableCell>
+                <TableCell>
+                  {donation.receipt_url && (
+                    <a
+                      className={classes.link}
+                      target='_blank'
+                      href={donation.receipt_url}
+                    >
+                      View receipt
+                    </a>
+                  )}
+                </TableCell>
+              </TableRow>
+            )
+          })}
         </TableBody>
       </Table>
       <br />

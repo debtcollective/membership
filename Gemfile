@@ -19,8 +19,9 @@ gem 'webpacker', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
 gem 'redis', '~> 4.0'
-gem 'redis-namespace', '1.7'
+gem 'redis-namespace', '1.8'
 gem 'ffi', '~> 1.9', '>= 1.9.25'
+gem 'valid_email2', '3.3.1'
 
 # Emails
 gem 'inky-rb', '1.3.8.0', require: 'inky'
@@ -59,6 +60,7 @@ group :development, :test do
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
   gem 'annotate', '3.1.1'
+  gem 'guard-rspec', '4.7.3', require: false
 end
 
 group :development do
@@ -72,9 +74,10 @@ end
 group :test do
   gem "climate_control", "~> 0.2.0"
   gem 'capybara', '~> 3.28'
-  gem 'capybara-screenshot', '~> 1.0', '>= 1.0.23'
-  gem 'rspec-rails', '4.0.1'
+  gem 'capybara-screenshot', '1.0.24'
+  gem 'codecov', '0.2.6', require: false
   gem 'rspec-mocks', '3.9.1'
+  gem 'rspec-rails', '4.0.1'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
   gem 'stripe-ruby-mock', '~> 3.0.0', :require => 'stripe_mock'

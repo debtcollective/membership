@@ -1,6 +1,25 @@
 // Foundation Emails variables https://get.foundation/emails/docs/global.html#sass-variables
+$red: #FF4630;
 $light-gray: #F7F7F7;
 $global-font-color: #757575;
 $header-color: #000000;
 $body-background: #FFFFFF;
+
+.text-sm {
+  font-size: 12px;
+}
+
+.text-md {
+  font-size: 14px;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.email-logo {
+  max-width: 450px;
+  margin: 0 auto;
+}
+
 @import "foundation-emails";

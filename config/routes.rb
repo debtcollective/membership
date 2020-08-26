@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :plans, only: %i[show index]
   resources :subscription_charges, only: %i[new edit create update]
   resources :billings, only: %i[new create]
-  resources :charges, only: %i[new create]
+  resources :charges, only: %i[new create], path: "donate", path_names: {new: ""}
 
   namespace :admin do
     get "/dashboard" => "dashboard#index"

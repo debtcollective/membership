@@ -20,7 +20,7 @@ jobs:
           PGUSER: membership
           RAILS_ENV: test
           DATABASE_URL: postgres://membership:letmein@localhost/membership_test?pool=5
-      - image: postgres:10
+      - image: postgres:12
         environment:
           POSTGRES_USER: membership
           POSTGRES_DB: membership_test
@@ -69,6 +69,9 @@ jobs:
       - run:
           name: run tests
           command: bundle exec rspec spec
+
+      - store_artifacts:
+          path: coverage
   build:
     executor: docker-publisher
     steps:

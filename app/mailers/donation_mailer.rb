@@ -4,9 +4,10 @@ class DonationMailer < ApplicationMailer
   #
   #   en.donation_mailer.thank_you_email.subject
   #
-  def thank_you_email
-    @greeting = "Hi"
+  def thank_you_email(donation:)
+    @donation = donation
+    email = @donation.contributor_email
 
-    mail to: "to@example.org", subject: "Thank you for your contribution to Debt Collective!"
+    mail to: email, from: ENV["MAIL_FROM"]
   end
 end

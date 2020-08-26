@@ -97,20 +97,24 @@
     });
 
     // Submit the form with the token ID.
-    function stripeTokenHandler(token, data) {
+    function stripeTokenHandler(token) {
       // Insert the token ID into the form so it gets submitted to the server
       const form = document.getElementById('payment-form');
       const stripeHiddenInput = document.createElement('input');
       stripeHiddenInput.setAttribute('type', 'hidden');
-      stripeHiddenInput.setAttribute('name', 'stripeToken');
+      stripeHiddenInput.setAttribute('name', 'charge[stripe_token]');
       stripeHiddenInput.setAttribute('value', token.id);
       form.appendChild(stripeHiddenInput);
 
-      const planHiddenInput = document.createElement('input');
-      planHiddenInput.setAttribute('type', 'hidden');
-      planHiddenInput.setAttribute('name', 'subscription[plan_attributes][id]');
-      planHiddenInput.setAttribute('value', '<%= @subscription&.plan&.id %>');
-      form.appendChild(planHiddenInput);
+      const planId = '<%= @subscription&.plan&.id %>';
+
+      if (planId) {
+        const planHiddenInput = document.createElement('input');
+        planHiddenInput.setAttribute('type', 'hidden');
+        planHiddenInput.setAttribute('name', 'plan_id');
+        planHiddenInput.setAttribute('value', planId);
+        form.appendChild(planHiddenInput);
+      }
 
       // Submit the form
       form.submit();

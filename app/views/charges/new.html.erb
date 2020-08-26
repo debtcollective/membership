@@ -3,30 +3,56 @@
     <section id="checkout-plan">
       <h4>Pay what you can. Every dollar counts.</h4>
       <p>“To each according to their ability, to each according to their need.” Contributing what you can, where you can is what we’re all about.</p>
-      <p>Folks who donate $100 on a one-time basis will receive a free gift from our store. People who pay dues at the rate of $100 per month or more will receive a thank you call from us.</p>
     </section>
     <section id='checkout-payment'>
-    <%= form_with(model: Donation, url: {controller: "charges", action: :create }, local: true, id: 'payment-form') do |form| %>
-      <div>
-        <div id="card-errors" role="alert"></div>
-        <div class="form-row">
-          <label for="card-element">
-            Credit or debit card
-          </label>
-          <div id="card-element">
-            <!-- A Stripe Element will be inserted here. -->
+      <%= form_with(url: charges_path, method: 'post', local: true, id: 'payment-form') do %>
+        <%= fields_for(:charge) do |f|%>
+          <div class="form-row">
+            <%= f.label(:name) do %>
+              Name
+              <%= f.text_field(:name, placeholder: 'First and Last Name', class: 'input-field', id: 'name-field', required: true, value: current_user&.name) %>
+            <% end %>
           </div>
 
-          <!-- Used to display form errors. -->
+          <div class="form-row">
+            <%= f.label(:email) do %>
+              Email
+              <%= f.email_field(:email, placeholder: 'example@domain.com', class: 'input-field', id: 'email-field', required: true, value: current_user&.email) %>
+            <% end %>
+          </div>
+
+          <div class="form-row">
+            <%= f.label(:phone_number) do %>
+              Phone number
+              <%= f.telephone_field(:phone_number, placeholder: '+1 (202) 401-3000', minlength: 5, maxlength: 20, class: 'input-field', id: 'phone-number-field', required: true) %>
+            <% end %>
+          </div>
+
+          <div class="form-row">
+            <%= f.label(:card) do %>
+              Credit or debit card
+              <div id="card-element">
+                <!-- A Stripe Element will be inserted here. -->
+              </div>
+              <div id="card-errors" role="alert">
+                <!-- Used to display form errors from stripe elements. -->
+              </div>
+            <% end %>
+          </div>
+
+          <div class="form-row">
+            <%= f.label(:amount) do %>
+              Amount
+              <%= f.number_field(:amount, step: 1, min: 5, placeholder: '$5', class: 'input-field', id: 'amount-field') %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="form-row">
+          <%= recaptcha_tags %>
+          <button id="submit-payment" type="submit" class="button primary">Make my contribution</button>
         </div>
-
-        <%= form.number_field :amount, step: 1, placeholder: '$5', class: 'input-field', id: 'amount-field' %>
-
-        <%= recaptcha_tags %>
-        <button id="submit-payment" class="button primary">Make my donation</button>
-      </div>
-
-    <% end %>
+      <% end %>
     </section>
   </div>
 </div>
