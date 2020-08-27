@@ -32,12 +32,14 @@ class DonationService
 
       user.update(stripe_id: customer.id)
 
-      # amount needs to be in cents
-      amount = params[:amount]
+      # amount needs to be in cents for Stripe
+      amount_in_cents = params[:amount].to_i
+      amount = amount_in_cents / 100
+
       customer_ip = params[:customer_ip]
 
       stripe_charge = Stripe::Charge.create(
-        amount: amount,
+        amount: amount_in_cents,
         currency: "usd",
         customer: customer.id,
         description: "One-time contribution."
@@ -54,7 +56,7 @@ class DonationService
           donation_type: Donation::DONATION_TYPES[:one_off],
           status: stripe_charge.status,
           user_id: user.id,
-          # TODO: add phone number and address
+          # TODO: add address
           user_data: {
             name: name,
             email: email,
@@ -101,13 +103,15 @@ class DonationService
         source: stripe_token
       )
 
-      # amount is in cents
-      amount = params[:amount]
+      # amount needs to be in cents for Stripe
+      amount_in_cents = params[:amount].to_i
+      amount = amount_in_cents / 100
+
       customer_ip = params[:customer_ip]
 
       stripe_charge = Stripe::Charge.create(
         customer: customer.id,
-        amount: amount,
+        amount: amount_in_cents,
         description: "One time contribution",
         currency: "usd"
       )
@@ -122,6 +126,7 @@ class DonationService
           customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
           status: stripe_charge.status,
+          # TODO: add address
           user_data: {
             name: name,
             email: email,

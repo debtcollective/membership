@@ -12,7 +12,7 @@ RSpec.describe DonationService, type: :service do
 
     it "creates a donation record" do
       params = {
-        amount: 10_000, # 10 USD
+        amount: 1_000, # 10 USD
         customer_ip: "127.0.0.1",
         phone_number: Faker::PhoneNumber.phone_number,
         stripe_token: stripe_helper.generate_card_token
@@ -23,7 +23,7 @@ RSpec.describe DonationService, type: :service do
       expect(donation).to be_persisted
       expect(donation.user_data["email"]).to eq(user.email)
       expect(donation.user_data["phone_number"]).to eq(params[:phone_number])
-      expect(donation.amount).to eq(10_000)
+      expect(donation.amount.to_i).to eq(10)
       expect(donation.charge_data).to have_key("id")
       expect(donation.status).to eq("succeeded")
       expect(donation.customer_ip).to eq(params[:customer_ip])
@@ -32,7 +32,7 @@ RSpec.describe DonationService, type: :service do
 
     it "returns error if invalid stripe token" do
       params = {
-        amount: 10_000,
+        amount: 1_000, # 10 USD
         customer_ip: "127.0.0.1",
         phone_number: Faker::PhoneNumber.phone_number,
         stripe_token: Faker::Internet.uuid
@@ -47,7 +47,7 @@ RSpec.describe DonationService, type: :service do
     it "returns error if one personal info field is missing" do
       # missing phone number field
       params = {
-        amount: 10_000,
+        amount: 1_000, # 10 USD
         customer_ip: "127.0.0.1",
         stripe_token: Faker::Internet.uuid
       }
@@ -62,7 +62,7 @@ RSpec.describe DonationService, type: :service do
   describe ".save_donation_without_user" do
     it "creates a donation record" do
       params = {
-        amount: 10_000,
+        amount: 1_000, # 10 USD
         name: Faker::Name.name,
         email: Faker::Internet.email,
         phone_number: Faker::PhoneNumber.phone_number,
@@ -76,7 +76,7 @@ RSpec.describe DonationService, type: :service do
       expect(donation.user_data["email"]).to eq(params[:email])
       expect(donation.user_data["name"]).to eq(params[:name])
       expect(donation.user_data["phone_number"]).to eq(params[:phone_number])
-      expect(donation.amount).to eq(10_000)
+      expect(donation.amount.to_i).to eq(10)
       expect(donation.charge_data).to have_key("id")
       expect(donation.status).to eq("succeeded")
       expect(donation.customer_ip).to eq(params[:customer_ip])
@@ -86,7 +86,7 @@ RSpec.describe DonationService, type: :service do
     it "returns error if one personal info field is missing" do
       # missing name field
       params = {
-        amount: 10_000,
+        amount: 1_000, # 10 USD
         email: Faker::Internet.email,
         phone_number: Faker::PhoneNumber.phone_number,
         stripe_token: stripe_helper.generate_card_token,
