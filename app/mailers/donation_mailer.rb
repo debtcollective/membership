@@ -4,6 +4,8 @@ class DonationMailer < ApplicationMailer
   #
   #   en.donation_mailer.thank_you_email.subject
   #
+  default from: ENV["MAIL_FROM"]
+
   def thank_you_email(donation:)
     @donation = donation
     email = @donation.contributor_email
