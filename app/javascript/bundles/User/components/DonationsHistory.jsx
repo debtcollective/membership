@@ -37,9 +37,7 @@ const calcDonationTotal = donations => {
 function DonationsView ({ activePlan, donations }) {
   const classes = useStyles()
   const donatedAmount = calcDonationTotal(
-    donations.map(donation => {
-      return Number(donation.amount) / 100
-    })
+    donations.map(donation => Number(donation.amount))
   )
 
   return (
@@ -62,10 +60,7 @@ function DonationsView ({ activePlan, donations }) {
         </TableHead>
         <TableBody>
           {donations.map(donation => {
-            // Amount comes in cents
-            const amount = numeral(Number(donation.amount) / 100).format(
-              '$0,0.00'
-            )
+            const amount = numeral(Number(donation.amount)).format('$0,0.00')
 
             return (
               <TableRow key={donation.id} id={`donation-${donation.id}`}>
