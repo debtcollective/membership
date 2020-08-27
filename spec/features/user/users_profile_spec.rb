@@ -16,7 +16,7 @@ describe "User - manages their profile", type: :feature, js: true do
 
     expect(page).to have_content("Your Donation History")
     user.donations.each do |donation|
-      expect(page).to have_content(donation.amount / 100)
+      expect(page).to have_content(donation.amount)
       expect(page).to have_content("View receipt")
     end
   end
