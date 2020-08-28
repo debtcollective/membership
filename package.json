@@ -46,7 +46,7 @@
     "turbolinks": "5.2.0"
   },
   "devDependencies": {
-    "@prettier/plugin-ruby": "0.19.0",
+    "@prettier/plugin-ruby": "0.20.0",
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/commit-analyzer": "8.0.1",
     "@semantic-release/github": "7.0.7",
