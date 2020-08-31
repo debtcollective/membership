@@ -25,5 +25,25 @@ RSpec.describe ChargesController, type: :controller do
       params = {charge: {amount: 24, email: user.email, stripe_token: stripe_helper.generate_card_token, name: user.name}}
       expect { post :create, params: params, session: {} }.to change { Donation.count }.by(0)
     end
+
+    it "Donation belongs to fund if fund_id is valid" do
+      user = FactoryBot.create(:user)
+      fund = FactoryBot.create(:fund)
+
+      params = {charge: {amount: 24, email: user.email, stripe_token: stripe_helper.generate_card_token, name: user.name, fund_id: fund.id}}
+      expect { post :create, params: params, session: {} }.to change { Donation.count }.by(0)
+
+      expect(Donation.last.fund).to eq(fund)
+    end
+
+    it "Donation belongs to default fund if fund_id is valid" do
+      user = FactoryBot.create(:user)
+      default_fund = FactoryBot.create(:fund, slug: "debt-collective")
+
+      params = {charge: {amount: 24, email: user.email, stripe_token: stripe_helper.generate_card_token, name: user.name}}
+      expect { post :create, params: params, session: {} }.to change { Donation.count }.by(0)
+
+      expect(Donation.last.fund).to eq(default_fund)
+    end
   end
 end
