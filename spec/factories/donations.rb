@@ -17,12 +17,18 @@
 #  card_id            :string
 #  charge_id          :string
 #  customer_stripe_id :string
+#  fund_id            :bigint
 #  user_id            :bigint
 #
 # Indexes
 #
 #  index_donations_on_charge_id  (charge_id) UNIQUE
+#  index_donations_on_fund_id    (fund_id)
 #  index_donations_on_user_id    (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (fund_id => funds.id)
 #
 FactoryBot.define do
   factory :donation do
@@ -31,5 +37,6 @@ FactoryBot.define do
     card_id { Faker::Alphanumeric.alphanumeric(number: 10) }
     donation_type { [Donation::DONATION_TYPES[:one_off], Donation::DONATION_TYPES[:subscription]].sample }
     customer_ip { Faker::Internet.ip_v4_address }
+    fund { FactoryBot.create(:fund)}
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_31_140351) do
+ActiveRecord::Schema.define(version: 2020_08_31_142637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,7 +72,9 @@ ActiveRecord::Schema.define(version: 2020_08_31_140351) do
     t.string "charge_id"
     t.string "charge_provider", default: "stripe"
     t.jsonb "user_data", default: {}
+    t.bigint "fund_id"
     t.index ["charge_id"], name: "index_donations_on_charge_id", unique: true
+    t.index ["fund_id"], name: "index_donations_on_fund_id"
     t.index ["user_id"], name: "index_donations_on_user_id"
   end
 
@@ -140,4 +142,5 @@ ActiveRecord::Schema.define(version: 2020_08_31_140351) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "donations", "funds"
 end

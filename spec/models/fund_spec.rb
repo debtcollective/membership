@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: funds
+#
+#  id         :bigint           not null, primary key
+#  name       :string
+#  slug       :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+# Indexes
+#
+#  index_funds_on_slug  (slug) UNIQUE
+#
 require "rails_helper"
 
 RSpec.describe Fund, type: :model do

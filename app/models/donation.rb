@@ -17,12 +17,18 @@
 #  card_id            :string
 #  charge_id          :string
 #  customer_stripe_id :string
+#  fund_id            :bigint
 #  user_id            :bigint
 #
 # Indexes
 #
 #  index_donations_on_charge_id  (charge_id) UNIQUE
+#  index_donations_on_fund_id    (fund_id)
 #  index_donations_on_user_id    (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (fund_id => funds.id)
 #
 class Donation < ApplicationRecord
   DONATION_TYPES = {one_off: "ONE_OFF", subscription: "SUBSCRIPTION"}.freeze
@@ -31,6 +37,7 @@ class Donation < ApplicationRecord
   enum status: {succeeded: 0, pending: 1, failed: 2}
 
   belongs_to :user, optional: true
+  belongs_to :fund
 
   validates :amount, :customer_stripe_id, :donation_type, presence: true
   validates :amount, numericality: {greater_than_or_equal_to: 5}, presence: true

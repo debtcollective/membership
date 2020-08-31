@@ -17,12 +17,18 @@
 #  card_id            :string
 #  charge_id          :string
 #  customer_stripe_id :string
+#  fund_id            :bigint
 #  user_id            :bigint
 #
 # Indexes
 #
 #  index_donations_on_charge_id  (charge_id) UNIQUE
+#  index_donations_on_fund_id    (fund_id)
 #  index_donations_on_user_id    (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (fund_id => funds.id)
 #
 require "rails_helper"
 
@@ -48,6 +54,9 @@ RSpec.describe Donation, type: :model do
     it { is_expected.to validate_presence_of(:donation_type) }
     it { is_expected.to allow_value(10).for(:amount) }
     it { is_expected.to_not allow_value(4).for(:amount) }
+
+    it { is_expected.to belong_to(:user).optional }
+    it { is_expected.to belong_to(:fund) }
   end
 
   describe "#contributor_name" do
