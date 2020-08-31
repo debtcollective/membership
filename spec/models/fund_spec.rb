@@ -27,4 +27,12 @@ RSpec.describe Fund, type: :model do
   describe "validations" do
     it { is_expected.to validate_presence_of(:name) }
   end
+
+  describe ".fund" do
+    it "returns default fund" do
+      default_fund = FactoryBot.create(:fund, slug: "debt-collective")
+
+      expect(Fund.default).to eq(default_fund)
+    end
+  end
 end

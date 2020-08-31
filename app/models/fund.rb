@@ -15,4 +15,8 @@
 class Fund < ApplicationRecord
   validates :name, presence: true
   validates :slug, uniqueness: true
+
+  def self.default
+    find_by!(slug: "debt-collective")
+  end
 end
