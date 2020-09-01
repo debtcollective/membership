@@ -90,12 +90,10 @@ GEM
       launchy
     childprocess (3.0.0)
     climate_control (0.2.0)
-    codecov (0.2.6)
-      colorize
+    codecov (0.2.9)
       json
       simplecov
     coderay (1.1.3)
-    colorize (0.8.1)
     concurrent-ruby (1.1.6)
     connection_pool (2.2.3)
     crass (1.0.6)
@@ -411,7 +409,7 @@ DEPENDENCIES
   capybara (~> 3.28)
   capybara-screenshot (= 1.0.24)
   climate_control (~> 0.2.0)
-  codecov (= 0.2.6)
+  codecov (= 0.2.9)
   database_cleaner-active_record (= 1.8.0)
   dotenv-rails (= 2.7.6)
   e2mmap
