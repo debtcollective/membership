@@ -1,5 +1,5 @@
 class AddFundToDonations < ActiveRecord::Migration[6.0]
   def change
-    add_reference :donations, :fund, foreign_key: true
+    add_reference :donations, :fund
   end
 end

@@ -26,10 +26,6 @@
 #  index_donations_on_fund_id    (fund_id)
 #  index_donations_on_user_id    (user_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (fund_id => funds.id)
-#
 FactoryBot.define do
   factory :donation do
     amount { Faker::Number.within(range: 5..500) }
@@ -37,6 +33,5 @@ FactoryBot.define do
     card_id { Faker::Alphanumeric.alphanumeric(number: 10) }
     donation_type { [Donation::DONATION_TYPES[:one_off], Donation::DONATION_TYPES[:subscription]].sample }
     customer_ip { Faker::Internet.ip_v4_address }
-    fund { FactoryBot.create(:fund)}
   end
 end
