@@ -1,0 +1,32 @@
+@import 'base/globals';
+
+.fund-item {
+  position: relative;
+
+  label {
+    cursor: pointer;
+    display: block;
+    padding: 1.5rem 0.75rem;
+    margin: 0 0 1rem;
+    border-radius: 0.25rem;
+    background-color: white;
+    box-shadow: 0 0.0625rem 0.1875rem 0 #e6ebf1;
+    border: 0.0625rem solid transparent;
+    transition: all 150ms ease;
+    margin-bottom: 1rem;
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input[type='radio'] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  input[type='radio']:checked + label {
+    border: 0.0625rem solid $primary-color;
+    color: $primary-color;
+  }
+}

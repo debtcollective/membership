@@ -3,6 +3,10 @@
 require "recaptcha"
 
 class ChargesController < ApplicationController
+  before_action :set_funds, only: [:new, :create]
+  before_action :set_fund_by_slug, only: :new
+  before_action :set_fund_by_id, only: :create
+
   def new
   end
 
@@ -27,7 +31,8 @@ class ChargesController < ApplicationController
 
     donation_params = charge_params.to_h.merge({
       amount: amount_cents,
-      customer_ip: request.remote_ip
+      customer_ip: request.remote_ip,
+      fund_id: @fund.id
     })
 
     donation, error = if current_user
@@ -56,6 +61,24 @@ class ChargesController < ApplicationController
   private
 
   def charge_params
-    params.require(:charge).permit(:name, :email, :phone_number, :amount, :stripe_token)
+    params.require(:charge).permit(:name, :email, :phone_number, :amount, :stripe_token, :fund_id)
+  end
+
+  def set_funds
+    @funds = Fund.all
+  end
+
+  def set_fund_by_slug
+    fund_slug = params[:fund]
+
+    @fund = Fund.find_by(slug: fund_slug) if fund_slug
+    @fund ||= Fund.default
+  end
+
+  def set_fund_by_id
+    fund_id = charge_params[:fund_id]
+
+    @fund = Fund.find_by(id: fund_id) if fund_id
+    @fund ||= Fund.default
   end
 end

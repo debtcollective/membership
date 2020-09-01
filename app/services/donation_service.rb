@@ -54,6 +54,7 @@ class DonationService
           customer_ip: customer_ip,
           customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
+          fund_id: params[:fund_id],
           status: stripe_charge.status,
           user_id: user.id,
           # TODO: add address
@@ -78,6 +79,7 @@ class DonationService
     def save_donation_without_user(params)
       name = params[:name]
       email = params[:email]
+      fund_id = params[:fund_id]
       phone_number = params[:phone_number].to_s
       stripe_token = params[:stripe_token]
       valid_email = ValidEmail2::Address.new(email).valid?
@@ -125,6 +127,7 @@ class DonationService
           customer_ip: customer_ip,
           customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
+          fund_id: fund_id,
           status: stripe_charge.status,
           # TODO: add address
           user_data: {

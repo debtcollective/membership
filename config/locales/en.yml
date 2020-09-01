@@ -1,5 +1,7 @@
 en:
   charge:
+    new:
+      title: Help us prevent evictions and win debt cancellation.
     alerts:
       success: Your %{amount} donation has been successfully processed
     errors:

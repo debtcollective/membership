@@ -44,6 +44,24 @@ RSpec.describe DonationService, type: :service do
       expect(error).to be_truthy
     end
 
+    it "sets fund it fund_id is provided" do
+      fund = FactoryBot.create(:fund)
+
+      params = {
+        amount: 1_000, # 10 USD
+        customer_ip: "127.0.0.1",
+        phone_number: Faker::PhoneNumber.phone_number,
+        stripe_token: stripe_helper.generate_card_token,
+        fund_id: fund.id
+      }
+
+      donation, error = DonationService.save_donation_with_user(user, params)
+
+      expect(donation).to be_persisted
+      expect(donation.fund).to eq(fund)
+      expect(error).to be_nil
+    end
+
     it "returns error if one personal info field is missing" do
       # missing phone number field
       params = {
@@ -80,6 +98,26 @@ RSpec.describe DonationService, type: :service do
       expect(donation.charge_data).to have_key("id")
       expect(donation.status).to eq("succeeded")
       expect(donation.customer_ip).to eq(params[:customer_ip])
+      expect(error).to be_nil
+    end
+
+    it "sets fund it fund_id is provided" do
+      fund = FactoryBot.create(:fund)
+
+      params = {
+        amount: 1_000, # 10 USD
+        name: Faker::Name.name,
+        email: Faker::Internet.email,
+        phone_number: Faker::PhoneNumber.phone_number,
+        stripe_token: stripe_helper.generate_card_token,
+        customer_ip: "127.0.0.1",
+        fund_id: fund.id
+      }
+
+      donation, error = DonationService.save_donation_without_user(params)
+
+      expect(donation).to be_persisted
+      expect(donation.fund).to eq(fund)
       expect(error).to be_nil
     end
 
