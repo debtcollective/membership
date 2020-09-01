@@ -21,11 +21,13 @@ RSpec.describe Fund, type: :model do
   describe "attributes" do
     it { is_expected.to respond_to(:name) }
     it { is_expected.to respond_to(:slug) }
-    it { is_expected.to validate_uniqueness_of(:slug) }
   end
 
   describe "validations" do
     it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_uniqueness_of(:slug) }
+    it { is_expected.to have_many(:donations) }
   end
 
   describe ".default" do

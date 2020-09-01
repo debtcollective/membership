@@ -1,12 +1,32 @@
 <div id="checkout" class="one-time-donation">
   <div class="content">
     <section id="checkout-plan">
-      <h4>Pay what you can. Every dollar counts.</h4>
-      <p>“To each according to their ability, to each according to their need.” Contributing what you can, where you can is what we’re all about.</p>
+      <h3><%= t("charge.new.title") %></h3>
+      <p>
+        Please donate what you can to support the work of preventing evictions in and around Los Angeles County or the Debt Collective’s ongoing efforts to build a union of debtors and win broad debt cancellation and progressive economic policies.
+      </p>
+      <p>
+        “To each according to their ability, to each according to their need.” Contributing what you can, where you can is what we’re all about.
+      </p>
+      <p>
+        Thank you for supporting our work.
+      </p>
     </section>
     <section id='checkout-payment'>
       <%= form_with(url: charges_path, method: 'post', local: true, id: 'payment-form') do %>
         <%= fields_for(:charge) do |f|%>
+          <h4>
+            Select a fund to donate to:
+          </h4>
+          <div class="funds">
+            <% @funds.each do |fund_each| %>
+              <%= render partial: "fund_item", locals: {f: f, fund: fund_each, checked: @fund === fund_each} %>
+            <% end %>
+          </div>
+
+          <h4>
+            Payment information:
+          </h4>
           <div class="form-row">
             <%= f.label(:name) do %>
               Name

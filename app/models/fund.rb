@@ -15,6 +15,8 @@
 class Fund < ApplicationRecord
   DEFAULT_SLUG = "debt-collective"
 
+  has_many :donations, dependent: :restrict_with_exception
+
   validates :name, presence: true
   validates :slug, uniqueness: true
 

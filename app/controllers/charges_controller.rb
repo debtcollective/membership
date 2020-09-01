@@ -3,6 +3,7 @@
 require "recaptcha"
 
 class ChargesController < ApplicationController
+  before_action :set_funds, only: [:new, :create]
   before_action :set_fund_by_slug, only: :new
   before_action :set_fund_by_id, only: :create
 
@@ -61,6 +62,10 @@ class ChargesController < ApplicationController
 
   def charge_params
     params.require(:charge).permit(:name, :email, :phone_number, :amount, :stripe_token, :fund_id)
+  end
+
+  def set_funds
+    @funds = Fund.all
   end
 
   def set_fund_by_slug
