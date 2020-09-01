@@ -29,7 +29,7 @@
 end
 
 # Funds
-[{name: "Debt Collective", slug: "debt-collective"}].each do |data|
+[{name: "Debt Collective", slug: Fund::DEFAULT_SLUG}].each do |data|
   fund = Fund.find_or_initialize_by(slug: data[:slug])
 
   fund.name = data[:name]

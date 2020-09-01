@@ -26,10 +26,6 @@
 #  index_donations_on_fund_id    (fund_id)
 #  index_donations_on_user_id    (user_id)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (fund_id => funds.id)
-#
 require "rails_helper"
 
 RSpec.describe Donation, type: :model do
@@ -56,7 +52,7 @@ RSpec.describe Donation, type: :model do
     it { is_expected.to_not allow_value(4).for(:amount) }
 
     it { is_expected.to belong_to(:user).optional }
-    it { is_expected.to belong_to(:fund) }
+    it { is_expected.to belong_to(:fund).optional }
   end
 
   describe "#contributor_name" do

@@ -13,10 +13,12 @@
 #  index_funds_on_slug  (slug) UNIQUE
 #
 class Fund < ApplicationRecord
+  DEFAULT_SLUG = "debt-collective"
+
   validates :name, presence: true
   validates :slug, uniqueness: true
 
   def self.default
-    find_by!(slug: "debt-collective")
+    find_by!(slug: DEFAULT_SLUG)
   end
 end
