@@ -3,10 +3,12 @@
 require "rails_helper"
 
 describe "Donations", type: :feature do
+  let!(:default_fund) { FactoryBot.create(:fund, slug: Fund::DEFAULT_SLUG) }
+
   context "as user", js: true do
     let!(:user) { FactoryBot.create(:user, stripe_id: nil) }
 
-    it "allows going through the flow and prompts for a user account creation" do
+    it "allows going through the flow and donate successfully" do
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
       visit "/"
       expect(page).to_not have_content("Log In") # checking user is logged in
