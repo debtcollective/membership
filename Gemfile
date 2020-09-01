@@ -28,7 +28,7 @@ gem 'inky-rb', '1.3.8.0', require: 'inky'
 gem 'premailer-rails', '1.11.1'
 
 # front-end libraries
-gem 'react_on_rails', '~> 11.3'
+gem 'react_on_rails', '~> 12.0'
 gem 'mini_racer', platforms: :ruby
 
 # Payments
