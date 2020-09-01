@@ -329,7 +329,7 @@ GEM
       skylight-core (= 4.3.1)
     skylight-core (4.3.1)
       activesupport (>= 4.2.0)
-    solargraph (0.39.13)
+    solargraph (0.39.15)
       backport (~> 1.1)
       benchmark
       bundler (>= 1.17.2)
@@ -443,7 +443,7 @@ DEPENDENCIES
   sidekiq (= 6.1.1)
   sidekiq-scheduler (= 3.0.1)
   skylight (= 4.3.1)
-  solargraph (= 0.39.13)
+  solargraph (= 0.39.15)
   spring
   spring-watcher-listen (~> 2.0.0)
   standard (= 0.5.2)
