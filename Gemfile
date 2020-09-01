@@ -72,10 +72,11 @@ group :development do
 end
 
 group :test do
-  gem "climate_control", "~> 0.2.0"
+  gem 'climate_control', '~> 0.2.0'
   gem 'capybara', '~> 3.28'
   gem 'capybara-screenshot', '1.0.24'
   gem 'codecov', '0.2.6', require: false
+  gem 'database_cleaner-active_record', '1.8.0'
   gem 'rspec-mocks', '3.9.1'
   gem 'rspec-rails', '4.0.1'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
