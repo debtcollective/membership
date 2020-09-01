@@ -28,7 +28,6 @@ Rails.application.routes.draw do
     get '/subscription' => 'users#subscription', as: :current_subscription
     get '/donations' => 'users#donation_history', as: :latest_donations
     resource :streak, only: %i[show]
-    resources :cards, only: %i[index destroy]
     resource :subscription, only: %i[destroy]
     resources :plan_changes, only: %i[index new create]
   end
