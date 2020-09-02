@@ -42,7 +42,6 @@ export default function FundsTable ({ funds }) {
                 <TableCell scope='fund'>{fund.name}</TableCell>
                 <TableCell scope='fund'>{fund.slug}</TableCell>
                 <TableCell align='right'>
-                  <a href={`/admin/funds/${fund.id}`}>Show</a>{' '}
                   <a href={`/admin/funds/${fund.id}/edit`}>Edit</a>{' '}
                   <a
                     data-confirm='Are you sure?'

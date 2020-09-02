@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     get "/dashboard" => "dashboard#index"
     resources :users
     resources :plans
-    resources :funds
+    resources :funds, except: %i[show]
     resources :subscriptions
     resources :donations, only: %i[index show]
   end
