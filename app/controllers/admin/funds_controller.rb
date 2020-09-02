@@ -42,10 +42,10 @@ class Admin::FundsController < AdminController
   def destroy
     respond_to do |format|
       if @fund.destroy
-        format.html { redirect_to admin_funds_url, notice: "Fund was successfully destroyed." }
+        format.html { redirect_to admin_funds_path, notice: "Fund was successfully destroyed." }
         format.json { head :no_content }
       else
-        format.html { redirect_to admin_funds_url, notice: @fund.errors[:base].join(", ") }
+        format.html { redirect_to admin_funds_path, notice: @fund.errors[:base].join(", ") }
         format.json { render json: {error: @fund.errors[:base].join(", ")}, status: 400 }
       end
     end
