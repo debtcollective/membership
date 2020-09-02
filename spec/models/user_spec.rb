@@ -17,14 +17,14 @@
 #  external_id   :bigint
 #  stripe_id     :string
 #
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
 
   subject { user }
 
-  describe 'attributes' do
+  describe "attributes" do
     it { is_expected.to respond_to(:admin) }
     it { is_expected.to respond_to(:avatar_url) }
     it { is_expected.to respond_to(:banned) }
@@ -36,25 +36,30 @@ RSpec.describe User, type: :model do
     it { is_expected.to be_valid }
   end
 
-  describe 'validations' do
+  describe "validations" do
     it { is_expected.to validate_presence_of(:external_id) }
   end
 
-  describe '.find_or_create_from_sso' do
-    it 'creates and returns a new user' do
-      payload = JSON.parse(file_fixture('jwt_sso_payload.json').read)
+  describe "associations" do
+    it { is_expected.to have_many(:subscriptions) }
+    it { is_expected.to have_many(:donations) }
+  end
+
+  describe ".find_or_create_from_sso" do
+    it "creates and returns a new user" do
+      payload = JSON.parse(file_fixture("jwt_sso_payload.json").read)
 
       user, new_record = User.find_or_create_from_sso(payload)
 
       expect(new_record).to eql(true)
       expect(user.persisted?).to eql(true)
-      expect(user.external_id).to eql(payload['external_id'])
-      expect(user.custom_fields).to eql(payload['custom_fields'])
+      expect(user.external_id).to eql(payload["external_id"])
+      expect(user.custom_fields).to eql(payload["custom_fields"])
     end
 
-    it 'returns existing user if exists' do
-      payload = JSON.parse(file_fixture('jwt_sso_payload.json').read)
-      external_id = payload['external_id']
+    it "returns existing user if exists" do
+      payload = JSON.parse(file_fixture("jwt_sso_payload.json").read)
+      external_id = payload["external_id"]
       User.create(external_id: external_id)
 
       user, new_record = User.find_or_create_from_sso(payload)
@@ -62,7 +67,7 @@ RSpec.describe User, type: :model do
       expect(new_record).to eql(false)
       expect(user.persisted?).to eql(true)
       expect(user.external_id).to eql(external_id)
-      expect(user.custom_fields).to eql(payload['custom_fields'])
+      expect(user.custom_fields).to eql(payload["custom_fields"])
     end
   end
 end

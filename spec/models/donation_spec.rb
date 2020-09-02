@@ -50,7 +50,9 @@ RSpec.describe Donation, type: :model do
     it { is_expected.to validate_presence_of(:donation_type) }
     it { is_expected.to allow_value(10).for(:amount) }
     it { is_expected.to_not allow_value(4).for(:amount) }
+  end
 
+  describe "associations" do
     it { is_expected.to belong_to(:user).optional }
     it { is_expected.to belong_to(:fund).optional }
   end
