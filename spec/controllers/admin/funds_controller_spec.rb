@@ -45,7 +45,7 @@ RSpec.describe Admin::FundsController, type: :controller do
         }.to change(Fund, :count).by(1)
       end
 
-      it "redirects to the created fund" do
+      it "redirects to the index after creating fund" do
         post :create, params: {fund: valid_attributes}, session: valid_session
         expect(response).to redirect_to(admin_funds_url)
       end
@@ -76,16 +76,27 @@ RSpec.describe Admin::FundsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested fund" do
-      fund = Fund.create! valid_attributes
+      fund = FactoryBot.create(:fund)
+
       expect {
         delete :destroy, params: {id: fund.to_param}, session: valid_session
       }.to change(Fund, :count).by(-1)
     end
 
     it "redirects to the Funds list" do
-      fund = Fund.create! valid_attributes
+      fund = FactoryBot.create(:fund)
+
       delete :destroy, params: {id: fund.to_param}, session: valid_session
       expect(response).to redirect_to(admin_funds_url)
+    end
+
+    it "returns an error when trying to delete funds with donations" do
+      fund = FactoryBot.create(:fund)
+      FactoryBot.create(:donation, fund: fund)
+
+      expect {
+        delete :destroy, params: {id: fund.to_param}, session: valid_session
+      }.to change(Fund, :count).by(0)
     end
   end
 end
