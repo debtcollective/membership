@@ -45,8 +45,8 @@ class Admin::FundsController < AdminController
         format.html { redirect_to admin_funds_url, notice: "Fund was successfully destroyed." }
         format.json { head :no_content }
       else
-        format.html { redirect_to admin_funds_url, notice: @fund.errors[:base] }
-        format.json { render json: {error: @fund.errors[:base]}, status: 400 }
+        format.html { redirect_to admin_funds_url, notice: @fund.errors[:base].join(", ") }
+        format.json { render json: {error: @fund.errors[:base].join(", ")}, status: 400 }
       end
     end
   end
