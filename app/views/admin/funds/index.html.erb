@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Funds</h1>
+
+<%= react_component("FundsTable", props: {funds: @funds}) %>
+
+<br />
+
+<%= link_to 'New Fund', new_admin_fund_path %>
