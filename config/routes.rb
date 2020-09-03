@@ -9,15 +9,16 @@ Rails.application.routes.draw do
 
   get "/thank-you" => "static_pages#thank_you"
 
-  resources :plans, only: %i[show index]
   resources :subscription_charges, only: %i[new edit create update]
   resources :billings, only: %i[new create]
-  resources :charges, only: %i[new create], path: "donate", path_names: {new: ""}
+  resources :charges,
+    only: %i[new create], path: "donate", path_names: {new: ""}
 
   namespace :admin do
     get "/dashboard" => "dashboard#index"
     resources :users
     resources :plans
+    resources :funds, except: %i[show]
     resources :subscriptions
     resources :donations, only: %i[index show]
   end
@@ -28,7 +29,6 @@ Rails.application.routes.draw do
     get "/subscription" => "users#subscription", :as => :current_subscription
     get "/donations" => "users#donation_history", :as => :latest_donations
     resource :streak, only: %i[show]
-    resources :cards, only: %i[index destroy]
     resource :subscription, only: %i[destroy]
     resources :plan_changes, only: %i[index new create]
   end
@@ -37,7 +37,8 @@ Rails.application.routes.draw do
   get "/signup" => "sessions#signup"
 
   if Rails.env.production?
-    mount Sidekiq::Web => "/sidekiq", :constraints => AdminConstraint.new(require_master: true)
+    mount Sidekiq::Web => "/sidekiq",
+          :constraints => AdminConstraint.new(require_master: true)
   else
     mount Sidekiq::Web => "/sidekiq"
   end

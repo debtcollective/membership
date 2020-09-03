@@ -55,10 +55,14 @@ class Admin::PlansController < AdminController
   # DELETE /admin/plans/1
   # DELETE /admin/plans/1.json
   def destroy
-    @plan.destroy
     respond_to do |format|
-      format.html { redirect_to admin_plans_url, notice: 'Plan was successfully destroyed.' }
-      format.json { head :no_content }
+      if @plan.destroy
+        format.html { redirect_to admin_plans_url, notice: "Plan was successfully destroyed." }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to admin_plans_url, notice: @plan.errors[:base].join(", ") }
+        format.json { render json: {error: @plan.errors[:base].join(", ")}, status: 400 }
+      end
     end
   end
 

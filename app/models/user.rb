@@ -20,10 +20,17 @@
 class User < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
-  SSO_ATTRIBUTES = %w[admin avatar_url banned custom_fields email name username].freeze
+  SSO_ATTRIBUTES = %w[
+    admin
+    avatar_url
+    banned
+    custom_fields
+    email
+    name
+    username
+  ].freeze
 
   has_many :subscriptions
-  has_many :cards
   has_many :donations
 
   validates :external_id, presence: true
@@ -53,9 +60,7 @@ class User < ApplicationRecord
 
     start_date ||= active_subscription.start_date
 
-    if (Date.today - start_date.to_date).zero?
-      return 1
-    end # first month of subscription
+    return 1 if (Date.today - start_date.to_date).zero? # first month of subscription
 
     ((Date.today - start_date.to_date).to_f / 365 * 12).round
   end

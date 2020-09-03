@@ -12,14 +12,14 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Plan, type: :model do
   let(:plan) { FactoryBot.build_stubbed(:plan) }
 
   subject { plan }
 
-  describe 'attributes' do
+  describe "attributes" do
     it { is_expected.to respond_to(:name) }
     it { is_expected.to respond_to(:headline) }
     it { is_expected.to respond_to(:description) }
@@ -27,10 +27,14 @@ RSpec.describe Plan, type: :model do
     it { is_expected.to be_valid }
   end
 
-  describe 'validations' do
+  describe "validations" do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:headline) }
     it { is_expected.to validate_presence_of(:amount) }
     it { is_expected.to allow_value(1235.123).for(:amount) }
+  end
+
+  describe "associations" do
+    it { is_expected.to have_many(:subscriptions).dependent(:restrict_with_error) }
   end
 end

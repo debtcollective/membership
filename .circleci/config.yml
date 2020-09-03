@@ -53,6 +53,7 @@ jobs:
           key: membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/membership/vendor/bundle
+            - ~/membership/node_modules
             - ~/.cache/yarn
 
       - run:

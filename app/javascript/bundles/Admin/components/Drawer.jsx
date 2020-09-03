@@ -10,14 +10,16 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import UsersIcon from '@material-ui/icons/SupervisedUserCircle'
-import DashboardIcon from '@material-ui/icons/Dashboard'
-import BookIcon from '@material-ui/icons/Book'
-import SubscriptionsIcon from '@material-ui/icons/Subscriptions'
-import MenuIcon from '@material-ui/icons/Menu'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+
+import AccountBalanceIcon from '@material-ui/icons/AccountBalance'
+import BookIcon from '@material-ui/icons/Book'
+import DashboardIcon from '@material-ui/icons/Dashboard'
+import MenuIcon from '@material-ui/icons/Menu'
+import SubscriptionsIcon from '@material-ui/icons/Subscriptions'
+import UsersIcon from '@material-ui/icons/SupervisedUserCircle'
 
 const drawerWidth = 240
 
@@ -99,6 +101,12 @@ function ResponsiveDrawer (props) {
             <BookIcon />
           </ListItemIcon>
           <ListItemText primary='Plans' />
+        </ListItem>
+        <ListItem button component='a' href='/admin/funds'>
+          <ListItemIcon>
+            <AccountBalanceIcon />
+          </ListItemIcon>
+          <ListItemText primary='Funds' />
         </ListItem>
       </List>
     </div>

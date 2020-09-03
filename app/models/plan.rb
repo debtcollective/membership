@@ -17,5 +17,5 @@ class Plan < ApplicationRecord
   validates :amount, numericality: true
   has_rich_text :description
 
-  has_many :subscriptions, through: :subscriptions
+  has_many :subscriptions, dependent: :restrict_with_error
 end
