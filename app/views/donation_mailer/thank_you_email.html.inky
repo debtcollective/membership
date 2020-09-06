@@ -59,7 +59,7 @@
         Your contribution receipt
       </h4>
       <p class="text-right donation-amount mb-0">
-        <%= displayable_amount(@donation.amount) %>
+        <%= number_to_currency(@donation.amount) %>
       </p>
       <p class="text-right text-md">
         One-time contribution
@@ -78,7 +78,7 @@
     </columns>
     <columns large="6">
       <p class="text-right mb-0">
-        <%= displayable_amount(@donation.amount) %>
+        <%= number_to_currency(@donation.amount) %>
       </p>
     </columns>
   </row>
@@ -98,7 +98,7 @@
     <columns large="6">
       <p class="text-right">
         <b>
-          <%= displayable_amount(@donation.amount) %>
+          <%= number_to_currency(@donation.amount) %>
         </b>
       </p>
     </columns>
