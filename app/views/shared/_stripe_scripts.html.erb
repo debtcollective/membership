@@ -28,48 +28,30 @@
 
     // Add an instance of the card Element into the `card-element` <div>.
     card.mount('#card-element');
-    const amountField = document.getElementById('amount-field')
     const submitPaymentButton = document.getElementById('submit-payment')
-    const displayError = document.getElementById('card-errors');
+    const cardDisplayError = document.getElementById('card-errors');
 
     // Handle real-time validation errors from the card Element.
     card.addEventListener('change', function(event) {
       if (event.error) {
-        displayError.textContent = event.error.message;
+        cardDisplayError.textContent = event.error.message;
       } else {
-        displayError.textContent = '';
+        cardDisplayError.textContent = '';
         submitPaymentButton.removeAttribute("disabled", "disabled");
-      }
-      if(amountField.value < 5) {
-        submitPaymentButton.setAttribute("disabled", "disabled")
       }
     });
 
-    // disable submit button by default
-    if (Boolean(amountField)) {
-      submitPaymentButton.setAttribute("disabled", "disabled")
-
-      amountField.addEventListener('input', function(event) {
-        if (amountField.value.length === 0) {
-          submitPaymentButton.setAttribute("disabled", "disabled")
-        } else if(amountField.value < 5) {
-          submitPaymentButton.setAttribute("disabled", "disabled")
-        }
-        else {
-          submitPaymentButton.removeAttribute("disabled", "disabled");
-        };
-      });
-    }
+    const captchaDisplayError = document.getElementById('captcha-errors');
 
     function verifyCaptcha() {
       let isCaptchaValidated = false;
       const captchaField = document.getElementById('g-recaptcha-response');
 
-      if(captchaField && captchaField.value.length == 0) {
+      if (captchaField && captchaField.value.length == 0) {
           isCaptchaValidated = false;
-          displayError.textContent = 'Please verify that you are a Human.';
+          captchaDisplayError.textContent = 'Please verify that you are a Human.';
       } else {
-          displayError.textContent = '';
+          captchaDisplayError.textContent = '';
           isCaptchaValidated = true;
       }
       return isCaptchaValidated
@@ -80,6 +62,7 @@
     form.addEventListener('submit', function(event) {
       event.preventDefault();
       const isCaptchaValid = verifyCaptcha()
+      submitPaymentButton.setAttribute("disabled", "disabled");
 
       if (isCaptchaValid) {
         //you can now submit your form
@@ -88,6 +71,7 @@
             // Inform the user if there was an error.
             const errorElement = document.getElementById('card-errors');
             errorElement.textContent = result.error.message;
+            submitPaymentButton.removeAttribute("disabled", "disabled");
           } else {
             // Send the token to your server.
             stripeTokenHandler(result.token);

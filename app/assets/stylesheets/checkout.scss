@@ -28,14 +28,17 @@
     }
   }
 
-  .form-row {
-    label {
-      margin-bottom: 1rem;
-    }
+  .help-text {
+    color: #32325d;
+  }
 
-    .input-field {
-      margin-bottom: 1rem;
-    }
+  #amount-field {
+    margin-bottom: 0rem;
+  }
+
+  .recaptcha-wrapper {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 }
 

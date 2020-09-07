@@ -49,7 +49,7 @@
           </div>
 
           <div class="form-row">
-            <%= f.label(:card) do %>
+            <%= f.label(:card, class: 'amount-label') do %>
               Credit or debit card
               <div id="card-element">
                 <!-- A Stripe Element will be inserted here. -->
@@ -63,13 +63,21 @@
           <div class="form-row">
             <%= f.label(:amount) do %>
               Amount
-              <%= f.number_field(:amount, step: 1, min: 5, placeholder: '$5', class: 'input-field', id: 'amount-field') %>
+              <%= f.number_field(:amount, step: 1, min: 5, placeholder: '$5', class: 'input-field', id: 'amount-field', required: true) %>
+              <small class="help-text">For security reasons, the minimum donation we can accept is $5 USD. We are working to remove this limitation as soon as possible.</small>
             <% end %>
           </div>
         <% end %>
 
         <div class="form-row">
-          <%= recaptcha_tags %>
+          <div class="recaptcha-wrapper">
+            <%= recaptcha_tags %>
+            <div id="captcha-errors" role="alert">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
           <button id="submit-payment" type="submit" class="button primary">Make my contribution</button>
         </div>
       <% end %>
