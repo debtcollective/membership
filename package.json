@@ -49,7 +49,7 @@
     "@prettier/plugin-ruby": "0.20.0",
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/commit-analyzer": "8.0.1",
-    "@semantic-release/github": "7.0.7",
+    "@semantic-release/github": "7.1.1",
     "@semantic-release/release-notes-generator": "9.0.1",
     "eslint-plugin-react-hooks": "4.1.0",
     "husky": "4.2.5",
