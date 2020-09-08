@@ -38,7 +38,13 @@
           </label>
         </div>
 
-        <%= recaptcha_tags %>
+        <div class="form-row">
+          <div class="recaptcha-wrapper">
+            <%= recaptcha_tags %>
+            <div id="captcha-errors" role="alert"></div>
+          </div>
+        </div>
+
 
         <div class="actions">
           <%= form.submit "Enroll Membership for #{number_to_currency(@plan.amount).gsub(/\.00$/, "")}/mo", class: 'button primary', id: "submit-payment" %>

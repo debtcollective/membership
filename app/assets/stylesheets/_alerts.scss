@@ -1,11 +1,10 @@
 @import 'base/globals';
 
 .alert {
-  margin: 1rem 5rem;
-  padding: 1rem 1.25rem;
+  margin: 1rem auto;
+  padding: 1rem 3rem 1rem 1rem;
   border: 1px solid transparent;
   border-radius: 5px;
-  padding-right: 1rem;
   color: $alert-info-text-color;
   background-color: $alert-info-background;
   border-color: $alert-info-border-color;
@@ -17,7 +16,7 @@
     border: 0;
     color: inherit;
     font-size: 1.5rem;
-    padding: .75rem 1.25rem;
+    padding: 0.75rem 1.25rem;
     position: absolute;
     right: 0;
     top: 0;

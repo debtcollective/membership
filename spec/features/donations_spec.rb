@@ -63,15 +63,10 @@ describe "Donations", type: :feature do
       within "#payment-form" do
         fill_stripe_elements(card: "4242424242424242")
         fill_in "amount-field", with: 4
-        expect(page).to have_button("Make my contribution", disabled: true)
-        fill_in "amount-field", with: 5
-        expect(page).to have_button("Make my contribution", disabled: false)
-        fill_in "amount-field", with: 2
-        expect(page).to have_button("Make my contribution", disabled: true)
-      end
+        click_button "Make my contribution"
+        message = page.find("#amount-field").native.attribute("validationMessage")
 
-      using_wait_time(10) do
-        expect(page).to_not have_content(I18n.t("charge.alerts.success", amount: "$4.00"))
+        expect(message).to eq("Value must be greater than or equal to 5.")
       end
     end
 

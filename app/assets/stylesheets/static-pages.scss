@@ -5,8 +5,6 @@
 @import 'base/globals';
 
 #money {
-  background: linear-gradient($bg-color-secondary, $bg-color-primary 50%);
-
   @media (min-width: 48rem) {
     background: no-repeat center/cover image_url('donate_photo_1.jpg');
   }
@@ -18,10 +16,6 @@
   @media (min-width: 48rem) {
     background: no-repeat center/cover image_url('donate_photo_2.jpg');
   }
-}
-
-#retail {
-  background: linear-gradient($bg-color-primary, $bg-color-secondary 50%);
 }
 
 #money,
