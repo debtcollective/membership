@@ -68,7 +68,7 @@ class SubscriptionPaymentJob < ApplicationJob
       donation_type: Donation::DONATION_TYPES[:subscription],
       status: stripe_charge.status,
       user: user,
-      user_data: {emai: user.email, name: user.name}
+      user_data: {email: user.email, name: user.name}
     )
     subscription.update!(last_charge_at: DateTime.now, active: true) if donation.save!
   end
