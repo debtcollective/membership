@@ -62,15 +62,17 @@
     form.addEventListener('submit', function(event) {
       event.preventDefault();
       const isCaptchaValid = verifyCaptcha()
-      submitPaymentButton.setAttribute("disabled", "disabled");
 
       if (isCaptchaValid) {
+        submitPaymentButton.setAttribute("disabled", "disabled");
+
         //you can now submit your form
         stripe.createToken(card).then(function(result) {
           if (result.error) {
             // Inform the user if there was an error.
             const errorElement = document.getElementById('card-errors');
             errorElement.textContent = result.error.message;
+
             submitPaymentButton.removeAttribute("disabled", "disabled");
           } else {
             // Send the token to your server.

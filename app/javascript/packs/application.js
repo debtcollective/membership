@@ -15,6 +15,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   alert &&
     alert.addEventListener('click', function () {
-      this.parentElement.remove()
+      this.parentNode.parentNode.removeChild(this.parentNode)
     })
 })

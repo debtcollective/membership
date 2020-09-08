@@ -22,7 +22,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Libre Franklin', sans-serif;
-  height: 100%;
+  min-height: 100%;
 }
 
 .content {
@@ -34,7 +34,12 @@ body {
 }
 
 body {
-  background: linear-gradient($bg-color-primary, $bg-color-secondary 50%);
+  background: linear-gradient(
+    180deg,
+    $bg-color-primary 0%,
+    $bg-color-secondary 88.74%
+  );
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
 }
