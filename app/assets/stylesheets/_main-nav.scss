@@ -5,7 +5,7 @@
   align-items: center;
   padding: 1rem 5rem;
 
-  @media(min-width: 80rem) {
+  @media (min-width: 80rem) {
     justify-content: space-between;
   }
 
@@ -17,7 +17,7 @@
       margin-right: auto;
     }
 
-    @media(min-width: 80rem) {
+    @media (min-width: 80rem) {
       display: flex;
     }
   }
@@ -27,10 +27,9 @@
 
     li {
       margin: 0 2rem;
-      font-weight: bold;
     }
 
-    @media(min-width: 80rem) {
+    @media (min-width: 80rem) {
       display: flex;
     }
   }
@@ -49,7 +48,7 @@
     display: none;
     padding: 1rem 3rem;
 
-    @media(min-width: 80rem) {
+    @media (min-width: 80rem) {
       display: flex;
     }
   }
