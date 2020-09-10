@@ -48,7 +48,7 @@ const NoSubscriptionView = ({ user }) => {
 function SubscriptionCancelView ({
   user,
   subscription,
-  activePlan,
+  currentPlan,
   isSubscriptionChanging
 }) {
   const classes = useStyles()
@@ -96,7 +96,7 @@ function SubscriptionCancelView ({
         <h3>You're subscribed</h3>
         <p>
           The plan you're using to contribute is{' '}
-          <strong> {activePlan.name}</strong>.
+          <strong> {currentPlan.name}</strong>.
         </p>
         {!isSubscriptionChanging && (
           <Button

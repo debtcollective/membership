@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 
 const CHANGE_PLAN_ENDPOINT = id => `/users/${id}/plan_changes`
 
-function CurrentPlanView ({ user, activePlan, plans }) {
+function CurrentPlanView ({ user, currentPlan, plans }) {
   const classes = useStyles()
   const [changedPlan, setPlanChanged] = useState(false)
 
@@ -27,7 +27,7 @@ function CurrentPlanView ({ user, activePlan, plans }) {
       await fetch(CHANGE_PLAN_ENDPOINT(user.id), {
         body: JSON.stringify({
           plan_change: {
-            old_plan_id: activePlan.id,
+            old_plan_id: currentPlan.id,
             new_plan_id: selectedPlanId
           }
         }),
@@ -49,8 +49,7 @@ function CurrentPlanView ({ user, activePlan, plans }) {
       <Paper className={classes.root}>
         <h3>Change your susbcription</h3>
         <p>
-          The plan you're using to contribute is{' '}
-          <strong> {activePlan.name}</strong>.
+          Your membership tier is <strong>{currentPlan.name}</strong>.
         </p>
       </Paper>
       <br />
@@ -78,7 +77,7 @@ function CurrentPlanView ({ user, activePlan, plans }) {
             <Button
               variant='contained'
               color='primary'
-              disabled={activePlan.id === plan.id || changedPlan}
+              disabled={currentPlan.id === plan.id || changedPlan}
               onClick={changeHandler}
             >
               Pick plan

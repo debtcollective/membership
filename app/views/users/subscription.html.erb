@@ -4,7 +4,7 @@
   <%= react_component("SubscriptionCancel", props: {
     user: @user,
     subscription: @subscription,
-    activePlan: @subscription&.plan,
+    currentPlan: @subscription&.plan,
     isSubscriptionChanging: @is_subscription_changing
   }) %>
 </section>
