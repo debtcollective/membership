@@ -36,7 +36,7 @@ class User < ApplicationRecord
   validates :external_id, presence: true
 
   def self.find_or_create_from_sso(payload)
-    external_id = payload.fetch('external_id')
+    external_id = payload.fetch("external_id")
 
     user = User.find_or_initialize_by(external_id: external_id)
     new_record = user.new_record?
@@ -56,16 +56,20 @@ class User < ApplicationRecord
   end
 
   def current_streak
-    return nil unless active_subscription
+    subscription = active_subscription
 
-    start_date ||= active_subscription.start_date
+    return nil unless subscription
 
-    return 1 if (Date.today - start_date.to_date).zero? # first month of subscription
+    start_date = subscription.start_date
+    today = Date.today
 
-    ((Date.today - start_date.to_date).to_f / 365 * 12).round
+    months = (today.year * 12 + today.month) - (start_date.year * 12 + start_date.month)
+    months += 1 if months == 0
+
+    months
   end
 
   def active_subscription
-    subscriptions.eager_load(:plan).where(active: true).first
+    subscriptions.includes(:plan).where(active: true).last
   end
 end
