@@ -23,7 +23,7 @@ describe 'As a logged user that wants to change plans', type: :feature do
 
     click_link 'Change Subscription'
 
-    expect(page).to have_content('Available plans')
+    expect(page).to have_content('Available tiers')
 
     within "#plan-#{active_plan.id}" do
       expect(page).to have_content(active_plan.name)
@@ -31,7 +31,7 @@ describe 'As a logged user that wants to change plans', type: :feature do
 
     within "#plan-#{new_plan.id}" do
       expect(page).to have_content(new_plan.name)
-      click_button 'Pick plan'
+      click_button 'Select this tier'
     end
 
     expect(page).to have_content('We have changed your subscription successfully.')

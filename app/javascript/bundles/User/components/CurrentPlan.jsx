@@ -20,7 +20,7 @@ const CHANGE_PLAN_ENDPOINT = id => `/users/${id}/plan_changes`
 
 function CurrentPlanView ({ user, currentPlan, plans }) {
   const classes = useStyles()
-  const [changedPlan, setPlanChanged] = useState(false)
+  const [hasPlanChange, setPlanChanged] = useState(false)
 
   const changePlan = async selectedPlanId => {
     try {
@@ -40,7 +40,8 @@ function CurrentPlanView ({ user, currentPlan, plans }) {
       })
       setPlanChanged(true)
     } catch (error) {
-      console.error(error) // TODO: Replace with sentry
+      console.error(error)
+      Sentry.captureException(error)
     }
   }
 
@@ -53,11 +54,11 @@ function CurrentPlanView ({ user, currentPlan, plans }) {
         </p>
       </Paper>
       <br />
-      <h2>Available plans</h2>
-      <p>You can change your current plan for another one at anytime.</p>
-      {changedPlan && (
+      <h2>Available tiers</h2>
+      <p>You can change your membership tier to another one at anytime.</p>
+      {hasPlanChange && (
         <p className='notice--subscription'>
-          We have changed your subscription successfully.
+          Your plan is scheduled to change on the next billing cycle
         </p>
       )}
       {plans.map(plan => {
@@ -77,10 +78,10 @@ function CurrentPlanView ({ user, currentPlan, plans }) {
             <Button
               variant='contained'
               color='primary'
-              disabled={currentPlan.id === plan.id || changedPlan}
+              disabled={currentPlan.id === plan.id || hasPlanChange}
               onClick={changeHandler}
             >
-              Pick plan
+              Select this tier
             </Button>
           </Paper>
         )
