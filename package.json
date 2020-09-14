@@ -51,7 +51,7 @@
     "@semantic-release/commit-analyzer": "8.0.1",
     "@semantic-release/github": "7.1.1",
     "@semantic-release/release-notes-generator": "9.0.1",
-    "eslint-plugin-react-hooks": "4.1.0",
+    "eslint-plugin-react-hooks": "4.1.2",
     "husky": "4.3.0",
     "lint-staged": "10.3.0",
     "prettier": "2.1.1",
