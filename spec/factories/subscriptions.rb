@@ -15,9 +15,8 @@
 #
 # Indexes
 #
-#  index_subscriptions_on_plan_id                         (plan_id)
-#  index_subscriptions_on_user_id                         (user_id)
-#  index_subscriptions_on_user_id_and_plan_id_and_active  (user_id,plan_id,active) UNIQUE
+#  index_subscriptions_on_plan_id  (plan_id)
+#  index_subscriptions_on_user_id  (user_id)
 #
 FactoryBot.define do
   factory :subscription do

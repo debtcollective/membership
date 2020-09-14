@@ -34,7 +34,7 @@ describe 'As a logged user that wants to change plans', type: :feature do
       click_button 'Select this tier'
     end
 
-    expect(page).to have_content('We have changed your subscription successfully.')
+    expect(page).to have_content("Your plan is scheduled to change to #{new_plan.name}")
     expect(UserPlanChange.where(user_id: user.id).length).to be(1)
   end
 end

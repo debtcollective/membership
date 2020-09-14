@@ -32,11 +32,12 @@ class User < ApplicationRecord
 
   has_many :subscriptions
   has_many :donations
+  has_many :user_plan_changes
 
   validates :external_id, presence: true
 
   def self.find_or_create_from_sso(payload)
-    external_id = payload.fetch("external_id")
+    external_id = payload.fetch('external_id')
 
     user = User.find_or_initialize_by(external_id: external_id)
     new_record = user.new_record?
@@ -63,10 +64,16 @@ class User < ApplicationRecord
     start_date = subscription.start_date
     today = Date.today
 
-    months = (today.year * 12 + today.month) - (start_date.year * 12 + start_date.month)
+    months =
+      (today.year * 12 + today.month) -
+        (start_date.year * 12 + start_date.month)
     months += 1 if months == 0
 
     months
+  end
+
+  def pending_plan_change
+    user_plan_changes.where(status: :pending).first
   end
 
   def active_subscription

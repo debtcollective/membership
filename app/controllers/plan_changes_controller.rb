@@ -9,25 +9,30 @@ class PlanChangesController < ApplicationController
     redirect_to root_path unless current_user&.active_subscription
 
     @user = current_user
+    @pending_plan_change = @user.pending_plan_change
     @plans = Plan.all
-  end
-
-  # GET /users/:user_id/plan_changes/new
-  # GET /users/:user_id/plan_changes/new.json
-  def new
-    @plan_change = UserPlanChange.new
   end
 
   # POST /users/:user_id/plan_changes
   # POST /users/:user_id/plan_changes.json
   def create
-    @plan = UserPlanChange.new(user_id: current_user.id, old_plan_id: plan_change_params[:old_plan_id], new_plan_id: plan_change_params[:new_plan_id], status: 'pending')
+    @plan_change =
+      current_user.user_plan_changes.new(
+        old_plan_id: plan_change_params[:old_plan_id],
+        new_plan_id: plan_change_params[:new_plan_id],
+        status: 'pending'
+      )
 
     respond_to do |format|
-      if @plan.save
-        format.json { render json: @plan, status: :ok }
+      if @plan_change.save
+        format.html { render :index, notice: 'Plan changed successfully' }
+        format.json { render json: @plan_change, status: :ok }
       else
-        format.html { render :index }
+        format.html { render :index, notice: 'Error while changing plans' }
+        format.json do
+          render json: { errors: @plan_change.errors.full_messages },
+                 status: :ok
+        end
       end
     end
   end

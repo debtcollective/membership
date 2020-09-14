@@ -15,14 +15,14 @@
 #
 # Indexes
 #
-#  index_subscriptions_on_plan_id                         (plan_id)
-#  index_subscriptions_on_user_id                         (user_id)
-#  index_subscriptions_on_user_id_and_plan_id_and_active  (user_id,plan_id,active) UNIQUE
+#  index_subscriptions_on_plan_id  (plan_id)
+#  index_subscriptions_on_user_id  (user_id)
 #
 require 'rails_helper'
 
 RSpec.describe Subscription, type: :model do
   let(:subscription) { FactoryBot.create(:subscription) }
+  let(:plan) { FactoryBot.create(:plan) }
 
   subject { subscription }
 
@@ -34,7 +34,37 @@ RSpec.describe Subscription, type: :model do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:plan_id) }
-    it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:plan_id, :active).ignoring_case_sensitivity }
+    it { should belong_to(:plan) }
+    it { should belong_to(:user).optional(true) }
+
+    it 'can have many subscriptions' do
+      user = FactoryBot.create(:user)
+      FactoryBot.create(:subscription, user: user, active: false)
+
+      new_subscription = Subscription.new(
+        user_id: user.id,
+        plan_id: plan.id,
+        active: true
+      )
+
+      new_subscription.save
+
+      expect(new_subscription.errors).to be_empty
+    end
+
+    it 'only can be one active subscription at a time' do
+      user = FactoryBot.create(:user)
+      FactoryBot.create(:subscription, user: user)
+
+      new_subscription = Subscription.new(
+        user_id: user.id,
+        plan_id: plan.id,
+        active: true
+      )
+
+      new_subscription.save
+
+      expect(new_subscription.errors.full_messages).to eq(['already has an active subscription'])
+    end
   end
 end

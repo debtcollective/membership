@@ -18,13 +18,15 @@ const useStyles = makeStyles(theme => ({
 
 const CHANGE_PLAN_ENDPOINT = id => `/users/${id}/plan_changes`
 
-function CurrentPlanView ({ user, currentPlan, plans }) {
+function CurrentPlanView ({ user, currentPlan, pendingPlanChange, plans }) {
   const classes = useStyles()
-  const [hasPlanChange, setPlanChanged] = useState(false)
+  const [planChange, setPlanChange] = useState(pendingPlanChange)
+  const pendingPlanChangePlan =
+    planChange && plans.find(plan => plan.id == planChange.new_plan_id)
 
   const changePlan = async selectedPlanId => {
     try {
-      await fetch(CHANGE_PLAN_ENDPOINT(user.id), {
+      const response = await fetch(CHANGE_PLAN_ENDPOINT(user.id), {
         body: JSON.stringify({
           plan_change: {
             old_plan_id: currentPlan.id,
@@ -38,7 +40,9 @@ function CurrentPlanView ({ user, currentPlan, plans }) {
         },
         method: 'post'
       })
-      setPlanChanged(true)
+
+      const json = await response.json()
+      setPlanChange(json)
     } catch (error) {
       console.error(error)
       Sentry.captureException(error)
@@ -56,9 +60,11 @@ function CurrentPlanView ({ user, currentPlan, plans }) {
       <br />
       <h2>Available tiers</h2>
       <p>You can change your membership tier to another one at anytime.</p>
-      {hasPlanChange && (
+      {planChange && (
         <p className='notice--subscription'>
-          Your plan is scheduled to change on the next billing cycle
+          Your plan is scheduled to change to{' '}
+          <strong>{pendingPlanChangePlan.name}</strong>. The new amount will be
+          charged on your next billing cycle.
         </p>
       )}
       {plans.map(plan => {
@@ -78,7 +84,7 @@ function CurrentPlanView ({ user, currentPlan, plans }) {
             <Button
               variant='contained'
               color='primary'
-              disabled={currentPlan.id === plan.id || hasPlanChange}
+              disabled={currentPlan.id === plan.id || !!planChange}
               onClick={changeHandler}
             >
               Select this tier

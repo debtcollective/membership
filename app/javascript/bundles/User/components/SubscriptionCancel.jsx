@@ -95,8 +95,7 @@ function SubscriptionCancelView ({
       <Paper className={classes.root}>
         <h3>You're subscribed</h3>
         <p>
-          The plan you're using to contribute is{' '}
-          <strong> {currentPlan.name}</strong>.
+          Your membership tier is <strong> {currentPlan.name}</strong>.
         </p>
         {!isSubscriptionChanging && (
           <Button
@@ -122,12 +121,6 @@ function SubscriptionCancelView ({
         <DialogTitle id='cancel-subscription-title'>
           Do you want to terminate your current subscription?
         </DialogTitle>
-        <DialogContent>
-          <DialogContentText id='cancel-subscription-description'>
-            Terminating your subscription will stop your current plan and the
-            benefits you receive from it.
-          </DialogContentText>
-        </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color='primary'>
             Close
