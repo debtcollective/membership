@@ -30,6 +30,7 @@ gem 'premailer-rails', '1.11.1'
 # front-end libraries
 gem 'react_on_rails', '~> 11.3'
 gem 'mini_racer', platforms: :ruby
+gem 'country_select', '~> 4.0'
 
 # Payments
 gem 'stripe', '5.25.0'
