@@ -1,45 +1,46 @@
 # frozen_string_literal: true
 
-require "recaptcha"
+require 'recaptcha'
 
 class ChargesController < ApplicationController
-  before_action :set_funds, only: [:new, :create]
+  before_action :set_funds, only: %i[new create]
   before_action :set_fund_by_slug, only: :new
   before_action :set_fund_by_id, only: :create
 
-  def new
-  end
+  def new; end
 
   def create
-    unless verify_recaptcha
-      return render "new"
-    end
+    return render 'new' unless verify_recaptcha
 
     amount = charge_params[:amount].to_i
 
     if amount.nil? || amount.zero? || amount.negative?
-      flash[:error] = "You must set a valid amount"
+      flash[:error] = 'You must set a valid amount'
       return render :new
     end
 
     amount_cents = amount * 100
     if amount_cents < 500
-      flash[:error] = I18n.t("charge.errors.min_amount")
+      flash[:error] = I18n.t('charge.errors.min_amount')
 
       return render :new
     end
 
-    donation_params = charge_params.to_h.merge({
-      amount: amount_cents,
-      customer_ip: request.remote_ip,
-      fund_id: @fund.id
-    })
+    donation_params =
+      charge_params.to_h.merge(
+        {
+          amount: amount_cents,
+          customer_ip: request.remote_ip,
+          fund_id: @fund.id
+        }
+      )
 
-    donation, error = if current_user
-      DonationService.save_donation_with_user(current_user, donation_params)
-    else
-      DonationService.save_donation_without_user(donation_params)
-    end
+    donation, error =
+      if current_user
+        DonationService.save_donation_with_user(current_user, donation_params)
+      else
+        DonationService.save_donation_without_user(donation_params)
+      end
 
     if error
       flash[:error] = error
@@ -54,14 +55,29 @@ class ChargesController < ApplicationController
     # send thank you email
     DonationMailer.thank_you_email(donation: donation).deliver_later
 
-    flash[:success] = I18n.t("charge.alerts.success", amount: DonationService.displayable_amount(amount_cents))
+    flash[:success] =
+      I18n.t(
+        'charge.alerts.success',
+        amount: DonationService.displayable_amount(amount_cents)
+      )
     redirect_to thank_you_path
   end
 
   private
 
   def charge_params
-    params.require(:charge).permit(:name, :email, :phone_number, :amount, :stripe_token, :fund_id)
+    params.require(:charge).permit(
+      :name,
+      :email,
+      :phone_number,
+      :amount,
+      :stripe_token,
+      :fund_id,
+      :address_line1,
+      :address_city,
+      :address_country,
+      :address_zip
+    )
   end
 
   def set_funds
