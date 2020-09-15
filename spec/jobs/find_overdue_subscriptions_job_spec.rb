@@ -6,12 +6,10 @@ RSpec.describe FindOverdueSubscriptionsJob, type: :job do
   let!(:recently_paid_active_subscription) { FactoryBot.create(:subscription, last_charge_at: 2.weeks.ago) }
   let!(:inactive_subscription) { FactoryBot.create(:subscription, active: false) }
   let!(:active_subscription_one) { FactoryBot.create(:subscription, last_charge_at: 32.days.ago) }
-  let!(:active_subscription_two) { FactoryBot.create(:subscription) }
-
-  subject(:job) { described_class.perform_later }
+  let!(:active_subscription_two) { FactoryBot.create(:subscription, last_charge_at: nil) }
 
   it 'queues the job' do
-    expect { job }
+    expect { FindOverdueSubscriptionsJob.perform_later }
       .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by(1)
   end
 
@@ -20,9 +18,8 @@ RSpec.describe FindOverdueSubscriptionsJob, type: :job do
   end
 
   it 'executes perform' do
-    expect do
-      described_class.perform_now
-    end.to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by(2)
+    expect { FindOverdueSubscriptionsJob.perform_now }
+      .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by(2)
   end
 
   after do

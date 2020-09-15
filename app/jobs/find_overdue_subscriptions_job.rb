@@ -6,7 +6,7 @@ class FindOverdueSubscriptionsJob < ApplicationJob
   def perform
     subscriptions_to_charge =
       Subscription.where(active: true).where(
-        'last_charge_at <= ? OR last_charge_at = null',
+        'last_charge_at IS NULL OR last_charge_at <= ?',
         30.days.ago
       )
 

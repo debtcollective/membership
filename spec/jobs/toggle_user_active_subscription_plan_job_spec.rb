@@ -10,9 +10,8 @@ RSpec.describe ToggleUserActiveSubscriptionPlanJob, type: :job do
 
   it "queues the job" do
     plan_change = FactoryBot.create(:user_plan_change, user: user, old_plan_id: old_plan.id, new_plan_id: new_plan.id, status: "pending")
-    job = ToggleUserActiveSubscriptionPlanJob.perform_later(plan_change)
 
-    expect { job }
+    expect { ToggleUserActiveSubscriptionPlanJob.perform_later(plan_change) }
       .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by(1)
   end
 
@@ -22,12 +21,11 @@ RSpec.describe ToggleUserActiveSubscriptionPlanJob, type: :job do
 
   it "executes perform" do
     plan_change = FactoryBot.create(:user_plan_change, user: user, old_plan_id: old_plan.id, new_plan_id: new_plan.id, status: "pending")
-    job = ToggleUserActiveSubscriptionPlanJob.perform_later(plan_change)
 
     expect(Subscription.count).to eq(1)
     expect(user.active_subscription.plan.id).to eq(old_plan.id)
 
-    perform_enqueued_jobs { job }
+    perform_enqueued_jobs { ToggleUserActiveSubscriptionPlanJob.perform_later(plan_change) }
 
     expect(Subscription.count).to eq(2)
     user.active_subscription.reload
