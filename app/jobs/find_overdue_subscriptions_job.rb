@@ -4,11 +4,11 @@ class FindOverdueSubscriptionsJob < ApplicationJob
   queue_as :default
 
   def perform
-    subscriptions_to_charge = Subscription.where(active: true).select do |subscription|
-      # create charge if there's no last_charge_at date, meaning it would be the
-      # first time we attempt to charge this customer this subscription.
-      subscription.last_charge_at ? subscription.last_charge_at <= 30.days.ago : true
-    end
+    subscriptions_to_charge =
+      Subscription.where(active: true).where(
+        'last_charge_at IS NULL OR last_charge_at <= ?',
+        30.days.ago
+      )
 
     subscriptions_to_charge.each do |subscription_to_charge|
       SubscriptionPaymentJob.perform_later(subscription_to_charge)

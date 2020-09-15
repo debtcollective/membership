@@ -18,16 +18,18 @@ const useStyles = makeStyles(theme => ({
 
 const CHANGE_PLAN_ENDPOINT = id => `/users/${id}/plan_changes`
 
-function CurrentPlanView ({ user, activePlan, plans }) {
+function CurrentPlanView ({ user, currentPlan, pendingPlanChange, plans }) {
   const classes = useStyles()
-  const [changedPlan, setPlanChanged] = useState(false)
+  const [planChange, setPlanChange] = useState(pendingPlanChange)
+  const pendingPlanChangePlan =
+    planChange && plans.find(plan => plan.id == planChange.new_plan_id)
 
   const changePlan = async selectedPlanId => {
     try {
-      await fetch(CHANGE_PLAN_ENDPOINT(user.id), {
+      const response = await fetch(CHANGE_PLAN_ENDPOINT(user.id), {
         body: JSON.stringify({
           plan_change: {
-            old_plan_id: activePlan.id,
+            old_plan_id: currentPlan.id,
             new_plan_id: selectedPlanId
           }
         }),
@@ -38,9 +40,12 @@ function CurrentPlanView ({ user, activePlan, plans }) {
         },
         method: 'post'
       })
-      setPlanChanged(true)
+
+      const json = await response.json()
+      setPlanChange(json)
     } catch (error) {
-      console.error(error) // TODO: Replace with sentry
+      console.error(error)
+      Sentry.captureException(error)
     }
   }
 
@@ -49,16 +54,17 @@ function CurrentPlanView ({ user, activePlan, plans }) {
       <Paper className={classes.root}>
         <h3>Change your susbcription</h3>
         <p>
-          The plan you're using to contribute is{' '}
-          <strong> {activePlan.name}</strong>.
+          Your membership tier is <strong>{currentPlan.name}</strong>.
         </p>
       </Paper>
       <br />
-      <h2>Available plans</h2>
-      <p>You can change your current plan for another one at anytime.</p>
-      {changedPlan && (
+      <h2>Available tiers</h2>
+      <p>You can change your membership tier to another one at anytime.</p>
+      {planChange && (
         <p className='notice--subscription'>
-          We have changed your subscription successfully.
+          Your plan is scheduled to change to{' '}
+          <strong>{pendingPlanChangePlan.name}</strong>. The new amount will be
+          charged on your next billing cycle.
         </p>
       )}
       {plans.map(plan => {
@@ -78,10 +84,10 @@ function CurrentPlanView ({ user, activePlan, plans }) {
             <Button
               variant='contained'
               color='primary'
-              disabled={activePlan.id === plan.id || changedPlan}
+              disabled={currentPlan.id === plan.id || !!planChange}
               onClick={changeHandler}
             >
-              Pick plan
+              Select this tier
             </Button>
           </Paper>
         )

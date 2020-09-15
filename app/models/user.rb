@@ -32,6 +32,7 @@ class User < ApplicationRecord
 
   has_many :subscriptions
   has_many :donations
+  has_many :user_plan_changes
 
   validates :external_id, presence: true
 
@@ -56,16 +57,26 @@ class User < ApplicationRecord
   end
 
   def current_streak
-    return nil unless active_subscription
+    subscription = active_subscription
 
-    start_date ||= active_subscription.start_date
+    return nil unless subscription
 
-    return 1 if (Date.today - start_date.to_date).zero? # first month of subscription
+    start_date = subscription.start_date
+    today = Date.today
 
-    ((Date.today - start_date.to_date).to_f / 365 * 12).round
+    months =
+      (today.year * 12 + today.month) -
+        (start_date.year * 12 + start_date.month)
+    months += 1 if months == 0
+
+    months
+  end
+
+  def pending_plan_change
+    user_plan_changes.where(status: :pending).first
   end
 
   def active_subscription
-    subscriptions.eager_load(:plan).where(active: true).first
+    subscriptions.includes(:plan).where(active: true).last
   end
 end

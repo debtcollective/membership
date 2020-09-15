@@ -34,7 +34,7 @@ const calcDonationTotal = donations => {
   return donations.reduce((acc, donation) => (acc += donation), 0)
 }
 
-function DonationsView ({ activePlan, donations }) {
+function DonationsView ({ currentPlan, donations }) {
   const classes = useStyles()
   const donatedAmount = calcDonationTotal(
     donations.map(donation => Number(donation.amount))

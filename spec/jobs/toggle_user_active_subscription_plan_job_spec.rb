@@ -2,17 +2,16 @@
 
 require "rails_helper"
 
-RSpec.describe ToggleUserActiveSubscriptionPlanJob do
+RSpec.describe ToggleUserActiveSubscriptionPlanJob, type: :job do
   let(:user) { FactoryBot.create(:user) }
   let!(:old_plan) { FactoryBot.create(:plan) }
   let!(:new_plan) { FactoryBot.create(:plan) }
   let!(:active_subscription) { FactoryBot.create(:subscription, user: user, plan: old_plan) }
-  let!(:plan_change) { FactoryBot.create(:user_plan_change, user: user, old_plan_id: old_plan.id, new_plan_id: new_plan.id, status: "pending") }
-
-  subject(:job) { described_class.perform_later(plan_change) }
 
   it "queues the job" do
-    expect { job }
+    plan_change = FactoryBot.create(:user_plan_change, user: user, old_plan_id: old_plan.id, new_plan_id: new_plan.id, status: "pending")
+
+    expect { ToggleUserActiveSubscriptionPlanJob.perform_later(plan_change) }
       .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by(1)
   end
 
@@ -21,15 +20,19 @@ RSpec.describe ToggleUserActiveSubscriptionPlanJob do
   end
 
   it "executes perform" do
+    plan_change = FactoryBot.create(:user_plan_change, user: user, old_plan_id: old_plan.id, new_plan_id: new_plan.id, status: "pending")
+
     expect(Subscription.count).to eq(1)
     expect(user.active_subscription.plan.id).to eq(old_plan.id)
 
-    perform_enqueued_jobs { job }
+    perform_enqueued_jobs { ToggleUserActiveSubscriptionPlanJob.perform_later(plan_change) }
 
     expect(Subscription.count).to eq(2)
     user.active_subscription.reload
+    plan_change.reload
+
     expect(user.active_subscription.plan.id).to eq(new_plan.id)
-    expect(plan_change.reload.status).to eq("succeeded")
+    expect(plan_change.status).to eq("succeeded")
   end
 
   after do
