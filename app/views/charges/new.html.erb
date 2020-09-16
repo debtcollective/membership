@@ -72,30 +72,30 @@
           </div>
 
           <div class="form-row">
-            <%= f.label(:phone_number) do %>
+            <%= f.label(:address_line1) do %>
               Billing Address
-              <%= f.text_field(:address_line1, placeholder: '400 Maryland Avenue, SW', minlength: 5, class: 'input-field', id: 'address-field', required: true) %>
+              <%= f.text_field(:address_line1, placeholder: '400 Maryland Avenue, SW', minlength: 5, class: 'input-field', id: 'address-line1-field', required: true) %>
             <% end %>
           </div>
 
           <div class="form-row">
             <%= f.label(:address_city) do %>
               City
-              <%= f.text_field(:address_city, placeholder: 'Washington', minlength: 2, class: 'input-field', id: 'city-field', required: true) %>
+              <%= f.text_field(:address_city, placeholder: 'Washington', minlength: 2, class: 'input-field', id: 'address-city-field', required: true) %>
             <% end %>
           </div>
 
           <div class="form-row">
             <%= f.label(:address_zip) do %>
               Postal code
-              <%= f.text_field(:address_zip, placeholder: '20024', minlength: 2, class: 'input-field', id: 'zip-field', required: true) %>
+              <%= f.text_field(:address_zip, placeholder: '20024', minlength: 2, class: 'input-field', id: 'address-zip-field', required: true) %>
             <% end %>
           </div>
 
           <div class="form-row">
-            <%= f.label(:address_zip) do %>
+            <%= f.label(:address_country_code) do %>
               Country
-              <%= f.country_select(:address_country_code, {priority_countries: ['US', 'CA']}, { class: 'input-field', id: 'country-field', required: true}) %>
+              <%= f.country_select(:address_country_code, {priority_countries: ['US', 'CA']}, {class: 'input-field', id: 'address-country-code-select', required: true}) %>
             <% end %>
           </div>
         <% end %>
