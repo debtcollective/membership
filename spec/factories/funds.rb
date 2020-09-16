@@ -16,5 +16,11 @@ FactoryBot.define do
   factory :fund do
     name { Faker::Lorem.sentence(word_count: 2) }
     slug { Faker::Internet.slug }
+
+    factory :default_fund do
+      name { "General Debt Collective Fund" }
+      slug { Fund::DEFAULT_SLUG }
+    end
   end
+
 end

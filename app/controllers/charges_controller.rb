@@ -75,7 +75,7 @@ class ChargesController < ApplicationController
       :fund_id,
       :address_line1,
       :address_city,
-      :address_country,
+      :address_country_code,
       :address_zip
     )
   end

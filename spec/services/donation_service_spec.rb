@@ -4,84 +4,82 @@ require "rails_helper"
 
 RSpec.describe DonationService, type: :service do
   let(:stripe_helper) { StripeMock.create_test_helper }
+  let(:valid_params) do
+    {
+      address_city: Faker::Address.city,
+      address_country_code: Faker::Address.country_code,
+      address_line1: Faker::Address.street_address,
+      address_zip: Faker::Address.zip_code,
+      amount: 1_000,
+      customer_ip: "127.0.0.1",
+      email: Faker::Internet.email,
+      fund_id: 1,
+      name: Faker::Name.name,
+      phone_number: Faker::PhoneNumber.phone_number,
+      stripe_token: stripe_helper.generate_card_token
+    }
+  end
   before { StripeMock.start }
   after { StripeMock.stop }
 
+  describe "validations" do
+    subject { DonationService.new(valid_params) }
+
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:email) }
+    it { should validate_presence_of(:amount) }
+    it { should validate_presence_of(:customer_ip) }
+    it { should validate_presence_of(:fund_id) }
+    it { should validate_presence_of(:phone_number) }
+    it { should validate_presence_of(:stripe_token) }
+    it { should validate_presence_of(:address_line1) }
+    it { should validate_presence_of(:address_city) }
+    it { should validate_presence_of(:address_zip) }
+    it { should validate_presence_of(:address_country_code) }
+    it { should validate_presence_of(:stripe_token) }
+  end
+
   describe ".save_donation_with_user" do
     let(:user) { FactoryBot.create(:user) }
+    let(:fund) { FactoryBot.create(:default_fund) }
 
     it "creates a donation record" do
-      params = {
-        amount: 1_000, # 10 USD
-        customer_ip: "127.0.0.1",
-        phone_number: Faker::PhoneNumber.phone_number,
-        stripe_token: stripe_helper.generate_card_token
-      }
+      params = valid_params.merge({
+        fund_id: fund.id,
+        name: user.name,
+        email: user.email
+      })
+      donation_service = DonationService.new(params, user)
 
-      donation, error = DonationService.save_donation_with_user(user, params)
+      donation, errors = donation_service.execute
 
+      expect(errors.empty?).to eq(true)
       expect(donation).to be_persisted
       expect(donation.user_data["email"]).to eq(user.email)
-      expect(donation.user_data["phone_number"]).to eq(params[:phone_number])
+      expect(donation.user_data["phone_number"]).to eq(
+        params[:phone_number]
+      )
+      expect(donation.user_data["address_country"]).to eq(
+        ISO3166::Country[params[:address_country_code]].name
+      )
+      expect(donation.user_data["address_country_code"]).to eq(
+        params[:address_country_code]
+      )
       expect(donation.amount.to_i).to eq(10)
       expect(donation.charge_data).to have_key("id")
       expect(donation.status).to eq("succeeded")
-      expect(donation.customer_ip).to eq(params[:customer_ip])
-      expect(error).to be_nil
-    end
-
-    it "returns error if invalid stripe token" do
-      params = {
-        amount: 1_000, # 10 USD
-        customer_ip: "127.0.0.1",
-        phone_number: Faker::PhoneNumber.phone_number,
-        stripe_token: Faker::Internet.uuid
-      }
-
-      donation, error = DonationService.save_donation_with_user(user, params)
-
-      expect(donation).to be_nil
-      expect(error).to be_truthy
-    end
-
-    it "sets fund it fund_id is provided" do
-      fund = FactoryBot.create(:fund)
-
-      params = {
-        amount: 1_000, # 10 USD
-        customer_ip: "127.0.0.1",
-        phone_number: Faker::PhoneNumber.phone_number,
-        stripe_token: stripe_helper.generate_card_token,
-        fund_id: fund.id
-      }
-
-      donation, error = DonationService.save_donation_with_user(user, params)
-
-      expect(donation).to be_persisted
       expect(donation.fund).to eq(fund)
-      expect(error).to be_nil
-    end
-
-    it "returns error if one personal info field is missing" do
-      # missing phone number field
-      params = {
-        amount: 1_000, # 10 USD
-        customer_ip: "127.0.0.1",
-        stripe_token: Faker::Internet.uuid
-      }
-
-      donation, error = DonationService.save_donation_with_user(user, params)
-
-      expect(donation).to be_nil
-      expect(error).to be_truthy
+      expect(donation.customer_ip).to eq(params[:customer_ip])
     end
   end
 
   describe ".save_donation_without_user" do
     it "creates a donation record" do
       params = {
-        amount: 1_000, # 10 USD
-        name: Faker::Name.name,
+        amount: 1_000,
+        name:
+          # 10 USD
+          Faker::Name.name,
         email: Faker::Internet.email,
         phone_number: Faker::PhoneNumber.phone_number,
         stripe_token: stripe_helper.generate_card_token,
@@ -101,31 +99,13 @@ RSpec.describe DonationService, type: :service do
       expect(error).to be_nil
     end
 
-    it "sets fund it fund_id is provided" do
-      fund = FactoryBot.create(:fund)
-
-      params = {
-        amount: 1_000, # 10 USD
-        name: Faker::Name.name,
-        email: Faker::Internet.email,
-        phone_number: Faker::PhoneNumber.phone_number,
-        stripe_token: stripe_helper.generate_card_token,
-        customer_ip: "127.0.0.1",
-        fund_id: fund.id
-      }
-
-      donation, error = DonationService.save_donation_without_user(params)
-
-      expect(donation).to be_persisted
-      expect(donation.fund).to eq(fund)
-      expect(error).to be_nil
-    end
-
     it "returns error if one personal info field is missing" do
       # missing name field
       params = {
-        amount: 1_000, # 10 USD
-        email: Faker::Internet.email,
+        amount: 1_000,
+        email:
+          # 10 USD
+          Faker::Internet.email,
         phone_number: Faker::PhoneNumber.phone_number,
         stripe_token: stripe_helper.generate_card_token,
         customer_ip: "127.0.0.1"
