@@ -166,7 +166,7 @@ class DonationService
     [nil, errors]
   end
 
-  def displayable_amount(amount)
+  def self.displayable_amount(amount)
     return "$0" unless amount
 
     ActionController::Base.helpers.number_to_currency(amount.to_f / 100)
