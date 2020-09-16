@@ -10,7 +10,7 @@ RSpec.describe DonationService, type: :service do
       address_country_code: Faker::Address.country_code,
       address_line1: Faker::Address.street_address,
       address_zip: Faker::Address.zip_code,
-      amount: 1_000,
+      amount: 10,
       customer_ip: "127.0.0.1",
       email: Faker::Internet.email,
       fund_id: 1,
@@ -28,6 +28,7 @@ RSpec.describe DonationService, type: :service do
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:email) }
     it { should validate_presence_of(:amount) }
+    it { should validate_numericality_of(:amount).only_integer.is_greater_than_or_equal_to(5) }
     it { should validate_presence_of(:customer_ip) }
     it { should validate_presence_of(:fund_id) }
     it { should validate_presence_of(:phone_number) }
@@ -67,6 +68,8 @@ RSpec.describe DonationService, type: :service do
         params[:address_country_code]
       )
       expect(donation.amount.to_i).to eq(10)
+      # Stripe stores the amount in cents
+      expect(donation.charge_data["amount"]).to eq(donation.amount * 100)
       expect(donation.charge_data).to have_key("id")
       expect(donation.status).to eq("succeeded")
       expect(donation.fund).to eq(fund)
@@ -88,6 +91,8 @@ RSpec.describe DonationService, type: :service do
       expect(donation.user_data["name"]).to eq(params[:name])
       expect(donation.user_data["phone_number"]).to eq(params[:phone_number])
       expect(donation.amount.to_i).to eq(10)
+      # Stripe stores the amount in cents
+      expect(donation.charge_data["amount"]).to eq(donation.amount * 100)
       expect(donation.charge_data).to have_key("id")
       expect(donation.status).to eq("succeeded")
       expect(donation.customer_ip).to eq(params[:customer_ip])

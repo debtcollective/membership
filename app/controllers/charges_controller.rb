@@ -13,24 +13,9 @@ class ChargesController < ApplicationController
   def create
     return render "new" unless verify_recaptcha
 
-    amount = charge_params[:amount].to_i
-
-    if amount.nil? || amount.zero? || amount.negative?
-      flash[:error] = "You must set a valid amount"
-      return render :new
-    end
-
-    amount_cents = amount * 100
-    if amount_cents < 500
-      flash[:error] = I18n.t("charge.errors.min_amount")
-
-      return render :new
-    end
-
     donation_params =
       charge_params.to_h.merge(
         {
-          amount: amount_cents,
           customer_ip: request.remote_ip,
           fund_id: @fund.id
         }
@@ -38,20 +23,29 @@ class ChargesController < ApplicationController
 
     donation, errors = DonationService.new(donation_params, current_user).execute
 
-    if errors.any?
-      flash[:error] = errors.full_messages.join(", ")
-      return render :new
+    respond_to do |format|
+      if donation.persisted?
+        # send thank you email
+        DonationMailer.thank_you_email(donation: donation).deliver_later
+
+        message = I18n.t(
+          "charge.alerts.success",
+          amount: number_to_currency(donation.amount)
+        )
+
+        format.html do
+          flash[:success] = message
+          redirect_to thank_you_path
+        end
+        format.json { render json: {status: "succeeded", message: message}, status: :ok }
+      else
+        format.html do
+          flash[:error] = "Oops! Something went wrong. Please try again"
+          render :new
+        end
+        format.json { render json: {status: "failed", errors: errors.messages}, status: :unprocessable_entity }
+      end
     end
-
-    # send thank you email
-    DonationMailer.thank_you_email(donation: donation).deliver_later
-
-    flash[:success] =
-      I18n.t(
-        "charge.alerts.success",
-        amount: DonationService.displayable_amount(amount_cents)
-      )
-    redirect_to thank_you_path
   end
 
   private

@@ -19,7 +19,7 @@ class DonationService
   validates :name, presence: true
   validates :email, presence: true, 'valid_email_2/email': true
   validates :phone_number, presence: true
-  validates :amount, presence: true, numericality: {only_integer: true}
+  validates :amount, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 5}
   validates :stripe_token, presence: true
   validates :fund_id, presence: true
   validates :address_line1, presence: true
@@ -32,11 +32,12 @@ class DonationService
 
   def initialize(params, user = nil)
     params.each { |k, v| send("#{k}=", v) }
+
     @user = user
   end
 
   def execute
-    return nil, errors unless valid?
+    return Donation.new, errors unless valid?
 
     !!user ? save_donation_with_user : save_donation_without_user
   end
@@ -55,8 +56,7 @@ class DonationService
     user.update(stripe_id: customer.id)
 
     # amount needs to be in cents for Stripe
-    amount_in_cents = amount
-    amount_in_dollars = amount_in_cents / 100
+    amount_in_cents = amount * 100
 
     stripe_charge =
       Stripe::Charge.create(
@@ -69,7 +69,7 @@ class DonationService
     if stripe_charge
       donation =
         Donation.new(
-          amount: amount_in_dollars,
+          amount: amount,
           charge_data: JSON.parse(stripe_charge.to_json),
           charge_id: stripe_charge.id,
           charge_provider: "stripe",
@@ -96,13 +96,13 @@ class DonationService
       return donation, errors
     end
 
-    [nil, errors]
+    [Donation.new, errors]
   rescue Stripe::StripeError => e
     Raven.capture_exception(e)
 
     errors.add(:base, e.message)
 
-    [nil, errors]
+    [Donation.new, errors]
   end
 
   def save_donation_without_user
@@ -117,8 +117,7 @@ class DonationService
       )
 
     # amount needs to be in cents for Stripe
-    amount_in_cents = amount
-    amount_in_dollars = amount_in_cents / 100
+    amount_in_cents = amount * 100
 
     stripe_charge =
       Stripe::Charge.create(
@@ -131,7 +130,7 @@ class DonationService
     if stripe_charge
       donation =
         Donation.new(
-          amount: amount_in_dollars,
+          amount: amount,
           charge_data: JSON.parse(stripe_charge.to_json),
           charge_id: stripe_charge.id,
           charge_provider: "stripe",
@@ -157,18 +156,12 @@ class DonationService
       return donation, errors
     end
 
-    [nil, errors]
+    [Donation.new, errors]
   rescue Stripe::StripeError => e
     Raven.capture_exception(e)
 
     errors.add(:base, e.message)
 
-    [nil, errors]
-  end
-
-  def self.displayable_amount(amount)
-    return "$0" unless amount
-
-    ActionController::Base.helpers.number_to_currency(amount.to_f / 100)
+    [Donation.new, errors]
   end
 end
