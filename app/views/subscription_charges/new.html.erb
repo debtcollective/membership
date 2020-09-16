@@ -13,7 +13,7 @@
     <% end %>
 
     <section id='checkout-payment'>
-      <%= form_with(model: @subscription, url: {controller: "subscription_charges", action: :create }, local: true, id: 'payment-form') do |form| %>
+      <%= form_with(model: @subscription, url: {controller: "subscription_charges", action: :create }, local: true, id: 'payment-form') do |f| %>
         <% if @subscription.errors.any? %>
           <div id="error_explanation">
             <h2><%= pluralize(@subscription.errors.count, "error") %> prohibited this subscription from being saved:</h2>
@@ -25,6 +25,13 @@
             </ul>
           </div>
         <% end %>
+
+        <div class="form-row">
+          <%= f.label(:name) do %>
+            Name
+            <%= f.text_field(:name, placeholder: 'First and Last Name', class: 'input-field', id: 'name-field', required: true, value: current_user&.name) %>
+          <% end %>
+        </div>
 
         <div class="form-row">
           <label for="card-element">
@@ -47,7 +54,7 @@
 
 
         <div class="actions">
-          <%= form.submit "Enroll Membership for #{number_to_currency(@plan.amount).gsub(/\.00$/, "")}/mo", class: 'button primary', id: "submit-payment" %>
+          <%= f.submit "Enroll Membership for #{number_to_currency(@plan.amount).gsub(/\.00$/, "")}/mo", class: 'button primary', id: "submit-payment" %>
         </div>
       <% end %>
     </section>

@@ -64,10 +64,32 @@
       const isCaptchaValid = verifyCaptcha()
 
       if (isCaptchaValid) {
+
+        // Get credit card holder information for Stripe
+        const nameField = document.getElementById('name-field')
+        const addressLine1Field = document.getElementById('address-line1-field')
+        const addressCityField = document.getElementById('address-city-field')
+        const addressZipField = document.getElementById('address-zip-field')
+        const addressCountrySelect = document.getElementById('address-country-code-select')
+        const data = {
+          name: nameField.value,
+          address_line1: addressLine1Field && addressLine1Field.value,
+          address_city: addressCityField && addressCityField.value,
+          address_zip: addressZipField && addressZipField.value,
+          address_country: addressCountrySelect && addressCountrySelect.value
+        };
+
+        // remove null values since Stripe fails to process them
+        Object.keys(data).forEach(function(key) {
+          if (data[key] == undefined) {
+            delete data[key]
+          }
+        })
+
         submitPaymentButton.setAttribute("disabled", "disabled");
 
-        //you can now submit your form
-        stripe.createToken(card).then(function(result) {
+        // create the card token passing data object
+        stripe.createToken(card, data).then(function(result) {
           if (result.error) {
             // Inform the user if there was an error.
             const errorElement = document.getElementById('card-errors');
