@@ -105,30 +105,7 @@ class DonationService
     [nil, errors]
   end
 
-  def save_donation_without_user(params)
-    name = params[:name]
-    email = params[:email]
-    fund_id = params[:fund_id]
-    phone_number = params[:phone_number].to_s
-    stripe_token = params[:stripe_token]
-    valid_email = ValidEmail2::Address.new(email).valid?
-
-    if name.blank? || !valid_email || phone_number.blank?
-      return nil, "Please make sure all fields are valid"
-    end
-
-    # checking if a card was given.
-    if stripe_token.blank?
-      Raven.capture_message(
-        "We couldn't process payment for user_id: #{user.id}",
-        extra: {params: params}
-      )
-      error =
-        "We couldn't process your payment, please try again or contact us at admin@debtcollective.org for support"
-
-      return nil, error
-    end
-
+  def save_donation_without_user
     # Stripe max length for the phone field is 20
     stripe_phone_number = phone_number.truncate(20, omission: "")
     customer =
@@ -140,10 +117,8 @@ class DonationService
       )
 
     # amount needs to be in cents for Stripe
-    amount_in_cents = params[:amount].to_i
-    amount = amount_in_cents / 100
-
-    customer_ip = params[:customer_ip]
+    amount_in_cents = amount
+    amount_in_dollars = amount_in_cents / 100
 
     stripe_charge =
       Stripe::Charge.create(
@@ -156,7 +131,7 @@ class DonationService
     if stripe_charge
       donation =
         Donation.new(
-          amount: amount,
+          amount: amount_in_dollars,
           charge_data: JSON.parse(stripe_charge.to_json),
           charge_id: stripe_charge.id,
           charge_provider: "stripe",
@@ -166,23 +141,29 @@ class DonationService
           fund_id: fund_id,
           status: stripe_charge.status,
           user_data: {
-            # TODO: add address
-            name: name,
+            address_city: address_city,
+            address_country: ISO3166::Country[address_country_code].name,
+            address_country_code: address_country_code,
+            address_line1: address_line1,
+            address_zip: address_zip,
             email: email,
+            name: name,
             phone_number: phone_number
           }
         )
 
       donation.save
 
-      return donation
+      return donation, errors
     end
 
-    [false, nil]
+    [nil, errors]
   rescue Stripe::StripeError => e
     Raven.capture_exception(e)
 
-    [nil, e.message]
+    errors.add(:base, e.message)
+
+    [nil, errors]
   end
 
   def displayable_amount(amount)

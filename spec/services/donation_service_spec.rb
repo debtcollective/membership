@@ -47,7 +47,8 @@ RSpec.describe DonationService, type: :service do
       params = valid_params.merge({
         fund_id: fund.id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        stripe_token: stripe_helper.generate_card_token
       })
       donation_service = DonationService.new(params, user)
 
@@ -75,19 +76,13 @@ RSpec.describe DonationService, type: :service do
 
   describe ".save_donation_without_user" do
     it "creates a donation record" do
-      params = {
-        amount: 1_000,
-        name:
-          # 10 USD
-          Faker::Name.name,
-        email: Faker::Internet.email,
-        phone_number: Faker::PhoneNumber.phone_number,
-        stripe_token: stripe_helper.generate_card_token,
-        customer_ip: "127.0.0.1"
-      }
+      params = valid_params.merge({
+        stripe_token: stripe_helper.generate_card_token
+      })
 
-      donation, error = DonationService.save_donation_without_user(params)
+      donation, errors = DonationService.new(params).execute
 
+      expect(errors.empty?).to eq(true)
       expect(donation).to be_persisted
       expect(donation.user_data["email"]).to eq(params[:email])
       expect(donation.user_data["name"]).to eq(params[:name])
@@ -96,25 +91,6 @@ RSpec.describe DonationService, type: :service do
       expect(donation.charge_data).to have_key("id")
       expect(donation.status).to eq("succeeded")
       expect(donation.customer_ip).to eq(params[:customer_ip])
-      expect(error).to be_nil
-    end
-
-    it "returns error if one personal info field is missing" do
-      # missing name field
-      params = {
-        amount: 1_000,
-        email:
-          # 10 USD
-          Faker::Internet.email,
-        phone_number: Faker::PhoneNumber.phone_number,
-        stripe_token: stripe_helper.generate_card_token,
-        customer_ip: "127.0.0.1"
-      }
-
-      donation, error = DonationService.save_donation_without_user(params)
-
-      expect(donation).to be_nil
-      expect(error).to be_truthy
     end
   end
 end
