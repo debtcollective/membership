@@ -11,7 +11,10 @@ class ChargesController < ApplicationController
   end
 
   def create
-    return render "new" unless verify_recaptcha
+    # ignore captcha on json requests
+    unless request.format.json?
+      return render "new" unless verify_recaptcha
+    end
 
     donation_params =
       charge_params.to_h.merge(
