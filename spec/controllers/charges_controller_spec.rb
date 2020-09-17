@@ -96,12 +96,14 @@ RSpec.describe ChargesController, type: :controller do
       it "doesn't create Donation if a required field is missing" do
         user = FactoryBot.create(:user)
 
-        params = {charge: {amount: 24, email: user.email, stripe_token: stripe_helper.generate_card_token, name: user.name}}
+        params = {charge: {amount: 4, email: user.email, stripe_token: stripe_helper.generate_card_token, name: user.name}}
         expect { post :create, params: params, session: {} }.to change { Donation.count }.by(0)
 
         parsed_body = JSON.parse(response.body)
         expect(response).to have_http_status(422)
-        expect(parsed_body[:errors]).not.to be_empty
+        expect(parsed_body["errors"]).not_to be_empty
+        expect(parsed_body["errors"]["address_line1"]).to eq(["can't be blank"])
+        expect(parsed_body["errors"]["amount"]).to eq(["must be greater than or equal to 5"])
       end
     end
   end

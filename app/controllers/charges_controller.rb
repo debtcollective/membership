@@ -30,7 +30,7 @@ class ChargesController < ApplicationController
 
         message = I18n.t(
           "charge.alerts.success",
-          amount: number_to_currency(donation.amount)
+          amount: ActionController::Base.helpers.number_to_currency(donation.amount)
         )
 
         format.html do
@@ -40,7 +40,13 @@ class ChargesController < ApplicationController
         format.json { render json: {status: "succeeded", message: message}, status: :ok }
       else
         format.html do
-          flash[:error] = "Oops! Something went wrong. Please try again"
+          error = "Oops! Something went wrong. Please try again"
+
+          if errors["base"].any?
+            error = errors["base"].first
+          end
+
+          flash[:error] = error
           render :new
         end
         format.json { render json: {status: "failed", errors: errors.messages}, status: :unprocessable_entity }

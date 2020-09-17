@@ -33,6 +33,9 @@ class DonationService
   def initialize(params, user = nil)
     params.each { |k, v| send("#{k}=", v) }
 
+    # amount needs to be converted to int
+    self.amount = params[:amount].to_i
+
     @user = user
   end
 
@@ -93,10 +96,8 @@ class DonationService
 
       donation.save
 
-      return donation, errors
+      [donation, errors]
     end
-
-    [Donation.new, errors]
   rescue Stripe::StripeError => e
     Raven.capture_exception(e)
 
@@ -153,10 +154,8 @@ class DonationService
 
       donation.save
 
-      return donation, errors
+      [donation, errors]
     end
-
-    [Donation.new, errors]
   rescue Stripe::StripeError => e
     Raven.capture_exception(e)
 

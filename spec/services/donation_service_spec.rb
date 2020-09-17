@@ -75,6 +75,19 @@ RSpec.describe DonationService, type: :service do
       expect(donation.fund).to eq(fund)
       expect(donation.customer_ip).to eq(params[:customer_ip])
     end
+
+    it "returns error if charge is declined" do
+      params = valid_params.merge({
+        stripe_token: stripe_helper.generate_card_token
+      })
+
+      StripeMock.prepare_card_error(:card_declined)
+
+      donation, errors = DonationService.new(params).execute
+
+      expect(errors.empty?).to eq(false)
+      expect(errors["base"]).to eq(["The card was declined"])
+    end
   end
 
   describe ".save_donation_without_user" do
@@ -96,6 +109,19 @@ RSpec.describe DonationService, type: :service do
       expect(donation.charge_data).to have_key("id")
       expect(donation.status).to eq("succeeded")
       expect(donation.customer_ip).to eq(params[:customer_ip])
+    end
+
+    it "returns error if charge is declined" do
+      params = valid_params.merge({
+        stripe_token: stripe_helper.generate_card_token
+      })
+
+      StripeMock.prepare_card_error(:card_declined)
+
+      donation, errors = DonationService.new(params).execute
+
+      expect(errors.empty?).to eq(false)
+      expect(errors["base"]).to eq(["The card was declined"])
     end
   end
 end
