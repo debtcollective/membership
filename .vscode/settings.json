@@ -1,0 +1,11 @@
+{
+  "editor.formatOnSave": true,
+  "[ruby]": {
+    "editor.formatOnSave": true
+  },
+  "ruby.lint": {
+    "standard": true
+  },
+  "ruby.format": "standard",
+  "ruby.useLanguageServer": true
+}

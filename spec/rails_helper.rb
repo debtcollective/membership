@@ -123,6 +123,9 @@ RSpec.configure do |config|
   config.before(:each, js: true) do
     Capybara.page.current_window.resize_to(1440, 990)
   end
+
+  # Shoulda on service tests
+  config.include(Shoulda::Matchers::ActiveModel, type: :service)
 end
 
 Shoulda::Matchers.configure do |config|

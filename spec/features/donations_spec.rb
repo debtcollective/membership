@@ -41,6 +41,10 @@ describe "Donations", type: :feature do
         fill_in "name-field", with: Faker::Name.name
         fill_in "email-field", with: Faker::Internet.email
         fill_in "phone-number-field", with: Faker::PhoneNumber.phone_number_with_country_code
+        fill_in "address-line1-field", with: Faker::Address.street_address
+        find("#address-country-code-select option[value=\"US\"]", match: :first).select_option
+        fill_in "address-city-field", with: Faker::Address.city
+        fill_in "address-zip-field", with: Faker::Address.zip_code
         fill_in "amount-field", with: 25
         click_button "Make my contribution"
       end
@@ -85,6 +89,10 @@ describe "Donations", type: :feature do
         fill_in "name-field", with: Faker::Name.name
         fill_in "email-field", with: Faker::Internet.email
         fill_in "phone-number-field", with: Faker::PhoneNumber.phone_number_with_country_code
+        fill_in "address-line1-field", with: Faker::Address.street_address
+        find("#address-country-code-select option[value=\"US\"]", match: :first).select_option
+        fill_in "address-city-field", with: Faker::Address.city
+        fill_in "address-zip-field", with: Faker::Address.zip_code
         fill_in "amount-field", with: 25
         click_button "Make my contribution"
       end
@@ -111,6 +119,10 @@ describe "Donations", type: :feature do
         fill_in "name-field", with: Faker::Name.name
         fill_in "email-field", with: Faker::Internet.email
         fill_in "phone-number-field", with: Faker::PhoneNumber.phone_number_with_country_code
+        fill_in "address-line1-field", with: Faker::Address.street_address
+        find("#address-country-code-select option[value=\"US\"]", match: :first).select_option
+        fill_in "address-city-field", with: Faker::Address.city
+        fill_in "address-zip-field", with: Faker::Address.zip_code
         fill_in "amount-field", with: 25
         click_button "Make my contribution"
       end
@@ -134,10 +146,14 @@ describe "Donations", type: :feature do
       expect(page).to have_content(I18n.t("charge.new.title"))
 
       within ".one-time-donation" do
+        fill_stripe_elements(card: "4242424242424242")
         fill_in "name-field", with: Faker::Name.name
         fill_in "email-field", with: Faker::Internet.email
         fill_in "phone-number-field", with: Faker::PhoneNumber.phone_number_with_country_code
-        fill_stripe_elements(card: "4242424242424242")
+        fill_in "address-line1-field", with: Faker::Address.street_address
+        find("#address-country-code-select option[value=\"US\"]", match: :first).select_option
+        fill_in "address-city-field", with: Faker::Address.city
+        fill_in "address-zip-field", with: Faker::Address.zip_code
         fill_in "amount-field", with: 25
         click_button "Make my contribution"
       end
@@ -158,10 +174,14 @@ describe "Donations", type: :feature do
       expect(page).to have_content(I18n.t("charge.new.title"))
 
       within ".one-time-donation" do
+        fill_stripe_elements(card: "4000000000000002")
         fill_in "name-field", with: Faker::Name.name
         fill_in "email-field", with: Faker::Internet.email
         fill_in "phone-number-field", with: Faker::PhoneNumber.phone_number_with_country_code
-        fill_stripe_elements(card: "4000000000000002")
+        fill_in "address-line1-field", with: Faker::Address.street_address
+        find("#address-country-code-select option[value=\"US\"]", match: :first).select_option
+        fill_in "address-city-field", with: Faker::Address.city
+        fill_in "address-zip-field", with: Faker::Address.zip_code
         fill_in "amount-field", with: 25
         click_button "Make my contribution"
       end
@@ -188,6 +208,10 @@ describe "Donations", type: :feature do
         fill_in "name-field", with: Faker::Name.name
         fill_in "email-field", with: Faker::Internet.email
         fill_in "phone-number-field", with: Faker::PhoneNumber.phone_number_with_country_code
+        fill_in "address-line1-field", with: Faker::Address.street_address
+        find("#address-country-code-select option[value=\"US\"]", match: :first).select_option
+        fill_in "address-city-field", with: Faker::Address.city
+        fill_in "address-zip-field", with: Faker::Address.zip_code
         fill_in "amount-field", with: 25
         click_button "Make my contribution"
       end

@@ -25,7 +25,7 @@
           </div>
 
           <h4>
-            Payment information:
+            Personal information:
           </h4>
           <div class="form-row">
             <%= f.label(:name) do %>
@@ -48,6 +48,17 @@
             <% end %>
           </div>
 
+          <h4>
+            Payment information:
+          </h4>
+          <div class="form-row">
+            <%= f.label(:amount) do %>
+              Amount
+              <%= f.number_field(:amount, step: 1, min: 5, class: 'input-field', id: 'amount-field', required: true) %>
+              <small class="help-text">For security reasons, the minimum donation we can accept is $5 USD. We are working to remove this limitation as soon as possible.</small>
+            <% end %>
+          </div>
+
           <div class="form-row">
             <%= f.label(:card, class: 'amount-label') do %>
               Credit or debit card
@@ -61,10 +72,30 @@
           </div>
 
           <div class="form-row">
-            <%= f.label(:amount) do %>
-              Amount
-              <%= f.number_field(:amount, step: 1, min: 5, placeholder: '$5', class: 'input-field', id: 'amount-field', required: true) %>
-              <small class="help-text">For security reasons, the minimum donation we can accept is $5 USD. We are working to remove this limitation as soon as possible.</small>
+            <%= f.label(:address_line1) do %>
+              Billing Address
+              <%= f.text_field(:address_line1, placeholder: '400 Maryland Avenue, SW', minlength: 5, class: 'input-field', id: 'address-line1-field', required: true) %>
+            <% end %>
+          </div>
+
+          <div class="form-row">
+            <%= f.label(:address_city) do %>
+              City
+              <%= f.text_field(:address_city, placeholder: 'Washington', minlength: 2, class: 'input-field', id: 'address-city-field', required: true) %>
+            <% end %>
+          </div>
+
+          <div class="form-row">
+            <%= f.label(:address_zip) do %>
+              Postal code
+              <%= f.text_field(:address_zip, placeholder: '20024', minlength: 2, class: 'input-field', id: 'address-zip-field', required: true) %>
+            <% end %>
+          </div>
+
+          <div class="form-row">
+            <%= f.label(:address_country_code) do %>
+              Country
+              <%= f.country_select(:address_country_code, {priority_countries: ['US', 'CA']}, {class: 'input-field', id: 'address-country-code-select', required: true}) %>
             <% end %>
           </div>
         <% end %>

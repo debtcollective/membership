@@ -21,15 +21,16 @@ gem 'jbuilder', '~> 2.7'
 gem 'redis', '~> 4.0'
 gem 'redis-namespace', '1.8'
 gem 'ffi', '~> 1.9', '>= 1.9.25'
-gem 'valid_email2', '3.4.0'
 
 # Emails
 gem 'inky-rb', '1.3.8.0', require: 'inky'
 gem 'premailer-rails', '1.11.1'
+gem 'valid_email2', '3.4.0'
 
 # front-end libraries
 gem 'react_on_rails', '~> 11.3'
 gem 'mini_racer', platforms: :ruby
+gem 'country_select', '~> 4.0'
 
 # Payments
 gem 'stripe', '5.25.0'

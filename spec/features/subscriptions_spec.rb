@@ -46,6 +46,8 @@ describe "Subscriptions", type: :feature do
       expect(page).to have_content(plan.name)
       expect(page).to have_content(plan.description)
       expect(page).to have_content("Credit or debit card")
+
+      fill_in "name-field", with: Faker::Name.name
       fill_stripe_elements(card: "4242424242424242")
 
       click_button("Enroll Membership for $10/mo")
@@ -65,6 +67,8 @@ describe "Subscriptions", type: :feature do
       expect(page).to have_content(plan.name)
       expect(page).to have_content(plan.description)
       expect(page).to have_content("Credit or debit card")
+
+      fill_in "name-field", with: Faker::Name.name
       fill_stripe_elements(card: "4000000000000002")
 
       click_button("Enroll Membership for $10/mo")
