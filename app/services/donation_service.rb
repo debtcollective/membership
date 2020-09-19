@@ -245,7 +245,7 @@ class DonationService
       donation.save
 
       # Create subscription
-      subscription = Subscription.create(user_id: user.id, active: true, amount: amount, last_charge_at: DateTime.now)
+      Subscription.create(user_id: user.id, active: true, amount: amount, last_charge_at: DateTime.now)
 
       # Update stripe customer id
       @user.update(stripe_id: customer.id)

@@ -34,6 +34,18 @@ RSpec.describe SubscriptionPaymentJob, type: :job do
       expect(Donation.count).to eq(3)
       expect(subscription.reload.last_charge_at.to_i).to be_within(100).of(DateTime.now.to_i)
     end
+
+    it "charges subscription.amount instead of plan.amount if plan is missing" do
+      user = FactoryBot.create(:user)
+      subscription = FactoryBot.create(:subscription, plan: nil, user: user, amount: 12, last_charge_at: 31.days.ago)
+
+      expect(user.donations.count).to eq(0)
+
+      perform_enqueued_jobs { SubscriptionPaymentJob.perform_later(subscription) }
+
+      expect(user.donations.count).to eq(1)
+      expect(user.donations.first.amount).to eq(subscription.amount)
+    end
   end
 
   after do

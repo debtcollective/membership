@@ -23,7 +23,6 @@ FactoryBot.define do
   factory :subscription do
     active { true }
     user
-    amount { 10 }
     plan
   end
 end
