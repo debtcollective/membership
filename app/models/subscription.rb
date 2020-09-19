@@ -6,6 +6,7 @@
 #
 #  id             :bigint           not null, primary key
 #  active         :boolean
+#  amount         :money
 #  last_charge_at :datetime
 #  start_date     :datetime
 #  created_at     :datetime         not null
@@ -43,6 +44,8 @@ class Subscription < ApplicationRecord
   end
 
   def only_one_active_subscription
+    return unless user?
+    
     if Subscription.exists?(user_id: user_id, active: true)
       errors.add(:base, 'already has an active subscription')
     end
