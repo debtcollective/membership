@@ -6,7 +6,7 @@ class UserMailer < ApplicationMailer
   #
   default from: ENV["MAIL_FROM"]
 
-  def welcome_email(user)
+  def welcome_email(user:)
     @user = user
     @subscription = user.active_subscription
     email = @user.email

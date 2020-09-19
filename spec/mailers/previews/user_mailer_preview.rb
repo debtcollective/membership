@@ -4,6 +4,6 @@ class UserMailerPreview < ActionMailer::Preview
     @user = User.find_by(email: "user_mailer_welcome_email_preview@example.com")
     @user ||= FactoryBot.create(:user_with_subscription, email: "user_mailer_welcome_email_preview@example.com")
 
-    UserMailer.welcome_email(@user)
+    UserMailer.welcome_email(user: @user)
   end
 end
