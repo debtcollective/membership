@@ -10,12 +10,12 @@ class DonationService
     :address_zip,
     :amount,
     :customer_ip,
-    :donation_type
+    :donation_type,
     :email,
     :fund_id,
     :name,
     :phone_number,
-    :stripe_phone_number
+    :stripe_phone_number,
     :stripe_token
 
   validates :name, presence: true
@@ -25,7 +25,7 @@ class DonationService
   validates :stripe_token, presence: true
   validates :fund_id, presence: true
   validates :address_line1, presence: true
-  validates :donation_type, presence: true, inclusion: { in: %w(one-time monthly) }
+  validates :donation_type, presence: true, inclusion: {in: %w[one_off subscription]}
   validates :address_city, presence: true
   validates :address_zip, presence: true
   validates :address_country_code,
@@ -40,10 +40,10 @@ class DonationService
     self.amount = params[:amount].to_i
 
     # donation can be one_time or monthly
-    donation_type ||= "one_time"
+    self.donation_type ||= "one_off"
 
     # Stripe max length for the phone field is 20
-    stripe_phone_number = phone_number.truncate(20, omission: "")
+    self.stripe_phone_number = phone_number.truncate(20, omission: "")
 
     @user = user
   end
@@ -174,7 +174,7 @@ class DonationService
   end
 
   def create_recurring_donation
-    user = create_user unless !!user
+    @user = create_user unless !!user
 
     stripe_customer_id = user.stripe_id
 
@@ -185,7 +185,7 @@ class DonationService
       Stripe::Customer.create_source(
         stripe_customer_id,
         {
-          source: stripe_token,
+          source: stripe_token
         }
       )
 
@@ -193,17 +193,17 @@ class DonationService
       Stripe::Customer.update(
         stripe_customer_id,
         {
-          source: stripe_token,
+          source: stripe_token
         }
       )
     else
       customer =
-      Stripe::Customer.create(
-        name: name,
-        email: email,
-        phone: stripe_phone_number,
-        source: stripe_token
-      )
+        Stripe::Customer.create(
+          name: name,
+          email: email,
+          phone: stripe_phone_number,
+          source: stripe_token
+        )
     end
 
     # amount needs to be in cents for Stripe
@@ -250,7 +250,7 @@ class DonationService
       # Update stripe customer id
       @user.update(stripe_id: customer.id)
 
-      [subscription, errors]
+      [donation, errors]
     end
   rescue Stripe::StripeError => e
     Raven.capture_exception(e)
@@ -278,6 +278,4 @@ class DonationService
       }
     })
   end
-
-    Subscription.create(user_id: user.id, active: true)
 end

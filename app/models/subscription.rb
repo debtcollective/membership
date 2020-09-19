@@ -23,7 +23,7 @@ class Subscription < ApplicationRecord
   before_create :store_start_date
 
   belongs_to :user, optional: true
-  belongs_to :plan
+  belongs_to :plan, optional: true
 
   validate :only_one_active_subscription, on: :create
 
@@ -45,9 +45,9 @@ class Subscription < ApplicationRecord
 
   def only_one_active_subscription
     return unless user?
-    
+
     if Subscription.exists?(user_id: user_id, active: true)
-      errors.add(:base, 'already has an active subscription')
+      errors.add(:base, "already has an active subscription")
     end
   end
 end
