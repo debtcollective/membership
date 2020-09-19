@@ -42,16 +42,16 @@ class DonationService
     # donation can be one_time or monthly
     self.donation_type ||= "one_off"
 
-    # Stripe max length for the phone field is 20
-    self.stripe_phone_number = phone_number.truncate(20, omission: "")
-
     @user = user
   end
 
   def execute
     return Donation.new, errors unless valid?
 
-    if donation_type == "one_time"
+    # Stripe max length for the phone field is 20
+    self.stripe_phone_number = phone_number.truncate(20, omission: "")
+
+    if donation_type == "one_off"
       !!user ? save_donation_with_user : save_donation_without_user
     else
       create_recurring_donation

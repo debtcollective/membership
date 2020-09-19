@@ -61,16 +61,17 @@ class ChargesController < ApplicationController
 
   def charge_params
     params.require(:charge).permit(
-      :name,
-      :email,
-      :phone_number,
-      :amount,
-      :stripe_token,
-      :fund_id,
-      :address_line1,
       :address_city,
       :address_country_code,
-      :address_zip
+      :address_line1,
+      :address_zip,
+      :amount,
+      :donation_type,
+      :email,
+      :fund_id,
+      :name,
+      :phone_number,
+      :stripe_token
     )
   end
 

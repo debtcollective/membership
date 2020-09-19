@@ -169,7 +169,7 @@ RSpec.describe DonationService, type: :service do
       expect(donation.status).to eq("succeeded")
 
       expect(user.email).to eq(params[:email])
-      expect(user.custom_fields["address_city"]).to eq(valid_params[:address_city])
+      expect(user.custom_fields["address_city"]).to eq(params[:address_city])
 
       expect(subscription.active).to eq(true)
       expect(subscription.amount).to eq(10)
