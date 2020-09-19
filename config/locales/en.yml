@@ -9,3 +9,6 @@ en:
   donation_mailer:
     thank_you_email:
       subject: Thank you for your contribution to Debt Collective!
+  user_mailer:
+    welcome_email:
+      subject: Welcome to The Debt Collective

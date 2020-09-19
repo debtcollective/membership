@@ -1,0 +1,34 @@
+<container>
+  <row>
+    <columns large="12">
+      <spacer size="25"></spacer>
+      <h1 class="text-center ">Thank you for your contribution.</h1>
+      <spacer size="25"></spacer>
+
+      <p>
+        <i>We are working hard to build the movement to end predatory debt.</i>
+      </p>
+
+      <p>
+        <i>If you know others who support this mission, please help us spreading the word: <a href="https://membership.debtcollective.org/">https://membership.debtcollective.org/</a></i>
+      </p>
+
+      <p>
+        <i>
+          Laura Hanna<br/>
+          Director<br/>
+          laura@debtcollective.org<br/>
+        </i>
+      </p>
+    </columns>
+  </row>
+  <row>
+    <columns large="12">
+      <p>
+        <i>
+          Here's a receipt for your records:
+        </i>
+      </p>
+    </columns>
+  </row>
+</container>
