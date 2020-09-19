@@ -37,7 +37,6 @@ RSpec.describe User, type: :model do
   end
 
   describe "validations" do
-    it { is_expected.to validate_presence_of(:external_id) }
   end
 
   describe "associations" do
