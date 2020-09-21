@@ -7,8 +7,6 @@ class SubscriptionPaymentJob < ApplicationJob
   queue_as :default
 
   def perform(subscription)
-    plan = subscription.plan
-
     stripe_charge = create_charge(subscription)
 
     create_donation(subscription, stripe_charge) if stripe_charge
@@ -20,16 +18,24 @@ class SubscriptionPaymentJob < ApplicationJob
     customer = find_stripe_customer(subscription.user)
     plan = subscription.plan
 
-    client = Stripe::StripeClient.new
-    plan_amount_in_cents = (plan.amount * 100).to_i
+    # if there's a plan use that amount
+    # if not, use the subscription amount field
+    amount = if plan
+      plan.amount.to_i
+    else
+      subscription.amount.to_i
+    end
 
+    amount_in_cents = amount * 100
+
+    client = Stripe::StripeClient.new
     charge, resp = client.request {
       Stripe::Charge.create(
         customer: customer,
-        amount: plan_amount_in_cents,
-        description: "Debt Collective #{plan.name} membership monthly payment",
+        amount: amount_in_cents,
+        description: "Debt Collective membership monthly payment",
         currency: "usd",
-        metadata: {"plan_id" => plan.id, "user_id" => subscription.user.id}
+        metadata: {subscription_id: subscription.id, plan_id: plan&.id, amount: amount, user_id: subscription.user_id}
       )
     }
 
@@ -62,7 +68,7 @@ class SubscriptionPaymentJob < ApplicationJob
     user = subscription.user
 
     donation = Donation.new(
-      amount: subscription.plan.amount,
+      amount: stripe_charge.amount / 100,
       charge_data: JSON.parse(stripe_charge.to_json),
       customer_stripe_id: subscription.user.stripe_id,
       donation_type: Donation::DONATION_TYPES[:subscription],

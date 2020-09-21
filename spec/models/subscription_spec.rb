@@ -6,6 +6,7 @@
 #
 #  id             :bigint           not null, primary key
 #  active         :boolean
+#  amount         :money
 #  last_charge_at :datetime
 #  start_date     :datetime
 #  created_at     :datetime         not null
@@ -18,7 +19,7 @@
 #  index_subscriptions_on_plan_id  (plan_id)
 #  index_subscriptions_on_user_id  (user_id)
 #
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Subscription, type: :model do
   let(:subscription) { FactoryBot.create(:subscription) }
@@ -26,18 +27,18 @@ RSpec.describe Subscription, type: :model do
 
   subject { subscription }
 
-  describe 'attributes' do
+  describe "attributes" do
     it { is_expected.to respond_to(:user_id) }
     it { is_expected.to respond_to(:plan_id) }
     it { is_expected.to respond_to(:active) }
     it { is_expected.to be_valid }
   end
 
-  describe 'validations' do
-    it { should belong_to(:plan) }
+  describe "validations" do
+    it { should belong_to(:plan).optional(true) }
     it { should belong_to(:user).optional(true) }
 
-    it 'can have many subscriptions' do
+    it "can have many subscriptions" do
       user = FactoryBot.create(:user)
       FactoryBot.create(:subscription, user: user, active: false)
 
@@ -52,7 +53,7 @@ RSpec.describe Subscription, type: :model do
       expect(new_subscription.errors).to be_empty
     end
 
-    it 'only can be one active subscription at a time' do
+    it "only can be one active subscription at a time" do
       user = FactoryBot.create(:user)
       FactoryBot.create(:subscription, user: user)
 
@@ -64,7 +65,7 @@ RSpec.describe Subscription, type: :model do
 
       new_subscription.save
 
-      expect(new_subscription.errors.full_messages).to eq(['already has an active subscription'])
+      expect(new_subscription.errors.full_messages).to eq(["already has an active subscription"])
     end
   end
 end

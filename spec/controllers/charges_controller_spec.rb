@@ -105,6 +105,57 @@ RSpec.describe ChargesController, type: :controller do
         expect(parsed_body["errors"]["address_line1"]).to eq(["can't be blank"])
         expect(parsed_body["errors"]["amount"]).to eq(["must be greater than or equal to 5"])
       end
+
+      it "creates a Subscription if donation_type is 'subscription'" do
+        user = FactoryBot.create(:user)
+        allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
+        expect(DonationMailer).to receive_message_chain(:thank_you_email, :deliver_later)
+
+        expect(User.count).to eq(1)
+
+        params = {charge: valid_params.merge({amount: 23, donation_type: "subscription"})}
+        expect { post :create, params: params, session: {} }.to change { Donation.count }.by(1)
+
+        expect(User.count).to eq(1)
+
+        subscription = user.active_subscription
+
+        parsed_body = JSON.parse(response.body)
+        expect(response).to have_http_status(200)
+        expect(parsed_body["status"]).to eq("succeeded")
+        expect(parsed_body["message"]).to eq("Your $23.00 donation has been successfully processed")
+
+        expect(subscription.active).to eq(true)
+        expect(subscription.amount).to eq(23)
+        expect(subscription.last_charge_at).to be_within(1.second).of DateTime.now
+      end
+
+      it "creates a User and a Subscription if donation_type is 'subscription'" do
+        expect(DonationMailer).to receive_message_chain(:thank_you_email, :deliver_later)
+
+        expect(User.count).to eq(0)
+
+        params = {charge: valid_params.merge({email: "newuser@example.com", amount: 23, donation_type: "subscription"})}
+        expect { post :create, params: params, session: {} }.to change { Donation.count }.by(1)
+
+        expect(User.count).to eq(1)
+
+        user = User.find_by(email: "newuser@example.com")
+        donation = user.donations.last
+        subscription = user.active_subscription
+
+        parsed_body = JSON.parse(response.body)
+        expect(response).to have_http_status(200)
+        expect(parsed_body["status"]).to eq("succeeded")
+        expect(parsed_body["message"]).to eq("Your $23.00 donation has been successfully processed")
+
+        expect(subscription.active).to eq(true)
+        expect(subscription.amount).to eq(23)
+        expect(subscription.last_charge_at).to be_within(2.second).of DateTime.now
+
+        expect(donation.donation_type).to eq(Donation::DONATION_TYPES[:subscription])
+        expect(donation.amount).to eq(23)
+      end
     end
   end
 end
