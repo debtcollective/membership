@@ -10,12 +10,19 @@ class DiscourseService
   end
 
   # Invite user via email
-  def invite_by_email(email:)
+  def invite_user
+    client.invite_user({
+      email: user.email,
+      group_names: "",
+      custom_message: "Welcome to the Debt Collective! We are thrilled to have you with us."
+    })
   end
 
   # Find user by email
   #
   # email - String - valid email
+  #
+  # Returns the User or nil if no user was found
   def find_user_by_email(email:)
     users = client.list_users("active", {
       filter: email,
@@ -24,6 +31,6 @@ class DiscourseService
       page: 1
     })
 
-    return users.first if users.any?
+    users.first
   end
 end

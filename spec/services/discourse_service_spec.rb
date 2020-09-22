@@ -3,9 +3,15 @@
 require "rails_helper"
 
 RSpec.describe DonationService, type: :service do
-  describe ".create_user_and_send_password_reset_email" do
-    it "creates a discourse user" do
-      expect(false).to eq(true)
+  describe ".invite_user" do
+    let(:user) { FactoryBot.create(:user) }
+
+    it "creates a discourse invite" do
+      discourse = DiscourseService.new(user)
+
+      invite = discourse.invite_user
+
+      expect(invite).to eq(true)
     end
   end
 end
