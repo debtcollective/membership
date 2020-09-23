@@ -250,6 +250,10 @@ class DonationService
       # Update stripe customer id
       @user.update(stripe_id: customer.id)
 
+      # TODO: refactor this class, it has too many responsbilities
+      # Send welcome email
+      UserMailer.welcome_email(@user).deliver_later
+
       [donation, errors]
     end
   rescue Stripe::StripeError => e

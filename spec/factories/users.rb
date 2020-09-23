@@ -25,6 +25,11 @@ FactoryBot.define do
   factory :user do
     name { Faker::Name.name }
     email { Faker::Internet.email }
-    external_id { generate(:external_id) }
+
+    factory :user_with_subscription do
+      after(:create) do |user|
+        FactoryBot.create(:subscription, user: user)
+      end
+    end
   end
 end

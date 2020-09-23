@@ -1,0 +1,41 @@
+<container>
+  <row>
+    <columns large="12">
+      <spacer size="25"></spacer>
+      <h5>
+        Hello <strong><%= @user.name %></strong> and Welcome to the Debt Collective!
+      </h5>
+
+      <spacer size="10"></spacer>
+
+      <p>
+        We are excited to welcome you to the debtors’ union - a new and exciting type of organization where debtors’ come together and fight for debt cancellation and so much more. You are not a loan!!
+      </p>
+
+      <p>
+        The Debt Collective is a member-driven organization, which means we are run by and for our members. As a new member, you are encouraged to get involved in the campaigns, culture and direction of the organization. We are building this organization together and we enthusiastically welcome any thoughts, feedback and new ideas.
+      </p>
+
+      <p>
+        <strong>First and foremost</strong>, as a new member we want you to <a href="http://bit.ly/debt-collective-dna" target="_blank">read through the Debt Collective DNA</a> (our principles and basic analysis). This document will give you the basic outline of the beliefs, values and priorities of the organization.
+      </p>
+
+      <p>
+        <strong>Second</strong>, we encourage you to read closely the <a href="https://bit.ly/new-member-to-do" target="_blank">list of things to do/ways to get involved</a> in the Debt Collective. This list will be constantly growing as our membership grows and our campaigns heat up, so remember to continue logging into the website and community forum for updates!
+      </p>
+
+      <p>
+        <strong>Third</strong>, we will be reaching out to all new members shortly to schedule a new member orientation and other trainings to welcome you to the union, get to know you, and empower you to build the union with us!
+      </p>
+
+      <p>
+        If you have any questions, please feel free to reach out to us at admin@debtcollective.org.
+      </p>
+
+      <p>
+        In solidarity,<br />
+        Debt Collective
+      </p>
+    </columns>
+  </row>
+</container>
