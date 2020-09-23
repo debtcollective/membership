@@ -36,14 +36,20 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
 RSpec.configure do |config|
   # Ensure that if we are running js tests, we are using latest webpack assets
   # This will use the defaults of :js and :server_rendering meta tags
   ReactOnRails::TestHelper.configure_rspec_to_compile_assets(config, :requires_webpack_assets)
+  Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+
   config.define_derived_metadata(file_path: %r{spec/(features|requests)}) do |metadata|
-    Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
     metadata[:requires_webpack_assets] = true
   end
+
+  # Helpers
+  config.include Helpers::StripeElements, type: :feature
+  config.include Helpers::Discourse
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
