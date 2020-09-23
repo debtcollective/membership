@@ -21,7 +21,8 @@ gem 'jbuilder', '~> 2.7'
 gem 'redis', '~> 4.0'
 gem 'redis-namespace', '1.8'
 gem 'ffi', '~> 1.9', '>= 1.9.25'
-gem 'rack-cors'
+gem 'rack-cors', '1.1.1'
+gem 'discourse_api', '0.42.0'
 
 # Emails
 gem 'inky-rb', '1.3.8.0', require: 'inky'
@@ -74,9 +75,9 @@ group :development do
 end
 
 group :test do
-  gem 'climate_control', '~> 0.2.0'
   gem 'capybara', '~> 3.28'
   gem 'capybara-screenshot', '1.0.24'
+  gem 'climate_control', '~> 0.2.0'
   gem 'codecov', '0.2.11', require: false
   gem 'database_cleaner-active_record', '1.8.0'
   gem 'rspec-mocks', '3.9.1'
@@ -86,4 +87,5 @@ group :test do
   gem 'stripe-ruby-mock', '~> 3.0.0', :require => 'stripe_mock'
   gem 'timecop', '~> 0.9.1'
   gem 'webdrivers', '4.4.1'
+  gem 'webmock', '3.9.1'
 end
