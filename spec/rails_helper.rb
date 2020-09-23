@@ -11,7 +11,7 @@ require "rspec/rails"
 require "capybara/rspec"
 require "capybara-screenshot/rspec"
 require "faker"
-require 'webmock/rspec'
+require "webmock/rspec"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -75,6 +75,9 @@ RSpec.configure do |config|
   end
 
   config.before(:each, type: :feature) do
+    # allow requests
+    WebMock.allow_net_connect!
+
     # :rack_test driver's Rack app under test shares database connection
     # with the specs, so continue to use transaction strategy for speed.
     driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
