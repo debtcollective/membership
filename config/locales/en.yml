@@ -18,4 +18,4 @@ en:
     welcome_email:
       subject: Welcome to The Debt Collective.
   discourse_service:
-    invite_custom_message: Welcome to the Debt Collective! With this account you will be able to authenticate to all of our services. Please click on Accept invite to complete your registration process
+    invite_custom_message: Welcome to the Debt Collective! With this account you will be able to authenticate to all of our services. Please click the link below to complete your registration.

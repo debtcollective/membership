@@ -11,13 +11,11 @@ class DiscourseService
 
   # Invite user via email
   def invite_user
-    response = client.invite_user({
+    client.invite_user({
       email: user.email,
       group_names: "",
       custom_message: I18n.t("discourse_service.invite_custom_message")
     })
-
-    JSON.parse(response)
   end
 
   # Find user by email
@@ -26,13 +24,11 @@ class DiscourseService
   #
   # Returns the User or nil if no user was found
   def find_user_by_email(email: user&.email)
-    response = client.list_users("active", {
+    users = client.list_users("active", {
       filter: email,
       order: "ascending",
       page: 1
     })
-
-    users = JSON.parse(response)
 
     users.first
   end
