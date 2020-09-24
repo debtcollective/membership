@@ -58,11 +58,11 @@ RSpec.describe SubscriptionsController, type: :controller do
     end
 
     it "creates a User and a Subscription if there's no current_user" do
-      expect(DonationMailer).to receive_message_chain(:thank_you_email, :deliver_later)
+      expect(UserMailer).to receive_message_chain(:welcome_email, :deliver_later)
 
       expect(User.count).to eq(0)
 
-      params = {charge: valid_params.merge({email: "newuser@example.com", amount: 23, donation_type: "subscription"})}
+      params = {subscription: valid_params.merge({email: "newuser@example.com", amount: 23, donation_type: "subscription"})}
       expect { post :create, params: params, session: {} }.to change { Donation.count }.by(1)
 
       expect(User.count).to eq(1)
@@ -74,7 +74,7 @@ RSpec.describe SubscriptionsController, type: :controller do
       parsed_body = JSON.parse(response.body)
       expect(response).to have_http_status(200)
       expect(parsed_body["status"]).to eq("succeeded")
-      expect(parsed_body["message"]).to eq("Your $23.00 donation has been successfully processed.")
+      expect(parsed_body["message"]).to eq("Thank you starting your membership.")
 
       expect(subscription.active).to eq(true)
       expect(subscription.amount).to eq(23)

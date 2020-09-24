@@ -4,14 +4,14 @@ class SubscriptionsController < ApplicationController
   before_action :authenticate_user!, only: :destroy
 
   def create
-    params =
+    service_params =
       subscription_params.to_h.merge(
         {
           customer_ip: request.remote_ip
         }
       )
 
-    subscription, errors = MembershipService.new(params, current_user).execute
+    subscription, errors = MembershipService.new(service_params, current_user).execute
 
     respond_to do |format|
       if subscription.persisted?

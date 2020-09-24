@@ -13,7 +13,6 @@ RSpec.describe MembershipService, type: :service do
       amount: 10,
       customer_ip: "127.0.0.1",
       email: Faker::Internet.email,
-      fund_id: 1,
       name: Faker::Name.name,
       phone_number: Faker::PhoneNumber.phone_number,
       stripe_token: stripe_helper.generate_card_token
@@ -31,7 +30,6 @@ RSpec.describe MembershipService, type: :service do
     it { should validate_presence_of(:amount) }
     it { should validate_numericality_of(:amount).only_integer.is_greater_than_or_equal_to(5) }
     it { should validate_presence_of(:customer_ip) }
-    it { should validate_presence_of(:fund_id) }
     it { should validate_presence_of(:phone_number) }
     it { should validate_presence_of(:stripe_token) }
     it { should validate_presence_of(:address_line1) }
@@ -43,7 +41,6 @@ RSpec.describe MembershipService, type: :service do
 
   describe ".create_membership" do
     let(:user) { FactoryBot.create(:user) }
-    let(:fund) { FactoryBot.create(:default_fund) }
 
     it "creates a subscription record" do
       params = valid_params.merge({
