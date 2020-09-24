@@ -96,5 +96,4 @@ RSpec.describe DiscourseService, type: :service do
       expect(response).to be_nil
     end
   end
-
 end

@@ -18,13 +18,15 @@
 #  charge_id          :string
 #  customer_stripe_id :string
 #  fund_id            :bigint
+#  subscription_id    :bigint
 #  user_id            :bigint
 #
 # Indexes
 #
-#  index_donations_on_charge_id  (charge_id) UNIQUE
-#  index_donations_on_fund_id    (fund_id)
-#  index_donations_on_user_id    (user_id)
+#  index_donations_on_charge_id        (charge_id) UNIQUE
+#  index_donations_on_fund_id          (fund_id)
+#  index_donations_on_subscription_id  (subscription_id)
+#  index_donations_on_user_id          (user_id)
 #
 FactoryBot.define do
   factory :donation do

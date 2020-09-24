@@ -37,6 +37,7 @@ RSpec.describe Subscription, type: :model do
   describe "validations" do
     it { should belong_to(:plan).optional(true) }
     it { should belong_to(:user).optional(true) }
+    it { should have_many(:donations) }
 
     it "can have many subscriptions" do
       user = FactoryBot.create(:user)

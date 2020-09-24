@@ -11,7 +11,7 @@ class LinkDiscourseAccountJob < ApplicationJob
 
     # If there's a Discourse user, send verification email
     if discourse_user
-      # TODO: implement verification email to a membership with a Discourse account
+      # TODO: implement verification email to link a membership with a Discourse account
       user.update(external_id: discourse_user["id"])
       return
     end
