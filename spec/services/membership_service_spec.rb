@@ -87,6 +87,20 @@ RSpec.describe MembershipService, type: :service do
       expect(subscription.last_charge_at).to be_within(1.second).of DateTime.now
     end
 
+    it "returns error if user has a subscription" do
+      # active subscription
+      FactoryBot.create(:subscription, user: user)
+
+      params = valid_params.merge({
+        email: user.email
+      })
+
+      new_subscription, errors = MembershipService.new(params).execute
+
+      expect(new_subscription.persisted?).to eq(false)
+      expect(errors["base"]).to eq([I18n.t("subscription.errors.active_subscription")])
+    end
+
     it "returns error if charge is declined" do
       params = valid_params.merge({
         stripe_token: stripe_helper.generate_card_token

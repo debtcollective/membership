@@ -9,6 +9,8 @@ en:
   subscription:
     alerts:
       success: 'Thank you starting your membership.'
+    errors:
+      active_subscription: 'A Subscription exists with this email address.'
   donation_mailer:
     thank_you_email:
       subject: Thank you for your contribution to Debt Collective!

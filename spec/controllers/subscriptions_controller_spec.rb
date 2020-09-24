@@ -62,7 +62,7 @@ RSpec.describe SubscriptionsController, type: :controller do
 
       expect(User.count).to eq(0)
 
-      params = {subscription: valid_params.merge({email: "newuser@example.com", amount: 23, donation_type: "subscription"})}
+      params = {subscription: valid_params.merge({email: "newuser@example.com", amount: 23})}
       expect { post :create, params: params, session: {} }.to change { Donation.count }.by(1)
 
       expect(User.count).to eq(1)
@@ -82,6 +82,19 @@ RSpec.describe SubscriptionsController, type: :controller do
 
       expect(donation.donation_type).to eq(Donation::DONATION_TYPES[:subscription])
       expect(donation.amount).to eq(23)
+    end
+
+    it "returns an error if a user by the email provided has already a subscription" do
+      user = FactoryBot.create(:user)
+      FactoryBot.create(:subscription, user: user)
+
+      params = {subscription: valid_params.merge({email: user.email, amount: 16})}
+      expect { post :create, params: params, session: {} }.to change { Donation.count }.by(0)
+
+      parsed_body = JSON.parse(response.body)
+      expect(response).to have_http_status(422)
+      expect(parsed_body["status"]).to eq("failed")
+      expect(parsed_body["message"]).to eq(I18n.t("subscription.errors.active_subscription"))
     end
   end
 end

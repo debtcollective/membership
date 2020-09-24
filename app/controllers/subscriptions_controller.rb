@@ -28,17 +28,17 @@ class SubscriptionsController < ApplicationController
         end
         format.json { render json: {status: "succeeded", message: message}, status: :ok }
       else
+        message = "Oops! Something went wrong. Please try again"
+
+        if errors["base"].any?
+          message = errors["base"].first
+        end
+
         format.html do
-          error = "Oops! Something went wrong. Please try again"
-
-          if errors["base"].any?
-            error = errors["base"].first
-          end
-
-          flash[:error] = error
+          flash[:error] = message
           render :new
         end
-        format.json { render json: {status: "failed", errors: errors.messages}, status: :unprocessable_entity }
+        format.json { render json: {status: "failed", errors: errors.messages, message: message}, status: :unprocessable_entity }
       end
     end
   end

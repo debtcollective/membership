@@ -54,7 +54,7 @@ RSpec.describe Subscription, type: :model do
       expect(new_subscription.errors).to be_empty
     end
 
-    it "only can be one active subscription at a time" do
+    it "can have only one active subscription at a time" do
       user = FactoryBot.create(:user)
       FactoryBot.create(:subscription, user: user)
 
