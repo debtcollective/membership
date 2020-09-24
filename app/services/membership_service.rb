@@ -7,6 +7,7 @@ class MembershipService
     :address_line1,
     :address_zip,
     :amount,
+    :chapter,
     :customer_ip,
     :email,
     :name,
@@ -20,6 +21,7 @@ class MembershipService
   validates :amount, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 5}
   validates :stripe_token, presence: true
   validates :address_line1, presence: true
+  validates :chapter, inclusion: {in: %w[pennsylvania massachusetts dc chicago]}, allow_blank: true
   validates :address_city, presence: true
   validates :address_zip, presence: true
   validates :address_country_code,
@@ -143,6 +145,7 @@ class MembershipService
         address_country_code: address_country_code,
         address_line1: address_line1,
         address_zip: address_zip,
+        chapter: chapter,
         email: email,
         name: name,
         phone_number: phone_number

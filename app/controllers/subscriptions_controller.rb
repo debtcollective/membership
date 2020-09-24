@@ -62,6 +62,7 @@ class SubscriptionsController < ApplicationController
       :address_line1,
       :address_zip,
       :amount,
+      :chapter,
       :email,
       :name,
       :phone_number,
