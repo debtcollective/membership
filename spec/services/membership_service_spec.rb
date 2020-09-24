@@ -42,15 +42,13 @@ RSpec.describe MembershipService, type: :service do
   describe ".create_membership" do
     let(:user) { FactoryBot.create(:user) }
 
-    it "creates a subscription record" do
+    it "creates a subscription" do
       params = valid_params.merge({
         stripe_token: stripe_helper.generate_card_token
       })
 
       subscription, errors = MembershipService.new(params, user).execute
-
-      # TODO: link donations to subscriptions
-      donation = user.donations.last
+      donation = subscription.donations.first
 
       expect(errors.empty?).to eq(true)
       expect(donation).to be_persisted
@@ -96,14 +94,11 @@ RSpec.describe MembershipService, type: :service do
 
       StripeMock.prepare_card_error(:card_declined)
 
-      donation, errors = MembershipService.new(params, user).execute
+      subscription, errors = MembershipService.new(params, user).execute
 
-      subscription = user.active_subscription
-
+      expect(subscription.persisted?).to eq(false)
       expect(errors.empty?).to eq(false)
       expect(errors["base"]).to eq(["The card was declined"])
-
-      expect(subscription).to be_nil
     end
   end
 end

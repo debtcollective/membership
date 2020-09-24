@@ -92,8 +92,11 @@ class MembershipService
       )
 
     if stripe_charge
+      # create subscription and the first donation
+      subscription = Subscription.create(user_id: user.id, active: true, amount: amount, last_charge_at: DateTime.now)
+
       donation =
-        Donation.new(
+        subscription.donations.new(
           amount: amount,
           charge_data: JSON.parse(stripe_charge.to_json),
           charge_id: stripe_charge.id,
@@ -116,9 +119,6 @@ class MembershipService
         )
 
       donation.save
-
-      # Create subscription
-      subscription = Subscription.create(user_id: user.id, active: true, amount: amount, last_charge_at: DateTime.now)
 
       # Update stripe customer id
       @user.update(stripe_id: customer.id)
