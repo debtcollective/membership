@@ -37,9 +37,17 @@ RSpec.describe MembershipService, type: :service do
     it { should validate_presence_of(:address_zip) }
     it { should validate_presence_of(:address_country_code) }
     it { should validate_presence_of(:stripe_token) }
+
+    context "when amount is zero" do
+      subject { MembershipService.new(valid_params.merge(amount: 0)) }
+
+      it { should validate_presence_of(:amount) }
+      it { should validate_numericality_of(:amount).only_integer }
+      it { should_not validate_presence_of(:stripe_token) }
+    end
   end
 
-  describe ".create_membership" do
+  describe ".execute" do
     let(:user) { FactoryBot.create(:user) }
 
     it "creates a subscription" do
@@ -85,6 +93,30 @@ RSpec.describe MembershipService, type: :service do
       expect(subscription.active).to eq(true)
       expect(subscription.amount).to eq(10)
       expect(subscription.last_charge_at).to be_within(1.second).of DateTime.now
+    end
+
+    it "creates a membership without charging a card if amount is 0" do
+      params = valid_params.merge({
+        email: "newuser@example.com",
+        amount: 0,
+        stripe_token: nil
+      })
+
+      subscription, errors = MembershipService.new(params).execute
+      user = subscription.user
+      donation = subscription.donations.last
+
+      expect(errors.empty?).to eq(true)
+
+      expect(user.email).to eq(params[:email])
+      expect(user.custom_fields["address_city"]).to eq(params[:address_city])
+
+      expect(subscription.user).to eq(user)
+      expect(subscription.active).to eq(true)
+      expect(subscription.amount).to eq(0)
+      expect(subscription.last_charge_at).to eq(nil)
+
+      expect(donation).to eq(nil)
     end
 
     it "returns error if user has a subscription" do

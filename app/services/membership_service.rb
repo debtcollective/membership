@@ -19,8 +19,10 @@ class MembershipService
   validates :name, presence: true
   validates :email, presence: true, 'valid_email_2/email': true
   validates :phone_number, presence: true
-  validates :amount, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 5}
-  validates :stripe_token, presence: true
+  validates :amount, presence: true
+  validates_numericality_of :amount, only_integer: true
+  validates_numericality_of :amount, greater_than_or_equal_to: 5, unless: proc { |service| service.amount == 0 }
+  validates :stripe_token, presence: true, unless: proc { |service| service.amount == 0 }
   validates :address_line1, presence: true
   validates :chapter, inclusion: {in: %w[pennsylvania massachusetts dc chicago]}, allow_blank: true
   validates :address_city, presence: true
@@ -52,76 +54,86 @@ class MembershipService
       return Subscription.new, errors
     end
 
+    # handle creating a membership with the zero-amount option we are offering
+    # create a membership but don't create a donation or stripe charge
+    if amount == 0
+      subscription = Subscription.create(user_id: user.id, active: true, amount: amount, last_charge_at: nil)
+
+      return [subscription, errors]
+    end
+
+    # Stripe max length for the phone field is 20
+    self.stripe_phone_number = phone_number.truncate(20, omission: "")
     # find or create stripe customer
     stripe_customer, error = find_or_create_stripe_customer
     @stripe_customer = stripe_customer
 
     if error
       Raven.capture_message(error, extra: {user_id: user.id, user_email: user.email})
-      return errors.add(:base, error)
+
+      errors.add(:base, error)
+
+      return Subscription.new, errors
     end
 
-    # Stripe max length for the phone field is 20
-    self.stripe_phone_number = phone_number.truncate(20, omission: "")
-
-    create_membership
+    create_paid_membership
   end
 
-  def create_membership
-    # amount needs to be in cents for Stripe
-    amount_in_cents = amount * 100
+  def create_paid_membership
+    stripe_charge, error = create_stripe_charge
 
-    stripe_charge =
-      Stripe::Charge.create(
-        customer: stripe_customer.id,
-        amount: amount_in_cents,
-        description: "One time contribution",
-        currency: "usd"
+    if error
+      errors.add(:base, error)
+
+      return [Subscription.new, errors]
+    end
+
+    # create subscription and the first donation
+    subscription = Subscription.create(user_id: user.id, active: true, amount: amount, last_charge_at: DateTime.now)
+
+    donation =
+      subscription.donations.new(
+        amount: amount,
+        charge_data: JSON.parse(stripe_charge.to_json),
+        charge_id: stripe_charge.id,
+        charge_provider: "stripe",
+        customer_ip: customer_ip,
+        customer_stripe_id: stripe_customer.id,
+        donation_type: Donation::DONATION_TYPES[:subscription],
+        status: stripe_charge.status,
+        user_id: user.id,
+        user_data: {
+          address_city: address_city,
+          address_country: ISO3166::Country[address_country_code].name,
+          address_country_code: address_country_code,
+          address_line1: address_line1,
+          address_zip: address_zip,
+          email: email,
+          name: name,
+          phone_number: phone_number
+        }
       )
 
-    if stripe_charge
-      # update user stripe_id
-      user.update(stripe_id: stripe_customer.id)
+    donation.save!
 
-      # create subscription and the first donation
-      subscription = Subscription.create(user_id: user.id, active: true, amount: amount, last_charge_at: DateTime.now)
-
-      donation =
-        subscription.donations.new(
-          amount: amount,
-          charge_data: JSON.parse(stripe_charge.to_json),
-          charge_id: stripe_charge.id,
-          charge_provider: "stripe",
-          customer_ip: customer_ip,
-          customer_stripe_id: stripe_customer.id,
-          donation_type: Donation::DONATION_TYPES[:subscription],
-          status: stripe_charge.status,
-          user_id: user.id,
-          user_data: {
-            address_city: address_city,
-            address_country: ISO3166::Country[address_country_code].name,
-            address_country_code: address_country_code,
-            address_line1: address_line1,
-            address_zip: address_zip,
-            email: email,
-            name: name,
-            phone_number: phone_number
-          }
-        )
-
-      donation.save
-
-      [subscription, errors]
-    end
-  rescue Stripe::StripeError => e
-    Raven.capture_exception(e)
-
-    errors.add(:base, e.message)
-
-    [Subscription.new, errors]
+    [subscription, errors]
   end
 
   private
+
+  def create_stripe_charge
+    # amount needs to be in cents for Stripe
+    amount_in_cents = amount * 100
+
+    [Stripe::Charge.create(
+      customer: stripe_customer.id,
+      amount: amount_in_cents,
+      description: "One time contribution",
+      currency: "usd"
+    ), nil]
+  rescue Stripe::StripeError => e
+    [nil, e.message]
+  end
 
   def find_or_create_user
     User.find_or_create_by(email: email) do |user|
@@ -161,6 +173,10 @@ class MembershipService
       [Stripe::Customer.create(email: user.email, source: stripe_token), nil]
     end
   rescue Stripe::CardError => e
-    [nil, e.message]
+    Raven.capture_exception(e)
+
+    errors.add(:base, e.message)
+
+    [Subscription.new, errors]
   end
 end
