@@ -22,7 +22,7 @@ RSpec.describe DiscourseService, type: :service do
 
       # stub request
       body = {
-        "custom_message": "Welcome to the Debt Collective! We are thrilled to have you with us.",
+        "custom_message": I18n.t("discourse_service.invite_custom_message"),
         "email": user.email,
         "group_names": ""
       }
