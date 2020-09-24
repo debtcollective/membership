@@ -9,7 +9,6 @@ class MembershipService
     :amount,
     :customer_ip,
     :email,
-    :fund_id,
     :name,
     :phone_number,
     :stripe_phone_number,
@@ -20,7 +19,6 @@ class MembershipService
   validates :phone_number, presence: true
   validates :amount, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 5}
   validates :stripe_token, presence: true
-  validates :fund_id, presence: true
   validates :address_line1, presence: true
   validates :address_city, presence: true
   validates :address_zip, presence: true
@@ -101,7 +99,6 @@ class MembershipService
           customer_ip: customer_ip,
           customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:subscription],
-          fund_id: fund_id,
           status: stripe_charge.status,
           user_id: user.id,
           user_data: {

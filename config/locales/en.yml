@@ -3,12 +3,15 @@ en:
     new:
       title: Help us prevent evictions and win debt cancellation.
     alerts:
-      success: Your %{amount} donation has been successfully processed
+      success: Your %{amount} donation has been successfully processed.
     errors:
-      min_amount: "We couldn't the process payment the minimum amount that can be donated is $5 USD due fees charged by our payments provider"
+      min_amount: "We couldn't the process payment the minimum amount that can be donated is $5 USD due fees charged by our payments provider."
+  subscription:
+    alerts:
+      success: 'Thank you starting your membership.'
   donation_mailer:
     thank_you_email:
       subject: Thank you for your contribution to Debt Collective!
   user_mailer:
     welcome_email:
-      subject: Welcome to The Debt Collective
+      subject: Welcome to The Debt Collective.
