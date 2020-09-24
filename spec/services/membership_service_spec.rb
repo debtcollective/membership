@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe DonationService, type: :service do
+RSpec.describe MembershipService, type: :service do
   let(:stripe_helper) { StripeMock.create_test_helper }
   let(:valid_params) do
     {
@@ -24,7 +24,7 @@ RSpec.describe DonationService, type: :service do
   after { StripeMock.stop }
 
   describe "validations" do
-    subject { DonationService.new(valid_params) }
+    subject { MembershipService.new(valid_params) }
 
     it { should validate_presence_of(:name) }
     it { should validate_presence_of(:email) }
@@ -41,40 +41,55 @@ RSpec.describe DonationService, type: :service do
     it { should validate_presence_of(:stripe_token) }
   end
 
-  describe ".save_donation_with_user" do
+  describe ".create_membership" do
     let(:user) { FactoryBot.create(:user) }
     let(:fund) { FactoryBot.create(:default_fund) }
 
-    it "creates a donation record" do
+    it "creates a subscription record" do
       params = valid_params.merge({
-        fund_id: fund.id,
-        name: user.name,
-        email: user.email,
         stripe_token: stripe_helper.generate_card_token
       })
-      donation_service = DonationService.new(params, user)
 
-      donation, errors = donation_service.execute
+      subscription, errors = MembershipService.new(params, user).execute
+
+      # TODO: link donations to subscriptions
+      donation = user.donations.last
 
       expect(errors.empty?).to eq(true)
       expect(donation).to be_persisted
-      expect(donation.user_data["email"]).to eq(user.email)
-      expect(donation.user_data["phone_number"]).to eq(
-        params[:phone_number]
-      )
-      expect(donation.user_data["address_country"]).to eq(
-        ISO3166::Country[params[:address_country_code]].name
-      )
-      expect(donation.user_data["address_country_code"]).to eq(
-        params[:address_country_code]
-      )
       expect(donation.amount.to_i).to eq(10)
       # Stripe stores the amount in cents
       expect(donation.charge_data["amount"]).to eq(donation.amount * 100)
-      expect(donation.charge_data).to have_key("id")
       expect(donation.status).to eq("succeeded")
-      expect(donation.fund).to eq(fund)
-      expect(donation.customer_ip).to eq(params[:customer_ip])
+
+      expect(subscription.active).to eq(true)
+      expect(subscription.amount).to eq(10)
+    end
+
+    it "creates a user if not provided" do
+      params = valid_params.merge({
+        email: "newuser@example.com",
+        stripe_token: stripe_helper.generate_card_token
+      })
+
+      subscription, errors = MembershipService.new(params).execute
+      user = subscription.user
+      donation = user.donations.last
+
+      expect(errors.empty?).to eq(true)
+      expect(donation).to be_persisted
+      expect(donation.amount.to_i).to eq(10)
+      # Stripe stores the amount in cents
+      expect(donation.charge_data["amount"]).to eq(donation.amount * 100)
+      expect(donation.status).to eq("succeeded")
+
+      expect(user.email).to eq(params[:email])
+      expect(user.custom_fields["address_city"]).to eq(params[:address_city])
+
+      expect(subscription.user).to eq(user)
+      expect(subscription.active).to eq(true)
+      expect(subscription.amount).to eq(10)
+      expect(subscription.last_charge_at).to be_within(1.second).of DateTime.now
     end
 
     it "returns error if charge is declined" do
@@ -84,45 +99,14 @@ RSpec.describe DonationService, type: :service do
 
       StripeMock.prepare_card_error(:card_declined)
 
-      donation, errors = DonationService.new(params).execute
+      donation, errors = MembershipService.new(params, user).execute
+
+      subscription = user.active_subscription
 
       expect(errors.empty?).to eq(false)
       expect(errors["base"]).to eq(["The card was declined"])
-    end
-  end
 
-  describe ".save_donation_without_user" do
-    it "creates a donation record" do
-      params = valid_params.merge({
-        stripe_token: stripe_helper.generate_card_token
-      })
-
-      donation, errors = DonationService.new(params).execute
-
-      expect(errors.empty?).to eq(true)
-      expect(donation).to be_persisted
-      expect(donation.user_data["email"]).to eq(params[:email])
-      expect(donation.user_data["name"]).to eq(params[:name])
-      expect(donation.user_data["phone_number"]).to eq(params[:phone_number])
-      expect(donation.amount.to_i).to eq(10)
-      # Stripe stores the amount in cents
-      expect(donation.charge_data["amount"]).to eq(donation.amount * 100)
-      expect(donation.charge_data).to have_key("id")
-      expect(donation.status).to eq("succeeded")
-      expect(donation.customer_ip).to eq(params[:customer_ip])
-    end
-
-    it "returns error if charge is declined" do
-      params = valid_params.merge({
-        stripe_token: stripe_helper.generate_card_token
-      })
-
-      StripeMock.prepare_card_error(:card_declined)
-
-      donation, errors = DonationService.new(params).execute
-
-      expect(errors.empty?).to eq(false)
-      expect(errors["base"]).to eq(["The card was declined"])
+      expect(subscription).to be_nil
     end
   end
 end

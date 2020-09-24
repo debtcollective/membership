@@ -66,7 +66,6 @@ class ChargesController < ApplicationController
       :address_line1,
       :address_zip,
       :amount,
-      :donation_type,
       :email,
       :fund_id,
       :name,

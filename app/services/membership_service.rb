@@ -1,6 +1,4 @@
-# frozen_string_literal: tr
-
-class DonationService
+class MembershipService
   include ActiveModel::Validations
 
   attr_reader :user
@@ -41,83 +39,46 @@ class DonationService
   end
 
   def execute
-    return Donation.new, errors unless valid?
-
-    # amount needs to be converted to int
+    return Subscription.new, errors unless valid?
 
     # Stripe max length for the phone field is 20
     self.stripe_phone_number = phone_number.truncate(20, omission: "")
 
-    !!user ? save_donation_with_user : save_donation_without_user
+    create_membership
   end
 
-  def save_donation_with_user
-    customer =
-      Stripe::Customer.create(
-        name: name,
-        email: email,
-        phone: stripe_phone_number,
-        source: stripe_token
+  def create_membership
+    @user = create_user unless !!user
+
+    stripe_customer_id = user.stripe_id
+
+    if stripe_customer_id
+      customer = Stripe::Customer.retrieve(user.stripe_id)
+
+      # add source to customer
+      Stripe::Customer.create_source(
+        stripe_customer_id,
+        {
+          source: stripe_token
+        }
       )
 
-    user.update(stripe_id: customer.id)
-
-    # amount needs to be in cents for Stripe
-    amount_in_cents = amount * 100
-
-    stripe_charge =
-      Stripe::Charge.create(
-        amount: amount_in_cents,
-        currency: "usd",
-        customer: customer.id,
-        description: "One-time contribution."
+      # make the source we just added the default one
+      Stripe::Customer.update(
+        stripe_customer_id,
+        {
+          source: stripe_token
+        }
       )
-
-    if stripe_charge
-      donation =
-        Donation.new(
-          amount: amount,
-          charge_data: JSON.parse(stripe_charge.to_json),
-          charge_id: stripe_charge.id,
-          charge_provider: "stripe",
-          customer_ip: customer_ip,
-          customer_stripe_id: customer.id,
-          donation_type: Donation::DONATION_TYPES[:one_off],
-          fund_id: fund_id,
-          status: stripe_charge.status,
-          user_id: user.id,
-          user_data: {
-            address_city: address_city,
-            address_country: ISO3166::Country[address_country_code].name,
-            address_country_code: address_country_code,
-            address_line1: address_line1,
-            address_zip: address_zip,
-            email: email,
-            name: name,
-            phone_number: phone_number
-          }
+    else
+      customer =
+        Stripe::Customer.create(
+          name: name,
+          email: email,
+          phone: stripe_phone_number,
+          source: stripe_token
         )
-
-      donation.save
-
-      [donation, errors]
     end
-  rescue Stripe::StripeError => e
-    Raven.capture_exception(e)
-
-    errors.add(:base, e.message)
-
-    [Donation.new, errors]
-  end
-
-  def save_donation_without_user
-    customer =
-      Stripe::Customer.create(
-        name: name,
-        email: email,
-        phone: stripe_phone_number,
-        source: stripe_token
-      )
 
     # amount needs to be in cents for Stripe
     amount_in_cents = amount * 100
@@ -139,9 +100,10 @@ class DonationService
           charge_provider: "stripe",
           customer_ip: customer_ip,
           customer_stripe_id: customer.id,
-          donation_type: Donation::DONATION_TYPES[:one_off],
+          donation_type: Donation::DONATION_TYPES[:subscription],
           fund_id: fund_id,
           status: stripe_charge.status,
+          user_id: user.id,
           user_data: {
             address_city: address_city,
             address_country: ISO3166::Country[address_country_code].name,
@@ -156,13 +118,38 @@ class DonationService
 
       donation.save
 
-      [donation, errors]
+      # Create subscription
+      subscription = Subscription.create(user_id: user.id, active: true, amount: amount, last_charge_at: DateTime.now)
+
+      # Update stripe customer id
+      @user.update(stripe_id: customer.id)
+
+      [subscription, errors]
     end
   rescue Stripe::StripeError => e
     Raven.capture_exception(e)
 
     errors.add(:base, e.message)
 
-    [Donation.new, errors]
+    [Subscription.new, errors]
+  end
+
+  private
+
+  def create_user
+    User.create({
+      name: name,
+      email: email,
+      custom_fields: {
+        address_city: address_city,
+        address_country: ISO3166::Country[address_country_code].name,
+        address_country_code: address_country_code,
+        address_line1: address_line1,
+        address_zip: address_zip,
+        email: email,
+        name: name,
+        phone_number: phone_number
+      }
+    })
   end
 end
