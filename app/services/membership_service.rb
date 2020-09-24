@@ -58,25 +58,28 @@ class MembershipService
     # create a membership but don't create a donation or stripe charge
     if amount == 0
       subscription = Subscription.create(user_id: user.id, active: true, amount: amount, last_charge_at: nil)
+    else
+      # Stripe max length for the phone field is 20
+      self.stripe_phone_number = phone_number.truncate(20, omission: "")
+      # find or create stripe customer
+      stripe_customer, error = find_or_create_stripe_customer
+      @stripe_customer = stripe_customer
 
-      return [subscription, errors]
+      if error
+        Raven.capture_message(error, extra: {user_id: user.id, user_email: user.email})
+
+        errors.add(:base, error)
+
+        return Subscription.new, errors
+      end
+
+      subscription = create_paid_membership
     end
 
-    # Stripe max length for the phone field is 20
-    self.stripe_phone_number = phone_number.truncate(20, omission: "")
-    # find or create stripe customer
-    stripe_customer, error = find_or_create_stripe_customer
-    @stripe_customer = stripe_customer
+    # Invite user to Discourse or send verification email
+    link_discourse_account
 
-    if error
-      Raven.capture_message(error, extra: {user_id: user.id, user_email: user.email})
-
-      errors.add(:base, error)
-
-      return Subscription.new, errors
-    end
-
-    create_paid_membership
+    [subscription, errors]
   end
 
   def create_paid_membership
@@ -85,7 +88,7 @@ class MembershipService
     if error
       errors.add(:base, error)
 
-      return [Subscription.new, errors]
+      return Subscription.new
     end
 
     # create subscription and the first donation
@@ -116,7 +119,7 @@ class MembershipService
 
     donation.save!
 
-    [subscription, errors]
+    subscription
   end
 
   private
@@ -178,5 +181,9 @@ class MembershipService
     errors.add(:base, e.message)
 
     [Subscription.new, errors]
+  end
+
+  def link_discourse_account
+    LinkDiscourseAccountJob.perform_later(user)
   end
 end

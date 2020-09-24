@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_24_184535) do
+ActiveRecord::Schema.define(version: 2020_09_24_215740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_184535) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "start_date"
     t.datetime "last_charge_at"
-    t.money "amount", scale: 2
+    t.money "amount", scale: 2, default: "0.0"
     t.index ["plan_id"], name: "index_subscriptions_on_plan_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end

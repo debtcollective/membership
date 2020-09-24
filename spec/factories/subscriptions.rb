@@ -6,7 +6,7 @@
 #
 #  id             :bigint           not null, primary key
 #  active         :boolean
-#  amount         :money
+#  amount         :money            default(0.0)
 #  last_charge_at :datetime
 #  start_date     :datetime
 #  created_at     :datetime         not null
@@ -22,6 +22,7 @@
 FactoryBot.define do
   factory :subscription do
     active { true }
+    amount { (5..100).to_a.sample }
     user
     plan
   end

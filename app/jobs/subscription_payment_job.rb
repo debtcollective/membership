@@ -21,10 +21,10 @@ class SubscriptionPaymentJob < ApplicationJob
     # if there's a plan use that amount
     # if not, use the subscription amount field
     amount = if plan
-      plan.amount.to_i
+      plan.amount
     else
-      subscription.amount.to_i
-    end
+      subscription.amount
+    end.to_i
 
     amount_in_cents = amount * 100
 
@@ -76,6 +76,7 @@ class SubscriptionPaymentJob < ApplicationJob
       user: user,
       user_data: {email: user.email, name: user.name}
     )
+
     subscription.update!(last_charge_at: DateTime.now, active: true) if donation.save!
   end
 end

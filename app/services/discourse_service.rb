@@ -14,7 +14,7 @@ class DiscourseService
     response = client.invite_user({
       email: user.email,
       group_names: "",
-      custom_message: "Welcome to the Debt Collective! We are thrilled to have you with us."
+      custom_message: "Welcome to the Debt Collective! With this account you will be able to authenticate to all of our services. Please click on Accept invite to complete your registration process"
     })
 
     JSON.parse(response)

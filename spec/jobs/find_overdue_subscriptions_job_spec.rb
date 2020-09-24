@@ -7,6 +7,7 @@ RSpec.describe FindOverdueSubscriptionsJob, type: :job do
   let!(:inactive_subscription) { FactoryBot.create(:subscription, active: false) }
   let!(:active_subscription_one) { FactoryBot.create(:subscription, last_charge_at: 32.days.ago) }
   let!(:active_subscription_two) { FactoryBot.create(:subscription, last_charge_at: nil) }
+  let!(:active_subscription_zero_amount) { FactoryBot.create(:subscription, amount: 0, last_charge_at: nil) }
 
   it 'queues the job' do
     expect { FindOverdueSubscriptionsJob.perform_later }
