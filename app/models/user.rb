@@ -71,10 +71,10 @@ class User < ApplicationRecord
   end
 
   def pending_plan_change
-    user_plan_changes.where(status: :pending).first
+    @pending_plan_change ||= user_plan_changes.where(status: :pending).first
   end
 
   def active_subscription
-    subscriptions.includes(:plan).where(active: true).last
+    @active_subscription ||= subscriptions.includes(:plan).where(active: true).last
   end
 end
