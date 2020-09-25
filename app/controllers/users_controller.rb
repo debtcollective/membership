@@ -23,7 +23,7 @@ class UsersController < ApplicationController
     current_page_title("Donation history")
 
     # pass donations with receipt_url attribute to react component
-    @donations = JSON.parse(@user.donations.as_json(methods: :receipt_url))
+    @donations = @user.donations.as_json(methods: :receipt_url)
   end
 
   def current
