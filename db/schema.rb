@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_19_014203) do
+ActiveRecord::Schema.define(version: 2020_09_24_215740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,8 +61,10 @@ ActiveRecord::Schema.define(version: 2020_09_19_014203) do
     t.string "charge_provider", default: "stripe"
     t.jsonb "user_data", default: {}
     t.bigint "fund_id"
+    t.bigint "subscription_id"
     t.index ["charge_id"], name: "index_donations_on_charge_id", unique: true
     t.index ["fund_id"], name: "index_donations_on_fund_id"
+    t.index ["subscription_id"], name: "index_donations_on_subscription_id"
     t.index ["user_id"], name: "index_donations_on_user_id"
   end
 
@@ -101,7 +103,7 @@ ActiveRecord::Schema.define(version: 2020_09_19_014203) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "start_date"
     t.datetime "last_charge_at"
-    t.money "amount", scale: 2
+    t.money "amount", scale: 2, default: "0.0"
     t.index ["plan_id"], name: "index_subscriptions_on_plan_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end

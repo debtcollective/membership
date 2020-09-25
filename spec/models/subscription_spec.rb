@@ -6,7 +6,7 @@
 #
 #  id             :bigint           not null, primary key
 #  active         :boolean
-#  amount         :money
+#  amount         :money            default(0.0)
 #  last_charge_at :datetime
 #  start_date     :datetime
 #  created_at     :datetime         not null
@@ -37,6 +37,7 @@ RSpec.describe Subscription, type: :model do
   describe "validations" do
     it { should belong_to(:plan).optional(true) }
     it { should belong_to(:user).optional(true) }
+    it { should have_many(:donations) }
 
     it "can have many subscriptions" do
       user = FactoryBot.create(:user)
@@ -53,7 +54,7 @@ RSpec.describe Subscription, type: :model do
       expect(new_subscription.errors).to be_empty
     end
 
-    it "only can be one active subscription at a time" do
+    it "can have only one active subscription at a time" do
       user = FactoryBot.create(:user)
       FactoryBot.create(:subscription, user: user)
 

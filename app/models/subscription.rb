@@ -6,7 +6,7 @@
 #
 #  id             :bigint           not null, primary key
 #  active         :boolean
-#  amount         :money
+#  amount         :money            default(0.0)
 #  last_charge_at :datetime
 #  start_date     :datetime
 #  created_at     :datetime         not null
@@ -22,8 +22,9 @@
 class Subscription < ApplicationRecord
   before_create :store_start_date
 
-  belongs_to :user, optional: true
   belongs_to :plan, optional: true
+  belongs_to :user, optional: true
+  has_many :donations
 
   validate :only_one_active_subscription, on: :create
 
@@ -35,6 +36,13 @@ class Subscription < ApplicationRecord
     self.active = false
 
     save
+  end
+
+  def self.overdue
+    where(active: true).where(
+      "last_charge_at IS NULL OR last_charge_at <= ?",
+      30.days.ago
+    ).where.not(amount: 0)
   end
 
   private

@@ -18,13 +18,15 @@
 #  charge_id          :string
 #  customer_stripe_id :string
 #  fund_id            :bigint
+#  subscription_id    :bigint
 #  user_id            :bigint
 #
 # Indexes
 #
-#  index_donations_on_charge_id  (charge_id) UNIQUE
-#  index_donations_on_fund_id    (fund_id)
-#  index_donations_on_user_id    (user_id)
+#  index_donations_on_charge_id        (charge_id) UNIQUE
+#  index_donations_on_fund_id          (fund_id)
+#  index_donations_on_subscription_id  (subscription_id)
+#  index_donations_on_user_id          (user_id)
 #
 class Donation < ApplicationRecord
   DONATION_TYPES = {one_off: "ONE_OFF", subscription: "SUBSCRIPTION"}.freeze
@@ -32,8 +34,9 @@ class Donation < ApplicationRecord
   # These status are the same Stripe transactions return
   enum status: {succeeded: 0, pending: 1, failed: 2}
 
-  belongs_to :user, optional: true
   belongs_to :fund, optional: true
+  belongs_to :subscription, optional: true
+  belongs_to :user, optional: true
 
   validates :amount, :customer_stripe_id, :donation_type, presence: true
   validates :amount, numericality: {greater_than_or_equal_to: 5}, presence: true
