@@ -4,18 +4,21 @@
 #
 # Table name: users
 #
-#  id            :bigint           not null, primary key
-#  admin         :boolean          default(FALSE)
-#  avatar_url    :string
-#  banned        :boolean          default(FALSE)
-#  custom_fields :jsonb
-#  email         :string
-#  name          :string
-#  username      :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  external_id   :bigint
-#  stripe_id     :string
+#  id                         :bigint           not null, primary key
+#  admin                      :boolean          default(FALSE)
+#  avatar_url                 :string
+#  banned                     :boolean          default(FALSE)
+#  custom_fields              :jsonb
+#  email                      :string
+#  email_confirmation_sent_at :datetime
+#  email_confirmation_token   :string
+#  email_confirmed_at         :datetime
+#  name                       :string
+#  username                   :string
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  external_id                :bigint
+#  stripe_id                  :string
 #
 class User < ApplicationRecord
   include ActionView::Helpers::DateHelper
