@@ -3,9 +3,9 @@
 require "rails_helper"
 
 RSpec.describe ToggleUserActiveSubscriptionPlanJob, type: :job do
-  let(:user) { FactoryBot.create(:user) }
-  let!(:old_plan) { FactoryBot.create(:plan) }
-  let!(:new_plan) { FactoryBot.create(:plan) }
+  let(:old_plan) { FactoryBot.create(:plan) }
+  let(:new_plan) { FactoryBot.create(:plan) }
+  let!(:user) { FactoryBot.create(:user) }
   let!(:active_subscription) { FactoryBot.create(:subscription, user: user, plan: old_plan) }
 
   it "queues the job" do
@@ -28,7 +28,8 @@ RSpec.describe ToggleUserActiveSubscriptionPlanJob, type: :job do
     perform_enqueued_jobs { ToggleUserActiveSubscriptionPlanJob.perform_later(plan_change) }
 
     expect(Subscription.count).to eq(2)
-    user.active_subscription.reload
+    user_id = user.id
+    user = User.find(user_id)
     plan_change.reload
 
     expect(user.active_subscription.plan.id).to eq(new_plan.id)

@@ -34,6 +34,8 @@ Rails.application.routes.draw do
     resources :plan_changes, only: %i[index create]
   end
 
+  get "/users/current" => "users#current", :constraints => {format: "json" }
+
   get "/login" => "sessions#login"
   get "/signup" => "sessions#signup"
 

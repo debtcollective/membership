@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
   layout "backoffice"
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :current
   before_action :set_user
 
   # GET /users/1
@@ -23,7 +23,17 @@ class UsersController < ApplicationController
     current_page_title("Donation history")
 
     # pass donations with receipt_url attribute to react component
-    @donations = JSON.parse(@user.donations.to_json(methods: :receipt_url))
+    @donations = @user.donations.as_json(methods: :receipt_url)
+  end
+
+  def current
+    respond_to do |format|
+      if @user
+        format.json { render json: @user.as_json, status: :ok }
+      else
+        format.json { render json: nil, status: :not_found }
+      end
+    end
   end
 
   private
