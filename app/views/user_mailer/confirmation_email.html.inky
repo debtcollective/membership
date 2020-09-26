@@ -1,0 +1,34 @@
+<container>
+  <row>
+    <columns large="12">
+      <spacer size="24"></spacer>
+      <h5>Hello <strong><%= @user.name %></strong></h5>
+
+      <p>
+        We need to confirm your email address. Please click the button below.
+      </p>
+
+      <spacer size="12"></spacer>
+
+      <button
+        target="_blank"
+        href="<%= confirm_user_confirmations_url(confirmation_token: @confirmation_token) %>"
+        class="expanded"
+      >
+        Confirm your email
+      </button>
+
+      <spacer size="12"></spacer>
+
+      <p>
+        If you have any questions, please feel free to reach out to us at
+        admin@debtcollective.org.
+      </p>
+
+      <p>
+        In solidarity,<br />
+        Debt Collective
+      </p>
+    </columns>
+  </row>
+</container>

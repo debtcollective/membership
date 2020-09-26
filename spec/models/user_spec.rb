@@ -4,18 +4,21 @@
 #
 # Table name: users
 #
-#  id            :bigint           not null, primary key
-#  admin         :boolean          default(FALSE)
-#  avatar_url    :string
-#  banned        :boolean          default(FALSE)
-#  custom_fields :jsonb
-#  email         :string
-#  name          :string
-#  username      :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  external_id   :bigint
-#  stripe_id     :string
+#  id                   :bigint           not null, primary key
+#  admin                :boolean          default(FALSE)
+#  avatar_url           :string
+#  banned               :boolean          default(FALSE)
+#  confirmation_sent_at :datetime
+#  confirmation_token   :string
+#  confirmed_at         :datetime
+#  custom_fields        :jsonb
+#  email                :string
+#  name                 :string
+#  username             :string
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  external_id          :bigint
+#  stripe_id            :string
 #
 require "rails_helper"
 

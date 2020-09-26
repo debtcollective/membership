@@ -1,0 +1,7 @@
+<% if @user_confirmed %>
+  <p>Your account is now confirmed. Please visit your personalized hub by clicking the link below.</p>
+
+  <a href="<%= ENV["MEMBER_HUB_URL"]%>" class="button primary">Go to Member Hub</a>
+<% else %>
+  <p>Your email is not confirmed.</p>
+<% end %>

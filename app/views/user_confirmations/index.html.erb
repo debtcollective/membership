@@ -1,0 +1,19 @@
+<% if @user %>
+  <% if @user.confirmed?%>
+    <p>This email has been already confirmed</p>
+  <% else %>
+    <p>Please click the button below to confirm your email</p>
+
+    <%= form_with(url: confirm_user_confirmations_path, method: 'post', local: true) do %>
+      <%= fields_for(:user_confirmation) do |f|%>
+        <%= f.hidden_field(:confirmation_token, value: @confirmation_token) %>
+
+        <div class="form-row">
+          <button id="submit-payment" type="submit" class="button primary">Confirm my email</button>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>Invalid confirmation token</p>
+<% end %>
