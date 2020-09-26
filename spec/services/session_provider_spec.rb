@@ -10,8 +10,8 @@ RSpec.describe SessionProvider, type: :service do
         jwt = JWT.encode(payload, ENV["SSO_JWT_SECRET"], "HS256")
         cookie_name = ENV["SSO_COOKIE_NAME"]
         cookies = {}
-        session = {}
         cookies[cookie_name] = jwt
+        session = {}
 
         current_user = SessionProvider.new(cookies, session).current_user
 
@@ -39,6 +39,23 @@ RSpec.describe SessionProvider, type: :service do
         current_user = SessionProvider.new(cookies, session).current_user
 
         expect(current_user).to be_nil
+      end
+    end
+
+    it "cleans up user session if there's a cookie based session" do
+      ClimateControl.modify(SSO_COOKIE_NAME: "tdc_auth_cookie", SSO_JWT_SECRET: "jwt-secret") do
+        user = FactoryBot.create(:user)
+        payload = JSON.parse(file_fixture("jwt_sso_payload.json").read)
+        jwt = JWT.encode(payload, ENV["SSO_JWT_SECRET"], "HS256")
+        cookie_name = ENV["SSO_COOKIE_NAME"]
+        cookies = {}
+        cookies[cookie_name] = jwt
+        session = {user_id: user.id}
+
+        current_user = SessionProvider.new(cookies, session).current_user
+
+        expect(current_user.external_id).to eql(1)
+        expect(session[:user_id]).to be_nil
       end
     end
   end

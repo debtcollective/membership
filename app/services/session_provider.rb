@@ -9,19 +9,24 @@ class SessionProvider
   end
 
   def current_user
+    session_user_id = session[:user_id]
+
     if sso_cookie_present?
       payload, headers = sso_jwt_content
 
       user, new_record = User.find_or_create_from_sso(payload)
 
       current_user = CurrentUser.new(user, payload, new_record)
-    elsif user_id = session[:user_id]
-      user = User.find(user_id)
+    elsif session_user_id
+      user = User.find(session_user_id)
       new_record = user.new_record?
       payload = {}
 
       current_user = CurrentUser.new(user, payload, new_record)
     end
+
+    # clean up membership session if there's a Discourse session available
+    session.clear if sso_cookie_present? && session_user_id
 
     current_user
   end
