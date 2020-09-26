@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CurrentUser < Delegator
-  attr_accessor :user, :new_record
+  attr_reader :user, :new_record
   alias_method :__getobj__, :user
 
   def initialize(user, payload = {}, new_record = false)

@@ -11,7 +11,9 @@ class SubscriptionsController < ApplicationController
         }
       )
 
-    subscription, errors = MembershipService.new(service_params, current_user).execute
+    # We use current_user.user to make sure we are passing the user object and not the wrapper
+    # TODO: find a better way to do this.
+    subscription, errors = MembershipService.new(service_params, current_user&.user).execute
 
     respond_to do |format|
       if subscription.persisted?
