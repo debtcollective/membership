@@ -39,7 +39,7 @@ class CurrentUser < Delegator
   end
 
   def as_json
-    json = super(only: [:id, :name, :email, :external_id], methods: [:active_subscription])
+    json = super(only: [:id, :name, :email, :external_id], methods: [:active_subscription, :confirmed?])
     json["subscription"] = json.delete("active_subscription")
 
     json

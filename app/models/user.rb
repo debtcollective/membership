@@ -86,7 +86,7 @@ class User < ApplicationRecord
   end
 
   def confirmed?
-    confirmed_at.present?
+    external_id.present?|| confirmed_at.present?
   end
 
   def current_streak
