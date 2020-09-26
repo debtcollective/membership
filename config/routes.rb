@@ -36,7 +36,7 @@ Rails.application.routes.draw do
 
   get "/users/current" => "users#current", :constraints => {format: "json"}
 
-  resources :user_confirmations, only: %i[show create] do
+  resources :user_confirmations, only: %i[index create] do
     post "/confirm" => "user_confirmations#confirm", :on => :collection
   end
 

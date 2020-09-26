@@ -34,5 +34,9 @@ FactoryBot.define do
         FactoryBot.create(:subscription, user: user)
       end
     end
+
+    factory :user_with_confirmation_token do
+      confirmation_token { SecureRandom.hex(20) }
+    end
   end
 end

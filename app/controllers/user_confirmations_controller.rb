@@ -2,42 +2,51 @@
 
 class UserConfirmationsController < ApplicationController
   layout "minimal"
-  before_action :authenticate_user!, only: :create
 
-  # GET /users/confirmation?confirmation_token=abcdef
-  def show
+  # GET /user_confirmations?confirmation_token=abcdef
+  def index
     @confirmation_token = params[:confirmation_token]
     @user = User.find_by_confirmation_token(@confirmation_token)
 
     respond_to do |format|
-      format.html { render :show }
+      if @user
+        format.html { render :index, status: :ok }
+      else
+        format.html { render :index, status: :not_found }
+      end
     end
   end
 
-  # POST /users/confirmation
+  # POST /user_confirmations
   def create
-    user = User.send_confirmation_instructions(email: current_user.email || params[:email])
+    user = User.send_confirmation_instructions(email: current_user&.email || params[:email])
 
-    if user.errors.empty?
-      format.json { render json: {status: "success", message: "Confirmation email sent"}, status: :ok }
-    else
-      format.json { render json: {status: "failed", message: "Invalid confirmation token"}, status: :not_found }
+    respond_to do |format|
+      if user.errors.empty?
+        format.json { render json: {status: "success", message: "Confirmation email sent"}, status: :ok }
+      else
+        format.json { render json: {status: "failed", message: "Invalid confirmation token"}, status: :not_found }
+      end
     end
   end
 
-  # POST /users/confirmation/confirm
+  # POST /user_confirmations/confirm
   def confirm
     @user = User.confirm_by_token(user_confirmation_params[:confirmation_token])
     @user_confirmed = @user.errors.empty?
 
-    if @user_confirmed
-      format.html { render :confirm, notice: "Email confirmed" }
-      format.json { render json: {status: "success", message: "Email confirmed"}, status: :ok }
-    else
-      format.html { render :confirm, notice: "Invalid confirmation token" }
-      format.json { render json: {status: "failed", message: "Invalid confirmation token"}, status: :not_found }
+    respond_to do |format|
+      if @user_confirmed
+        format.html { render :confirm, notice: "Email confirmed", status: :ok }
+        format.json { render json: {status: "success", message: "Email confirmed"}, status: :ok }
+      else
+        format.html { render :confirm, notice: "Invalid confirmation token", status: :not_found }
+        format.json { render json: {status: "failed", message: "Invalid confirmation token"}, status: :not_found }
+      end
     end
   end
+
+  private
 
   def user_confirmation_params
     params.require(:user_confirmation).permit(:confirmation_token)

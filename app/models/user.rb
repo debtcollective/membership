@@ -59,10 +59,23 @@ class User < ApplicationRecord
     if user
       confirmation_token = user.confirmation_token || SecureRandom.hex(20)
       user.update_attributes(confirmation_token: confirmation_token, confirmation_sent_at: DateTime.now)
-      UserMailer.confirmation_mail(user: user).deliver_later
+      UserMailer.confirmation_email(user: user).deliver_later
     else
       user = User.new
       user.errors.add(:base, "User not found")
+    end
+
+    user
+  end
+
+  def self.confirm_by_token(confirmation_token)
+    user = User.find_by_confirmation_token(confirmation_token)
+
+    if user
+      user.update_attributes(confirmation_token: nil, confirmed_at: DateTime.now)
+    else
+      user = User.new
+      user.errors.add(:base, "Invalid confirmation token")
     end
 
     user
@@ -73,7 +86,7 @@ class User < ApplicationRecord
   end
 
   def confirmed?
-    user.confirmed_at.present?
+    confirmed_at.present?
   end
 
   def current_streak
