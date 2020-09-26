@@ -53,12 +53,12 @@ class User < ApplicationRecord
     [user, new_record]
   end
 
-  def self.send_confirmation_instructions(attributes = {})
-    user = User.find_by_email(attributes[:email])
+  def self.send_confirmation_instructions(email:)
+    user = User.find_by_email(email)
 
     if user
       confirmation_token = user.confirmation_token || SecureRandom.hex(20)
-      user.update_attributes(confirmation_token: confirmation_token, confirmation_sent_at: DateTime.now)
+      user.update(confirmation_token: confirmation_token, confirmation_sent_at: DateTime.now)
       UserMailer.confirmation_email(user: user).deliver_later
     else
       user = User.new
@@ -72,7 +72,7 @@ class User < ApplicationRecord
     user = User.find_by_confirmation_token(confirmation_token)
 
     if user
-      user.update_attributes(confirmation_token: nil, confirmed_at: DateTime.now)
+      user.update(confirmation_token: nil, confirmed_at: DateTime.now)
     else
       user = User.new
       user.errors.add(:base, "Invalid confirmation token")

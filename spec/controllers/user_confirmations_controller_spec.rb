@@ -46,12 +46,15 @@ RSpec.describe UserConfirmationsController, type: :controller do
     it "confirms user email if token is valid" do
       user = FactoryBot.create(:user_with_confirmation_token)
 
+      expect(LinkDiscourseAccountJob).to receive_message_chain(:perform_later)
+
       post :confirm, params: {user_confirmation: {confirmation_token: user.confirmation_token}}
       user.reload
 
       expect(response.status).to eq(200)
       expect(user.confirmed_at).to be_within(1.second).of DateTime.now
       expect(user.confirmed?).to eq(true)
+      expect(user.confirmation_token).to be_nil
     end
 
     it "returns not found if token is invalid" do

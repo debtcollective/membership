@@ -37,6 +37,9 @@ class UserConfirmationsController < ApplicationController
 
     respond_to do |format|
       if @user_confirmed
+        # run the Discourse link account job to fetch and link with a Discourse account
+        LinkDiscourseAccountJob.perform_later(@user)
+
         format.html { render :confirm, notice: "Email confirmed", status: :ok }
         format.json { render json: {status: "success", message: "Email confirmed"}, status: :ok }
       else

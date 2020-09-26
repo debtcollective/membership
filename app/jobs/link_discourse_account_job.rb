@@ -6,13 +6,22 @@ class LinkDiscourseAccountJob < ApplicationJob
   def perform(user)
     discourse = DiscourseService.new(user)
 
+    # If user has external_id, skip
+    return if user.external_id
+
     # Find Discourse User
     discourse_user = discourse.find_user_by_email
 
     # If there's a Discourse user, send verification email
     if discourse_user
-      # TODO: implement verification email to link a membership with a Discourse account
-      user.update(external_id: discourse_user["id"])
+      # and the user confirmed the email, set external_id
+      if user.confirmed?
+        user.update(external_id: discourse_user["id"])
+      else
+        # send verification email
+        User.send_confirmation_instructions(email: user.email)
+      end
+
       return
     end
 
