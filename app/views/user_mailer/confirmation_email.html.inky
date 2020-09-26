@@ -11,8 +11,9 @@
       <spacer size="12"></spacer>
 
       <button
-        href="<%= user_confirmation_url(confirmation_token: @confirmation_token) %>"
-        class="large expanded"
+        target="_blank"
+        href="<%= confirm_user_confirmations_url(confirmation_token: @confirmation_token) %>"
+        class="expanded"
       >
         Confirm your email
       </button>

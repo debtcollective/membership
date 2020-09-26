@@ -6,4 +6,10 @@ class UserMailerPreview < ActionMailer::Preview
 
     UserMailer.welcome_email(user: @user)
   end
+
+  def confirmation_email
+    @user = User.new(name: "Betsy DeVos", email: "betsy.devos@ed.gov", confirmation_token: SecureRandom.hex(20))
+
+    UserMailer.confirmation_email(user: @user)
+  end
 end

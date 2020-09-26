@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class UserConfirmationsController < ApplicationController
+  layout "minimal"
   before_action :authenticate_user!, only: :create
 
   # GET /users/confirmation?confirmation_token=abcdef
