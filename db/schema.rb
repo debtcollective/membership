@@ -129,9 +129,9 @@ ActiveRecord::Schema.define(version: 2020_09_25_234657) do
     t.bigint "external_id"
     t.string "name"
     t.string "username"
-    t.string "email_confirmation_token"
-    t.datetime "email_confirmed_at"
-    t.datetime "email_confirmation_sent_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

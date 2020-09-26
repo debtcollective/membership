@@ -4,21 +4,21 @@
 #
 # Table name: users
 #
-#  id                         :bigint           not null, primary key
-#  admin                      :boolean          default(FALSE)
-#  avatar_url                 :string
-#  banned                     :boolean          default(FALSE)
-#  custom_fields              :jsonb
-#  email                      :string
-#  email_confirmation_sent_at :datetime
-#  email_confirmation_token   :string
-#  email_confirmed_at         :datetime
-#  name                       :string
-#  username                   :string
-#  created_at                 :datetime         not null
-#  updated_at                 :datetime         not null
-#  external_id                :bigint
-#  stripe_id                  :string
+#  id                   :bigint           not null, primary key
+#  admin                :boolean          default(FALSE)
+#  avatar_url           :string
+#  banned               :boolean          default(FALSE)
+#  confirmation_sent_at :datetime
+#  confirmation_token   :string
+#  confirmed_at         :datetime
+#  custom_fields        :jsonb
+#  email                :string
+#  name                 :string
+#  username             :string
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  external_id          :bigint
+#  stripe_id            :string
 #
 class User < ApplicationRecord
   include ActionView::Helpers::DateHelper
@@ -53,8 +53,27 @@ class User < ApplicationRecord
     [user, new_record]
   end
 
+  def self.send_confirmation_instructions(attributes = {})
+    user = User.find_by_email(attributes[:email])
+
+    if user
+      confirmation_token = user.confirmation_token || SecureRandom.hex(20)
+      user.update_attributes(confirmation_token: confirmation_token, confirmation_sent_at: DateTime.now)
+      UserMailer.confirmation_mail(user: user).deliver_later
+    else
+      user = User.new
+      user.errors.add(:base, "User not found")
+    end
+
+    user
+  end
+
   def admin?
     !!admin
+  end
+
+  def confirmed?
+    user.confirmed_at.present?
   end
 
   def current_streak
