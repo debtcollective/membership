@@ -18,7 +18,7 @@ class LinkDiscourseAccountJob < ApplicationJob
       if user.confirmed?
         user.update(external_id: discourse_user["id"])
       else
-        # send verification email
+        # send confirmation email
         User.send_confirmation_instructions(email: user.email)
       end
 

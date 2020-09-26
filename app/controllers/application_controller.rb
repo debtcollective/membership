@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :logged_in?
 
   def current_user
-    @current_user ||= SessionProvider.new(cookies).current_user
+    @current_user ||= SessionProvider.new(cookies, session).current_user
   rescue JWT::VerificationError => e
     # TODO: logout user with invalid session
     Raven.capture_exception(e)

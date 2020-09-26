@@ -15,8 +15,13 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if subscription.persisted?
+        user = subscription.user
+
         # send welcome email
-        UserMailer.welcome_email(user: subscription.user).deliver_later
+        UserMailer.welcome_email(user: user).deliver_later
+
+        # create temporary session
+        session[:user_id] = user.id
 
         message = I18n.t(
           "subscription.alerts.success"
