@@ -83,7 +83,7 @@ RSpec.describe SubscriptionsController, type: :controller do
       expect(parsed_body["errors"]["amount"]).to eq(["must be greater than or equal to 5"])
     end
 
-    it "creates a User and a Subscription if there's no current_user" do
+    it "creates a User and a Subscription if there's no current_user and sets the session" do
       expect(UserMailer).to receive_message_chain(:welcome_email, :deliver_later)
 
       expect(User.count).to eq(0)
@@ -105,6 +105,8 @@ RSpec.describe SubscriptionsController, type: :controller do
       expect(subscription.active).to eq(true)
       expect(subscription.amount).to eq(23)
       expect(subscription.last_charge_at).to be_within(2.second).of DateTime.now
+
+      expect(session[:user_id]).to eq(user.id)
 
       expect(donation.donation_type).to eq(Donation::DONATION_TYPES[:subscription])
       expect(donation.amount).to eq(23)
