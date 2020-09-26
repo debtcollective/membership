@@ -53,23 +53,35 @@ RSpec.describe User, type: :model do
 
       user, new_record = User.find_or_create_from_sso(payload)
 
-      expect(new_record).to eql(true)
-      expect(user.persisted?).to eql(true)
-      expect(user.external_id).to eql(payload["external_id"])
-      expect(user.custom_fields).to eql(payload["custom_fields"])
+      expect(new_record).to eq(true)
+      expect(user.persisted?).to eq(true)
+      expect(user.external_id).to eq(payload["external_id"])
     end
 
-    it "returns existing user if exists" do
+    it "returns existing user by external_id" do
       payload = JSON.parse(file_fixture("jwt_sso_payload.json").read)
       external_id = payload["external_id"]
-      User.create(external_id: external_id)
+      FactoryBot.create(:user, external_id: external_id)
 
       user, new_record = User.find_or_create_from_sso(payload)
 
-      expect(new_record).to eql(false)
-      expect(user.persisted?).to eql(true)
-      expect(user.external_id).to eql(external_id)
-      expect(user.custom_fields).to eql(payload["custom_fields"])
+      expect(new_record).to eq(false)
+      expect(user.persisted?).to eq(true)
+      expect(user.external_id).to eq(external_id)
+    end
+
+    it "returns existing user by email when external_id is nil" do
+      payload = JSON.parse(file_fixture("jwt_sso_payload.json").read)
+      external_id = payload["external_id"]
+      email = payload["email"]
+      FactoryBot.create(:user, email: email, external_id: nil)
+
+      user, new_record = User.find_or_create_from_sso(payload)
+
+      expect(new_record).to eq(false)
+      expect(user.persisted?).to eq(true)
+      expect(user.email).to eq(email)
+      expect(user.external_id).to eq(external_id)
     end
   end
 
