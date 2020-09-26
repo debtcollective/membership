@@ -3,14 +3,14 @@
 class SessionsController < ApplicationController
   def login
     query_string = redirect_params.to_query
-    url = "#{ENV['DISCOURSE_LOGIN_URL']}?#{query_string}"
+    url = "#{ENV["DISCOURSE_LOGIN_URL"]}?#{query_string}"
 
     redirect_to url
   end
 
   def signup
     query_string = redirect_params.to_query
-    url = "#{ENV['DISCOURSE_SIGNUP_URL']}?#{query_string}"
+    url = "#{ENV["DISCOURSE_SIGNUP_URL"]}?#{query_string}"
 
     redirect_to url
   end
