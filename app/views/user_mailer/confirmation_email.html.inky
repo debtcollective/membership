@@ -12,7 +12,7 @@
 
       <button
         target="_blank"
-        href="<%= confirm_user_confirmations_url(confirmation_token: @confirmation_token) %>"
+        href="<%= user_confirmations_url(confirmation_token: @confirmation_token) %>"
         class="expanded"
       >
         Confirm your email

@@ -50,7 +50,7 @@ RSpec.describe MembershipService, type: :service do
   describe ".execute" do
     let(:user) { FactoryBot.create(:user) }
 
-    it "creates a subscription" do
+    it "creates a subscription and updates user custom_fields" do
       params = valid_params.merge({
         stripe_token: stripe_helper.generate_card_token
       })
@@ -67,6 +67,11 @@ RSpec.describe MembershipService, type: :service do
 
       expect(subscription.active).to eq(true)
       expect(subscription.amount).to eq(10)
+
+      user.reload
+
+      expect(user.custom_fields["address_city"]).to eq(params[:address_city])
+      expect(user.custom_fields["address_zip"]).to eq(params[:address_zip])
     end
 
     it "creates a user if not provided" do

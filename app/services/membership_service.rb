@@ -45,7 +45,11 @@ class MembershipService
     return Subscription.new, errors unless valid?
 
     # find or create user if no user was provided
-    @user ||= find_or_create_user
+    if user.nil?
+      @user = find_or_create_user
+    else
+      update_user_profile(user)
+    end
 
     # validate active subscription
     if Subscription.exists?(user_id: user.id, active: true)
@@ -140,19 +144,25 @@ class MembershipService
 
   def find_or_create_user
     User.find_or_create_by(email: email) do |user|
-      user.name = name
-      user.custom_fields = {
-        address_city: address_city,
-        address_country: ISO3166::Country[address_country_code].name,
-        address_country_code: address_country_code,
-        address_line1: address_line1,
-        address_zip: address_zip,
-        chapter: chapter,
-        email: email,
-        name: name,
-        phone_number: phone_number
-      }
+      update_user_profile(user)
     end
+  end
+
+  def update_user_profile(user = self.user)
+    user.name = name
+    user.custom_fields = {
+      address_city: address_city,
+      address_country: ISO3166::Country[address_country_code].name,
+      address_country_code: address_country_code,
+      address_line1: address_line1,
+      address_zip: address_zip,
+      chapter: chapter,
+      email: email,
+      name: name,
+      phone_number: phone_number
+    }
+
+    user.save
   end
 
   def find_or_create_stripe_customer

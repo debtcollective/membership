@@ -27,10 +27,9 @@ class User < ApplicationRecord
     admin
     avatar_url
     banned
-    custom_fields
     email
-    name
     username
+    external_id
   ].freeze
 
   has_many :subscriptions
@@ -38,15 +37,23 @@ class User < ApplicationRecord
   has_many :user_plan_changes
 
   def self.find_or_create_from_sso(payload)
+    email = payload.fetch("email")
     external_id = payload.fetch("external_id")
 
-    user = User.find_or_initialize_by(external_id: external_id)
-    new_record = user.new_record?
+    # find by email when the external_id is nil
+    # this is the case when the user comes here for the first time
+    # after creating a Discourse account and having a valid session
+    user = User.find_by(email: email, external_id: nil)
+
+    # if no user is found, we try to do find a user external_id
+    user ||= User.find_or_initialize_by(external_id: external_id)
 
     # Update SSO fields
     SSO_ATTRIBUTES.each do |sso_attribute|
       user[sso_attribute] = payload[sso_attribute]
     end
+
+    new_record = user.new_record?
 
     user.save
 
@@ -86,7 +93,7 @@ class User < ApplicationRecord
   end
 
   def confirmed?
-    external_id.present?|| confirmed_at.present?
+    external_id.present? || confirmed_at.present?
   end
 
   def current_streak
