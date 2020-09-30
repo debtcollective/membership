@@ -56,31 +56,6 @@
               >Community</a
             >
           </li>
-          <% if @current_user && @current_user.admin? %>
-          <li>
-            <%= link_to "Admin", admin_dashboard_path, data: { turbolinks: false
-            } %>
-          </li>
-          <% end %>
-        </ul>
-        <ul class="buttons">
-          <% if @current_user %>
-          <li>
-            <%= link_to "My Account", user_path(@current_user), class: "button
-            primary", data: { turbolinks: false } %>
-          </li>
-          <% else %>
-          <li>
-            <a href="<%= login_path %>" class="button secondary" rel="nofollow"
-              >Log In</a
-            >
-          </li>
-          <li>
-            <a href="<%= signup_path %>" class="button primary" rel="nofollow"
-              >Sign Up</a
-            >
-          </li>
-          <% end %>
         </ul>
       </nav>
     </header>
