@@ -25,16 +25,7 @@ Rails.application.routes.draw do
   end
 
   get "/admin", to: redirect("/admin/dashboard")
-
   get "/users/current" => "users#current", :constraints => {format: "json"}
-
-  resources :users, only: %i[show new edit update create destroy] do
-    get "/subscription" => "users#subscription", :as => :current_subscription
-    get "/donations" => "users#donation_history", :as => :latest_donations
-    resource :streak, only: %i[show]
-    resource :subscription, only: %i[destroy]
-    resources :plan_changes, only: %i[index create]
-  end
 
   resources :user_confirmations, only: %i[index create] do
     post "/confirm" => "user_confirmations#confirm", :on => :collection

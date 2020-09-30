@@ -38,8 +38,10 @@ class CurrentUser < Delegator
     !!@payload["active"]
   end
 
-  def as_json
-    json = super(only: [:id, :name, :email, :external_id], methods: [:active_subscription, :confirmed?])
+  def as_json(options = {})
+    options[:only] = [:id, :name, :email, :external_id]
+    options[:methods] = [:active_subscription, :confirmed?]
+    json = super(options)
     json["confirmed"] = json.delete("confirmed?")
     json["subscription"] = json.delete("active_subscription")
 
