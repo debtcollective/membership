@@ -4,14 +4,12 @@ require "sidekiq/web"
 require "sidekiq-scheduler/web"
 
 Rails.application.routes.draw do
-  get "/card/new" => "billings#new_card", :as => :add_payment_method
-  post "/card" => "billings#create_card", :as => :create_payment_method
+  get "/admin", to: redirect("/admin/dashboard")
 
-  get "/thank-you" => "static_pages#thank_you"
+  get "/users/current" => "users#current", :constraints => {format: "json"}
 
   resources :subscriptions, only: %i[create]
-  resources :charges,
-    only: %i[new create], path: "donate", path_names: {new: ""}
+  resources :charges, only: %i[create]
 
   namespace :admin do
     get "/dashboard" => "dashboard#index"
@@ -22,15 +20,9 @@ Rails.application.routes.draw do
     resources :donations, only: %i[index show]
   end
 
-  get "/admin", to: redirect("/admin/dashboard")
-  get "/users/current" => "users#current", :constraints => {format: "json"}
-
   resources :user_confirmations, only: %i[index create] do
     post "/confirm" => "user_confirmations#confirm", :on => :collection
   end
-
-  get "/login" => "sessions#login"
-  get "/signup" => "sessions#signup"
 
   if Rails.env.production?
     mount Sidekiq::Web => "/sidekiq",
@@ -39,5 +31,5 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => "/sidekiq"
   end
 
-  root "static_pages#home"
+  root to: "application#redirect_to_home_page"
 end
