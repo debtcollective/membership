@@ -24,6 +24,29 @@ FactoryBot.define do
     active { true }
     amount { (5..100).to_a.sample }
     user
-    plan
+
+    factory :subscription_with_donation do
+      after(:create) do |subscription|
+        donation = FactoryBot.create(:donation, subscription: subscription, amount: subscription.amount.to_i)
+
+        subscription.update(last_charge_at: donation.created_at)
+      end
+    end
+
+    factory :subscription_overdue do
+      last_charge_at { (Subscription::SUBSCRIPTION_PERIOD + 1.day).ago }
+
+      after(:create) do |subscription|
+        FactoryBot.create(:donation, subscription: subscription, amount: subscription.amount.to_i, created_at: subscription.last_charge_at)
+      end
+    end
+
+    factory :subscription_beyond_grace_period do
+      last_charge_at { (Subscription::SUBSCRIPTION_PERIOD + Subscription::GRACE_PERIOD + 1.day).ago }
+
+      after(:create) do |subscription|
+        FactoryBot.create(:donation, subscription: subscription, amount: subscription.amount.to_i, created_at: subscription.last_charge_at)
+      end
+    end
   end
 end

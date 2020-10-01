@@ -4,47 +4,98 @@ require "rails_helper"
 require "stripe_mock"
 
 RSpec.describe SubscriptionPaymentJob, type: :job do
-  let!(:subscription) { FactoryBot.create(:subscription) }
-  let(:user) { subscription.user }
-  let(:plan) { subscription.plan }
   let(:stripe_helper) { StripeMock.create_test_helper }
   before { StripeMock.start }
   after { StripeMock.stop }
 
-  subject(:job) { described_class.perform_later(subscription) }
+  context "queue" do
+    let(:subscription) { FactoryBot.create(:subscription) }
+    subject(:job) { described_class.perform_later(subscription) }
 
-  it "queues the job" do
-    expect { job }
-      .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by(1)
-  end
+    it "queues the job" do
+      expect { job }
+        .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by(1)
+    end
 
-  it "is in default queue" do
-    expect(SubscriptionPaymentJob.new.queue_name).to eq("default")
+    it "is in default queue" do
+      expect(SubscriptionPaymentJob.new.queue_name).to eq("default")
+    end
   end
 
   describe "#perform" do
-    it "charges correctly if customer has a valid card" do
-      _really_old_donation = FactoryBot.create(:donation, user: user, amount: plan.amount, donation_type: Donation::DONATION_TYPES[:subscription], created_at: 5.months.ago)
-      _old_donation = FactoryBot.create(:donation, user: user, amount: plan.amount, donation_type: Donation::DONATION_TYPES[:subscription], created_at: 1.month.ago)
+    context "happy" do
+      let(:user) { FactoryBot.create(:user) }
 
-      expect(Donation.count).to eq(2)
+      it "charges subscription if last_charge_at is null" do
+        subscription = FactoryBot.create(:subscription, user: user, amount: 25)
 
-      perform_enqueued_jobs { job }
+        perform_enqueued_jobs { SubscriptionPaymentJob.perform_later(subscription) }
 
-      expect(Donation.count).to eq(3)
-      expect(subscription.reload.last_charge_at.to_i).to be_within(100).of(DateTime.now.to_i)
+        subscription.reload
+        donation = subscription.donations.last
+
+        expect(subscription.donations.count).to eq(1)
+        expect(donation.amount).to eq(subscription.amount)
+        expect(subscription.last_charge_at.to_i).to be_within(100).of(DateTime.now.to_i)
+      end
+
+      it "charges subscription if it's overdue" do
+        subscription = FactoryBot.create(:subscription_overdue, user: user, amount: 25)
+
+        expect(subscription.overdue?).to eq(true)
+
+        perform_enqueued_jobs { SubscriptionPaymentJob.perform_later(subscription) }
+
+        subscription.reload
+        donation = subscription.donations.last
+
+        expect(subscription.beyond_grace_period?).to eq(false)
+        expect(subscription.donations.count).to eq(2)
+        expect(donation.amount).to eq(subscription.amount)
+        expect(subscription.last_charge_at.to_i).to be_within(100).of(DateTime.now.to_i)
+      end
     end
 
-    it "charges subscription.amount instead of plan.amount if plan is missing" do
-      user = FactoryBot.create(:user)
-      subscription = FactoryBot.create(:subscription, plan: nil, user: user, amount: 12, last_charge_at: 31.days.ago)
+    context "error" do
+      let(:user) { FactoryBot.create(:user) }
 
-      expect(user.donations.count).to eq(0)
+      it "raises error if trying to charge a non overdue subscription" do
+        subscription = FactoryBot.create(:subscription_with_donation, user: user, amount: 25)
 
-      perform_enqueued_jobs { SubscriptionPaymentJob.perform_later(subscription) }
+        expect(subscription.overdue?).to eq(false)
 
-      expect(user.donations.count).to eq(1)
-      expect(user.donations.first.amount).to eq(subscription.amount)
+        expect { SubscriptionPaymentJob.perform_now(subscription) }.to raise_error(SubscriptionNotOverdueError)
+      end
+
+      it "doesn't disable subscription if charge fails beyond grace period" do
+        subscription = FactoryBot.create(:subscription_overdue, user: user, amount: 25)
+
+        expect(subscription.active?).to eq(true)
+        expect(subscription.overdue?).to eq(true)
+
+        StripeMock.prepare_card_error(:card_declined)
+
+        perform_enqueued_jobs { SubscriptionPaymentJob.perform_later(subscription) }
+        subscription.reload
+
+        expect(subscription.active?).to eq(true)
+        expect(subscription.overdue?).to eq(true)
+      end
+
+      it "disables subscription if charge fails beyond grace period" do
+        subscription = FactoryBot.create(:subscription_beyond_grace_period, user: user, amount: 25)
+
+        expect(subscription.active?).to eq(true)
+        expect(subscription.beyond_grace_period?).to eq(true)
+
+        StripeMock.prepare_card_error(:card_declined)
+
+        perform_enqueued_jobs { SubscriptionPaymentJob.perform_later(subscription) }
+        subscription.reload
+
+        expect(subscription.active?).to eq(false)
+        expect(subscription.beyond_grace_period?).to eq(true)
+      end
     end
   end
 
