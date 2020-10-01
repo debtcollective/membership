@@ -84,22 +84,4 @@ RSpec.describe User, type: :model do
       expect(user.external_id).to eq(external_id)
     end
   end
-
-  describe ".current_streak" do
-    it "returns nil if user doesn't have an active subscription" do
-      expect(user.current_streak).to be_nil
-    end
-
-    it "returns 1 if user has less than one month with an active subscription" do
-      FactoryBot.create(:subscription, active: true, user: user)
-
-      expect(user.current_streak).to eq(1)
-    end
-
-    it "returns the number of months the user has with an active subscription" do
-      FactoryBot.create(:subscription, active: true, user: user, start_date: Date.today.months_ago(3))
-
-      expect(user.current_streak).to eq(3)
-    end
-  end
 end
