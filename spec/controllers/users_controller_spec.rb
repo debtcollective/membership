@@ -3,19 +3,6 @@
 require "rails_helper"
 
 RSpec.describe UsersController, type: :controller do
-  let(:valid_session) { {} }
-
-  describe "GET #show" do
-    it "returns a success response" do
-      user = FactoryBot.create(:user)
-      allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
-
-      get :show, params: {id: user.to_param}, session: valid_session
-
-      expect(response.status).to eq(200)
-    end
-  end
-
   describe "GET #current" do
     before(:each) do
       request.accept = "application/json"
