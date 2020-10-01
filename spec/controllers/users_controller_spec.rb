@@ -19,6 +19,8 @@ RSpec.describe UsersController, type: :controller do
       user = FactoryBot.create(:user)
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
 
+      binding.pry
+
       get :current
       json = JSON.parse(response.body)
 
