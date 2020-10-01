@@ -10,8 +10,6 @@ Rails.application.routes.draw do
   get "/thank-you" => "static_pages#thank_you"
 
   resources :subscriptions, only: %i[create]
-  resources :subscription_charges, only: %i[new edit create update]
-  resources :billings, only: %i[new create]
   resources :charges,
     only: %i[new create], path: "donate", path_names: {new: ""}
 
