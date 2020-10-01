@@ -27,6 +27,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def redirect_to_home_page
+    redirect_to ENV["HOME_PAGE_URL"]
+  end
+
   private
 
   def set_raven_context

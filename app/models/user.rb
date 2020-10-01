@@ -96,22 +96,6 @@ class User < ApplicationRecord
     external_id.present? || confirmed_at.present?
   end
 
-  def current_streak
-    subscription = active_subscription
-
-    return nil unless subscription
-
-    start_date = subscription.start_date
-    today = Date.today
-
-    months =
-      (today.year * 12 + today.month) -
-      (start_date.year * 12 + start_date.month)
-    months += 1 if months == 0
-
-    months
-  end
-
   def pending_plan_change
     @pending_plan_change ||= user_plan_changes.where(status: :pending).first
   end

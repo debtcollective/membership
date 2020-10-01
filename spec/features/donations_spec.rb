@@ -28,13 +28,7 @@ describe "Donations", type: :feature do
 
     it "allows going through the flow and donate successfully" do
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
-      visit "/"
-      expect(page).to_not have_content("Log In") # checking user is logged in
-      expect(page).to have_content("Pay what you can")
-
-      click_link "one-time-donation"
-
-      expect(page).to have_content(I18n.t("charge.new.title"))
+      visit "/donate"
 
       within "#payment-form" do
         fill_stripe_elements(card: "4242424242424242")
@@ -56,13 +50,7 @@ describe "Donations", type: :feature do
 
     it "fails when trying to donate less than $5" do
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
-      visit "/"
-      expect(page).to_not have_content("Log In") # checking user is logged in
-      expect(page).to have_content("Pay what you can")
-
-      click_link "one-time-donation"
-
-      expect(page).to have_content(I18n.t("charge.new.title"))
+      visit "/donate"
 
       within "#payment-form" do
         fill_stripe_elements(card: "4242424242424242")
@@ -76,13 +64,7 @@ describe "Donations", type: :feature do
 
     it "notifies when the transaction was declined" do
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
-      visit "/"
-      expect(page).to_not have_content("Log In") # checking user is logged in
-      expect(page).to have_content("Pay what you can")
-
-      click_link "one-time-donation"
-
-      expect(page).to have_content(I18n.t("charge.new.title"))
+      visit "/donate"
 
       within ".one-time-donation" do
         fill_stripe_elements(card: "4000000000000002")
@@ -105,9 +87,7 @@ describe "Donations", type: :feature do
     it "donates to a specific fund from the list" do
       other_fund = FactoryBot.create(:fund, name: "Other Fund")
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
-
       visit "/donate"
-      expect(page).to have_content(I18n.t("charge.new.title"))
 
       funds = Fund.all
       funds.each { |fund| expect(page).to have_content(fund.name) }
@@ -137,13 +117,7 @@ describe "Donations", type: :feature do
   context "as anonymous", js: true do
     it "allows going through the flow and prompts for a user account creation" do
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(nil)
-      visit "/"
-      expect(page).to have_content("Log In") # checking user is logged in
-      expect(page).to have_content("Pay what you can")
-
-      click_link "one-time-donation"
-
-      expect(page).to have_content(I18n.t("charge.new.title"))
+      visit "/donate"
 
       within ".one-time-donation" do
         fill_stripe_elements(card: "4242424242424242")
@@ -165,13 +139,7 @@ describe "Donations", type: :feature do
 
     it "notifies when the transaction was declined", js: true do
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(nil)
-      visit "/"
-      expect(page).to have_content("Log In") # checking user is logged in
-      expect(page).to have_content("Pay what you can")
-
-      click_link "one-time-donation"
-
-      expect(page).to have_content(I18n.t("charge.new.title"))
+      visit "/donate"
 
       within ".one-time-donation" do
         fill_stripe_elements(card: "4000000000000002")
@@ -196,7 +164,6 @@ describe "Donations", type: :feature do
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(nil)
 
       visit "/donate"
-      expect(page).to have_content(I18n.t("charge.new.title"))
 
       funds = Fund.all
       funds.each { |fund| expect(page).to have_content(fund.name) }
