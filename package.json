@@ -55,7 +55,7 @@
     "lint-staged": "10.3.0",
     "prettier": "2.1.1",
     "prettier-standard": "16.4.1",
-    "semantic-release": "17.1.1",
+    "semantic-release": "17.1.2",
     "standard": "14.3.4",
     "webpack-dev-server": "3.11.0"
   },
