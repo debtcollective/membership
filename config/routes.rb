@@ -7,9 +7,10 @@ Rails.application.routes.draw do
   get "/admin", to: redirect("/admin/dashboard")
 
   get "/users/current" => "users#current", :constraints => {format: "json"}
+  get "/thank-you" => "static_pages#thank_you"
 
   resources :subscriptions, only: %i[create]
-  resources :charges, only: %i[create]
+  resources :charges, only: %i[new create], path: "donate", path_names: {new: ""}
 
   namespace :admin do
     get "/dashboard" => "dashboard#index"

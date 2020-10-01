@@ -1,0 +1,6 @@
+<div class="fund-item">
+  <%= f.radio_button(:fund_id, fund.id, id: "fund-#{fund.slug}", checked: checked) %>
+  <label for="<%= "fund-#{fund.slug}"%>">
+    <%= fund.name %>
+  </label>
+</div>
