@@ -29,7 +29,6 @@ describe "Donations", type: :feature do
     it "allows going through the flow and donate successfully" do
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
       visit "/"
-      expect(page).to_not have_content("Log In") # checking user is logged in
       expect(page).to have_content("Pay what you can")
 
       click_link "one-time-donation"
@@ -57,7 +56,6 @@ describe "Donations", type: :feature do
     it "fails when trying to donate less than $5" do
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
       visit "/"
-      expect(page).to_not have_content("Log In") # checking user is logged in
       expect(page).to have_content("Pay what you can")
 
       click_link "one-time-donation"
@@ -77,7 +75,6 @@ describe "Donations", type: :feature do
     it "notifies when the transaction was declined" do
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(user)
       visit "/"
-      expect(page).to_not have_content("Log In") # checking user is logged in
       expect(page).to have_content("Pay what you can")
 
       click_link "one-time-donation"
@@ -138,7 +135,6 @@ describe "Donations", type: :feature do
     it "allows going through the flow and prompts for a user account creation" do
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(nil)
       visit "/"
-      expect(page).to have_content("Log In") # checking user is logged in
       expect(page).to have_content("Pay what you can")
 
       click_link "one-time-donation"
@@ -166,7 +162,6 @@ describe "Donations", type: :feature do
     it "notifies when the transaction was declined", js: true do
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(nil)
       visit "/"
-      expect(page).to have_content("Log In") # checking user is logged in
       expect(page).to have_content("Pay what you can")
 
       click_link "one-time-donation"
