@@ -6,13 +6,9 @@
 </h1>
 
 <h3>
-  <strong>Plan:</strong>
-  <%= @subscription.plan.name %>
+  <strong>Amount:</strong>
+  <%= @subscription.amount %>
 </h3>
-<p>
-  <strong>Plan description:</strong>
-  <%= @subscription.plan.description %>
-</p>
 
 <h3>Donations</h3>
 <% if @donations_history.empty? %>

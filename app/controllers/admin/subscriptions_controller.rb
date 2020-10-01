@@ -2,14 +2,14 @@
 
 class Admin::SubscriptionsController < AdminController
   before_action :set_subscription, only: %i[show edit update destroy]
-  before_action -> { current_page_title('Active Subscriptions Management') }
+  before_action -> { current_page_title("Active Subscriptions Management") }
 
   # GET /admin/subscriptions
   # GET /admin/subscriptions.json
   def index
-    @subscriptions = Subscription.all.collect do |subscription|
-      { id: subscription.id, plan: subscription.plan, user: subscription.user }
-    end
+    @subscriptions = Subscription.includes(:user).all.collect { |subscription|
+      subscription.as_json(methods: [:user, :overdue?, :beyond_grace_period?])
+    }
   end
 
   # GET /admin/subscriptions/1
@@ -35,7 +35,7 @@ class Admin::SubscriptionsController < AdminController
   def update
     respond_to do |format|
       if @subscription.update(subscription_params)
-        format.html { redirect_to admin_subscription_url(@subscription), notice: 'Subscription was successfully updated.' }
+        format.html { redirect_to admin_subscription_url(@subscription), notice: "Subscription was successfully updated." }
         format.json { render :show, status: :ok, location: @subscription }
       else
         format.html { render :edit }
@@ -49,7 +49,7 @@ class Admin::SubscriptionsController < AdminController
   def destroy
     @subscription.destroy
     respond_to do |format|
-      format.html { redirect_to admin_subscriptions_url, notice: 'Subscription was successfully destroyed.' }
+      format.html { redirect_to admin_subscriptions_url, notice: "Subscription was successfully destroyed." }
       format.json { head :no_content }
     end
   end

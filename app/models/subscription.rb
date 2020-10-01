@@ -60,7 +60,10 @@ class Subscription < ApplicationRecord
   end
 
   def beyond_grace_period?
-    overdue? && last_charge_at <= (SUBSCRIPTION_PERIOD + GRACE_PERIOD).ago
+    return false if zero_amount?
+    return true if last_charge_at.nil?
+
+    last_charge_at <= (SUBSCRIPTION_PERIOD + GRACE_PERIOD).ago
   end
 
   def disable!
