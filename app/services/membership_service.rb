@@ -66,13 +66,14 @@ class MembershipService
       # Stripe max length for the phone field is 20
       self.stripe_phone_number = phone_number.truncate(20, omission: "")
       # find or create stripe customer
-      stripe_customer, error = find_or_create_stripe_customer
-      @stripe_customer = stripe_customer
+      @stripe_customer = find_or_create_stripe_customer
 
-      if error
-        Raven.capture_message(error, extra: {user_id: user.id, user_email: user.email})
-
-        errors.add(:base, error)
+      if @stripe_customer.nil?
+        Raven.capture_message("Couldn't find or create Stripe Customer", extra: {
+          user_id: user.id,
+          user_email: user.email,
+          error_message: errors[:base]
+        })
 
         return Subscription.new, errors
       end
@@ -167,30 +168,41 @@ class MembershipService
 
   def find_or_create_stripe_customer
     if (stripe_customer_id = user.stripe_id)
-      Stripe::Customer.retrieve(stripe_customer_id)
+      stripe_customer = Stripe::Customer.retrieve(stripe_customer_id)
 
       # add source to customer
-      Stripe::Customer.create_source(stripe_customer_id,
+      Stripe::Customer.create_source(stripe_customer.id,
         {
           source: stripe_token
         })
 
       # add the new source to Stripe customer
       Stripe::Customer.update(
-        stripe_customer_id,
+        stripe_customer.id,
         {
           source: stripe_token
         }
       )
+
+      stripe_customer
     else
-      [Stripe::Customer.create(email: user.email, source: stripe_token), nil]
+      Stripe::Customer.create(email: user.email, source: stripe_token)
     end
+  # card declined
   rescue Stripe::CardError => e
     Raven.capture_exception(e)
 
     errors.add(:base, e.message)
 
-    [Subscription.new, errors]
+    nil
+  # invalid stripe customer, we try to recreate the stripe customer
+  rescue Stripe::InvalidRequestError => e
+    Raven.capture_exception(e)
+
+    customer = Stripe::Customer.create(email: user.email, source: stripe_token)
+    user.update!(stripe_id: customer.id)
+
+    customer
   end
 
   def link_discourse_account

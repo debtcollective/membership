@@ -28,38 +28,52 @@ export default function SubcriptionsTable ({ subscriptions }) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>User Name</TableCell>
-            <TableCell>Subscription plan</TableCell>
-            <TableCell>Subscription amount</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Email </TableCell>
+            <TableCell>Amount</TableCell>
+            <TableCell>Last Charged At</TableCell>
+            <TableCell>Overdue?</TableCell>
+            <TableCell>Beyond grace period?</TableCell>
             <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>
-          {subscriptions.map(subscription => (
-            <TableRow key={subscription.id}>
-              <TableCell scope='subscription'>
-                {subscription.user ? `${subscription.user.name}` : 'N/A'}
-              </TableCell>
-              <TableCell>{subscription.plan.name}</TableCell>
-              <TableCell>
-                {numeral(subscription.plan.amount).format('$0,0.00')}
-              </TableCell>
-              <TableCell align='right'>
-                <a href={`/admin/subscriptions/${subscription.id}`}>Show</a>{' '}
-                <a href={`/admin/subscriptions/${subscription.id}/edit`}>
-                  Edit
-                </a>{' '}
-                <a
-                  data-confirm='Are you sure?'
-                  rel='nofollow'
-                  data-method='delete'
-                  href={`/admin/subscriptions/${subscription.id}`}
-                >
-                  Delete
-                </a>
-              </TableCell>
-            </TableRow>
-          ))}
+          {subscriptions.map(subscription => {
+            return (
+              <TableRow key={subscription.id}>
+                <TableCell scope='subscription'>
+                  {subscription.user ? `${subscription.user.name}` : 'N/A'}
+                </TableCell>
+                <TableCell scope='subscription'>
+                  {subscription.user ? `${subscription.user.email}` : 'N/A'}
+                </TableCell>
+                <TableCell>
+                  {numeral(subscription.amount).format('$0,0.00')}
+                </TableCell>
+                <TableCell scope='subscription'>
+                  {subscription.last_charge_at}
+                </TableCell>
+                <TableCell>{subscription['overdue?'].toString()}</TableCell>
+                <TableCell>
+                  {subscription['beyond_grace_period?'].toString()}
+                </TableCell>
+                <TableCell align='right'>
+                  <a href={`/admin/subscriptions/${subscription.id}`}>Show</a>{' '}
+                  <a href={`/admin/subscriptions/${subscription.id}/edit`}>
+                    Edit
+                  </a>{' '}
+                  <a
+                    data-confirm='Are you sure?'
+                    rel='nofollow'
+                    data-method='delete'
+                    href={`/admin/subscriptions/${subscription.id}`}
+                  >
+                    Delete
+                  </a>
+                </TableCell>
+              </TableRow>
+            )
+          })}
         </TableBody>
       </Table>
     </Paper>

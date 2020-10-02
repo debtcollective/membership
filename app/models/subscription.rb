@@ -20,13 +20,23 @@
 #  index_subscriptions_on_user_id  (user_id)
 #
 class Subscription < ApplicationRecord
+  GRACE_PERIOD = 7.days
+  SUBSCRIPTION_PERIOD = 1.month
+
   before_create :store_start_date
 
-  belongs_to :plan, optional: true
   belongs_to :user, optional: true
+  belongs_to :plan, optional: true
   has_many :donations
 
   validate :only_one_active_subscription, on: :create
+
+  def self.overdue
+    where(active: true).where(
+      "last_charge_at IS NULL OR last_charge_at <= ?",
+      SUBSCRIPTION_PERIOD.ago
+    ).where.not(amount: 0)
+  end
 
   def user?
     !user_id.blank?
@@ -38,11 +48,26 @@ class Subscription < ApplicationRecord
     save
   end
 
-  def self.overdue
-    where(active: true).where(
-      "last_charge_at IS NULL OR last_charge_at <= ?",
-      30.days.ago
-    ).where.not(amount: 0)
+  def zero_amount?
+    amount == 0
+  end
+
+  def overdue?
+    return false if zero_amount?
+    return true if last_charge_at.nil?
+
+    last_charge_at <= SUBSCRIPTION_PERIOD.ago
+  end
+
+  def beyond_grace_period?
+    return false if zero_amount?
+    return true if last_charge_at.nil?
+
+    last_charge_at <= (SUBSCRIPTION_PERIOD + GRACE_PERIOD).ago
+  end
+
+  def disable!
+    update!(active: false) if beyond_grace_period?
   end
 
   private

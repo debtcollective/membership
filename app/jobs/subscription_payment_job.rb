@@ -1,12 +1,22 @@
 # frozen_string_literal: true
 
-class SubscriptionPaymentJob < ApplicationJob
-  GRACE_PERIOD = 7.days
-  SUBSCRIPTION_PERIOD = 1.month
+class SubscriptionNotOverdueError < StandardError
+  def initialize(subscription, msg = "The subscription you are trying to charge is not overdue")
+    @subscription = subscription
+    super(msg)
+  end
 
+  def raven_context
+    {subscription_id: subscription.id}
+  end
+end
+
+class SubscriptionPaymentJob < ApplicationJob
   queue_as :default
 
   def perform(subscription)
+    raise SubscriptionNotOverdueError.new(subscription) unless subscription.overdue?
+
     stripe_charge = create_charge(subscription)
 
     create_donation(subscription, stripe_charge) if stripe_charge
@@ -15,17 +25,10 @@ class SubscriptionPaymentJob < ApplicationJob
   private
 
   def create_charge(subscription)
-    customer = find_stripe_customer(subscription.user)
-    plan = subscription.plan
+    user = subscription.user
+    customer = find_stripe_customer(user)
 
-    # if there's a plan use that amount
-    # if not, use the subscription amount field
-    amount = if plan
-      plan.amount
-    else
-      subscription.amount
-    end.to_i
-
+    amount = subscription.amount.to_i
     amount_in_cents = amount * 100
 
     client = Stripe::StripeClient.new
@@ -35,14 +38,16 @@ class SubscriptionPaymentJob < ApplicationJob
         amount: amount_in_cents,
         description: "Debt Collective membership monthly payment",
         currency: "usd",
-        metadata: {subscription_id: subscription.id, plan_id: plan&.id, amount: amount, user_id: subscription.user_id}
+        metadata: {subscription_id: subscription.id, amount: amount, user_id: user.id}
       )
     }
 
     charge
   rescue Stripe::CardError => e
-    # TODO: Add Sentry log error here.
+    Raven.capture_exception(e)
     disable_subscription(subscription)
+
+    false
   end
 
   def find_stripe_customer(user)
@@ -52,25 +57,21 @@ class SubscriptionPaymentJob < ApplicationJob
       customer = Stripe::Customer.create(email: user.email)
       user.update(stripe_id: customer.id)
     end
+
     customer
   end
 
   def disable_subscription(subscription)
-    if subscription.last_charge_at
-      beyond_grace_period = subscription.last_charge_at >= (SUBSCRIPTION_PERIOD.ago + GRACE_PERIOD.ago)
-      subscription.update(active: false) if beyond_grace_period
-    else
-      subscription.update(active: false)
-    end
+    subscription.disable!
   end
 
   def create_donation(subscription, stripe_charge)
     user = subscription.user
 
-    donation = Donation.new(
+    donation = subscription.donations.new(
       amount: stripe_charge.amount / 100,
       charge_data: JSON.parse(stripe_charge.to_json),
-      customer_stripe_id: subscription.user.stripe_id,
+      customer_stripe_id: user.stripe_id,
       donation_type: Donation::DONATION_TYPES[:subscription],
       status: stripe_charge.status,
       user: user,
