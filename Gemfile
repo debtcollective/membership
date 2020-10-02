@@ -35,7 +35,7 @@ gem 'mini_racer', platforms: :ruby
 gem 'country_select', '~> 4.0'
 
 # Payments
-gem 'stripe', '5.25.0'
+gem 'stripe', '5.26.0'
 
 # Authentication
 gem 'jwt', '~> 2.2.1'
