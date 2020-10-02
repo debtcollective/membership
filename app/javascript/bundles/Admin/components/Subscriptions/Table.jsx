@@ -39,7 +39,6 @@ export default function SubcriptionsTable ({ subscriptions }) {
         </TableHead>
         <TableBody>
           {subscriptions.map(subscription => {
-            console.log(subscription)
             return (
               <TableRow key={subscription.id}>
                 <TableCell scope='subscription'>
