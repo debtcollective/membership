@@ -103,4 +103,30 @@ class User < ApplicationRecord
   def active_subscription
     @active_subscription ||= subscriptions.includes(:plan).where(active: true).last
   end
+
+  def find_or_create_stripe_customer(stripe_token)
+    if stripe_id
+      stripe_customer = Stripe::Customer.retrieve(stripe_id)
+    else
+      stripe_customer = Stripe::Customer.create(email: email, source: stripe_token)
+      update!(stripe_id: stripe_customer.id)
+    end
+
+    stripe_customer
+  rescue Stripe::CardError => e
+    # card declined
+    Raven.capture_exception(e)
+
+    errors.add(:base, e.message)
+
+    nil
+  rescue Stripe::InvalidRequestError => e
+    # invalid stripe customer, we try to recreate it
+    Raven.capture_exception(e)
+
+    stripe_customer = Stripe::Customer.create(email: email, source: stripe_token)
+    update!(stripe_id: stripe_customer.id)
+
+    stripe_customer
+  end
 end
