@@ -84,7 +84,7 @@ group :test do
   gem 'rspec-rails', '4.0.1'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
-  gem 'stripe-ruby-mock', '~> 3.0.0', :require => 'stripe_mock'
+  gem 'stripe-ruby-mock', '3.0.1', :require => 'stripe_mock'
   gem 'timecop', '~> 0.9.1'
   gem 'webdrivers', '4.4.1'
   gem 'webmock', '3.9.1'
