@@ -43,8 +43,6 @@ class DonationService
   def execute
     return Donation.new, errors unless valid?
 
-    # amount needs to be converted to int
-
     # Stripe max length for the phone field is 20
     self.stripe_phone_number = phone_number.truncate(20, omission: "")
 
@@ -52,15 +50,7 @@ class DonationService
   end
 
   def save_donation_with_user
-    customer =
-      Stripe::Customer.create(
-        name: name,
-        email: email,
-        phone: stripe_phone_number,
-        source: stripe_token
-      )
-
-    user.update(stripe_id: customer.id)
+    stripe_customer = user.find_or_create_stripe_customer
 
     # amount needs to be in cents for Stripe
     amount_in_cents = amount * 100
@@ -69,7 +59,7 @@ class DonationService
       Stripe::Charge.create(
         amount: amount_in_cents,
         currency: "usd",
-        customer: customer.id,
+        source: stripe_token,
         description: "One-time contribution."
       )
 
@@ -81,7 +71,7 @@ class DonationService
           charge_id: stripe_charge.id,
           charge_provider: "stripe",
           customer_ip: customer_ip,
-          customer_stripe_id: customer.id,
+          customer_stripe_id: stripe_customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
           fund_id: fund_id,
           status: stripe_charge.status,

@@ -124,7 +124,7 @@ RSpec.describe MembershipService, type: :service do
       expect(donation).to eq(nil)
     end
 
-    it "recreates stripe user if we the stripe_id is invalid" do
+    it "returns an error if stripe customer is invalid" do
       user = FactoryBot.create(:user, stripe_id: "invalid-stripe-id")
 
       params = valid_params.merge({
@@ -134,12 +134,9 @@ RSpec.describe MembershipService, type: :service do
       subscription, errors = MembershipService.new(params, user).execute
       user.reload
 
-      expect(errors.empty?).to eq(true)
-
-      expect(user.stripe_id).not_to eq("invalid-stripe-id")
-      expect(subscription.user).to eq(user)
-      expect(subscription.active).to eq(true)
-      expect(subscription.amount).to eq(10)
+      expect(errors.empty?).to eq(false)
+      expect(subscription.persisted?).to eq(false)
+      expect(errors["base"]).to eq(["No such customer: invalid-stripe-id"])
     end
 
     it "returns error if user has a subscription" do
