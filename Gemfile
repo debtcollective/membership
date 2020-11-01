@@ -78,7 +78,7 @@ group :test do
   gem 'capybara', '~> 3.28'
   gem 'capybara-screenshot', '1.0.24'
   gem 'climate_control', '~> 0.2.0'
-  gem 'codecov', '0.2.11', require: false
+  gem 'codecov', '0.2.12', require: false
   gem 'database_cleaner-active_record', '1.8.0'
   gem 'rspec-mocks', '3.9.1'
   gem 'rspec-rails', '4.0.1'
