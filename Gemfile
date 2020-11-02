@@ -42,7 +42,7 @@ gem 'jwt', '~> 2.2.1'
 gem 'recaptcha', '~> 5.2', '>= 5.2.1'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '1.4.8', require: false
+gem 'bootsnap', '1.5.0', require: false
 
 # Background jobs
 gem 'sidekiq', '6.1.2'
