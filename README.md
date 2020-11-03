@@ -19,15 +19,22 @@ Membership is a simple app for non profit organizations, that allows users to cr
 
 ## Table of contents
 
+- [Table of contents](#table-of-contents)
 - [Getting started](#getting-started)
   - [Setup](#setup)
+  - [Dotenv](#dotenv)
+    - [Stripe](#stripe)
+    - [Google reCAPTCHA](#google-recaptcha)
   - [System dependencies](#system-dependencies)
-  - [Configuration](#configuration)
+  - [Running tests](#running-tests)
   - [User sessions](#user-sessions)
 - [Developer notes](#developer-notes)
   - [Ruby 2.7 deprecations warnings](#ruby-27-deprecations-warnings)
   - [Running Forego](#running-forego)
+  - [Solargraph](#solargraph)
   - [Formatting](#formatting)
+  - [Codecov](#codecov)
+  - [Debugging emails](#debugging-emails)
 
 ## Getting started
 
@@ -45,7 +52,7 @@ rake db:seed # seed database
 forego start
 ```
 
-At this point, you should be able to see the app at http://membership.lvh.me:5000
+At this point, you should be able to see the app at <http://membership.lvh.me:5000>
 
 ### Dotenv
 
@@ -53,11 +60,11 @@ We are using Dotenv to set our environment variables. Once you copy the `.env.sa
 
 #### Stripe
 
-You can get the Stripe keys by registering for a free Stripe account and generating test keys. Here's a link to their Docs on how to obtain these keys https://stripe.com/docs/keys#obtain-api-keys.
+You can get the Stripe keys by registering for a free Stripe account and generating test keys. Here's a link to their Docs on how to obtain these keys <https://stripe.com/docs/keys#obtain-api-keys>.
 
 #### Google reCAPTCHA
 
-In order to obtain this key, you need to go to this address and generate one https://www.google.com/recaptcha/admin/create. Be sure to use the reCAPTCHA V2 and select the I'm not a robot" checkbox option. Also, set the correct domain names the app is running on, these are `membership.lvh.me` and `localhost`.
+In order to obtain this key, you need to go to this address and generate one <https://www.google.com/recaptcha/admin/create>. Be sure to use the reCAPTCHA V2 and select the I'm not a robot" checkbox option. Also, set the correct domain names the app is running on, these are `membership.lvh.me` and `localhost`.
 
 If you need help to get some of these key right or setting this up, please ask other devs for help.
 
@@ -76,7 +83,7 @@ _Note:_ MacOS users can use the [Postgres app](https://postgresapp.com).
 ### Running tests
 
 ```bash
-$ bundle exec rspec
+bundle exec rspec
 ```
 
 ### User sessions

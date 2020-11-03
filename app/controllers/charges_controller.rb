@@ -16,6 +16,14 @@ class ChargesController < ApplicationController
       return render "new" unless verify_recaptcha
     end
 
+    # check if user is a bot using token recaptcha at params[:g-recaptcha-response-data-donation]
+    is_human = verify_recaptcha(action: "donate", minimum_score: 0.5, secret_key: ENV["RECAPTCHA_SECRET_KEY_V3"])
+    # if users is a bot then return error
+    unless is_human
+      error = "Human validation has failed"
+      return render json: {status: "failed", errors: [error]}, status: :unprocessable_entity
+    end
+
     donation_params =
       charge_params.to_h.merge(
         {
