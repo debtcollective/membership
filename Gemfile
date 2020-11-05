@@ -76,7 +76,7 @@ end
 
 group :test do
   gem 'capybara', '~> 3.28'
-  gem 'capybara-screenshot', '1.0.24'
+  gem 'capybara-screenshot', '1.0.25'
   gem 'climate_control', '~> 0.2.0'
   gem 'codecov', '0.2.11', require: false
   gem 'database_cleaner-active_record', '1.8.0'
