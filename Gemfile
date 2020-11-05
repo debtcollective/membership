@@ -10,7 +10,7 @@ if RUBY_VERSION >= '2.7'
   gem 'thwait'
 end
 
-gem 'rails', '6.0.3.3'
+gem 'rails', '6.0.3.4'
 gem 'rake', '13.0.1'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '4.3.6'
