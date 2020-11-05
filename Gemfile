@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}" }
 
-ruby '2.7.1'
+ruby '2.7.2'
 
 # Gems required for running several rails components with RUBY_VERSION >= 2.7
 # Mroe info here https://github.com/moove-it/sidekiq-scheduler/issues/298#issuecomment-573451653
