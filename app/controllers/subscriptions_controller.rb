@@ -12,7 +12,7 @@ class SubscriptionsController < ApplicationController
       )
 
     # check if user is a bot using token recaptcha
-    is_human = verify_recaptcha(action: "membership", minimum_score: 0.5, secret_key: ENV["RECAPTCHA_SECRET_KEY_V3"])
+    is_human = verify_recaptcha(action: "membership", minimum_score: 0.5, secret_key: ENV["RECAPTCHA_V3_SECRET_KEY"])
     # if users is a bot then return error
     unless is_human
       error = "Human validation has failed"
