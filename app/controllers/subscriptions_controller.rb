@@ -11,6 +11,14 @@ class SubscriptionsController < ApplicationController
         }
       )
 
+    # check if user is a bot using token recaptcha
+    is_human = verify_recaptcha(action: "membership", minimum_score: 0.5, secret_key: ENV["RECAPTCHA_V3_SECRET_KEY"])
+    # if users is a bot then return error
+    unless is_human
+      error = "Human validation has failed"
+      return render json: {status: "failed", errors: [error]}, status: :unprocessable_entity
+    end
+
     # We use current_user.user to make sure we are passing the user object and not the wrapper
     # TODO: find a better way to do this.
     subscription, errors = MembershipService.new(service_params, current_user&.user).execute

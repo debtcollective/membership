@@ -24,7 +24,7 @@ class MembershipService
   validates_numericality_of :amount, greater_than_or_equal_to: 5, unless: proc { |service| service.amount == 0 }
   validates :stripe_token, presence: true, unless: proc { |service| service.amount == 0 }
   validates :address_line1, presence: true
-  validates :chapter, inclusion: {in: %w[pennsylvania massachusetts dc chicago]}, allow_blank: true
+  validates :chapter, inclusion: {in: ["pennsylvania", "massachusetts", "dc", "chicago", "san diego"]}, allow_blank: true
   validates :address_city, presence: true
   validates :address_zip, presence: true
   validates :address_country_code,
