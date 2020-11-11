@@ -114,16 +114,6 @@
       stripeHiddenInput.setAttribute('value', token.id);
       form.appendChild(stripeHiddenInput);
 
-      const planId = '<%= @subscription&.plan&.id %>';
-
-      if (planId) {
-        const planHiddenInput = document.createElement('input');
-        planHiddenInput.setAttribute('type', 'hidden');
-        planHiddenInput.setAttribute('name', 'plan_id');
-        planHiddenInput.setAttribute('value', planId);
-        form.appendChild(planHiddenInput);
-      }
-
       // Submit the form
       form.submit();
     }

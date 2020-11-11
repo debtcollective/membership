@@ -11,12 +11,10 @@
 #  start_date     :datetime
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  plan_id        :bigint
 #  user_id        :bigint
 #
 # Indexes
 #
-#  index_subscriptions_on_plan_id  (plan_id)
 #  index_subscriptions_on_user_id  (user_id)
 #
 class Subscription < ApplicationRecord
