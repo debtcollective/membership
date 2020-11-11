@@ -26,8 +26,6 @@ class Admin::SubscriptionsController < AdminController
 
   # GET /admin/subscriptions/1/edit
   def edit
-    plans = Struct.new(:id, :name)
-    @plans = Plan.all.collect { |plan| plans.new(plan[:id], plan[:name]) }
   end
 
   # PATCH/PUT /admin/subscriptions/1
@@ -63,6 +61,6 @@ class Admin::SubscriptionsController < AdminController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def subscription_params
-    params.require(:subscription).permit(:user_id, :plan_id, :active)
+    params.require(:subscription).permit(:user_id, :active)
   end
 end

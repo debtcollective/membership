@@ -21,11 +21,6 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :plan %>
-    <%= form.collection_select(:plan_id, locals[:plans], :id, :name) %>
-  </div>
-
-  <div class="field">
     <%= form.label :active %>
     <%= form.check_box :active %>
   </div>

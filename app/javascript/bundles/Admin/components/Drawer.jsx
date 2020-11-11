@@ -96,12 +96,6 @@ function ResponsiveDrawer (props) {
           </ListItemIcon>
           <ListItemText primary='Subscriptions' />
         </ListItem>
-        <ListItem button component='a' href='/admin/plans'>
-          <ListItemIcon>
-            <BookIcon />
-          </ListItemIcon>
-          <ListItemText primary='Plans' />
-        </ListItem>
         <ListItem button component='a' href='/admin/funds'>
           <ListItemIcon>
             <AccountBalanceIcon />

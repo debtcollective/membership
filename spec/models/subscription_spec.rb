@@ -11,25 +11,21 @@
 #  start_date     :datetime
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  plan_id        :bigint
 #  user_id        :bigint
 #
 # Indexes
 #
-#  index_subscriptions_on_plan_id  (plan_id)
 #  index_subscriptions_on_user_id  (user_id)
 #
 require "rails_helper"
 
 RSpec.describe Subscription, type: :model do
   let(:subscription) { FactoryBot.create(:subscription) }
-  let(:plan) { FactoryBot.create(:plan) }
 
   subject { subscription }
 
   describe "attributes" do
     it { is_expected.to respond_to(:user_id) }
-    it { is_expected.to respond_to(:plan_id) }
     it { is_expected.to respond_to(:active) }
     it { is_expected.to be_valid }
   end
@@ -44,7 +40,7 @@ RSpec.describe Subscription, type: :model do
 
       new_subscription = Subscription.new(
         user_id: user.id,
-        plan_id: plan.id,
+        amount: 20,
         active: true
       )
 
@@ -59,7 +55,7 @@ RSpec.describe Subscription, type: :model do
 
       new_subscription = Subscription.new(
         user_id: user.id,
-        plan_id: plan.id,
+        amount: 20,
         active: true
       )
 

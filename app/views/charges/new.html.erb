@@ -12,6 +12,7 @@
         Thank you for supporting our work.
       </p>
     </section>
+
     <section id='checkout-payment'>
       <%= form_with(url: charges_path, method: 'post', local: true, id: 'payment-form') do %>
         <%= fields_for(:charge) do |f|%>

@@ -101,7 +101,7 @@ class User < ApplicationRecord
   end
 
   def active_subscription
-    @active_subscription ||= subscriptions.includes(:plan).where(active: true).last
+    @active_subscription ||= subscriptions.where(active: true).last
   end
 
   def find_or_create_stripe_customer(source: nil)
@@ -109,7 +109,7 @@ class User < ApplicationRecord
 
     params = {
       name: name,
-      email: email,
+      email: email
     }
 
     params[:source] = source if source

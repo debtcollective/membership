@@ -48,7 +48,6 @@ const NoSubscriptionView = ({ user }) => {
 function SubscriptionCancelView ({
   user,
   subscription,
-  currentPlan,
   isSubscriptionChanging
 }) {
   const classes = useStyles()
@@ -94,18 +93,7 @@ function SubscriptionCancelView ({
     <>
       <Paper className={classes.root}>
         <h3>You're subscribed</h3>
-        <p>
-          Your membership tier is <strong> {currentPlan.name}</strong>.
-        </p>
-        {!isSubscriptionChanging && (
-          <Button
-            component='a'
-            href={`/users/${user.id}/plan_changes`}
-            color='primary'
-          >
-            Change Subscription
-          </Button>
-        )}
+
         <Button color='secondary' onClick={handleClickOpen}>
           Cancel Subscription
         </Button>
