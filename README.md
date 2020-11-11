@@ -7,11 +7,9 @@ Membership is a simple app for non profit organizations, that allows users to cr
 - Simple donations payment management through Stripe.
 - One time donations through anonymous accounts.
 - One time donations through user accounts.
-- User subscriptions based on billing plans.
 - User dashboard to manage their own subscription.
 - Simple statistics for the Organization around donations.
-- Organization dashboard to create subcription plans.
-- Organization dashboard to manage subscribed users.
+- Organization dashboard to manage memberships.
 
 <hr />
 

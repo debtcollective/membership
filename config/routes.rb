@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   namespace :admin do
     get "/dashboard" => "dashboard#index"
     resources :users
-    resources :plans
     resources :funds, except: %i[show]
     resources :subscriptions
     resources :donations, only: %i[index show]

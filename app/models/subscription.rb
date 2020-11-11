@@ -26,7 +26,6 @@ class Subscription < ApplicationRecord
   before_create :store_start_date
 
   belongs_to :user, optional: true
-  belongs_to :plan, optional: true
   has_many :donations
 
   validate :only_one_active_subscription, on: :create
