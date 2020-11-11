@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     post "/confirm" => "user_confirmations#confirm", :on => :collection
   end
 
+  get "/login" => "sessions#login"
+
   if Rails.env.production?
     mount Sidekiq::Web => "/sidekiq",
           :constraints => AdminConstraint.new(require_master: true)
