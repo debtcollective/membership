@@ -104,10 +104,17 @@ class User < ApplicationRecord
     @active_subscription ||= subscriptions.includes(:plan).where(active: true).last
   end
 
-  def find_or_create_stripe_customer
+  def find_or_create_stripe_customer(source: nil)
     return Stripe::Customer.retrieve(stripe_id) if stripe_id
 
-    stripe_customer = Stripe::Customer.create(name: name, email: email)
+    params = {
+      name: name,
+      email: email,
+    }
+
+    params[:source] = source if source
+
+    stripe_customer = Stripe::Customer.create(params)
     update!(stripe_id: stripe_customer.id)
 
     stripe_customer

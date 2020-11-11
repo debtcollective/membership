@@ -66,7 +66,7 @@ class MembershipService
       # Stripe max length for the phone field is 20
       self.stripe_phone_number = phone_number.truncate(20, omission: "")
       # find or create stripe customer
-      @stripe_customer = user.find_or_create_stripe_customer
+      @stripe_customer = user.find_or_create_stripe_customer(source: stripe_token)
 
       if @stripe_customer.nil?
         errors.add(:base, user.errors.full_messages.first)
