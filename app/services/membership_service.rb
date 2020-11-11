@@ -66,9 +66,11 @@ class MembershipService
       # Stripe max length for the phone field is 20
       self.stripe_phone_number = phone_number.truncate(20, omission: "")
       # find or create stripe customer
-      @stripe_customer = find_or_create_stripe_customer
+      @stripe_customer = user.find_or_create_stripe_customer(source: stripe_token)
 
       if @stripe_customer.nil?
+        errors.add(:base, user.errors.full_messages.first)
+
         Raven.capture_message("Couldn't find or create Stripe Customer", extra: {
           user_id: user.id,
           user_email: user.email,
@@ -164,45 +166,6 @@ class MembershipService
     }
 
     user.save
-  end
-
-  def find_or_create_stripe_customer
-    if (stripe_customer_id = user.stripe_id)
-      stripe_customer = Stripe::Customer.retrieve(stripe_customer_id)
-
-      # add source to customer
-      Stripe::Customer.create_source(stripe_customer.id,
-        {
-          source: stripe_token
-        })
-
-      # add the new source to Stripe customer
-      Stripe::Customer.update(
-        stripe_customer.id,
-        {
-          source: stripe_token
-        }
-      )
-
-      stripe_customer
-    else
-      Stripe::Customer.create(email: user.email, source: stripe_token)
-    end
-  # card declined
-  rescue Stripe::CardError => e
-    Raven.capture_exception(e)
-
-    errors.add(:base, e.message)
-
-    nil
-  # invalid stripe customer, we try to recreate the stripe customer
-  rescue Stripe::InvalidRequestError => e
-    Raven.capture_exception(e)
-
-    customer = Stripe::Customer.create(email: user.email, source: stripe_token)
-    user.update!(stripe_id: customer.id)
-
-    customer
   end
 
   def link_discourse_account

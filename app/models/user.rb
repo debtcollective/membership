@@ -103,4 +103,27 @@ class User < ApplicationRecord
   def active_subscription
     @active_subscription ||= subscriptions.includes(:plan).where(active: true).last
   end
+
+  def find_or_create_stripe_customer(source: nil)
+    return Stripe::Customer.retrieve(stripe_id) if stripe_id
+
+    params = {
+      name: name,
+      email: email,
+    }
+
+    params[:source] = source if source
+
+    stripe_customer = Stripe::Customer.create(params)
+    update!(stripe_id: stripe_customer.id)
+
+    stripe_customer
+  rescue Stripe::StripeError => e
+    # couldn't retrieve or create user, return an error
+    Raven.capture_exception(e)
+
+    errors.add(:base, e.message)
+
+    nil
+  end
 end

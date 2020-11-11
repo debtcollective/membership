@@ -3,7 +3,6 @@
 require "rails_helper"
 
 RSpec.describe DonationService, type: :service do
-  let(:stripe_helper) { StripeMock.create_test_helper }
   let(:valid_params) do
     {
       address_city: Faker::Address.city,
@@ -16,7 +15,7 @@ RSpec.describe DonationService, type: :service do
       fund_id: 1,
       name: Faker::Name.name,
       phone_number: Faker::PhoneNumber.phone_number,
-      stripe_token: stripe_helper.generate_card_token
+      stripe_token: StripeMock.create_test_helper.generate_card_token
     }
   end
 
@@ -44,6 +43,7 @@ RSpec.describe DonationService, type: :service do
   describe ".save_donation_with_user" do
     let(:user) { FactoryBot.create(:user) }
     let(:fund) { FactoryBot.create(:default_fund) }
+    let!(:stripe_helper) { StripeMock.create_test_helper }
 
     it "creates a donation record" do
       params = valid_params.merge({
@@ -92,6 +92,8 @@ RSpec.describe DonationService, type: :service do
   end
 
   describe ".save_donation_without_user" do
+    let!(:stripe_helper) { StripeMock.create_test_helper }
+
     it "creates a donation record" do
       params = valid_params.merge({
         stripe_token: stripe_helper.generate_card_token

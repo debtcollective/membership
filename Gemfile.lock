@@ -478,7 +478,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   standard (= 0.7)
   stripe (= 5.26.0)
-  stripe-ruby-mock (~> 3.0.0)
+  stripe-ruby-mock (= 3.0.1)
   thwait
   timecop (~> 0.9.1)
   turbolinks (~> 5)
