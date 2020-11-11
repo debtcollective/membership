@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_26_225121) do
+ActiveRecord::Schema.define(version: 2020_11_11_222945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,15 +76,6 @@ ActiveRecord::Schema.define(version: 2020_09_26_225121) do
     t.index ["slug"], name: "index_funds_on_slug", unique: true
   end
 
-  create_table "plans", force: :cascade do |t|
-    t.money "amount", scale: 2
-    t.text "description"
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "headline"
-  end
-
   create_table "subscription_donations", force: :cascade do |t|
     t.bigint "subscription_id"
     t.bigint "donation_id"
@@ -97,24 +88,13 @@ ActiveRecord::Schema.define(version: 2020_09_26_225121) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.bigint "user_id"
-    t.bigint "plan_id"
     t.boolean "active"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "start_date"
     t.datetime "last_charge_at"
     t.money "amount", scale: 2, default: "0.0"
-    t.index ["plan_id"], name: "index_subscriptions_on_plan_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
-  end
-
-  create_table "user_plan_changes", force: :cascade do |t|
-    t.string "old_plan_id"
-    t.string "new_plan_id"
-    t.string "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "status"
   end
 
   create_table "users", force: :cascade do |t|
