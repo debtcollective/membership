@@ -28,6 +28,7 @@ gem 'discourse_api', '0.42.0'
 gem 'inky-rb', '1.3.8.0', require: 'inky'
 gem 'premailer-rails', '1.11.1'
 gem 'valid_email2', '3.4.0'
+gem 'gibbon', '3.3.4'
 
 # front-end libraries
 gem 'react_on_rails', '~> 11.3'
