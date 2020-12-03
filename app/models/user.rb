@@ -92,6 +92,23 @@ class User < ApplicationRecord
     !!admin
   end
 
+  # TODO: We are getting first_name and last_name from users when the join the union
+  #   The idea is to add those fields to the model and remove these methods.
+  def first_name
+    name = self.name.to_s
+    name.split(" ").first
+  end
+
+  def last_name
+    name = self.name.to_s
+    _, *last_name = name.split(" ")
+    last_name.join(" ")
+  end
+
+  def phone_number
+    custom_fields["phone_number"]
+  end
+
   def confirmed?
     external_id.present? || confirmed_at.present?
   end
