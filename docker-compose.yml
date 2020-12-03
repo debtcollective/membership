@@ -6,7 +6,7 @@ services:
       - 5432
 
   redis:
-    image: redis:4
+    image: redis:6
     expose:
       - 6379
 
