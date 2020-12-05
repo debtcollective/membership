@@ -50,7 +50,7 @@ rake db:seed # seed database
 forego start
 ```
 
-At this point, you should be able to see the app at <http://membership.lvh.me:5000
+At this point, you should be able to see the app at <http://membership.lvh.me:5000>
 
 ### Dotenv
 
