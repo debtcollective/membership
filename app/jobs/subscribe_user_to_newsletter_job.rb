@@ -3,20 +3,17 @@
 class SubscribeUserToNewsletterJob < ApplicationJob
   queue_as :default
 
-  def perform(user_id:, tags: [], debug: false)
+  def perform(user_id:, tags: [], debug: true)
     api_key = ENV["MAILCHIMP_API_KEY"]
     list_id = ENV["MAILCHIMP_LIST_ID"]
 
-    # Find user
     user = User.find(user_id)
     email = user.email
     customer_ip = user.custom_fields["customer_ip"]
 
-    # init Gibbon
     gibbon = Gibbon::Request.new(api_key: api_key, debug: debug)
     email_digest = Digest::MD5.hexdigest(email.downcase)
 
-    # add user to list
     gibbon
       .lists(list_id)
       .members(email_digest)
@@ -31,7 +28,6 @@ class SubscribeUserToNewsletterJob < ApplicationJob
         }
       })
 
-    # add tags to user
     if tags.any?
       gibbon
         .lists(list_id)

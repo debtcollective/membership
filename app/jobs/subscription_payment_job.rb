@@ -32,7 +32,7 @@ class SubscriptionPaymentJob < ApplicationJob
     amount_in_cents = amount * 100
 
     client = Stripe::StripeClient.new
-    charge, resp = client.request {
+    charge, _ = client.request {
       Stripe::Charge.create(
         customer: customer,
         amount: amount_in_cents,

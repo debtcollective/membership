@@ -3,10 +3,6 @@
 require "rails_helper"
 
 RSpec.describe SubscribeUserToNewsletterJob, type: :job do
-  let(:stripe_helper) { StripeMock.create_test_helper }
-  before { StripeMock.start }
-  after { StripeMock.stop }
-
   context "queue" do
     let(:user) { FactoryBot.create(:user) }
     subject(:job) { described_class.perform_later(user) }
