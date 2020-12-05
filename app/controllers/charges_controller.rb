@@ -20,8 +20,9 @@ class ChargesController < ApplicationController
     is_human = verify_recaptcha(action: "donate", minimum_score: 0.5, secret_key: ENV["RECAPTCHA_V3_SECRET_KEY"])
     # if users is a bot then return error
     unless is_human
+      message = "Oops! Something went wrong. Please try again"
       error = "Human validation has failed"
-      return render json: {status: "failed", errors: [error]}, status: :unprocessable_entity
+      return render json: {status: "failed", errors: [error], message: message }, status: :unprocessable_entity
     end
 
     donation_params =
