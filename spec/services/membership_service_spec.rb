@@ -79,6 +79,7 @@ RSpec.describe MembershipService, type: :service do
 
       expect(user.custom_fields["address_city"]).to eq(params[:address_city])
       expect(user.custom_fields["address_zip"]).to eq(params[:address_zip])
+      expect(user.custom_fields["customer_ip"]).to eq(params[:customer_ip])
     end
 
     it "creates a user if not provided" do

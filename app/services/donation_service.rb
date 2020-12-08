@@ -84,7 +84,8 @@ class DonationService
             address_zip: address_zip,
             email: email,
             name: name,
-            phone_number: phone_number
+            phone_number: phone_number,
+            customer_ip: customer_ip
           }
         )
 
@@ -140,7 +141,8 @@ class DonationService
             address_zip: address_zip,
             email: email,
             name: name,
-            phone_number: phone_number
+            phone_number: phone_number,
+            customer_ip: customer_ip
           }
         )
 
