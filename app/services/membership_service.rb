@@ -83,8 +83,8 @@ class MembershipService
       subscription = create_paid_membership
     end
 
-    # Invite user to Discourse or send verification email
     link_discourse_account
+    subscription.subscribe_user_to_newsletter
 
     [subscription, errors]
   end

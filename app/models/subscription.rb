@@ -21,6 +21,11 @@ class Subscription < ApplicationRecord
   GRACE_PERIOD = 7.days
   SUBSCRIPTION_PERIOD = 1.month
 
+  # Mailchimp tags
+  ZERO_AMOUNT_TAG = "Zero-dollar Members"
+  DUES_PAYING_TAG = "Dues-Paying Members"
+  MEMBER_TAG = "Union Member"
+
   before_create :store_start_date
 
   belongs_to :user, optional: true
@@ -65,6 +70,15 @@ class Subscription < ApplicationRecord
 
   def disable!
     update!(active: false) if beyond_grace_period?
+  end
+
+  def subscribe_user_to_newsletter
+    return unless user?
+
+    membership_type_tag = zero_amount? ? ZERO_AMOUNT_TAG : DUES_PAYING_TAG
+    tags = [{name: membership_type_tag, status: "active"}, {name: MEMBER_TAG, status: "active"}]
+
+    SubscribeUserToNewsletterJob.perform_later(user_id: user.id, tags: tags)
   end
 
   private

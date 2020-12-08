@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe MembershipService, type: :service do
+  include ActiveJob::TestHelper
+
   let(:stripe_helper) { StripeMock.create_test_helper }
   let(:valid_params) do
     {
@@ -21,6 +23,11 @@ RSpec.describe MembershipService, type: :service do
 
   before { StripeMock.start }
   after { StripeMock.stop }
+
+  after do
+    clear_enqueued_jobs
+    clear_performed_jobs
+  end
 
   describe "validations" do
     subject { MembershipService.new(valid_params) }
@@ -122,6 +129,20 @@ RSpec.describe MembershipService, type: :service do
       expect(subscription.last_charge_at).to eq(nil)
 
       expect(donation).to eq(nil)
+    end
+
+    it "enqueues a discourse and newsletter jobs" do
+      params = valid_params.merge({
+        stripe_token: stripe_helper.generate_card_token
+      })
+
+      service = MembershipService.new(params, user)
+
+      expect { service.execute }
+        .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by(2)
+
+      enqued_job_classes = ActiveJob::Base.queue_adapter.enqueued_jobs.map { |item| item[:job] }
+      expect(enqued_job_classes).to include(LinkDiscourseAccountJob, SubscribeUserToNewsletterJob)
     end
 
     it "returns an error if stripe customer is invalid" do

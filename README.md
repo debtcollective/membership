@@ -98,17 +98,11 @@ We have added a make command to run specs with this env variable set, so you can
 
 ### Running Forego
 
-[Forego](https://github.com/ddollar/forego) has the following note around installing this gem.
+[Forego](https://github.com/ddollar/forego) has the following note around installing this library
 
 > Ruby users should take care not to install forego in their project's Gemfile.
 
-Therefore as a developer, you're expected to run
-
-```bash
- gem install forego
-```
-
-And run the commands using your gemset installation of forego.
+Therefore as a developer, you're expected to run `brew install forego` to install it on your env
 
 ### Solargraph
 
