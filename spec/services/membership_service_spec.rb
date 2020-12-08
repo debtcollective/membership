@@ -17,7 +17,8 @@ RSpec.describe MembershipService, type: :service do
       email: Faker::Internet.email,
       name: Faker::Name.name,
       phone_number: Faker::PhoneNumber.phone_number,
-      stripe_token: stripe_helper.generate_card_token
+      stripe_token: stripe_helper.generate_card_token,
+      chapter: MembershipService::CHAPTERS.last
     }
   end
 
