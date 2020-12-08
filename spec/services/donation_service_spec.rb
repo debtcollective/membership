@@ -106,6 +106,7 @@ RSpec.describe DonationService, type: :service do
       expect(donation.user_data["email"]).to eq(params[:email])
       expect(donation.user_data["name"]).to eq(params[:name])
       expect(donation.user_data["phone_number"]).to eq(params[:phone_number])
+      expect(donation.user_data["customer_ip"]).to eq(params[:customer_ip])
       expect(donation.amount.to_i).to eq(10)
       # Stripe stores the amount in cents
       expect(donation.charge_data["amount"]).to eq(donation.amount * 100)
