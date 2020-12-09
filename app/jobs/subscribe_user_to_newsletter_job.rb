@@ -10,23 +10,31 @@ class SubscribeUserToNewsletterJob < ApplicationJob
     user = User.find(user_id)
     email = user.email
     customer_ip = user.custom_fields["customer_ip"]
+    phone_number = user.phone_number
 
     gibbon = Gibbon::Request.new(api_key: api_key, debug: debug)
     email_digest = Digest::MD5.hexdigest(email.downcase)
 
+    newsletter_params = {
+      email_address: email,
+      status: "subscribed",
+      ip_signup: customer_ip,
+      merge_fields: {
+        FNAME: user.first_name,
+        LNAME: user.last_name
+      }
+    }
+
+    # TODO: validation until we implement a better one on the union widget/membership controller
+    #   Mailchimp fails if the phone number is not valid
+    if phone_number.length >= 8
+      newsletter_params[:merge_fields][:PHONE] = phone_number
+    end
+
     gibbon
       .lists(list_id)
       .members(email_digest)
-      .upsert(body: {
-        email_address: email,
-        status: "subscribed",
-        ip_signup: customer_ip,
-        merge_fields: {
-          FNAME: user.first_name,
-          LNAME: user.last_name,
-          PHONE: user.phone_number
-        }
-      })
+      .upsert(body: newsletter_params)
 
     if tags.any?
       gibbon
