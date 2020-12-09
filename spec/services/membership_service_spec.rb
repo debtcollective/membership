@@ -133,7 +133,7 @@ RSpec.describe MembershipService, type: :service do
       expect(donation).to eq(nil)
     end
 
-    it "enqueues a discourse and newsletter jobs" do
+    it "enqueues a discourse, newsletter and location data jobs" do
       params = valid_params.merge({
         stripe_token: stripe_helper.generate_card_token
       })
@@ -141,10 +141,10 @@ RSpec.describe MembershipService, type: :service do
       service = MembershipService.new(params, user)
 
       expect { service.execute }
-        .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by(2)
+        .to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by(3)
 
       enqued_job_classes = ActiveJob::Base.queue_adapter.enqueued_jobs.map { |item| item[:job] }
-      expect(enqued_job_classes).to include(LinkDiscourseAccountJob, SubscribeUserToNewsletterJob)
+      expect(enqued_job_classes).to contain_exactly(LinkDiscourseAccountJob, SubscribeUserToNewsletterJob, AddLocationDataToUserProfileJob)
     end
 
     it "returns an error if stripe customer is invalid" do
