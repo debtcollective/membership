@@ -47,10 +47,10 @@ class MembershipService
     return Subscription.new, errors unless valid?
 
     # find or create user if no user was provided
-    if user.nil?
+    if @user.nil?
       @user = find_or_create_user
     else
-      update_user_profile(user)
+      update_user_profile(@user)
     end
 
     # validate active subscription
@@ -59,6 +59,9 @@ class MembershipService
 
       return Subscription.new, errors
     end
+
+    # queue location data job
+    AddLocationDataToUserProfileJob.perform_later(user_id: @user.id)
 
     # handle creating a membership with the zero-amount option we are offering
     # create a membership but don't create a donation or stripe charge
