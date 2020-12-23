@@ -35,3 +35,11 @@ Rails.application.routes.draw do
 
   root to: "application#redirect_to_home_page"
 end
+
+# widget test routes for cypress
+unless Rails.env.production?
+  Rails.application.routes.append do
+    match "/test/widget/donation" => "test_pages#widget_donation", :via => [:get]
+    match "/test/widget/subscription" => "test_pages#widget_subscription", :via => [:get]
+  end
+end

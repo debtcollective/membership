@@ -4,7 +4,7 @@ describe('Donation Spec', () => {
   })
 
   it('renders donation widget', () => {
-    cy.visit('/test/donation_widget')
+    cy.visit('/test/widget/donation')
     cy.contains('Yay, you saved a compliment!')
   })
 })
