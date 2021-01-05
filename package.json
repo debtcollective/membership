@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@babel/preset-react": "7.10.4",
+    "@debtcollective/union-component": "../packages/packages/union-component",
     "@material-ui/core": "4.11.0",
     "@material-ui/icons": "4.9.1",
     "@rails/actioncable": "6.0.2",
