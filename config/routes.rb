@@ -40,6 +40,6 @@ end
 unless Rails.env.production?
   Rails.application.routes.append do
     match "/test/widget/donation" => "test_pages#widget_donation", :via => [:get]
-    match "/test/widget/subscription" => "test_pages#widget_subscription", :via => [:get]
+    match "/test/widget/membership" => "test_pages#widget_membership", :via => [:get]
   end
 end
