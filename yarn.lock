@@ -1200,8 +1200,10 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
-"@debtcollective/union-component@../packages/packages/union-component":
-  version "1.0.0"
+"@debtcollective/union-component@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@debtcollective/union-component/-/union-component-1.1.0.tgz#63c1d2d9cc7f32445cbac9234478542ba47c7396"
+  integrity sha512-TMxVevcT0oIgWNQOXLzh+3/nyrQPSRlxUlZ9FZ8MXs7tmPFSKfj7PKa0N3vzjR2+Rd1AoJj2mlg/l9pnWzOoUw==
   dependencies:
     "@stripe/react-stripe-js" "^1.1.2"
     "@stripe/stripe-js" "^1.9.0"
