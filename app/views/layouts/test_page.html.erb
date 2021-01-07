@@ -10,10 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <script
+      src="https://www.google.com/recaptcha/api.js?render=<%= ENV["RECAPTCHA_V3_SITE_KEY"] %>"
+    ></script>
+
     <!-- Add configuration for widget -->
     <script>
-      window.DC_DONATE_API_URL = "http://<%= "#{ENV["CYPRESS_RAILS_HOST"]}:#{ENV["CYPRESS_RAILS_PORT"]}/donate" %>"
-      window.DC_MEMBERSHIP_API_URL = "http://<%= "#{ENV["CYPRESS_RAILS_HOST"]}:#{ENV["CYPRESS_RAILS_PORT"]}/subscriptions" %>"
+      window.DC_DONATE_API_URL = "<%= "#{request.protocol + request.host_with_port}/donate" %>"
+      window.DC_MEMBERSHIP_API_URL = "<%= "#{ENV["CYPRESS_BASE_URL"]}/subscriptions" %>"
       window.DC_RECAPTCHA_V3_SITE_KEY = "<%= ENV["RECAPTCHA_V3_SITE_KEY"] %>"
       window.DC_STRIPE_PUBLIC_TOKEN = "<%= ENV["STRIPE_PUBLISHABLE_KEY"] %>"
     </script>
