@@ -5,10 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= content_for?(:head) ? yield(:head) : '' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag 'minimal', media: 'all', 'data-turbolinks-track': 'reload' %>
     <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Add configuration for widget -->
+    <script>
+      window.DC_DONATE_API_URL = "http://lvh.me:5000/"
+      window.DC_RECAPTCHA_V3_SITE_KEY = "<%= ENV["RECAPTCHA_V3_SITE_KEY"] %>"
+      window.DC_STRIPE_PUBLIC_TOKEN = "<%= ENV["STRIPE_PUBLISHABLE_KEY"] %>"
+    </script>
+
+    <%= content_for?(:head) ? yield(:head) : '' %>
   </head>
 
   <body>
