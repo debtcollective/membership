@@ -12,7 +12,8 @@
 
     <!-- Add configuration for widget -->
     <script>
-      window.DC_DONATE_API_URL = "http://lvh.me:5000/"
+      window.DC_DONATE_API_URL = "http://<%= "#{ENV["CYPRESS_RAILS_HOST"]}:#{ENV["CYPRESS_RAILS_PORT"]}/donate" %>"
+      window.DC_MEMBERSHIP_API_URL = "http://<%= "#{ENV["CYPRESS_RAILS_HOST"]}:#{ENV["CYPRESS_RAILS_PORT"]}/subscriptions" %>"
       window.DC_RECAPTCHA_V3_SITE_KEY = "<%= ENV["RECAPTCHA_V3_SITE_KEY"] %>"
       window.DC_STRIPE_PUBLIC_TOKEN = "<%= ENV["STRIPE_PUBLISHABLE_KEY"] %>"
     </script>
