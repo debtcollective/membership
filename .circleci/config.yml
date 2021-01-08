@@ -10,6 +10,7 @@ executors:
       - image: circleci/buildpack-deps:stretch
 orbs:
   aws-cli: circleci/aws-cli@0.1.15
+  cypress: cypress-io/cypress@1
 jobs:
   test:
     working_directory: ~/membership
