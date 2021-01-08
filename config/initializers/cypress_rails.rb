@@ -1,6 +1,9 @@
 return unless Rails.env.test?
 
 CypressRails.hooks.before_server_start do
+  DatabaseCleaner.strategy = :truncation
+  DatabaseCleaner.clean
+
   FactoryBot.create(:default_fund)
 end
 
