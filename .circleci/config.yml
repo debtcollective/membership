@@ -10,7 +10,6 @@ executors:
       - image: circleci/buildpack-deps:stretch
 orbs:
   aws-cli: circleci/aws-cli@0.1.15
-  cypress: cypress-io/cypress@1
 jobs:
   test:
     working_directory: ~/membership
@@ -71,6 +70,68 @@ jobs:
       - run:
           name: run tests
           command: bundle exec rspec spec
+
+      - store_artifacts:
+          path: coverage
+  e2e:
+    working_directory: ~/membership
+    docker:
+      - image: circleci/ruby:2.7.2-node-browsers
+        environment:
+          PGHOST: localhost
+          PGUSER: membership
+          RAILS_ENV: test
+          DATABASE_URL: postgres://membership:letmein@localhost/membership_test?pool=5
+      - image: postgres:12
+        environment:
+          POSTGRES_USER: membership
+          POSTGRES_DB: membership_test
+          POSTGRES_PASSWORD: "letmein"
+    steps:
+      - checkout
+
+      - run:
+          name: configure bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+
+      # restore cache
+      - restore_cache:
+          keys:
+            - membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - membership-{{ checksum "Gemfile.lock" }}
+            - membership-
+
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --path vendor/bundle
+            yarn install
+
+      # write cache
+      - save_cache:
+          key: membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/membership/vendor/bundle
+            - ~/membership/node_modules
+            - ~/.cache/yarn
+
+      - run:
+          name: wait for postgres
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: dotenv
+          command: cp .env.sample .env
+
+      - run:
+          command: bundle exec rake db:setup
+
+      - run:
+          name: run e2e tests
+          command: bundle exec rake cypress:run
 
       - store_artifacts:
           path: coverage
@@ -276,14 +337,7 @@ workflows:
   pipeline:
     jobs:
       - test
-      - cypress/install:
-          yarn: true
-      - cypress/run:
-          name: "e2e"
-          requires:
-            - cypress/install
-          yarn: true
-          command: rake cypress:run --record
+      - e2e
       - build:
           requires:
             - test
