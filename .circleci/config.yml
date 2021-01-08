@@ -276,21 +276,25 @@ workflows:
   pipeline:
     jobs:
       - test
-      - cypress/run:
-          name: "e2e tests"
+      - cypress/install:
           yarn: true
-          command: bundle exec rails cypress:run --record
+      - cypress/run:
+          name: "e2e"
+          requires:
+            - cypress/install
+          yarn: true
+          command: rake cypress:run --record
       - build:
           requires:
             - test
-            - cypress/run
+            - e2e
           filters:
             branches:
               only: master
       - release:
           requires:
             - test
-            - cypress/run
+            - e2e
             - build
           filters:
             branches:
