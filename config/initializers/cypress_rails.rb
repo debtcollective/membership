@@ -5,6 +5,8 @@ CypressRails.hooks.before_server_start do
 end
 
 CypressRails.hooks.after_transaction_start do
+  DatabaseCleaner.strategy = :truncation, {except: %w[funds]}
+  DatabaseCleaner.clean
   # Called after the transaction is started (at launch and after each reset)
 end
 
@@ -13,5 +15,6 @@ CypressRails.hooks.after_state_reset do
 end
 
 CypressRails.hooks.before_server_stop do
-  # Called once, at_exit
+  DatabaseCleaner.strategy = :truncation
+  DatabaseCleaner.clean
 end
