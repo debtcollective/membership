@@ -276,7 +276,8 @@ workflows:
   pipeline:
     jobs:
       - test
-      - cypress/install
+      - cypress/install:
+          yarn: true
       - cypress/run:
           name: "e2e tests"
           requires:
