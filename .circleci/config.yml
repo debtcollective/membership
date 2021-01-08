@@ -35,12 +35,9 @@ jobs:
             source $BASH_ENV
             gem install bundler
 
-      # restore cache
       - restore_cache:
           keys:
             - membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
-            - membership-{{ checksum "Gemfile.lock" }}
-            - membership-
 
       - run:
           name: install dependencies
@@ -48,13 +45,13 @@ jobs:
             bundle install --path vendor/bundle
             yarn install
 
-      # write cache
       - save_cache:
           key: membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/membership/vendor/bundle
             - ~/membership/node_modules
             - ~/.cache/yarn
+            - ~/.cache/Cypress
 
       - run:
           name: wait for postgres
@@ -97,12 +94,9 @@ jobs:
             source $BASH_ENV
             gem install bundler
 
-      # restore cache
       - restore_cache:
           keys:
             - membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
-            - membership-{{ checksum "Gemfile.lock" }}
-            - membership-
 
       - run:
           name: install dependencies
@@ -110,13 +104,13 @@ jobs:
             bundle install --path vendor/bundle
             yarn install
 
-      # write cache
       - save_cache:
           key: membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/membership/vendor/bundle
             - ~/membership/node_modules
             - ~/.cache/yarn
+            - ~/.cache/Cypress
 
       - run:
           name: wait for postgres
