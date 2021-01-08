@@ -72,10 +72,6 @@ jobs:
           name: run tests
           command: bundle exec rspec spec
 
-      - run:
-          name: run e2e tests
-          command: bundle exec rake cypress:run
-
       - store_artifacts:
           path: coverage
   build:
@@ -280,6 +276,12 @@ workflows:
   pipeline:
     jobs:
       - test
+      - cypress/install
+      - cypress/run:
+          name: "e2e tests"
+          requires:
+            - cypress/install
+          command: bundle exec rails cypress:run --record
       - build:
           requires:
             - test
