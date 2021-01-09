@@ -29,7 +29,7 @@ Membership is a simple app for non profit organizations, that allows users to cr
   - [User sessions](#user-sessions)
 - [Developer notes](#developer-notes)
   - [Ruby 2.7 deprecations warnings](#ruby-27-deprecations-warnings)
-  - [Running Forego](#running-forego)
+  - [Running Overmind](#running-overmind)
   - [Solargraph](#solargraph)
   - [Formatting](#formatting)
   - [Codecov](#codecov)
@@ -48,7 +48,7 @@ rake db:migrate # migrate database
 rake db:seed # seed database
 
 # run project with
-forego start
+overmind s
 ```
 
 At this point, you should be able to see the app at <http://membership.lvh.me:5000>
@@ -74,7 +74,7 @@ You'll need to have installed the following dependencies installed, if you don't
 - Ruby
 - Node
 - PostgreSQL
-- Forego `brew install forego`
+- Overmind
 
 An instance of PostgresSQL needs to be actively running.
 _Note:_ MacOS users can use the [Postgres app](https://postgresapp.com).
@@ -103,13 +103,14 @@ Rails and other gems have to fix warnings in Ruby 2.7. Until that happens, we ca
 
 We have added a make command to run specs with this env variable set, so you can run `make spec` and it will run without warnings.
 
-### Running Forego
+### Running Overmind
 
-[Forego](https://github.com/ddollar/forego) has the following note around installing this library
+[Overmind](https://github.com/DarthSim/overmind) is a process manager for Procfile-based apps.
 
-> Ruby users should take care not to install forego in their project's Gemfile.
+You can install on OSX by running `brew install tmux overmind`.
 
-Therefore as a developer, you're expected to run `brew install forego` to install it on your env
+A cool feature that Overmind has is that it allows you to connect to specific process terminal via tmux. This is really
+useful when debugging apps. If you use for example `binding.pry`, you can connect to the debugging terminal by running `overmind connect web`
 
 ### Solargraph
 
