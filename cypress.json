@@ -3,5 +3,6 @@
   "videosFolder": "tmp/cypress_videos",
   "trashAssetsBeforeRuns": false,
   "chromeWebSecurity": false,
-  "projectId": "ypge41"
+  "projectId": "ypge41",
+  "defaultCommandTimeout": 20000
 }
