@@ -125,7 +125,9 @@ jobs:
 
       - run:
           name: run e2e tests
-          command: CYPRESS_OPTS="--record" bundle exec rake cypress:run
+          command: bundle exec rake cypress:run
+          environment:
+            CYPRESS_RAILS_CYPRESS_OPTS: --record
 
       - store_artifacts:
           path: coverage
