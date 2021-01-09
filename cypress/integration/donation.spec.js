@@ -48,6 +48,8 @@ describe('Donation Spec', () => {
       .click()
 
     // assert thank you screen
-    cy.contains('Your $10.00 donation has been successfully processed.')
+    cy.contains('Your $10.00 donation has been successfully processed.', {
+      timeout: 10000
+    })
   })
 })
