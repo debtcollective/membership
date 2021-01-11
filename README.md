@@ -25,6 +25,7 @@ Membership is a simple app for non profit organizations, that allows users to cr
     - [Google reCAPTCHA](#google-recaptcha)
   - [System dependencies](#system-dependencies)
   - [Running tests](#running-tests)
+    - [Running Cypress tests](#running-cypress-tests)
   - [User sessions](#user-sessions)
 - [Developer notes](#developer-notes)
   - [Ruby 2.7 deprecations warnings](#ruby-27-deprecations-warnings)
@@ -82,6 +83,12 @@ _Note:_ MacOS users can use the [Postgres app](https://postgresapp.com).
 
 ```bash
 bundle exec rspec
+```
+
+#### Running Cypress tests
+
+```bash
+rails cypress:open
 ```
 
 ### User sessions

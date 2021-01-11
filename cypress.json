@@ -1,0 +1,7 @@
+{
+  "screenshotsFolder": "tmp/cypress_screenshots",
+  "videosFolder": "tmp/cypress_videos",
+  "trashAssetsBeforeRuns": false,
+  "chromeWebSecurity": false,
+  "projectId": "ypge41"
+}

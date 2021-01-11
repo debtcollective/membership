@@ -35,12 +35,9 @@ jobs:
             source $BASH_ENV
             gem install bundler
 
-      # restore cache
       - restore_cache:
           keys:
             - membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
-            - membership-{{ checksum "Gemfile.lock" }}
-            - membership-
 
       - run:
           name: install dependencies
@@ -48,13 +45,13 @@ jobs:
             bundle install --path vendor/bundle
             yarn install
 
-      # write cache
       - save_cache:
           key: membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/membership/vendor/bundle
             - ~/membership/node_modules
             - ~/.cache/yarn
+            - ~/.cache/Cypress
 
       - run:
           name: wait for postgres
@@ -70,6 +67,67 @@ jobs:
       - run:
           name: run tests
           command: bundle exec rspec spec
+
+      - store_artifacts:
+          path: coverage
+  e2e:
+    working_directory: ~/membership
+    docker:
+      - image: circleci/ruby:2.7.2-node-browsers
+        environment:
+          PGHOST: localhost
+          PGUSER: membership
+          RAILS_ENV: test
+          DATABASE_URL: postgres://membership:letmein@localhost/membership_test?pool=5
+      - image: postgres:12
+        environment:
+          POSTGRES_USER: membership
+          POSTGRES_DB: membership_test
+          POSTGRES_PASSWORD: "letmein"
+    steps:
+      - checkout
+
+      - run:
+          name: configure bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+
+      - restore_cache:
+          keys:
+            - membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --path vendor/bundle
+            yarn install
+
+      - save_cache:
+          key: membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/membership/vendor/bundle
+            - ~/membership/node_modules
+            - ~/.cache/yarn
+            - ~/.cache/Cypress
+
+      - run:
+          name: wait for postgres
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: dotenv
+          command: cp .env.sample .env
+
+      - run:
+          command: bundle exec rake db:setup
+
+      - run:
+          name: run e2e tests
+          command: bundle exec rake cypress:run
+          environment:
+            CYPRESS_RAILS_CYPRESS_OPTS: --record
 
       - store_artifacts:
           path: coverage
@@ -275,15 +333,18 @@ workflows:
   pipeline:
     jobs:
       - test
+      - e2e
       - build:
           requires:
             - test
+            - e2e
           filters:
             branches:
               only: master
       - release:
           requires:
             - test
+            - e2e
             - build
           filters:
             branches:

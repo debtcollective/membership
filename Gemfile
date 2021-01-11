@@ -56,15 +56,16 @@ gem 'sentry-raven', '~> 3.0', '>= 3.0.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'annotate', '3.1.1'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'pry-byebug', '~> 3.9.0'
-  gem 'standard', '0.7'
+  gem 'cypress-rails', '0.4.2'
   gem 'dotenv-rails', '2.7.6'
-  gem 'faker', '~> 2.1', '>= 2.1.2'
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
-  gem 'annotate', '3.1.1'
+  gem 'faker', '~> 2.1', '>= 2.1.2'
   gem 'guard-rspec', '4.7.3', require: false
+  gem 'pry-byebug', '~> 3.9.0'
+  gem 'standard', '0.7'
 end
 
 group :development do
@@ -84,7 +85,7 @@ group :test do
   gem 'rspec-mocks', '3.10.0'
   gem 'rspec-rails', '4.0.1'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
-  gem 'shoulda-matchers', '~> 4.1', '>= 4.1.2'
+  gem 'shoulda-matchers', '4.4.1'
   gem 'stripe-ruby-mock', '3.0.1', :require => 'stripe_mock'
   gem 'timecop', '~> 0.9.1'
   gem 'webdrivers', '4.4.1'
