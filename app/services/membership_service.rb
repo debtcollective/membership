@@ -76,7 +76,7 @@ class MembershipService
 
       if @stripe_customer.present?
         # update default source for stripe customer
-        @stripe_customer.update(source: source)
+        Stripe::Customer.update(@stripe_customer.id, source: stripe_token)
       else
         params = {
           name: name,
