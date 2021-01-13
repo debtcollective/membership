@@ -58,6 +58,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'annotate', '3.1.1'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'cypress-on-rails', '1.8.0'
   gem 'cypress-rails', '0.4.2'
   gem 'dotenv-rails', '2.7.6'
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
