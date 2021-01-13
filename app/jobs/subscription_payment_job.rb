@@ -26,7 +26,11 @@ class SubscriptionPaymentJob < ApplicationJob
 
   def create_charge(subscription)
     user = subscription.user
-    customer = find_stripe_customer(user)
+    customer = user.find_stripe_customer
+
+    unless customer
+      # this shouldn't happen, but we need to handle this case
+    end
 
     amount = subscription.amount.to_i
     amount_in_cents = amount * 100
@@ -48,17 +52,6 @@ class SubscriptionPaymentJob < ApplicationJob
     disable_subscription(subscription)
 
     false
-  end
-
-  def find_stripe_customer(user)
-    customer = Stripe::Customer.retrieve(user.stripe_id) if user.stripe_id
-
-    unless customer
-      customer = Stripe::Customer.create(email: user.email)
-      user.update(stripe_id: customer.id)
-    end
-
-    customer
   end
 
   def disable_subscription(subscription)

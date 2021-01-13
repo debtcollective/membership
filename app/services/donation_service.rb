@@ -50,8 +50,6 @@ class DonationService
   end
 
   def save_donation_with_user
-    stripe_customer = user.find_or_create_stripe_customer
-
     # amount needs to be in cents for Stripe
     amount_in_cents = amount * 100
 
@@ -71,7 +69,6 @@ class DonationService
           charge_id: stripe_charge.id,
           charge_provider: "stripe",
           customer_ip: customer_ip,
-          customer_stripe_id: stripe_customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
           fund_id: fund_id,
           status: stripe_charge.status,
