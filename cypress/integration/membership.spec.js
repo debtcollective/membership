@@ -27,7 +27,7 @@ describe('Membership Spec', () => {
         .click()
 
       // fill address
-      cy.contains('PAYING 10$', { matchCase: false }).click()
+      cy.contains('PAYING $10', { matchCase: false }).click()
 
       const zipCode = faker.address.zipCode()
       cy.get("input[name='address']").type(faker.address.streetAddress())
@@ -56,7 +56,7 @@ describe('Membership Spec', () => {
         .click()
 
       // assert thank you screen
-      cy.contains('Your $10.00 donation has been successfully processed.')
+      cy.contains('Thank you starting your membership.')
     })
   })
 })
