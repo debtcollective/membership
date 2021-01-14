@@ -12,8 +12,8 @@ describe('Membership Spec', () => {
     })
   })
 
-  describe('error', () => {
-    it("returns error if user doesn't have a valid payment method registered", () => {
+  describe('edge cases', () => {
+    it('creates a membership if user has a stripe_customer without any payment method attached', () => {
       // setup stripe mocks
       cy.appScenario('basic')
       cy.forceLogin({ email: 'empty_stripe_id@example.com' })
@@ -56,7 +56,7 @@ describe('Membership Spec', () => {
         .click()
 
       // assert thank you screen
-      cy.contains('Thank you starting your membership.')
+      cy.contains('Thank you starting your membership.', { timeout: 10000 })
     })
   })
 })
