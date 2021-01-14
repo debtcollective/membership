@@ -54,7 +54,7 @@ RSpec.describe SubscriptionPaymentJob, type: :job do
         donation = subscription.donations.last
 
         expect(subscription.beyond_grace_period?).to eq(false)
-        expect(subscription.donations.count).to eq(2)
+        expect(subscription.donations.count).to eq(1)
         expect(donation.amount).to eq(subscription.amount)
         expect(subscription.last_charge_at.to_i).to be_within(100).of(DateTime.now.to_i)
       end
