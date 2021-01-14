@@ -38,8 +38,9 @@ class Donation < ApplicationRecord
   belongs_to :subscription, optional: true
   belongs_to :user, optional: true
 
-  validates :amount, :customer_stripe_id, :donation_type, presence: true
+  validates :amount, :donation_type, presence: true
   validates :amount, numericality: {greater_than_or_equal_to: 5}, presence: true
+  validates :customer_stripe_id, presence: true, if: -> { is_subscription? }
 
   def date
     created_at.strftime("%m/%d/%Y")
@@ -91,5 +92,13 @@ class Donation < ApplicationRecord
     end
 
     charge_data.dig("receipt_number")
+  end
+
+  def is_one_off?
+    donation_type == DONATION_TYPES[:one_off]
+  end
+
+  def is_subscription?
+    donation_type == DONATION_TYPES[:subscription]
   end
 end
