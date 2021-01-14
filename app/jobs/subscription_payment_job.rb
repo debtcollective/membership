@@ -26,7 +26,24 @@ class SubscriptionPaymentJob < ApplicationJob
 
   def create_charge(subscription)
     user = subscription.user
-    customer = find_stripe_customer(user)
+    customer = user.find_stripe_customer
+
+    # this shouldn't happen, but we need to handle this case
+    unless customer
+      Raven.capture_message(
+        "User with subscription doesn't have a valid Stripe Customer",
+        extra: {
+          user_id: user.id,
+          email: user.email,
+          subscription_id: subscription.id,
+          customer_id: customer&.id
+        }
+      )
+
+      disable_subscription(subscription)
+
+      return
+    end
 
     amount = subscription.amount.to_i
     amount_in_cents = amount * 100
@@ -48,17 +65,6 @@ class SubscriptionPaymentJob < ApplicationJob
     disable_subscription(subscription)
 
     false
-  end
-
-  def find_stripe_customer(user)
-    customer = Stripe::Customer.retrieve(user.stripe_id) if user.stripe_id
-
-    unless customer
-      customer = Stripe::Customer.create(email: user.email)
-      user.update(stripe_id: customer.id)
-    end
-
-    customer
   end
 
   def disable_subscription(subscription)

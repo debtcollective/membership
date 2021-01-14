@@ -70,19 +70,23 @@ class MembershipService
     else
       # Stripe max length for the phone field is 20
       self.stripe_phone_number = phone_number.truncate(20, omission: "")
-      # find or create stripe customer
-      @stripe_customer = user.find_or_create_stripe_customer(source: stripe_token)
 
-      if @stripe_customer.nil?
-        errors.add(:base, user.errors.full_messages.first)
+      # find stripe customer
+      @stripe_customer = user.find_stripe_customer
 
-        Raven.capture_message("Couldn't find or create Stripe Customer", extra: {
-          user_id: user.id,
-          user_email: user.email,
-          error_message: errors[:base]
-        })
+      if @stripe_customer.present?
+        # update default source for stripe customer
+        Stripe::Customer.update(@stripe_customer.id, source: stripe_token)
+      else
+        params = {
+          name: name,
+          email: email,
+          source: stripe_token
+        }
 
-        return Subscription.new, errors
+        @stripe_customer = Stripe::Customer.create(params)
+
+        user.update!(stripe_id: @stripe_customer.id)
       end
 
       subscription = create_paid_membership

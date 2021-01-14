@@ -48,10 +48,14 @@ RSpec.describe Donation, type: :model do
 
   describe "validations" do
     it { is_expected.to validate_presence_of(:amount) }
-    it { is_expected.to validate_presence_of(:customer_stripe_id) }
     it { is_expected.to validate_presence_of(:donation_type) }
     it { is_expected.to allow_value(10).for(:amount) }
     it { is_expected.to_not allow_value(4).for(:amount) }
+
+    context "subscription donation" do
+      before { allow(subject).to receive(:is_subscription?).and_return(true) }
+      it { is_expected.to validate_presence_of(:customer_stripe_id) }
+    end
   end
 
   describe "associations" do
