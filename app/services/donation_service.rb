@@ -118,7 +118,6 @@ class DonationService
           charge_id: stripe_charge.id,
           charge_provider: "stripe",
           customer_ip: customer_ip,
-          customer_stripe_id: customer.id,
           donation_type: Donation::DONATION_TYPES[:one_off],
           fund_id: fund_id,
           status: stripe_charge.status,
