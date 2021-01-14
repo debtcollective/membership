@@ -27,7 +27,9 @@ RSpec.describe SubscriptionPaymentJob, type: :job do
       let(:user) { FactoryBot.create(:user) }
 
       it "charges subscription if last_charge_at is null" do
-        subscription = FactoryBot.create(:subscription, user: user, amount: 25)
+        stripe_customer = Stripe::Customer.create(source: stripe_helper.generate_card_token)
+        user = FactoryBot.create(:user, stripe_id: stripe_customer.id)
+        subscription = FactoryBot.create(:subscription_overdue, user: user, amount: 25)
 
         perform_enqueued_jobs { SubscriptionPaymentJob.perform_later(subscription) }
 
@@ -40,6 +42,8 @@ RSpec.describe SubscriptionPaymentJob, type: :job do
       end
 
       it "charges subscription if it's overdue" do
+        stripe_customer = Stripe::Customer.create(source: stripe_helper.generate_card_token)
+        user = FactoryBot.create(:user, stripe_id: stripe_customer.id)
         subscription = FactoryBot.create(:subscription_overdue, user: user, amount: 25)
 
         expect(subscription.overdue?).to eq(true)

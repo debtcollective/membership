@@ -57,8 +57,8 @@ class DonationService
       Stripe::Charge.create(
         amount: amount_in_cents,
         currency: "usd",
-        source: stripe_token,
-        description: "One-time contribution."
+        description: "One-time contribution.",
+        source: stripe_token
       )
 
     if stripe_charge
@@ -99,23 +99,15 @@ class DonationService
   end
 
   def save_donation_without_user
-    customer =
-      Stripe::Customer.create(
-        name: name,
-        email: email,
-        phone: stripe_phone_number,
-        source: stripe_token
-      )
-
     # amount needs to be in cents for Stripe
     amount_in_cents = amount * 100
 
     stripe_charge =
       Stripe::Charge.create(
-        customer: customer.id,
         amount: amount_in_cents,
-        description: "One time contribution",
-        currency: "usd"
+        currency: "usd",
+        description: "One-time contribution",
+        source: stripe_token
       )
 
     if stripe_charge

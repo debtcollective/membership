@@ -28,8 +28,21 @@ class SubscriptionPaymentJob < ApplicationJob
     user = subscription.user
     customer = user.find_stripe_customer
 
+    # this shouldn't happen, but we need to handle this case
     unless customer
-      # this shouldn't happen, but we need to handle this case
+      Raven.capture_message(
+        "User with subscription doesn't have a valid Stripe Customer",
+        extra: {
+          user_id: user.id,
+          email: user.email,
+          subscription_id: subscription.id,
+          customer_id: customer&.id
+        }
+      )
+
+      disable_subscription(subscription)
+
+      return
     end
 
     amount = subscription.amount.to_i
