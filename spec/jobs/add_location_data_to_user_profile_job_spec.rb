@@ -51,6 +51,40 @@ RSpec.describe AddLocationDataToUserProfileJob do
       expect(user.custom_fields["address_county"]).to eq("Saint Lawrence County")
       expect(user.custom_fields["address_geoloc"]).to eq({"lat" => 44.5947, "lng" => -75.1739})
     end
+
+    it "reschedules job if Algolia returns degradedQuery" do
+      zip_code = user.custom_fields["address_zip"]
+      country_code = user.custom_fields["address_country_code"]
+
+      # Response from the Algolia places API
+      query_response = <<-END
+      {"hits":[],"nbHits":0,"processingTimeMS":1,"query":"#{zip_code}","params":"query=40218&countries=%5B%22US%22%5D&type=address&restrictSearchableAttributes=postcode&hitsPerPage=1","degradedQuery":true}
+      END
+
+      stub_request(:post, "https://places-dsn.algolia.net/1/places/query")
+        .with(
+          body: "{\"query\":\"#{zip_code}\",\"type\":\"address\",\"restrictSearchableAttributes\":\"postcode\",\"hitsPerPage\":1,\"countries\":[\"#{country_code}\"]}",
+          headers: {
+            "Accept" => "application/json",
+            "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+            "Content-Type" => "application/json",
+            "Host" => "places-dsn.algolia.net",
+            "User-Agent" => "Ruby",
+            "X-Algolia-Api-Key" => "",
+            "X-Algolia-Application-Id" => ""
+          }
+        ).to_return(status: 200, body: query_response, headers: {})
+
+      expect_any_instance_of(described_class).to receive(:retry_job)
+
+      perform_enqueued_jobs { AddLocationDataToUserProfileJob.perform_now(user_id: user.id) }
+
+      user.reload
+
+      expect(user.custom_fields["address_state"]).to be_nil
+      expect(user.custom_fields["address_county"]).to be_nil
+      expect(user.custom_fields["address_geoloc"]).to be_nil
+    end
   end
 
   around do |example|

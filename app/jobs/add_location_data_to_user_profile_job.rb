@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+class AlgoliaDegradedQuery < StandardError; end
+
 class AddLocationDataToUserProfileJob < ApplicationJob
   queue_as :default
+  retry_on AlgoliaDegradedQuery, wait: 4.hours, attempts: 2
 
   def perform(user_id:)
     user = User.find(user_id)
@@ -16,7 +19,7 @@ class AddLocationDataToUserProfileJob < ApplicationJob
     location = AlgoliaPlacesClient.query(zip_code, {countries: [country_code]})
 
     if location["degraded_query"]
-      return self.class.perform_in(2.hours)
+      raise AlgoliaDegradedQuery
     end
 
     return if location.nil?

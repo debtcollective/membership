@@ -37,9 +37,7 @@ class AlgoliaPlacesClient
       result = json["hits"].first
 
       if degraded_query && result.blank?
-        return {
-          degraded_query: true
-        }
+        return {"degraded_query" => true}.with_indifferent_access
       end
 
       # no results, return gracefully
