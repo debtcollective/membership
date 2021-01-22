@@ -62,14 +62,14 @@ describe AlgoliaPlacesClient do
       expect(json[:postcodes]).to include("94115")
     end
 
-    it "returns search using zip code" do
+    it "returns search using zip code in another country" do
       # Response from the Algolia places API
       query_response = <<-END
       {"hits":[{"country":{"de":"Mexiko","ru":"Мексика","en":"Mexico","it":"Messico","fr":"Mexique","hu":"Mexikó","zh":"墨西哥","ar":"المكسيك","default":"México","ja":"メキシコ","pl":"Meksyk","ro":"Mexic","nl":"Mexico"},"is_country":false,"city":{"de":["Mexiko-Stadt"],"ru":["Мехико"],"pt":["Cidade do México"],"en":["Mexico City"],"it":["Città del Messico"],"fr":["Mexico"],"hu":["Mexikóváros"],"zh":["墨西哥城"],"ar":["مدينة مكسيكو"],"default":["Ciudad de México","DF","CDMX"],"ja":["メキシコシティ"],"pl":["Meksyk"],"nl":["Mexico-Stad"]},"is_highway":true,"importance":26,"_tags":["highway","highway/residential","country/mx","address","source/osm"],"postcode":["07509","06140","09800","06170"],"county":{"default":["Gustavo A. Madero","Cuauhtémoc","Iztapalapa"]},"population":8555500,"country_code":"mx","is_city":false,"is_popular":false,"administrative":["Ciudad de México"],"admin_level":15,"is_suburb":false,"locale_names":{"default":["Calle Tula"]},"_geoloc":{"lat":19.4738,"lng":-99.0632},"objectID":"170086107_395207047","_highlightResult":{"country":{"de":{"value":"Mexiko","matchLevel":"none","matchedWords":[]},"ru":{"value":"Мексика","matchLevel":"none","matchedWords":[]},"en":{"value":"Mexico","matchLevel":"none","matchedWords":[]},"it":{"value":"Messico","matchLevel":"none","matchedWords":[]},"fr":{"value":"Mexique","matchLevel":"none","matchedWords":[]},"hu":{"value":"Mexikó","matchLevel":"none","matchedWords":[]},"zh":{"value":"墨西哥","matchLevel":"none","matchedWords":[]},"ar":{"value":"المكسيك","matchLevel":"none","matchedWords":[]},"default":{"value":"México","matchLevel":"none","matchedWords":[]},"ja":{"value":"メキシコ","matchLevel":"none","matchedWords":[]},"pl":{"value":"Meksyk","matchLevel":"none","matchedWords":[]},"ro":{"value":"Mexic","matchLevel":"none","matchedWords":[]},"nl":{"value":"Mexico","matchLevel":"none","matchedWords":[]}},"city":{"de":[{"value":"Mexiko-Stadt","matchLevel":"none","matchedWords":[]}],"ru":[{"value":"Мехико","matchLevel":"none","matchedWords":[]}],"pt":[{"value":"Cidade do México","matchLevel":"none","matchedWords":[]}],"en":[{"value":"Mexico City","matchLevel":"none","matchedWords":[]}],"it":[{"value":"Città del Messico","matchLevel":"none","matchedWords":[]}],"fr":[{"value":"Mexico","matchLevel":"none","matchedWords":[]}],"hu":[{"value":"Mexikóváros","matchLevel":"none","matchedWords":[]}],"zh":[{"value":"墨西哥城","matchLevel":"none","matchedWords":[]}],"ar":[{"value":"مدينة مكسيكو","matchLevel":"none","matchedWords":[]}],"default":[{"value":"Ciudad de México","matchLevel":"none","matchedWords":[]},{"value":"DF","matchLevel":"none","matchedWords":[]},{"value":"CDMX","matchLevel":"none","matchedWords":[]}],"ja":[{"value":"メキシコシティ","matchLevel":"none","matchedWords":[]}],"pl":[{"value":"Meksyk","matchLevel":"none","matchedWords":[]}],"nl":[{"value":"Mexico-Stad","matchLevel":"none","matchedWords":[]}]},"postcode":[{"value":"07509","matchLevel":"none","matchedWords":[]},{"value":"<em>06140</em>","matchLevel":"full","fullyHighlighted":true,"matchedWords":["06140"]},{"value":"09800","matchLevel":"none","matchedWords":[]},{"value":"06170","matchLevel":"none","matchedWords":[]}],"county":{"default":[{"value":"Gustavo A. Madero","matchLevel":"none","matchedWords":[]},{"value":"Cuauhtémoc","matchLevel":"none","matchedWords":[]},{"value":"Iztapalapa","matchLevel":"none","matchedWords":[]}]},"administrative":[{"value":"Ciudad de México","matchLevel":"none","matchedWords":[]}],"locale_names":{"default":[{"value":"Calle Tula","matchLevel":"none","matchedWords":[]}]}}}],"nbHits":1,"processingTimeMS":25,"query":"06140","params":"query=06140&type=address&restrictSearchableAttributes=postcode&hitsPerPage=1","degradedQuery":false}
       END
 
-      stub_request(:post, "https://places-dsn.algolia.net/1/places/query").
-        with(
+      stub_request(:post, "https://places-dsn.algolia.net/1/places/query")
+        .with(
           body: "{\"query\":\"06140\",\"type\":\"address\",\"restrictSearchableAttributes\":\"postcode\",\"hitsPerPage\":1}",
           headers: {
             "Accept" => "application/json",
@@ -88,6 +88,21 @@ describe AlgoliaPlacesClient do
       expect(json[:city]).to eq("Ciudad de México")
       expect(json[:state]).to eq("Ciudad de México")
       expect(json[:postcodes]).to include("06140")
+    end
+
+    xit "works without webmock" do
+      WebMock.allow_net_connect!
+
+      ClimateControl.modify(ALGOLIA_APP_ID: ENV["ALGOLIA_APP_ID"], ALGOLIA_API_KEY: ENV["ALGOLIA_API_KEY"]) do
+        zip_code = "94115"
+        country_code = "US".downcase
+
+        location = AlgoliaPlacesClient.query(zip_code, {countries: [country_code]})
+
+        expect(location).not_to be_nil
+      end
+
+      WebMock.disable_net_connect!
     end
   end
 

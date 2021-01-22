@@ -30,8 +30,18 @@ class AlgoliaPlacesClient
       body = response.body
       json = JSON.parse(body)
 
-      # We return the first result
+      # Algolia limits some queries due server capacity
+      # This probably is related to the upcoming deprecation of Places
+      # https://www.algolia.com/blog/product/sunseting-our-places-feature/
+      degraded_query = json["degradedQuery"]
       result = json["hits"].first
+
+      if degraded_query && result.blank?
+        return {"degraded_query" => true}.with_indifferent_access
+      end
+
+      # no results, return gracefully
+      return if result.blank?
 
       {
         city: result["city"]["default"].first,
