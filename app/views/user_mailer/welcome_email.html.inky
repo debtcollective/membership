@@ -6,14 +6,14 @@
         Hello <strong><%= @user.name %></strong> and Welcome to the Debt Collective!
       </h5>
 
-      <spacer size="10"></spacer>
+      <spacer size="25"></spacer>
 
       <p>
-        We are excited to welcome you to the debtors’ union - a new and exciting type of organization where debtors’ come together and fight for debt cancellation and so much more. You are not a loan!!
+        We are excited to welcome you to the debtors’ union -- a new and exciting type of organization where debtors are coming together to fight for debt cancellation -- and so much more. Together, we are uniting to ensure housing, college, medicare and justice for ALL! You are not a loan!
       </p>
 
       <p>
-        The Debt Collective is a member-driven organization, which means we are run by and for our members. As a new member, you are encouraged to get involved in the campaigns, culture and direction of the organization. We are building this organization together and we enthusiastically welcome any thoughts, feedback and new ideas.
+        The Debt Collective is a member-driven organization, which means we are run by and for our members. As a new member, you are encouraged to get involved in the campaigns, culture and direction of the organization. We are building this union together, and we enthusiastically welcome any thoughts, feedback and new ideas.
       </p>
 
       <p>
@@ -25,12 +25,17 @@
       </p>
 
       <p>
-        <strong>Third</strong>, we will be reaching out to all new members shortly to schedule a new member orientation and other trainings to welcome you to the union, get to know you, and empower you to build the union with us!
+        <strong>Third</strong>, be sure to check out our new member calls, held bi-weekly and other activities and events you can be part of. Just log into your website and community forum, and <a href="https://community.debtcollective.org/calendar" target="_blank">check out the events calendar</a>. Don’t forget to introduce yourself, too!
+      </p>
+
+      <p>
+        <strong>Fourth</strong>, watch and share <a href="https://theintercept.com/2021/01/25/student-debt-you-are-not-a-loan-film/" target="_blank">You Are Not Alone documentary</a> to see other Debt Collective members, learn about what we’re fighting for with student debt and help build our movement!
       </p>
 
       <p>
         If you have any questions, please feel free to reach out to us at admin@debtcollective.org.
       </p>
+      <br />
 
       <p>
         In solidarity,<br />
