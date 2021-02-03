@@ -34,19 +34,20 @@
       <spacer size="25"></spacer>
       <container class="footer" bgcolor="#222222">
         <row>
-          <columns large="6">
-            <a href="https://facebook.com/DebtCollective" target="_blank">
-              <p class="text-right">
-                <%= image_tag('https://cdn-images.mailchimp.com/icons/social-block-v2/outline-light-facebook-48.png', size: 24) %>
-              </p>
-            </a>
+          <columns large="4">
+              <a href="https://facebook.com/DebtCollective" target="_blank">
+                <%= image_tag('https://cdn-images.mailchimp.com/icons/social-block-v2/outline-light-facebook-48.png', size: 24, class: "text-center") %>
+              </a>
           </columns>
-          <columns large="6">
-            <a href="https://twitter.com/0debtzone" target="_blank">
-              <p class="text-left">
-                <%= image_tag('https://cdn-images.mailchimp.com/icons/social-block-v2/outline-light-twitter-48.png', size: 24) %>
-              </p>
-            </a>
+          <columns large="4">
+              <a href="https://twitter.com/StrikeDebt" target="_blank">
+                <%= image_tag('https://cdn-images.mailchimp.com/icons/social-block-v2/outline-light-twitter-48.png', size: 24, class: "text-center") %>
+              </a>
+          </columns>
+          <columns large="4">
+              <a href="https://instagram.com/thedebtcollective" target="_blank">
+                <%= image_tag('https://cdn-images.mailchimp.com/icons/social-block-v2/outline-light-instagram-48.png', size: 24, class: "text-center") %>
+              </a>
           </columns>
         </row>
         <row>
