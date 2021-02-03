@@ -37,21 +37,32 @@ class AlgoliaPlacesClient
       result = json["hits"].first
 
       if degraded_query && result.blank?
-        return {"degraded_query" => true}.with_indifferent_access
+        return {degraded_query: true}.with_indifferent_access
       end
 
       # no results, return gracefully
       return if result.blank?
 
+      # Algolia return postcode results as an array of string or as an array of objects
+      # we handle the two cases here.
+      #
+      # Also, the value can return unsanitized HTML
+      postcodes = result["postcode"]
+      postcode = postcodes&.first
+
+      if postcode && postcode.is_a?(Hash)
+        postcode = ActionView::Base.full_sanitizer.sanitize(postcode["value"])
+      end
+
       {
-        city: result["city"]["default"].first,
-        country: result["country"]["default"],
+        city: result["city"]&.[]("default")&.first,
+        country: result["country"]&.[]("default"),
         country_code: result["country_code"],
-        county: result["county"]["default"].first,
+        county: result["county"]&.[]("default")&.first,
         objectID: result["objectID"],
         geoloc: result["_geoloc"],
-        postcodes: result["postcode"],
-        state: result["administrative"].first
+        postcode: postcode,
+        state: result["administrative"]&.first
       }.with_indifferent_access
     end
 

@@ -30,7 +30,7 @@ describe AlgoliaPlacesClient do
       expect(json[:city]).to eq("Canton")
       expect(json[:state]).to eq("New York")
       expect(json[:county]).to eq("Saint Lawrence County")
-      expect(json[:postcodes]).to include("13617")
+      expect(json[:postcode]).to eq("13617")
     end
 
     it "returns search using zip code" do
@@ -59,7 +59,7 @@ describe AlgoliaPlacesClient do
       expect(json[:city]).to eq("San Francisco")
       expect(json[:state]).to eq("California")
       expect(json[:county]).to eq("San Francisco City and County")
-      expect(json[:postcodes]).to include("94115")
+      expect(json[:postcode]).to eq("94118")
     end
 
     it "returns search using zip code in another country" do
@@ -87,7 +87,36 @@ describe AlgoliaPlacesClient do
       expect(json[:country_code]).to eq("mx")
       expect(json[:city]).to eq("Ciudad de México")
       expect(json[:state]).to eq("Ciudad de México")
-      expect(json[:postcodes]).to include("06140")
+      expect(json[:postcode]).to eq("07509")
+    end
+
+    it "doesn't error out when results don't have all the expected fields" do
+      # Response from the Algolia places API
+      query_response = <<-END
+      {"hits":[{"country":{"de":"Mexiko","ru":"Мексика","en":"Mexico","it":"Messico","fr":"Mexique","hu":"Mexikó","zh":"墨西哥","ar":"المكسيك","default":"México","ja":"メキシコ","pl":"Meksyk","ro":"Mexic","nl":"Mexico"},"is_country":false,"city":{}}]}
+      END
+
+      stub_request(:post, "https://places-dsn.algolia.net/1/places/query")
+        .with(
+          body: "{\"query\":\"06140\",\"type\":\"address\",\"restrictSearchableAttributes\":\"postcode\",\"hitsPerPage\":1}",
+          headers: {
+            "Accept" => "application/json",
+            "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+            "Content-Type" => "application/json",
+            "Host" => "places-dsn.algolia.net",
+            "User-Agent" => "Ruby",
+            "X-Algolia-Api-Key" => "",
+            "X-Algolia-Application-Id" => ""
+          }
+        ).to_return(status: 200, body: query_response, headers: {})
+
+      json = AlgoliaPlacesClient.query("06140")
+
+      expect(json[:country]).to eq("México")
+      expect(json[:country_code]).to be_nil
+      expect(json[:city]).to be_nil
+      expect(json[:state]).to be_nil
+      expect(json[:postcode]).to be_nil
     end
 
     xit "works without webmock" do
