@@ -40,6 +40,9 @@ class MembershipService
     # amount needs to be int
     self.amount = params[:amount].to_i
 
+    # normalize email
+    self.email = params[:email].downcase
+
     @user = user
   end
 

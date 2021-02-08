@@ -37,10 +37,14 @@ class DonationService
     # amount needs to be int
     self.amount = params[:amount].to_i
 
+    # normalize email
+    self.email = params[:email].downcase
+
     @user = user
   end
 
   def execute
+
     return Donation.new, errors unless valid?
 
     # Stripe max length for the phone field is 20
