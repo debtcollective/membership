@@ -14,7 +14,9 @@ class AddLocationDataToUserProfileJob < ApplicationJob
 
   def add_user_location_data(user)
     zip_code = user.custom_fields["address_zip"]
-    country_code = user.custom_fields["address_country_code"].downcase
+    country_code = user.custom_fields["address_country_code"]&.downcase
+
+    return unless zip_code.present? && country_code.present?
 
     location = AlgoliaPlacesClient.query(zip_code, {countries: [country_code]})
 
