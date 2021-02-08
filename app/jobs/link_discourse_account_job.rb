@@ -12,9 +12,7 @@ class LinkDiscourseAccountJob < ApplicationJob
     # Find Discourse User
     discourse_user = discourse.find_user_by_email
 
-    # If there's a Discourse user, send verification email
     if discourse_user
-      # and the user confirmed the email, set external_id
       if user.confirmed?
         user.update(external_id: discourse_user["id"])
       else

@@ -18,6 +18,27 @@ class DiscourseService
     })
   end
 
+  def create_user
+    # .required(:name, :email, :password, :username)
+    # .optional(:active, :approved, :staged, :user_fields)
+    client.create_user({
+      name: user.name,
+      email: user.email,
+      password: SecureRandom.hex(rand(20...24)),
+      username: suggest_username()
+    })
+  end
+
+  # Check if username is available
+  def check_username(username)
+    client.check_username(username)
+  end
+
+  def suggest_username(name: user&.name, email: user&.email)
+    # TODO: check if there's an API endpoint for this, and open it up maybe?
+    SecureRandom.hex(rand(20...24))
+  end
+
   # Find user by email
   #
   # email - String - valid email
