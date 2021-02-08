@@ -85,6 +85,22 @@ RSpec.describe AddLocationDataToUserProfileJob do
       expect(user.custom_fields["address_county"]).to be_nil
       expect(user.custom_fields["address_geoloc"]).to be_nil
     end
+
+    it "handles missing country_code correctly" do
+      user.custom_fields["address_country_code"] = nil
+      user.save
+
+      perform_enqueued_jobs do
+        expect { AddLocationDataToUserProfileJob.perform_now(user_id: user.id) }.not_to raise_error
+      end
+
+      user.reload
+
+      expect(user.custom_fields["address_country_code"]).to be_nil
+      expect(user.custom_fields["address_county"]).to be_nil
+      expect(user.custom_fields["address_geoloc"]).to be_nil
+      expect(user.custom_fields["address_geoloc"]).to be_nil
+    end
   end
 
   around do |example|
