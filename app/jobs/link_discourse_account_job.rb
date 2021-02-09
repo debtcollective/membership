@@ -23,8 +23,8 @@ class LinkDiscourseAccountJob < ApplicationJob
       return
     end
 
-    # Invite user to create a Discourse account
-    response = discourse.invite_user
+    # Create discourse account
+    response = discourse.create_user
 
     if response["success"] != "OK"
       Raven.capture_message(

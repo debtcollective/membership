@@ -1,6 +1,14 @@
 class DiscourseService
   attr_reader :user, :client
 
+  # This is the map to match custom_fields with Discourse fields
+  USER_FIELDS_MAP = {
+    "1": "address_state",
+    "2": "address_zip",
+    "3": "phone_number",
+    "4": "address_city"
+  }
+
   def initialize(user)
     @user = user
 
@@ -19,24 +27,24 @@ class DiscourseService
   end
 
   def create_user
-    # .required(:name, :email, :password, :username)
-    # .optional(:active, :approved, :staged, :user_fields)
+    user_fields = {}
+    USER_FIELDS_MAP.each { |key, sym| user_fields[key] = user.custom_fields.fetch(sym, "") }
+
+    password = SecureRandom.hex(rand(20...24))
+
     client.create_user({
-      name: user.name,
       email: user.email,
-      password: SecureRandom.hex(rand(20...24)),
-      username: suggest_username()
+      name: user.name,
+      password: password,
+      staged: true,
+      user_fields: user_fields,
+      username: nil
     })
   end
 
   # Check if username is available
   def check_username(username)
     client.check_username(username)
-  end
-
-  def suggest_username(name: user&.name, email: user&.email)
-    # TODO: check if there's an API endpoint for this, and open it up maybe?
-    SecureRandom.hex(rand(20...24))
   end
 
   # Find user by email

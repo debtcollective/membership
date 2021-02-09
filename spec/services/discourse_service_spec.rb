@@ -96,4 +96,35 @@ RSpec.describe DiscourseService, type: :service do
       expect(response).to be_nil
     end
   end
+
+  describe ".create_user" do
+    it "creates a user with random username and password" do
+      custom_fields = {
+        address_city: Faker::Address.city,
+        address_country_code: Faker::Address.country_code,
+        address_line1: Faker::Address.street_address,
+        address_zip: Faker::Address.zip_code,
+        phone_number: Faker::PhoneNumber.phone_number
+      }
+
+      user = FactoryBot.create(:user, custom_fields: custom_fields)
+
+      discourse = DiscourseService.new(user)
+
+      response = {
+        "success" => true,
+        "active" => false,
+        "message" =>
+          "<p>You’re almost done! We sent an activation mail to <b>eva_aufderhar@wilkinson-weber.co</b>. Please follow the instructions in the mail to activate your account.</p><p>If it doesn’t arrive, check your spam folder.</p>",
+        "user_id" => 4
+      }
+
+      stub_discourse_request(:post, "users")
+        .to_return(status: 200, body: response.to_json, headers: {"Content-Type": "application/json"})
+
+      response = discourse.create_user
+
+      expect(response["success"]).to eq(true)
+    end
+  end
 end
