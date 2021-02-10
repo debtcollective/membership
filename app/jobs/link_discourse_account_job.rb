@@ -26,11 +26,15 @@ class LinkDiscourseAccountJob < ApplicationJob
     # Create discourse account
     response = discourse.create_user
 
-    if response["success"] != "OK"
-      Raven.capture_message(
+    if [true, "OK"].exclude?(response["success"])
+      return Raven.capture_message(
         "Couldn't create a Discourse invite",
         extra: {user_id: user.id, user_email: user.email}
       )
     end
+
+    # save the email_token to use it in the welcome email
+    user.custom_fields["email_token"] = response["email_token"]
+    user.save
   end
 end

@@ -36,7 +36,7 @@ class DiscourseService
       email: user.email,
       name: user.name,
       password: password,
-      staged: true,
+      active: true,
       user_fields: user_fields,
       username: nil
     })
