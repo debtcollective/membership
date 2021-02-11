@@ -36,5 +36,7 @@ class LinkDiscourseAccountJob < ApplicationJob
     user.email_token = response["email_token"]
     user.external_id = response["user_id"]
     user.save!
+
+    UserMailer.welcome_email(user: user).deliver_later
   end
 end

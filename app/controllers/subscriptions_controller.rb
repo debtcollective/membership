@@ -13,11 +13,12 @@ class SubscriptionsController < ApplicationController
 
     # check if user is a bot using token recaptcha
     is_human = verify_recaptcha(action: "membership", minimum_score: 0.5, secret_key: ENV["RECAPTCHA_V3_SECRET_KEY"])
+
     # if users is a bot then return error
     unless is_human
       message = "Oops! Something went wrong. Please try again"
       error = "Human validation has failed"
-      return render json: {status: "failed", errors: [error], message: message }, status: :unprocessable_entity
+      return render json: {status: "failed", errors: [error], message: message}, status: :unprocessable_entity
     end
 
     # We use current_user.user to make sure we are passing the user object and not the wrapper
@@ -28,11 +29,8 @@ class SubscriptionsController < ApplicationController
       if subscription.persisted?
         user = subscription.user
 
-        # send welcome email
-        UserMailer.welcome_email(user: user).deliver_later
-
-        # create temporary session
-        session[:user_id] = user.id
+        # create Discourse account
+        LinkDiscourseAccountJob.perform_later(user)
 
         message = I18n.t(
           "subscription.alerts.success"
