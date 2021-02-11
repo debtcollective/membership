@@ -1,7 +1,7 @@
 class DiscourseService
   attr_reader :user, :client
 
-  # This is the map to match custom_fields with Discourse fields
+  # This is the map to match custom_fields with Discourse user fields
   USER_FIELDS_MAP = {
     "1": "address_state",
     "2": "address_zip",

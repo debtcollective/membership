@@ -10,6 +10,7 @@ class UserMailer < ApplicationMailer
     @user = user
     @subscription = user.active_subscription
     email = @user.email
+    @email_login_url = @user.custom_fields["email_token"]
 
     mail to: email, from: ENV["MAIL_FROM"]
   end
