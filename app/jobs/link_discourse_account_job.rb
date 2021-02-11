@@ -33,8 +33,8 @@ class LinkDiscourseAccountJob < ApplicationJob
       )
     end
 
-    # save the email_token to use it in the welcome email
-    user.custom_fields["email_token"] = response["email_token"]
-    user.save
+    user.email_token = response["email_token"]
+    user.external_id = response["user_id"]
+    user.save!
   end
 end

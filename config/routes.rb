@@ -21,7 +21,10 @@ Rails.application.routes.draw do
   end
 
   resources :user_confirmations, only: %i[index create] do
-    post "/confirm" => "user_confirmations#confirm", :on => :collection
+    collection do
+      post "/confirm" => "user_confirmations#confirm"
+      get "/confirm/:email_token" => "user_confirmations#confirm_email_token", :as => "email_token"
+    end
   end
 
   get "/login" => "sessions#login"

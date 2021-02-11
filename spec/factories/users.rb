@@ -5,6 +5,8 @@
 # Table name: users
 #
 #  id                   :bigint           not null, primary key
+#  activated_at         :datetime
+#  active               :boolean          default(FALSE)
 #  admin                :boolean          default(FALSE)
 #  avatar_url           :string
 #  banned               :boolean          default(FALSE)
@@ -13,6 +15,7 @@
 #  confirmed_at         :datetime
 #  custom_fields        :jsonb
 #  email                :string
+#  email_token          :string
 #  name                 :string
 #  username             :string
 #  created_at           :datetime         not null

@@ -5,6 +5,8 @@
 # Table name: users
 #
 #  id                   :bigint           not null, primary key
+#  activated_at         :datetime
+#  active               :boolean          default(FALSE)
 #  admin                :boolean          default(FALSE)
 #  avatar_url           :string
 #  banned               :boolean          default(FALSE)
@@ -13,6 +15,7 @@
 #  confirmed_at         :datetime
 #  custom_fields        :jsonb
 #  email                :string
+#  email_token          :string
 #  name                 :string
 #  username             :string
 #  created_at           :datetime         not null
@@ -88,8 +91,16 @@ class User < ApplicationRecord
     user
   end
 
+  def self.find_by_email_token(token)
+    User.where(email_token: token).first
+  end
+
   def admin?
     !!admin
+  end
+
+  def activate!
+    update!(active: true, activated_at: DateTime.now)
   end
 
   # TODO: We are getting first_name and last_name from users when the join the union
@@ -107,6 +118,10 @@ class User < ApplicationRecord
 
   def phone_number
     custom_fields["phone_number"]
+  end
+
+  def email_token
+    custom_fields["email_token"]
   end
 
   def confirmed?
