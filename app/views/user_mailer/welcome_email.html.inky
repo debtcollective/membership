@@ -15,12 +15,12 @@
       </p>
 
       <p>
-        Before we move on, you need to finish your registration by activating your account, please click the button below.
+        Before we move on, please click the button below to confirm your account.
       </p>
 
       <spacer size="12"></spacer>
       <button href="<%= @email_login_url %>" target="_blank">
-        Activate your account
+        Confirm your account
       </button>
       <spacer size="12"></spacer>
 

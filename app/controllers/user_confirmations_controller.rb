@@ -51,7 +51,7 @@ class UserConfirmationsController < ApplicationController
 
   # POST /user_confirmations/confirm/:email_token
   def confirm_email_token
-    @user = User.find_by_email_token(user_confirmation_params[:email_token])
+    @user = User.find_by_email_token!(params[:email_token])
 
     respond_to do |format|
       if @user&.activate!
@@ -60,7 +60,7 @@ class UserConfirmationsController < ApplicationController
         format.html { redirect_to email_login_url }
         format.json { render json: {status: "success", message: "Email confirmed", redirect_url: email_login_url}, status: :ok }
       else
-        format.html { render :confirm, notice: "Invalid activate link. If this is an error please contact support at https://debtcollective.org", status: :not_found }
+        format.html { render plain: "We couldn't activate your account. If this is an error please contact support at https://debtcollective.org", status: :internal_server_error }
         format.json { render json: {status: "failed", message: "Invalid confirmation token"}, status: :not_found }
       end
     end

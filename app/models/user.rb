@@ -91,10 +91,6 @@ class User < ApplicationRecord
     user
   end
 
-  def self.find_by_email_token(token)
-    User.where(email_token: token).first
-  end
-
   def admin?
     !!admin
   end

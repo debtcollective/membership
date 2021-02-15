@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   before_action :set_raven_context
   helper_method :current_user, :logged_in?
 
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
   def current_user
     @current_user ||= SessionProvider.new(cookies, session).current_user
   rescue JWT::VerificationError => e
@@ -29,6 +31,10 @@ class ApplicationController < ActionController::Base
 
   def redirect_to_home_page
     redirect_to ENV["HOME_PAGE_URL"]
+  end
+
+  def not_found
+    raise ActionController::RoutingError.new("Not Found")
   end
 
   private
