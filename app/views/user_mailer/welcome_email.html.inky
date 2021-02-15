@@ -19,7 +19,7 @@
       </p>
 
       <spacer size="12"></spacer>
-      <button href="<%= @email_login_url %>" target="_blank">
+      <button href="<%= url_for(action: 'confirm_email_token', controller: 'user_confirmations', email_token: @user.email_token) %>" target="_blank">
         Confirm your account
       </button>
       <spacer size="12"></spacer>

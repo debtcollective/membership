@@ -47,7 +47,6 @@ class MembershipService
   end
 
   def execute
-    binding.pry
     return Subscription.new, errors unless valid?
 
     # find or create user if no user was provided

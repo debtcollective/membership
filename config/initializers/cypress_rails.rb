@@ -5,6 +5,8 @@ CypressRails.hooks.before_server_start do
   DatabaseCleaner.clean
 
   FactoryBot.create(:default_fund)
+
+  ActiveJob::Base.queue_adapter = :test
 end
 
 CypressRails.hooks.after_transaction_start do

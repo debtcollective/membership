@@ -10,7 +10,6 @@ class UserMailer < ApplicationMailer
     @user = user
     @subscription = user.active_subscription
     email = @user.email
-    @email_login_url = email_token_user_confirmations_url(email_token: @user.email_token)
 
     mail to: email, from: ENV["MAIL_FROM"]
   end
