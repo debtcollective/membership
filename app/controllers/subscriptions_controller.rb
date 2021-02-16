@@ -32,9 +32,6 @@ class SubscriptionsController < ApplicationController
       if subscription.persisted?
         user = subscription.user
 
-        # create Discourse account
-        LinkDiscourseAccountJob.perform_later(user)
-
         message = I18n.t(
           "subscription.alerts.success"
         )
