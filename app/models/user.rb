@@ -116,10 +116,6 @@ class User < ApplicationRecord
     custom_fields["phone_number"]
   end
 
-  def email_token
-    custom_fields["email_token"]
-  end
-
   def confirmed?
     external_id.present? || confirmed_at.present?
   end
