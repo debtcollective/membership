@@ -63,4 +63,21 @@ RSpec.describe UserConfirmationsController, type: :controller do
       expect(response.status).to eq(404)
     end
   end
+
+  describe "GET #confirm_email_token" do
+    it "activates user account and redirects to email token" do
+      user = FactoryBot.create(:user, email_token: SecureRandom.hex(20))
+
+      get :confirm_email_token, params: {email_token: user.email_token}
+      user.reload
+
+      expect(response.status).to eq(302)
+      expect(user.activated_at).to be_within(1.second).of DateTime.now
+      expect(user.active?).to eq(true)
+    end
+
+    it "returns not found if token is invalid" do
+      expect { get :confirm_email_token, params: {email_token: SecureRandom.hex(20)} }.to raise_error(ActionController::RoutingError)
+    end
+  end
 end

@@ -49,7 +49,7 @@ class UserConfirmationsController < ApplicationController
     end
   end
 
-  # POST /user_confirmations/confirm/:email_token
+  # GET /user_confirmations/confirm/:email_token
   def confirm_email_token
     @user = User.find_by_email_token!(params[:email_token])
 
