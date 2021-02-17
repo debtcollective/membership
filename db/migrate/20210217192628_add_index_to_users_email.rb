@@ -5,10 +5,3 @@ class AddIndexToUsersEmail < ActiveRecord::Migration[6.1]
     add_index :users, :email, unique: true, algorithm: :concurrently
   end
 end
-
-
-emails = {}
-
-User.find_each do |user|
-  emails[user.email.downcase] = emails[user.email.downcase].to_i + 1
-end

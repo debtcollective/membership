@@ -15,7 +15,7 @@ class SubscribeUserToNewsletterJob < ApplicationJob
     phone_number = user.phone_number
 
     gibbon = Gibbon::Request.new(api_key: api_key, debug: debug)
-    email_digest = Digest::MD5.hexdigest(email.downcase)
+    email_digest = Digest::MD5.hexdigest(email)
 
     newsletter_params = {
       email_address: email,
