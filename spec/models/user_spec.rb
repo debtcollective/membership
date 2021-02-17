@@ -23,10 +23,14 @@
 #  external_id          :bigint
 #  stripe_id            :string
 #
+# Indexes
+#
+#  index_users_on_email  (email) UNIQUE
+#
 require "rails_helper"
 
 RSpec.describe User, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   subject { user }
 
@@ -43,6 +47,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "validations" do
+    it { should validate_uniqueness_of(:email).ignoring_case_sensitivity }
   end
 
   describe "associations" do

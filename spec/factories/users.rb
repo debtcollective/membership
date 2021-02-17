@@ -23,6 +23,10 @@
 #  external_id          :bigint
 #  stripe_id            :string
 #
+# Indexes
+#
+#  index_users_on_email  (email) UNIQUE
+#
 FactoryBot.define do
   sequence :external_id do |n|
     n

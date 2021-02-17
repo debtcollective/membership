@@ -23,6 +23,10 @@
 #  external_id          :bigint
 #  stripe_id            :string
 #
+# Indexes
+#
+#  index_users_on_email  (email) UNIQUE
+#
 class User < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
@@ -38,6 +42,8 @@ class User < ApplicationRecord
   has_many :subscriptions
   has_many :donations
   has_many :user_plan_changes
+
+  validates :email, presence: true, 'valid_email_2/email': true, uniqueness: {case_sensitive: false}
 
   def self.find_or_create_from_sso(payload)
     email = payload.fetch("email")&.downcase
