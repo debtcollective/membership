@@ -43,7 +43,7 @@ class User < ApplicationRecord
   has_many :donations
   has_many :user_plan_changes
 
-  validates :email, presence: true, 'valid_email_2/email': true, uniqueness: {case_sensitive: false}
+  validates :email, presence: true, 'valid_email_2/email': {disposable: true}, uniqueness: {case_sensitive: false}
 
   def self.find_or_create_from_sso(payload)
     email = payload.fetch("email")&.downcase
