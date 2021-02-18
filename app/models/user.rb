@@ -23,6 +23,10 @@
 #  external_id          :bigint
 #  stripe_id            :string
 #
+# Indexes
+#
+#  index_users_on_email  (email) UNIQUE
+#
 class User < ApplicationRecord
   include ActionView::Helpers::DateHelper
 
@@ -38,6 +42,8 @@ class User < ApplicationRecord
   has_many :subscriptions
   has_many :donations
   has_many :user_plan_changes
+
+  validates :email, presence: true, 'valid_email_2/email': {disposable: true}, uniqueness: {case_sensitive: false}
 
   def self.find_or_create_from_sso(payload)
     email = payload.fetch("email")&.downcase
@@ -116,6 +122,10 @@ class User < ApplicationRecord
     custom_fields["phone_number"]
   end
 
+  def email
+    super()&.downcase
+  end
+
   def confirmed?
     external_id.present? || confirmed_at.present?
   end
@@ -130,10 +140,5 @@ class User < ApplicationRecord
 
   def find_stripe_customer
     return Stripe::Customer.retrieve(stripe_id) if stripe_id
-  end
-
-  # return all emails downcase
-  def email
-    super()&.downcase
   end
 end
