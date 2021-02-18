@@ -1,4 +1,5 @@
 ---
+
 version: 2.1
 executors:
   docker-publisher:
@@ -252,7 +253,7 @@ jobs:
     docker:
       - image: circleci/ruby:2.7.2-node-browsers
     environment:
-      ECS_CLUSTER: stage
+      ECS_CLUSTER: test
       ECS_SERVICE: membership
     steps:
       - checkout
@@ -340,22 +341,25 @@ workflows:
             - e2e
           filters:
             branches:
-              only: master
-      - release:
-          requires:
-            - test
-            - e2e
-            - build
-          filters:
-            branches:
-              only: master
+              only: [master, development]
       - publish_latest:
           requires:
-            - test
+            - build
+          filters:
+            branches:
+              only: [master, development]
+      - release:
+          requires:
             - build
           filters:
             branches:
               only: master
+      - deploy_stage:
+          requires:
+            - publish_latest
+          filters:
+            branches:
+              only: development
       - deploy_prod_approval:
           type: approval
           requires:
