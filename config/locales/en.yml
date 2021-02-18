@@ -8,9 +8,9 @@ en:
       min_amount: "We couldn't the process payment the minimum amount that can be donated is $5 USD due fees charged by our payments provider."
   subscription:
     alerts:
-      success: 'Thank you starting your membership.'
+      success: "Thank you for joining! You will receive an email with instructions to activate your account."
     errors:
-      active_subscription: 'A Subscription exists with this email address.'
+      active_subscription: "A Subscription exists with this email address."
   donation_mailer:
     thank_you_email:
       subject: Thank you for your contribution to Debt Collective!

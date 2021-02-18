@@ -96,4 +96,59 @@ RSpec.describe DiscourseService, type: :service do
       expect(response).to be_nil
     end
   end
+
+  describe ".create_user" do
+    it "creates a user with random username and password" do
+      custom_fields = {
+        address_city: Faker::Address.city,
+        address_country_code: Faker::Address.country_code,
+        address_line1: Faker::Address.street_address,
+        address_zip: Faker::Address.zip_code,
+        phone_number: Faker::PhoneNumber.phone_number
+      }
+
+      user = FactoryBot.create(:user, custom_fields: custom_fields)
+
+      discourse = DiscourseService.new(user)
+
+      response = {
+        "success" => true,
+        "active" => true,
+        "email_token" => "15fa6c1c626cb97ccf18e5abd537260e",
+        "message" =>
+          "Your account is activated and ready to use.",
+        "user_id" => 9
+      }
+
+      stub_discourse_request(:post, "users")
+        .to_return(status: 200, body: response.to_json, headers: {"Content-Type": "application/json"})
+
+      response = discourse.create_user
+
+      expect(response["success"]).to eq(true)
+    end
+
+    xit "creates a user with random username and password against the API" do
+      custom_fields = {
+        address_city: Faker::Address.city,
+        address_country_code: Faker::Address.country_code,
+        address_line1: Faker::Address.street_address,
+        address_zip: Faker::Address.zip_code,
+        phone_number: Faker::PhoneNumber.phone_number
+      }
+
+      user = FactoryBot.create(:user, custom_fields: custom_fields)
+
+      WebMock.allow_net_connect!
+
+      discourse = DiscourseService.new(user)
+
+      response = discourse.create_user
+
+      expect(response["success"]).to eq(true)
+      expect(response["email_token"]).to be_truthy
+
+      WebMock.disable_net_connect!
+    end
+  end
 end

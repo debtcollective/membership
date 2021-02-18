@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>FUNDRAISING</h1>
+  <h2>Membership</h2>
 </div>
 
 Membership is a simple app for non profit organizations, that allows users to create an account using [Discourse](https://discourse.org) and donate to the organization. It contains the following features:

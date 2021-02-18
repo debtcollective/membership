@@ -7,7 +7,7 @@ module Helpers
           "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
           "Api-Key" => ENV["DISCOURSE_API_KEY"],
           "Api-Username" => ENV["DISCOURSE_USERNAME"],
-          "User-Agent" => "DiscourseAPI Ruby Gem 0.42.0"
+          "User-Agent" => "DiscourseAPI Ruby Gem 0.45.0"
         }
       }
 

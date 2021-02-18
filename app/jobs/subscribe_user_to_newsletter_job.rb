@@ -7,6 +7,8 @@ class SubscribeUserToNewsletterJob < ApplicationJob
     api_key = ENV["MAILCHIMP_API_KEY"]
     list_id = ENV["MAILCHIMP_LIST_ID"]
 
+    return unless api_key.present? && list_id.present?
+
     user = User.find(user_id)
     email = user.email
     customer_ip = user.custom_fields["customer_ip"]

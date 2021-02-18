@@ -22,7 +22,7 @@ gem 'redis', '~> 4.0'
 gem 'redis-namespace', '1.8'
 gem 'ffi', '~> 1.9', '>= 1.9.25'
 gem 'rack-cors', '1.1.1'
-gem 'discourse_api', '0.42.0'
+gem 'discourse_api', '0.45.0'
 
 # Emails
 gem 'inky-rb', '1.3.8.0', require: 'inky'
@@ -70,7 +70,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.5'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'

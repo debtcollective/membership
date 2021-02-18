@@ -3,14 +3,36 @@
     <columns large="12">
       <spacer size="25"></spacer>
       <h5>
-        Hello <strong><%= @user.name %></strong> and Welcome to the Debt Collective!
+        Hello <strong><%= @user.name %></strong>
       </h5>
+      <h6>
+        Welcome to the Debt Collective!
+      </h6>
 
-      <spacer size="25"></spacer>
 
       <p>
         We are excited to welcome you to the debtors’ union -- a new and exciting type of organization where debtors are coming together to fight for debt cancellation -- and so much more. Together, we are uniting to ensure housing, college, medicare and justice for ALL! You are not a loan!
       </p>
+
+      <p>
+        Before we move on, please click the button below to confirm your account.
+      </p>
+
+      <spacer size="12"></spacer>
+      <button href="<%= url_for(action: 'confirm_email_token', controller: 'user_confirmations', email_token: @user.email_token) %>" target="_blank">
+        Confirm your account
+      </button>
+      <spacer size="12"></spacer>
+
+      <p>
+        Make sure your email is correct, if not you can always change it from your profile page.
+      </p>
+
+      <spacer size="25"></spacer>
+
+      <h6>
+        As a new member
+      </h6>
 
       <p>
         The Debt Collective is a member-driven organization, which means we are run by and for our members. As a new member, you are encouraged to get involved in the campaigns, culture and direction of the organization. We are building this union together, and we enthusiastically welcome any thoughts, feedback and new ideas.
@@ -39,7 +61,7 @@
 
       <p>
         In solidarity,<br />
-        Debt Collective
+        The Debt Collective
       </p>
     </columns>
   </row>

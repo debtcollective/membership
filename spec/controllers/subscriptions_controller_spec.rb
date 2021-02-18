@@ -26,8 +26,8 @@ RSpec.describe SubscriptionsController, type: :controller do
     end
 
     context "happy" do
-      it "creates a membership and sends the welcome email" do
-        expect(UserMailer).to receive_message_chain(:welcome_email, :deliver_later)
+      it "creates a membership and enqueues job to create discourse account" do
+        expect(LinkDiscourseAccountJob).to receive_message_chain(:perform_later)
 
         params = {subscription: valid_params.merge({amount: 23})}
         expect { post :create, params: params, session: {} }.to change { Subscription.count }.by(1)
@@ -46,11 +46,11 @@ RSpec.describe SubscriptionsController, type: :controller do
         parsed_body = JSON.parse(response.body)
         expect(response).to have_http_status(200)
         expect(parsed_body["status"]).to eq("succeeded")
-        expect(parsed_body["message"]).to eq("Thank you starting your membership.")
+        expect(parsed_body["message"]).to eq("Thank you for joining! You will receive an email with instructions to activate your account.")
       end
 
-      it "creates a membership and sends the welcome email when amount is zero" do
-        expect(UserMailer).to receive_message_chain(:welcome_email, :deliver_later)
+      it "creates a non-paid membership" do
+        expect(LinkDiscourseAccountJob).to receive_message_chain(:perform_later)
 
         params = {subscription: valid_params.merge({amount: 0})}
         expect { post :create, params: params, session: {} }.to change { Subscription.count }.by(1)
@@ -68,7 +68,7 @@ RSpec.describe SubscriptionsController, type: :controller do
         parsed_body = JSON.parse(response.body)
         expect(response).to have_http_status(200)
         expect(parsed_body["status"]).to eq("succeeded")
-        expect(parsed_body["message"]).to eq("Thank you starting your membership.")
+        expect(parsed_body["message"]).to eq("Thank you for joining! You will receive an email with instructions to activate your account.")
       end
 
       it "doesn't create a Membership if a required field is missing" do
@@ -84,8 +84,8 @@ RSpec.describe SubscriptionsController, type: :controller do
         expect(parsed_body["errors"]["amount"]).to eq(["must be greater than or equal to 5"])
       end
 
-      it "creates a User and a Subscription if there's no current_user and sets the session" do
-        expect(UserMailer).to receive_message_chain(:welcome_email, :deliver_later)
+      it "creates a User and a Subscription if there's no current_user" do
+        expect(LinkDiscourseAccountJob).to receive_message_chain(:perform_later)
 
         expect(User.count).to eq(0)
 
@@ -101,13 +101,11 @@ RSpec.describe SubscriptionsController, type: :controller do
         parsed_body = JSON.parse(response.body)
         expect(response).to have_http_status(200)
         expect(parsed_body["status"]).to eq("succeeded")
-        expect(parsed_body["message"]).to eq("Thank you starting your membership.")
+        expect(parsed_body["message"]).to eq("Thank you for joining! You will receive an email with instructions to activate your account.")
 
         expect(subscription.active).to eq(true)
         expect(subscription.amount).to eq(23)
         expect(subscription.last_charge_at).to be_within(2.second).of DateTime.now
-
-        expect(session[:user_id]).to eq(user.id)
 
         expect(donation.donation_type).to eq(Donation::DONATION_TYPES[:subscription])
         expect(donation.amount).to eq(23)

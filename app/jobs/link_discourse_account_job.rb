@@ -12,9 +12,7 @@ class LinkDiscourseAccountJob < ApplicationJob
     # Find Discourse User
     discourse_user = discourse.find_user_by_email
 
-    # If there's a Discourse user, send verification email
     if discourse_user
-      # and the user confirmed the email, set external_id
       if user.confirmed?
         user.update(external_id: discourse_user["id"])
       else
@@ -25,14 +23,20 @@ class LinkDiscourseAccountJob < ApplicationJob
       return
     end
 
-    # Invite user to create a Discourse account
-    response = discourse.invite_user
+    # Create discourse account
+    response = discourse.create_user
 
-    if response["success"] != "OK"
-      Raven.capture_message(
+    if [true, "OK"].exclude?(response["success"])
+      return Raven.capture_message(
         "Couldn't create a Discourse invite",
         extra: {user_id: user.id, user_email: user.email}
       )
     end
+
+    user.email_token = response["email_token"]
+    user.external_id = response["user_id"]
+    user.save!
+
+    UserMailer.welcome_email(user: user).deliver_later
   end
 end

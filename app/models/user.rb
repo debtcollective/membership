@@ -5,6 +5,8 @@
 # Table name: users
 #
 #  id                   :bigint           not null, primary key
+#  activated_at         :datetime
+#  active               :boolean          default(FALSE)
 #  admin                :boolean          default(FALSE)
 #  avatar_url           :string
 #  banned               :boolean          default(FALSE)
@@ -13,6 +15,7 @@
 #  confirmed_at         :datetime
 #  custom_fields        :jsonb
 #  email                :string
+#  email_token          :string
 #  name                 :string
 #  username             :string
 #  created_at           :datetime         not null
@@ -37,7 +40,7 @@ class User < ApplicationRecord
   has_many :user_plan_changes
 
   def self.find_or_create_from_sso(payload)
-    email = payload.fetch("email")
+    email = payload.fetch("email")&.downcase
     external_id = payload.fetch("external_id")
 
     # find by email when the external_id is nil
@@ -61,7 +64,7 @@ class User < ApplicationRecord
   end
 
   def self.send_confirmation_instructions(email:)
-    user = User.find_by_email(email)
+    user = User.find_by_email(email.downcase)
 
     if user
       confirmation_token = user.confirmation_token || SecureRandom.hex(20)
@@ -90,6 +93,10 @@ class User < ApplicationRecord
 
   def admin?
     !!admin
+  end
+
+  def activate!
+    update!(active: true, activated_at: DateTime.now)
   end
 
   # TODO: We are getting first_name and last_name from users when the join the union
@@ -123,5 +130,10 @@ class User < ApplicationRecord
 
   def find_stripe_customer
     return Stripe::Customer.retrieve(stripe_id) if stripe_id
+  end
+
+  # return all emails downcase
+  def email
+    super()&.downcase
   end
 end
