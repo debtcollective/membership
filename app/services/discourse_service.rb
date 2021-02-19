@@ -37,6 +37,7 @@ class DiscourseService
       name: user.name,
       password: password,
       active: true,
+      approved: true,
       user_fields: user_fields,
       username: nil
     })
