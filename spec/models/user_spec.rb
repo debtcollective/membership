@@ -91,5 +91,14 @@ RSpec.describe User, type: :model do
       expect(user.email).to eq(email)
       expect(user.external_id).to eq(external_id)
     end
+
+    it "before validation normalizes attributes" do
+      user = FactoryBot.build(:user, email: "ExAmPlE@TeSt.com")
+      expect(user.email).to eq("ExAmPlE@TeSt.com")
+
+      user.valid?
+
+      expect(user.email).to eq("example@test.com")
+    end
   end
 end
