@@ -51,13 +51,14 @@ class UserConfirmationsController < ApplicationController
 
   # GET /user_confirmations/confirm_email/:email_token
   def confirm_email_token
-    @user = User.find_by_email_token!(params[:email_token])
+    @email_token = params[:email_token]
+    @user = User.find_by_email_token!(@email_token)
 
     respond_to do |format|
       if @user
-        format.html { render :index, status: :ok }
+        format.html { render :confirm_email_token, status: :ok }
       else
-        format.html { render :index, status: :not_found }
+        format.html { render :confirm_email_token, status: :not_found }
       end
     end
   end
