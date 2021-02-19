@@ -23,7 +23,9 @@ Rails.application.routes.draw do
   resources :user_confirmations, only: %i[index create] do
     collection do
       post "/confirm" => "user_confirmations#confirm"
-      get "/confirm/:email_token" => "user_confirmations#confirm_email_token", :as => "email_token"
+
+      get "/confirm_email/:email_token" => "user_confirmations#confirm_email_token", :as => "confirm_email_token"
+      post "/confirm_email" => "user_confirmations#confirm_email", :as => "confirm_email"
     end
   end
 
