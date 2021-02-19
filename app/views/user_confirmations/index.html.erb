@@ -1,6 +1,8 @@
 <% if @user %>
   <% if @user.confirmed? %>
-    <p>This email has been already confirmed</p>
+    <p>Your email has been already confirmed</p>
+
+    <p><%= link_to "Click here to go to the login page", discourse_url('/login') %></p>
   <% else %>
     <p>Please click the button below to confirm your email</p>
 
@@ -9,7 +11,7 @@
         <%= f.hidden_field(:confirmation_token, value: @confirmation_token) %>
 
         <div class="form-row">
-          <button id="submit-payment" type="submit" class="button primary">Confirm my email</button>
+          <%= f.submit "Confirm my email", id: "button-submit", class: "button primary", data: { disable_with: "Loading..."} %>
         </div>
       <% end %>
     <% end %>
