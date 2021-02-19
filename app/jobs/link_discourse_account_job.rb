@@ -33,6 +33,7 @@ class LinkDiscourseAccountJob < ApplicationJob
       )
     end
 
+    user.username = response["username"]
     user.email_token = response["email_token"]
     user.external_id = response["user_id"]
     user.save!
