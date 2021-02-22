@@ -32,7 +32,8 @@ describe "UserConfirmations", type: :feature do
 
       visit "/user_confirmations?confirmation_token=#{user.confirmation_token}"
 
-      expect(page).to have_content("This email has been already confirmed")
+      expect(page).to have_content("Your email has been already confirmed")
+      expect(page).to have_content("Click here to go to the login page")
     end
   end
 end
