@@ -45,5 +45,9 @@ FactoryBot.define do
     factory :user_with_confirmation_token do
       confirmation_token { SecureRandom.hex(20) }
     end
+
+    factory :user_with_email_token do
+      email_token { SecureRandom.hex(20) }
+    end
   end
 end

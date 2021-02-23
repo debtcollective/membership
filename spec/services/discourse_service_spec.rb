@@ -117,7 +117,8 @@ RSpec.describe DiscourseService, type: :service do
         "email_token" => "15fa6c1c626cb97ccf18e5abd537260e",
         "message" =>
           "Your account is activated and ready to use.",
-        "user_id" => 9
+        "user_id" => 9,
+        "username" => "orlando"
       }
 
       stub_discourse_request(:post, "users")

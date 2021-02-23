@@ -45,6 +45,8 @@ class User < ApplicationRecord
 
   validates :email, presence: true, 'valid_email_2/email': {disposable: true}, uniqueness: {case_sensitive: false}
 
+  before_validation :normalize_attributes
+
   def self.find_or_create_from_sso(payload)
     email = payload.fetch("email")&.downcase
     external_id = payload.fetch("external_id")
@@ -122,10 +124,6 @@ class User < ApplicationRecord
     custom_fields["phone_number"]
   end
 
-  def email
-    super()&.downcase
-  end
-
   def confirmed?
     external_id.present? || confirmed_at.present?
   end
@@ -140,5 +138,11 @@ class User < ApplicationRecord
 
   def find_stripe_customer
     return Stripe::Customer.retrieve(stripe_id) if stripe_id
+  end
+
+  private
+
+  def normalize_attributes
+    self.email = email&.downcase
   end
 end

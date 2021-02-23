@@ -1,14 +1,15 @@
 <% if @user %>
-  <% if @user.confirmed? %>
+  <% if @user.active? %>
     <p>Your email has been already confirmed</p>
 
     <p><%= link_to "Click here to go to the login page", discourse_url('/login') %></p>
   <% else %>
-    <p>Please click the button below to confirm your email</p>
+    <h2>Hello <%= @user.name.titleize %>!</h2>
+    <p>Please click the button below to confirm your email.</p>
 
-    <%= form_with(url: confirm_user_confirmations_path, method: 'post', local: true) do %>
+    <%= form_with(url: confirm_email_user_confirmations_path, method: 'post') do %>
       <%= fields_for(:user_confirmation) do |f|%>
-        <%= f.hidden_field(:confirmation_token, value: @confirmation_token) %>
+        <%= f.hidden_field(:email_token, value: @email_token) %>
 
         <div class="form-row">
           <%= f.submit "Confirm my email", id: "button-submit", class: "button primary", data: { disable_with: "Loading..."} %>
