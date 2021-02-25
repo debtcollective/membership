@@ -30,7 +30,7 @@ class DiscourseService
     user_fields = {}
     USER_FIELDS_MAP.each { |key, sym| user_fields[key] = user.custom_fields.fetch(sym, "") }
 
-    password = SecureRandom.hex(rand(20...24))
+    password = SecureRandom.hex(rand(24...32))
 
     client.create_user({
       email: user.email,
@@ -41,6 +41,11 @@ class DiscourseService
       user_fields: user_fields,
       username: nil
     })
+  end
+
+  # This is used to create an email login link
+  def create_email_token
+    client.post("/u/email-token.json", {login: user.email})
   end
 
   # Check if username is available

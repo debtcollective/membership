@@ -152,4 +152,62 @@ RSpec.describe DiscourseService, type: :service do
       WebMock.disable_net_connect!
     end
   end
+
+  describe ".create_email_token" do
+    it "creates a email token" do
+      user = FactoryBot.create(:user)
+
+      discourse = DiscourseService.new(user)
+
+      response = {
+        "success" => "OK",
+        "user_found" => true,
+        "email_token" => "15fa6c1c626cb97ccf18e5abd537260e"
+      }
+
+      stub_discourse_request(:post, "u/email-token.json")
+        .to_return(status: 200, body: response.to_json, headers: {"Content-Type": "application/json"})
+
+      response = discourse.create_email_token
+
+      expect(response["success"]).to eq("OK")
+      expect(response["user_found"]).to eq(true)
+      expect(response["email_token"]).to eq("15fa6c1c626cb97ccf18e5abd537260e")
+    end
+
+    it "returns user_found false when no user is found" do
+      user = FactoryBot.create(:user, email: "notfound@example.com")
+      discourse = DiscourseService.new(user)
+
+      response = {
+        "success" => "OK",
+        "user_found" => false,
+        "email_token" => nil
+      }
+
+      stub_discourse_request(:post, "u/email-token.json", {login: user.email})
+        .to_return(status: 200, body: response.to_json, headers: {"Content-Type": "application/json"})
+
+      response = discourse.create_email_token
+
+      expect(response["success"]).to eq("OK")
+      expect(response["user_found"]).to eq(false)
+      expect(response["email_token"]).to be_falsy
+    end
+
+    xit "creates a email token against the API" do
+      user = FactoryBot.create(:user, email: "orlando@debtcollective.org")
+
+      WebMock.allow_net_connect!
+
+      discourse = DiscourseService.new(user)
+      response = discourse.create_email_token
+
+      expect(response["success"]).to eq("OK")
+      expect(response["user_found"]).to eq(true)
+      expect(response["email_token"]).to be_truthy
+
+      WebMock.disable_net_connect!
+    end
+  end
 end
