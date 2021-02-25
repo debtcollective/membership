@@ -104,8 +104,8 @@ class User < ApplicationRecord
   end
 
   def confirm!
-    user.confirmed_at ||= DateTime.now
-    user.save!
+    self.confirmed_at ||= DateTime.now
+    save!
   end
 
   def activate!
