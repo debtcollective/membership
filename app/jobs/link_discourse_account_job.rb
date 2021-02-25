@@ -13,6 +13,9 @@ class LinkDiscourseAccountJob < ApplicationJob
     discourse_user = discourse.find_user_by_email
 
     if discourse_user
+      # TODO: here's how we need to refactor this part
+      # Link the user, save external_id
+      # create an email_token for this user and send the welcome email.
       if user.confirmed?
         user.update(external_id: discourse_user["id"])
       else

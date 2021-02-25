@@ -6,12 +6,10 @@
 #
 #  id                   :bigint           not null, primary key
 #  activated_at         :datetime
-#  active               :boolean          default(FALSE)
 #  admin                :boolean          default(FALSE)
 #  avatar_url           :string
 #  banned               :boolean          default(FALSE)
 #  confirmation_sent_at :datetime
-#  confirmation_token   :string
 #  confirmed_at         :datetime
 #  custom_fields        :jsonb
 #  email                :string
@@ -64,8 +62,10 @@ class User < ApplicationRecord
       user[sso_attribute] = payload[sso_attribute]
     end
 
-    new_record = user.new_record?
+    # Since the user comes from SSO, we can confirm the accoun
+    user.confirm!
 
+    new_record = user.new_record?
     user.save
 
     [user, new_record]
@@ -101,6 +101,11 @@ class User < ApplicationRecord
 
   def admin?
     !!admin
+  end
+
+  def confirm!
+    user.confirmed_at ||= DateTime.now
+    user.save!
   end
 
   def activate!

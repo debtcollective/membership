@@ -18,7 +18,6 @@ RSpec.describe LinkDiscourseAccountJob, type: :job do
         user = FactoryBot.create(:user, external_id: nil, confirmed_at: DateTime.now)
 
         expect_any_instance_of(DiscourseService).to receive(:find_user_by_email).and_return({"id" => 10})
-        expect_any_instance_of(DiscourseService).not_to receive(:invite_user)
 
         perform_enqueued_jobs { LinkDiscourseAccountJob.perform_later(user) }
 
@@ -30,7 +29,7 @@ RSpec.describe LinkDiscourseAccountJob, type: :job do
         user = FactoryBot.create(:user, external_id: nil)
 
         expect_any_instance_of(DiscourseService).to receive(:find_user_by_email).and_return({"id" => 10})
-        expect_any_instance_of(DiscourseService).not_to receive(:invite_user)
+
         expect(UserMailer).to receive_message_chain(:confirmation_email, :deliver_later)
 
         perform_enqueued_jobs { LinkDiscourseAccountJob.perform_later(user) }

@@ -6,12 +6,10 @@
 #
 #  id                   :bigint           not null, primary key
 #  activated_at         :datetime
-#  active               :boolean          default(FALSE)
 #  admin                :boolean          default(FALSE)
 #  avatar_url           :string
 #  banned               :boolean          default(FALSE)
 #  confirmation_sent_at :datetime
-#  confirmation_token   :string
 #  confirmed_at         :datetime
 #  custom_fields        :jsonb
 #  email                :string
