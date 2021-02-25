@@ -43,7 +43,7 @@ class LinkDiscourseAccountJob < ApplicationJob
     end
 
     user.save!
-    logger.info("Discourse account #{id} linked with user id #{self.id}")
+    logger.info("Discourse account #{response["user_id"]} linked with user id #{user.id}")
 
     UserMailer.welcome_email(user: user).deliver_later
   end
