@@ -5,7 +5,6 @@
 # Table name: users
 #
 #  id                   :bigint           not null, primary key
-#  activated_at         :datetime
 #  admin                :boolean          default(FALSE)
 #  avatar_url           :string
 #  banned               :boolean          default(FALSE)
