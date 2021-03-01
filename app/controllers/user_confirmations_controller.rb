@@ -23,7 +23,7 @@ class UserConfirmationsController < ApplicationController
     @user = User.find_by_email_token!(@email_token)
 
     respond_to do |format|
-      if @user&.activate!
+      if @user&.confirm!
         email_login_url = "#{ENV["DISCOURSE_URL"]}/session/email-login/#{@user.email_token}"
 
         format.html { redirect_to email_login_url }

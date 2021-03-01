@@ -71,45 +71,12 @@ class User < ApplicationRecord
     [user, new_record]
   end
 
-  def self.send_confirmation_instructions(email:)
-    user = User.find_by_email(email.downcase)
-
-    if user
-      confirmation_token = user.confirmation_token || SecureRandom.hex(20)
-      user.update(confirmation_token: confirmation_token, confirmation_sent_at: DateTime.now)
-      UserMailer.confirmation_email(user: user).deliver_later
-    else
-      user = User.new
-      user.errors.add(:base, "User not found")
-    end
-
-    user
-  end
-
-  def self.confirm_by_token(confirmation_token)
-    user = User.find_by_confirmation_token(confirmation_token)
-
-    if user
-      user.update(confirmation_token: nil, confirmed_at: DateTime.now)
-    else
-      user = User.new
-      user.errors.add(:base, "Invalid confirmation token")
-    end
-
-    user
-  end
-
-  def admin?
-    !!admin
-  end
-
   def confirm!
-    self.confirmed_at ||= DateTime.now
-    save!
+    update!(confirmed_at: DateTime.now)
   end
 
-  def activate!
-    update!(active: true, activated_at: DateTime.now)
+  def send_welcome_email
+    UserMailer.welcome_email(user: self).deliver_later
   end
 
   # TODO: We are getting first_name and last_name from users when the join the union
