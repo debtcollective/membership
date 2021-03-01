@@ -62,8 +62,8 @@ class User < ApplicationRecord
       user[sso_attribute] = payload[sso_attribute]
     end
 
-    # Since the user comes from SSO, we can confirm the accoun
-    user.confirm!
+    # Since the user comes from SSO, we can confirm the account
+    user.confirmed_at ||= DateTime.now
 
     new_record = user.new_record?
     user.save

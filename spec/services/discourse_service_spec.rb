@@ -195,6 +195,26 @@ RSpec.describe DiscourseService, type: :service do
       expect(response["email_token"]).to be_falsy
     end
 
+    it "creates an email token" do
+      user = FactoryBot.create(:user, email: "orlando@debtcollective.org")
+
+      response = {
+        "success" => "OK",
+        "user_found" => true,
+        "email_token" => "29fa89dd95e1f5008fbad2b3fca9011e"
+      }
+
+      stub_discourse_request(:post, "u/email-token.json", {login: user.email})
+        .to_return(status: 200, body: response.to_json, headers: {"Content-Type": "application/json"})
+
+      discourse = DiscourseService.new(user)
+      response = discourse.create_email_token
+
+      expect(response["success"]).to eq("OK")
+      expect(response["user_found"]).to eq(true)
+      expect(response["email_token"]).to be_truthy
+    end
+
     xit "creates a email token against the API" do
       user = FactoryBot.create(:user, email: "orlando@debtcollective.org")
 
