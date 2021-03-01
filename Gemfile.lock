@@ -397,7 +397,7 @@ GEM
     standard (0.7)
       rubocop (= 0.92)
       rubocop-performance (= 1.8.1)
-    stripe (5.26.0)
+    stripe (5.30.0)
     stripe-ruby-mock (3.0.1)
       dante (>= 0.2.0)
       multi_json (~> 1.0)
@@ -492,7 +492,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   standard (= 0.7)
-  stripe (= 5.26.0)
+  stripe (= 5.30.0)
   stripe-ruby-mock (= 3.0.1)
   thwait
   timecop (~> 0.9.1)
