@@ -26,6 +26,7 @@ class LinkDiscourseAccountJob < ApplicationJob
       end
 
       user.email_token = response["email_token"]
+      logger.info("Discourse account #{discourse_user["id"]} linked with user id #{user.id}")
     else
       # Create discourse account
       response = discourse.create_user
@@ -40,10 +41,10 @@ class LinkDiscourseAccountJob < ApplicationJob
       user.email_token = response["email_token"]
       user.external_id = response["user_id"]
       user.username = response["username"]
+      logger.info("Discourse account created. discourse_id: #{response["user_id"]} user_id: #{user.id}")
     end
 
     user.save!
-    logger.info("Discourse account #{response["user_id"]} linked with user id #{user.id}")
 
     user.send_welcome_email
   end
