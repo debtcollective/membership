@@ -13,8 +13,8 @@ RSpec.describe LinkDiscourseAccountJob, type: :job do
   end
 
   describe "#perform" do
-    context "existing account" do
-      it "it links user and sends welcome email" do
+    context "existing discourse account" do
+      it "persist discourse user information on the user record" do
         user = FactoryBot.create(:user, external_id: nil)
         email_token = SecureRandom.hex(20)
 
@@ -31,7 +31,7 @@ RSpec.describe LinkDiscourseAccountJob, type: :job do
       end
     end
 
-    context "new account" do
+    context "new discourse account" do
       it "creates a discourse account and updates the user record" do
         user = FactoryBot.create(:user, external_id: nil)
         response = {
