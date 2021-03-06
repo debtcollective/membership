@@ -89,5 +89,5 @@ group :test do
   gem 'stripe-ruby-mock', '3.0.1', :require => 'stripe_mock'
   gem 'timecop', '~> 0.9.1'
   gem 'webdrivers', '4.4.1'
-  gem 'webmock', '3.9.1'
+  gem 'webmock', '3.12.1'
 end
