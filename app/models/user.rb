@@ -5,13 +5,10 @@
 # Table name: users
 #
 #  id                   :bigint           not null, primary key
-#  activated_at         :datetime
-#  active               :boolean          default(FALSE)
 #  admin                :boolean          default(FALSE)
 #  avatar_url           :string
 #  banned               :boolean          default(FALSE)
 #  confirmation_sent_at :datetime
-#  confirmation_token   :string
 #  confirmed_at         :datetime
 #  custom_fields        :jsonb
 #  email                :string
@@ -64,47 +61,21 @@ class User < ApplicationRecord
       user[sso_attribute] = payload[sso_attribute]
     end
 
-    new_record = user.new_record?
+    # Since the user comes from SSO, we can confirm the account
+    user.confirmed_at ||= DateTime.now
 
+    new_record = user.new_record?
     user.save
 
     [user, new_record]
   end
 
-  def self.send_confirmation_instructions(email:)
-    user = User.find_by_email(email.downcase)
-
-    if user
-      confirmation_token = user.confirmation_token || SecureRandom.hex(20)
-      user.update(confirmation_token: confirmation_token, confirmation_sent_at: DateTime.now)
-      UserMailer.confirmation_email(user: user).deliver_later
-    else
-      user = User.new
-      user.errors.add(:base, "User not found")
-    end
-
-    user
+  def confirm!
+    update!(confirmed_at: DateTime.now)
   end
 
-  def self.confirm_by_token(confirmation_token)
-    user = User.find_by_confirmation_token(confirmation_token)
-
-    if user
-      user.update(confirmation_token: nil, confirmed_at: DateTime.now)
-    else
-      user = User.new
-      user.errors.add(:base, "Invalid confirmation token")
-    end
-
-    user
-  end
-
-  def admin?
-    !!admin
-  end
-
-  def activate!
-    update!(active: true, activated_at: DateTime.now)
+  def send_welcome_email
+    UserMailer.welcome_email(user: self).deliver_later
   end
 
   # TODO: We are getting first_name and last_name from users when the join the union

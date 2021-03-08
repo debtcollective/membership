@@ -13,31 +13,39 @@ class LinkDiscourseAccountJob < ApplicationJob
     discourse_user = discourse.find_user_by_email
 
     if discourse_user
-      if user.confirmed?
-        user.update(external_id: discourse_user["id"])
-      else
-        # send confirmation email
-        User.send_confirmation_instructions(email: user.email)
+      user.external_id = discourse_user["id"]
+      user.username = discourse_user["username"]
+
+      response = discourse.create_email_token
+
+      if [true, "OK"].exclude?(response["success"])
+        return Raven.capture_message(
+          "Couldn't create a Discourse invite",
+          extra: {user_id: user.id, user_email: user.email}
+        )
       end
 
-      return
+      user.email_token = response["email_token"]
+      logger.info("Discourse account #{discourse_user["id"]} linked with user id #{user.id}")
+    else
+      # Create discourse account
+      response = discourse.create_user
+
+      if [true, "OK"].exclude?(response["success"])
+        return Raven.capture_message(
+          "Couldn't create a Discourse invite",
+          extra: {user_id: user.id, user_email: user.email}
+        )
+      end
+
+      user.email_token = response["email_token"]
+      user.external_id = response["user_id"]
+      user.username = response["username"]
+      logger.info("Discourse account created. discourse_id: #{response["user_id"]} user_id: #{user.id}")
     end
 
-    # Create discourse account
-    response = discourse.create_user
-
-    if [true, "OK"].exclude?(response["success"])
-      return Raven.capture_message(
-        "Couldn't create a Discourse invite",
-        extra: {user_id: user.id, user_email: user.email}
-      )
-    end
-
-    user.username = response["username"]
-    user.email_token = response["email_token"]
-    user.external_id = response["user_id"]
     user.save!
 
-    UserMailer.welcome_email(user: user).deliver_later
+    user.send_welcome_email
   end
 end
