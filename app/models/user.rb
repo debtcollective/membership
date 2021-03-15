@@ -96,7 +96,7 @@ class User < ApplicationRecord
   end
 
   def confirmed?
-    external_id.present? || confirmed_at.present?
+    confirmed_at.present?
   end
 
   def pending_plan_change
