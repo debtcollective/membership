@@ -44,6 +44,7 @@ class LinkDiscourseAccountJob < ApplicationJob
       logger.info("Discourse account created. discourse_id: #{response["user_id"]} user_id: #{user.id}")
     end
 
+    user.confirmation_sent_at = DateTime.now
     user.save!
 
     user.send_welcome_email
