@@ -58,7 +58,7 @@ describe('Membership Spec', () => {
       // assert thank you screen
       cy.contains(
         'Thank you for joining! You will receive an email with instructions to activate your account.',
-        { timeout: 10000 }
+        { timeout: 15000 }
       )
     })
   })
