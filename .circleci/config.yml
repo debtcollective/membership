@@ -263,9 +263,9 @@ jobs:
       # restore cache
       - restore_cache:
           keys:
-            - membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
-            - membership-{{ checksum "Gemfile.lock" }}
-            - membership-
+            - bust-membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - bust-membership-{{ checksum "Gemfile.lock" }}
+            - bust-membership-
 
       - run:
           name: configure bundler
@@ -305,9 +305,9 @@ jobs:
       # restore cache
       - restore_cache:
           keys:
-            - membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
-            - membership-{{ checksum "Gemfile.lock" }}
-            - membership-
+            - bust-membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - bust-membership-{{ checksum "Gemfile.lock" }}
+            - bust-membership-
 
       - run:
           name: configure bundler
