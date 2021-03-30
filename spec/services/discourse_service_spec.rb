@@ -230,4 +230,67 @@ RSpec.describe DiscourseService, type: :service do
       WebMock.disable_net_connect!
     end
   end
+
+  describe ".update_user" do
+    it "updates a user profile" do
+      custom_fields = {
+        address_state: Faker::Address.state,
+        address_city: Faker::Address.city,
+        address_country_code: Faker::Address.country_code,
+        address_line1: Faker::Address.street_address,
+        address_zip: Faker::Address.zip_code,
+        phone_number: Faker::PhoneNumber.phone_number
+      }
+
+      user = FactoryBot.create(:user, custom_fields: custom_fields, username: "orlando", external_id: 1)
+
+      discourse = DiscourseService.new(user)
+
+      response = {
+        "success" => "OK",
+        "user" => {
+          "id" => 1,
+          "username" => user.username,
+          "name" => nil,
+          "avatar_template" => "/user_avatar/localhost/orlando/{size}/1_2.png",
+          "last_posted_at" => "2021-03-10T23:29:24.167Z",
+          "last_seen_at" => "2021-03-30T20:49:51.686Z",
+          "created_at" => "2021-03-08T21:53:49.518Z",
+          "ignored" => false,
+          "muted" => false,
+          "can_ignore_user" => false
+        }
+      }
+
+      stub_discourse_request(:put, "u/#{user.username}")
+        .to_return(status: 200, body: response.to_json, headers: {"Content-Type": "application/json"})
+
+      response = discourse.update_user
+
+      expect(response["success"]).to eq("OK")
+    end
+
+    xit "updates a user profile against the API" do
+      custom_fields = {
+        address_state: Faker::Address.state,
+        address_city: Faker::Address.city,
+        address_country_code: Faker::Address.country_code,
+        address_line1: Faker::Address.street_address,
+        address_zip: Faker::Address.zip_code,
+        phone_number: Faker::PhoneNumber.phone_number
+      }
+
+      user = FactoryBot.create(:user, custom_fields: custom_fields, external_id: 1, username: "orlando")
+
+      WebMock.allow_net_connect!
+
+      discourse = DiscourseService.new(user)
+
+      response = discourse.update_user
+
+      expect(response["success"]).to eq("OK")
+
+      WebMock.disable_net_connect!
+    end
+  end
 end

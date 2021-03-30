@@ -27,9 +27,6 @@ class DiscourseService
   end
 
   def create_user
-    user_fields = {}
-    USER_FIELDS_MAP.each { |key, sym| user_fields[key] = user.custom_fields.fetch(sym, "") }
-
     password = SecureRandom.hex(rand(24...32))
 
     client.create_user({
@@ -41,6 +38,19 @@ class DiscourseService
       user_fields: user_fields,
       username: nil
     })
+  end
+
+  def user_fields
+    user_fields_hash = {}
+    USER_FIELDS_MAP.each { |key, sym| user_fields_hash[key] = user.custom_fields.fetch(sym, "") }
+
+    user_fields_hash
+  end
+
+  def update_user
+    client.update_user(user.username, {
+      user_fields: user_fields
+    })&.body
   end
 
   # This is used to create an email login link
