@@ -88,6 +88,7 @@ group :test do
   gem 'shoulda-matchers', '4.4.1'
   gem 'stripe-ruby-mock', '3.0.1', :require => 'stripe_mock'
   gem 'timecop', '~> 0.9.1'
+  gem 'vcr', '6.0.0'
   gem 'webdrivers', '4.4.1'
   gem 'webmock', '3.9.1'
 end
