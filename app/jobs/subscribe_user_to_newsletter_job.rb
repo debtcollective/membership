@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+class UserMissingStateError < StandardError; end
+
 class SubscribeUserToNewsletterJob < ApplicationJob
-  queue_as :default
+  queue_as :mailers
+  retry_on UserMissingStateError, wait: 5.minutes, attempts: 2
 
   def perform(user_id:, tags: [], debug: true)
     api_key = ENV["MAILCHIMP_API_KEY"]
@@ -12,6 +15,13 @@ class SubscribeUserToNewsletterJob < ApplicationJob
     user = User.find(user_id)
     email = user.email
     customer_ip = user.custom_fields["customer_ip"]
+
+    # We need the user to have the State field in their profile for this not to fail
+    # We are getting this from Algolia, but I think we need to add this field to the membership widget
+    #
+    # TODO: remove this code when we ask for the state on the membership widget
+    address_state = user.custom_fields["address_state"]
+    raise UserMissingStateError if address_state.blank?
 
     gibbon = Gibbon::Request.new(api_key: api_key, debug: debug)
     email_digest = Digest::MD5.hexdigest(email)
@@ -59,7 +69,7 @@ class SubscribeUserToNewsletterJob < ApplicationJob
       addr1: custom_fields["address_line1"],
       city: custom_fields["address_city"],
       country: custom_fields["address_country_code"],
-      state: custom_fields.fetch("address_state", "n/a"),
+      state: custom_fields["address_state"],
       zip: custom_fields["address_zip"]
     }
 

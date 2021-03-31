@@ -13,12 +13,12 @@ RSpec.describe SubscribeUserToNewsletterJob, type: :job do
     end
 
     it "is in default queue" do
-      expect(SubscriptionPaymentJob.new.queue_name).to eq("default")
+      expect(described_class.new.queue_name).to eq("mailers")
     end
   end
 
-  describe "#perform", vcr: {record: :once} do
-    context "happy" do
+  describe "#perform" do
+    context "happy", vcr: {record: :once} do
       let(:user) {
         FactoryBot.create(:user,
           email: "no-reply@debtcollective.org",
@@ -46,6 +46,26 @@ RSpec.describe SubscribeUserToNewsletterJob, type: :job do
 
         user.reload
         expect(user.custom_fields["subscribed_to_newsletter"]).to eq(true)
+      end
+    end
+
+    context "error" do
+      it "retries the job if the user doesn't have the state in their profile" do
+        user = FactoryBot.create(:user,
+          email: "no-reply@debtcollective.org",
+          name: "Orlando Del Aguila",
+          custom_fields: {
+            phone_number: "+1 (603) 337-6816",
+            customer_ip: "127.0.0.1",
+            address_city: "Canton",
+            address_country_code: "US",
+            address_line1: "PO Box 593",
+            address_zip: "13617-9998"
+          })
+
+        expect_any_instance_of(described_class).to receive(:retry_job)
+
+        perform_enqueued_jobs { SubscribeUserToNewsletterJob.perform_later(user_id: user.id) }
       end
     end
   end
