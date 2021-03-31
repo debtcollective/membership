@@ -63,9 +63,22 @@ RSpec.describe SubscribeUserToNewsletterJob, type: :job do
             address_zip: "13617-9998"
           })
 
-        expect_any_instance_of(described_class).to receive(:retry_job)
+        stub_request(:put, "https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252").
+          with(
+            body: "{\"email_address\":\"no-reply@debtcollective.org\",\"status\":\"subscribed\",\"ip_signup\":\"127.0.0.1\",\"merge_fields\":{\"FNAME\":\"Orlando\",\"LNAME\":\"Del Aguila\",\"PHONE\":\"+1 (603) 337-6816\"}}",
+            headers: {
+              "Accept" => "*/*",
+              "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+              "Authorization" => "Basic YXBpa2V5OmFhMTExMTExYzExZTAwMDAwMGUwYjExZDBkMGExMTExLXVzMjA=",
+              "Content-Type" => "application/json",
+              "User-Agent" => "Faraday v1.3.0"
+            }
+          )
+          .to_return(status: 200, body: "", headers: {})
 
-        perform_enqueued_jobs { SubscribeUserToNewsletterJob.perform_later(user_id: user.id) }
+        assert_performed_jobs 2 do
+          SubscribeUserToNewsletterJob.perform_later(user_id: user.id)
+        end
       end
     end
   end

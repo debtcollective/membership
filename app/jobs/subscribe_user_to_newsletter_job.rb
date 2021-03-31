@@ -19,9 +19,10 @@ class SubscribeUserToNewsletterJob < ApplicationJob
     # We need the user to have the State field in their profile for this not to fail
     # We are getting this from Algolia, but I think we need to add this field to the membership widget
     #
+    # Here we raise an error on the first execution if the address is missing
     # TODO: remove this code when we ask for the state on the membership widget
     address_state = user.custom_fields["address_state"]
-    raise UserMissingStateError if address_state.blank?
+    raise UserMissingStateError if address_state.blank? && executions == 1
 
     gibbon = Gibbon::Request.new(api_key: api_key, debug: debug)
     email_digest = Digest::MD5.hexdigest(email)
