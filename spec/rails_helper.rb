@@ -21,6 +21,9 @@ VCR.configure do |c|
   c.configure_rspec_metadata!
 end
 
+# Turn off VCR by default and only enable it when the :vcr metadata key is present
+VCR.turn_off!
+
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -127,6 +130,15 @@ RSpec.configure do |config|
 
   # Shoulda on service tests
   config.include(Shoulda::Matchers::ActiveModel, type: :service)
+
+  # Enable VCR
+  config.before(:all, :vcr) do
+    VCR.turn_on!
+  end
+
+  config.after(:all, :vcr) do
+    VCR.turn_off!
+  end
 end
 
 Shoulda::Matchers.configure do |config|
