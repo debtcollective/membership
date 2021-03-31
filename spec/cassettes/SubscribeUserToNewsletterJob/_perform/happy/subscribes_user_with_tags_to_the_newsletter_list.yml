@@ -1,0 +1,88 @@
+---
+http_interactions:
+- request:
+    method: put
+    uri: https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252
+    body:
+      encoding: UTF-8
+      string: '{"email_address":"no-reply@debtcollective.org","status":"subscribed","ip_signup":"127.0.0.1","merge_fields":{"FNAME":"Orlando","LNAME":"Del
+        Aguila","ADDRESS":{"addr1":"PO Box 593","city":"Canton","country":"US","state":"New
+        York","zip":"13617-9998"},"PHONE":"+1 (603) 337-6816"}}'
+    headers:
+      User-Agent:
+      - Faraday v1.3.0
+      Authorization:
+      - Basic YXBpa2V5OmFhMTExMTExYzExZTAwMDAwMGUwYjExZDBkMGExMTExLXVzMjA=
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Request-Id:
+      - 14adb61b-5ebd-459b-8b24-35d1d05073c8
+      Link:
+      - <https://us20.api.mailchimp.com/schema/3.0/Lists/Members/Instance.json>; rel="describedBy",
+        <https://us20.admin.mailchimp.com/lists/members/view?id=438031006>; rel="dashboard"
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Wed, 31 Mar 2021 21:43:28 GMT
+      Content-Length:
+      - '3324'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"id":"cc580437dcf8d2ad667ccb8f4b416252","email_address":"no-reply@debtcollective.org","unique_email_id":"4d053b75f2","web_id":438031006,"email_type":"html","status":"subscribed","merge_fields":{"FNAME":"Orlando","LNAME":"Del
+        Aguila","ADDRESS":{"addr1":"PO Box 593","addr2":"","city":"Canton","state":"New
+        York","zip":"13617-9998","country":"US"},"PHONE":"+1 (603) 337-6816","BIRTHDAY":""},"stats":{"avg_open_rate":0,"avg_click_rate":0},"ip_signup":"","timestamp_signup":"","ip_opt":"189.203.97.85","timestamp_opt":"2021-03-31T21:12:59+00:00","member_rating":2,"last_changed":"2021-03-31T21:43:28+00:00","language":"","vip":false,"email_client":"Apple
+        Mail","location":{"latitude":20.6,"longitude":-103.39,"gmtoff":0,"dstoff":0,"country_code":"MX","timezone":""},"source":"API
+        - Generic","tags_count":0,"tags":[],"list_id":"ab12345ab6","_links":[{"rel":"self","href":"https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252","method":"GET","targetSchema":"https://us20.api.mailchimp.com/schema/3.0/Definitions/Lists/Members/Response.json"},{"rel":"parent","href":"https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members","method":"GET","targetSchema":"https://us20.api.mailchimp.com/schema/3.0/Definitions/Lists/Members/CollectionResponse.json","schema":"https://us20.api.mailchimp.com/schema/3.0/Paths/Lists/Members/Collection.json"},{"rel":"update","href":"https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252","method":"PATCH","targetSchema":"https://us20.api.mailchimp.com/schema/3.0/Definitions/Lists/Members/Response.json","schema":"https://us20.api.mailchimp.com/schema/3.0/Definitions/Lists/Members/PATCH.json"},{"rel":"upsert","href":"https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252","method":"PUT","targetSchema":"https://us20.api.mailchimp.com/schema/3.0/Definitions/Lists/Members/Response.json","schema":"https://us20.api.mailchimp.com/schema/3.0/Definitions/Lists/Members/PUT.json"},{"rel":"delete","href":"https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252","method":"DELETE"},{"rel":"activity","href":"https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252/activity","method":"GET","targetSchema":"https://us20.api.mailchimp.com/schema/3.0/Definitions/Lists/Members/Activity/Response.json"},{"rel":"goals","href":"https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252/goals","method":"GET","targetSchema":"https://us20.api.mailchimp.com/schema/3.0/Definitions/Lists/Members/Goals/Response.json"},{"rel":"notes","href":"https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252/notes","method":"GET","targetSchema":"https://us20.api.mailchimp.com/schema/3.0/Definitions/Lists/Members/Notes/CollectionResponse.json"},{"rel":"events","href":"https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252/events","method":"POST","targetSchema":"https://us20.api.mailchimp.com/schema/3.0/Definitions/Lists/Members/Events/POST.json"},{"rel":"delete_permanent","href":"https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252/actions/delete-permanent","method":"POST"}]}'
+  recorded_at: Wed, 31 Mar 2021 21:43:28 GMT
+- request:
+    method: post
+    uri: https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252/tags
+    body:
+      encoding: UTF-8
+      string: '{"tags":[{"name":"member","status":"active"}]}'
+    headers:
+      User-Agent:
+      - Faraday v1.3.0
+      Authorization:
+      - Basic YXBpa2V5OmFhMTExMTExYzExZTAwMDAwMGUwYjExZDBkMGExMTExLXVzMjA=
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Server:
+      - openresty
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Request-Id:
+      - 354802e8-0ee4-4075-9c4f-d5106cd4fdba
+      Date:
+      - Wed, 31 Mar 2021 21:43:29 GMT
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Wed, 31 Mar 2021 21:43:29 GMT
+recorded_with: VCR 6.0.0

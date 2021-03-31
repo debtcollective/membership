@@ -17,47 +17,44 @@ RSpec.describe SubscribeUserToNewsletterJob, type: :job do
     end
   end
 
-  describe "#perform" do
+  describe "#perform", vcr: {record: :once} do
     context "happy" do
-      let(:user) { FactoryBot.create(:user, email: "orlando@example.com", custom_fields: {phone_number: Faker::PhoneNumber.phone_number, customer_ip: "127.0.0.1"}) }
+      let(:user) {
+        FactoryBot.create(:user,
+          email: "no-reply@debtcollective.org",
+          name: "Orlando Del Aguila",
+          custom_fields: {
+            phone_number: "+1 (603) 337-6816",
+            customer_ip: "127.0.0.1",
+            address_city: "Canton",
+            address_state: "New York",
+            address_country_code: "US",
+            address_line1: "PO Box 593",
+            address_zip: "13617-9998"
+          })
+      }
 
       it "subscribes user to the newsletter list" do
-        # mock calls
-        email_hash = Digest::MD5.hexdigest(user.email)
-        stub_request(:put, "https://us8.api.mailchimp.com/3.0/lists/#{ENV["MAILCHIMP_LIST_ID"]}/members/#{email_hash}")
-          .to_return(status: 200, body: "", headers: {})
-
-        perform_enqueued_jobs { SubscribeUserToNewsletterJob.perform_later(user_id: user.id) }
+        SubscribeUserToNewsletterJob.perform_now(user_id: user.id)
 
         user.reload
-
-        expect(user.id).to eq(user.id)
+        expect(user.custom_fields["subscribed_to_newsletter"]).to eq(true)
       end
 
       it "subscribes user with tags to the newsletter list" do
-        # mock calls
-        email_hash = Digest::MD5.hexdigest(user.email)
-        stub_request(:put, "https://us8.api.mailchimp.com/3.0/lists/#{ENV["MAILCHIMP_LIST_ID"]}/members/#{email_hash}")
-          .to_return(status: 200, body: "", headers: {})
-
-        stub_request(:post, "https://us8.api.mailchimp.com/3.0/lists/#{ENV["MAILCHIMP_LIST_ID"]}/members/#{email_hash}/tags")
-          .with(body: "{\"tags\":[{\"name\":\"member\",\"status\":\"active\"}]}")
-          .to_return(status: 200, body: "", headers: {})
-
-        perform_enqueued_jobs { SubscribeUserToNewsletterJob.perform_later(user_id: user.id, tags: [{name: "member", status: "active"}]) }
+        SubscribeUserToNewsletterJob.perform_now(user_id: user.id, tags: [{name: "member", status: "active"}])
 
         user.reload
-
-        expect(user.id).to eq(user.id)
+        expect(user.custom_fields["subscribed_to_newsletter"]).to eq(true)
       end
-    end
-
-    context "error" do
     end
   end
 
   around do |example|
-    ClimateControl.modify(MAILCHIMP_API_KEY: "aa111111c11e000000e0b11d0d0a1111-us8", MAILCHIMP_LIST_ID: "ab12345ab6") do
+    ClimateControl.modify(
+      MAILCHIMP_API_KEY: "aa111111c11e000000e0b11d0d0a1111-us20",
+      MAILCHIMP_LIST_ID: "ab12345ab6"
+    ) do
       example.run
     end
   end
