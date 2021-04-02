@@ -46,7 +46,7 @@ gem 'recaptcha', '~> 5.2', '>= 5.2.1'
 gem 'bootsnap', '1.7.0', require: false
 
 # Background jobs
-gem 'sidekiq', '6.1.2'
+gem 'sidekiq', '6.2.0'
 gem 'sidekiq-scheduler', '3.0.1'
 
 # monitoring
