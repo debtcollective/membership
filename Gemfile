@@ -82,7 +82,7 @@ group :test do
   gem 'climate_control', '~> 0.2.0'
   gem 'codecov', '0.4.3', require: false
   gem 'database_cleaner-active_record', '2.0.0'
-  gem 'rspec-mocks', '3.10.1'
+  gem 'rspec-mocks', '3.10.2'
   gem 'rspec-rails', '4.0.2'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'shoulda-matchers', '4.4.1'
