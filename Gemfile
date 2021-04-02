@@ -66,7 +66,7 @@ group :development, :test do
   gem 'faker', '~> 2.1', '>= 2.1.2'
   gem 'guard-rspec', '4.7.3', require: false
   gem 'pry-byebug', '~> 3.9.0'
-  gem 'standard', '0.7'
+  gem 'standard', '0.13.0'
 end
 
 group :development do
