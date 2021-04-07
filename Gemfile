@@ -24,10 +24,13 @@ gem 'ffi', '~> 1.9', '>= 1.9.25'
 gem 'rack-cors', '1.1.1'
 gem 'discourse_api', '0.45.0'
 
+# Validations
+gem 'validate_url', '1.0.13'
+gem 'valid_email2', '3.6.0'
+
 # Emails
 gem 'inky-rb', '1.3.8.0', require: 'inky'
 gem 'premailer-rails', '1.11.1'
-gem 'valid_email2', '3.6.0'
 gem 'gibbon', '3.3.4'
 
 # front-end libraries

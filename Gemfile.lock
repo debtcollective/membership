@@ -419,6 +419,9 @@ GEM
     valid_email2 (3.6.0)
       activemodel (>= 3.2)
       mail (~> 2.5)
+    validate_url (1.0.13)
+      activemodel (>= 3.0.0)
+      public_suffix
     vcr (6.0.0)
     webdrivers (4.6.0)
       nokogiri (~> 1.6)
@@ -501,6 +504,7 @@ DEPENDENCIES
   timecop (~> 0.9.1)
   turbolinks (~> 5)
   valid_email2 (= 3.6.0)
+  validate_url (= 1.0.13)
   vcr (= 6.0.0)
   webdrivers (= 4.6.0)
   webmock (= 3.12.2)

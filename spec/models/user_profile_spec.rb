@@ -34,24 +34,19 @@
 #  index_user_profiles_on_profile_completed  (profile_completed)
 #  index_user_profiles_on_user_id            (user_id)
 #
-class UserProfile < ApplicationRecord
-  TITLES = ["Mr", "Mrs", "Ms", "Miss", "Dr", "Mx", "Profesor"]
+require "rails_helper"
 
-  belongs_to :user
+RSpec.describe UserProfile, type: :model do
+  let(:user_profile) { FactoryBot.create(:user_profile) }
 
-  validates :title, inclusion: {in: TITLES}
-  validates :first_name, presence: true
-  validates :last_name, presence: true
-  validates :birthday, inclusion: {in: ->(date) { 15.years.ago..Date.today }}
-  validates :phone_number, presence: true, length: {minimum: 7, maximum: 15}
-  validates :address_line1, presence: true
-  validates :address_city, presence: true
-  validates :address_zip, presence: true
-  validates :address_country_code,
-    presence: true,
-    inclusion: {in: ISO3166::Country.all.map(&:alpha2)}
-  validates :facebook, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
-  validates :twitter, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
-  validates :instagram, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
-  validates :website, url: {allow_nil: true, no_local: true}
+  subject { user_profile }
+
+  describe "validations" do
+    it { should validate_presence_of(:first_name) }
+    it { should validate_presence_of(:last_name) }
+  end
+
+  describe "associations" do
+    it { is_expected.to belong_to(:user) }
+  end
 end

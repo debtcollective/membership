@@ -36,9 +36,9 @@ class User < ApplicationRecord
     external_id
   ].freeze
 
+  has_one :user_profile, autosave: true
   has_many :subscriptions
   has_many :donations
-  has_many :user_plan_changes
 
   validates :email, presence: true, 'valid_email_2/email': {disposable: true}, uniqueness: {case_sensitive: false}
 
