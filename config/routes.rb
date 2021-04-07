@@ -6,7 +6,15 @@ require "sidekiq-scheduler/web"
 Rails.application.routes.draw do
   get "/admin", to: redirect("/admin/dashboard")
 
-  get "/users/current" => "users#current", :constraints => {format: "json"}
+  resources :users, only: [] do
+    collection do
+      get "/current" => "users#current", :constraints => {format: "json"}
+      get "/profile" => "users_profile#current"
+      patch "/profile" => "users_profile#update"
+      put "/profile" => "users_profile#update"
+    end
+  end
+
   get "/thank-you" => "static_pages#thank_you"
 
   resources :subscriptions, only: %i[create]
