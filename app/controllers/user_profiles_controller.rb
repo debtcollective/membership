@@ -3,24 +3,25 @@
 class UserProfilesController < ApplicationController
   before_action :authenticate_user!, only: :update
 
-  def current
-    respond_to do |format|
-      if current_user.present?
-        format.json { render json: current_user.as_json, status: :ok }
-      else
-        format.json { render json: nil, status: :not_found }
-      end
-    end
+  def edit
   end
 
   def update
-    user_profile = current_user.user_profile
+    user_profile = current_user.user_profile || current_user.build_user_profile
+    user_profile.assign_attributes(user_profile_params)
 
     respond_to do |format|
-      if user_profile.update(user_profile_params)
-        format.json { render json: user_profile.as_json, status: :ok }
+      if user_profile.save
+        format.html do
+          flash[:success] = "Profile updated"
+
+          render :edit
+        end
       else
-        format.json { render json: {errors: user_profile.errors}, status: :unprocessable_entity }
+        format.html do
+          biding.pry
+          render :edit
+        end
       end
     end
   end
