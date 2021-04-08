@@ -36,14 +36,15 @@
 #
 class UserProfile < ApplicationRecord
   TITLES = ["Mr", "Mrs", "Ms", "Miss", "Dr", "Mx", "Profesor"]
+  PHONE_NUMBER_REGEX = /\A\+[1-9]\d{1,14}\z/
 
   belongs_to :user
 
-  validates :title, inclusion: {in: TITLES}
+  validates :title, inclusion: {in: TITLES}, allow_nil: true
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :birthday, inclusion: {in: ->(date) { 15.years.ago..Date.today }}
-  validates :phone_number, presence: true, length: {minimum: 7, maximum: 15}
+  validates :birthday, inclusion: {in: ->(date) { 15.years.ago..Date.today }}, allow_nil: true
+  validates :phone_number, presence: true, format: {with: PHONE_NUMBER_REGEX}
   validates :address_line1, presence: true
   validates :address_city, presence: true
   validates :address_zip, presence: true

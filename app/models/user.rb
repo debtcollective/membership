@@ -111,6 +111,17 @@ class User < ApplicationRecord
     return Stripe::Customer.retrieve(stripe_id) if stripe_id
   end
 
+  def find_or_create_user_profile
+    return user_profile if user_profile.present?
+
+    user_profile = build_user_profile
+
+    # save without validations to initialize an empty user_profile
+    user_profile.save(validate: false)
+
+    user_profile
+  end
+
   private
 
   def normalize_attributes

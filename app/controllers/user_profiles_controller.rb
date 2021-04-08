@@ -4,14 +4,15 @@ class UserProfilesController < ApplicationController
   before_action :authenticate_user!, only: :update
 
   def edit
+    @user_profile = current_user.find_or_create_user_profile
   end
 
   def update
-    user_profile = current_user.user_profile || current_user.build_user_profile
-    user_profile.assign_attributes(user_profile_params)
+    @user_profile = current_user.find_or_create_user_profile
+    @user_profile.assign_attributes(user_profile_params)
 
     respond_to do |format|
-      if user_profile.save
+      if @user_profile.save
         format.html do
           flash[:success] = "Profile updated"
 
@@ -19,7 +20,8 @@ class UserProfilesController < ApplicationController
         end
       else
         format.html do
-          biding.pry
+          flash[:error] = "There were errors updating your profile"
+
           render :edit
         end
       end

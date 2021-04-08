@@ -9,10 +9,11 @@ Rails.application.routes.draw do
   resources :users, only: [] do
     collection do
       get "/current" => "users#current", :constraints => {format: "json"}
-      match "/profile" => "user_profiles#edit", :via => :get
-      match "/profile" => "user_profiles#update", :via => [:put, :patch]
     end
   end
+
+  match "/profile" => "user_profiles#edit", :via => :get, :as => :user_profile
+  match "/profile" => "user_profiles#update", :via => [:put, :patch]
 
   get "/thank-you" => "static_pages#thank_you"
 
