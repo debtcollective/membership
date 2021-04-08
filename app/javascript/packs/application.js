@@ -10,6 +10,8 @@ require('channels')
 require('trix')
 require('@rails/actiontext')
 
+import 'stylesheets/application'
+
 document.addEventListener('DOMContentLoaded', function (event) {
   const alert = document.querySelector('.alert button.close')
 
