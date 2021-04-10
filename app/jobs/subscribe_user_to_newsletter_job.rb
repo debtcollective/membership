@@ -82,7 +82,7 @@ class SubscribeUserToNewsletterJob < ApplicationJob
     # TODO: validation until we implement a better one on the union widget/membership controller
     # Mailchimp fails if the phone number is not valid
     phone_number = user.phone_number
-    if phone_number.length >= 8
+    if phone_number&.length.to_i >= 7 && phone_number&.length.to_i <= 15
       merge_fields_hash[:PHONE] = phone_number
     end
 
