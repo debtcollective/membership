@@ -5,7 +5,7 @@
   - mailers
 :schedule:
   find_overdue_subscriptions:
-    every: '12h'
+    every: "24h"
     queue: default
     class: FindOverdueSubscriptionsJob
-    description: 'This job finds all active overdue subscriptions and creates a sidekiq job to charge the subscriber'
+    description: "This job finds all active overdue subscriptions and creates a sidekiq job to charge the subscriber"
