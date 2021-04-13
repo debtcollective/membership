@@ -46,7 +46,7 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => "/sidekiq"
   end
 
-  root to: "application#redirect_to_home_page"
+  root to: "user_profiles#edit"
 end
 
 # test routes for cypress
