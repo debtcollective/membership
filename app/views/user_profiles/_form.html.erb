@@ -1,4 +1,4 @@
-<%= form_with(model: user_profile, url: user_profile_path, local: true, class: "space-y-8") do |f| %>
+<%= form_with(model: user_profile, url: user_profile_path, builder: ApplicationFormBuilder, local: true, class: "space-y-8") do |f| %>
   <!-- List form errors -->
   <% if user_profile.errors.any? %>
     <div class="p-4 rounded-md bg-red-50">

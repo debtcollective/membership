@@ -34,7 +34,7 @@ gem 'premailer-rails', '1.11.1'
 gem 'gibbon', '3.3.4'
 
 # front-end libraries
-gem 'react_on_rails', '~> 11.3'
+gem 'react-rails', '2.6.1'
 gem 'mini_racer', platforms: :ruby
 gem 'country_select', '~> 4.0'
 
