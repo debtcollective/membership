@@ -4,29 +4,19 @@ require "sidekiq/web"
 require "sidekiq-scheduler/web"
 
 Rails.application.routes.draw do
-  get "/admin", to: redirect("/admin/dashboard")
-
   resources :users, only: [] do
     collection do
       get "/current" => "users#current", :constraints => {format: "json"}
     end
   end
 
+  get "/thank-you" => "static_pages#thank_you"
+
   match "/profile" => "user_profiles#edit", :via => :get, :as => :user_profile
   match "/profile" => "user_profiles#update", :via => [:put, :patch]
 
-  get "/thank-you" => "static_pages#thank_you"
-
   resources :subscriptions, only: %i[create]
   resources :charges, only: %i[new create], path: "donate", path_names: {new: ""}
-
-  namespace :admin do
-    get "/dashboard" => "dashboard#index"
-    resources :users
-    resources :funds, except: %i[show]
-    resources :subscriptions
-    resources :donations, only: %i[index show]
-  end
 
   resources :user_confirmations, only: %i[index create] do
     collection do
@@ -46,7 +36,7 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => "/sidekiq"
   end
 
-  root to: "user_profiles#edit"
+  root to: "dashboard#index"
 end
 
 # test routes for cypress
