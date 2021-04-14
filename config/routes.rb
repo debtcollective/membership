@@ -12,8 +12,11 @@ Rails.application.routes.draw do
 
   get "/thank-you" => "static_pages#thank_you"
 
+  # User routes
   match "/profile" => "user_profiles#edit", :via => :get, :as => :user_profile
   match "/profile" => "user_profiles#update", :via => [:put, :patch]
+
+  match "/membership" => "memberships#index", :via => :get, :as => :user_membership
 
   resources :subscriptions, only: %i[create]
   resources :charges, only: %i[new create], path: "donate", path_names: {new: ""}
