@@ -3,11 +3,9 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-require('@rails/ujs').start()
 require('turbolinks').start()
 require('@rails/activestorage').start()
 require('channels')
-require('trix')
 require('@rails/actiontext')
 require('alpinejs')
 
@@ -21,3 +19,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
       this.parentNode.parentNode.removeChild(this.parentNode)
     })
 })
+
+// Support component names relative to this directory:
+var componentRequireContext = require.context('components', true)
+var ReactRailsUJS = require('react_ujs')
+ReactRailsUJS.useContext(componentRequireContext)
