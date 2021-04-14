@@ -25,7 +25,12 @@ module ApplicationHelper
     nil
   end
 
-  def discourse_url(path="/")
+  # current_path? returns false on POST request, we use this one instead.
+  def current_path?(path)
+    request.path == path
+  end
+
+  def discourse_url(path = "/")
     "#{ENV["DISCOURSE_URL"]}#{path}"
   end
 end
