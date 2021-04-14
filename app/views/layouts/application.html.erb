@@ -28,9 +28,10 @@
   </head>
 
   <body>
-    <!-- x-show controls the state of the sidebar -->
+    <!-- x-data controls the state of the sidebar -->
     <div class="flex h-screen overflow-hidden bg-white"
-      x-data="{ isOpen: true }"
+      x-data="{ isOpen: false }"
+      x-on:keydown.escape="isOpen = false"
     >
       <%= render 'shared/sidebar' %>
       <div class="flex flex-col flex-1 w-0 max-w-4xl mx-auto md:px-8 xl:px-0">
