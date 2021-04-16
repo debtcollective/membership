@@ -22,17 +22,15 @@
 }
 
 .PhoneInput {
-  /* This is done to stretch the contents of this component. */
-  display: flex;
-  align-items: center;
+  @apply flex rounded-md shadow-sm;
+
+  .PhoneInputCountry {
+    @apply inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm;
+  }
 }
 
 .PhoneInputInput {
-  /* The phone number input stretches to fill all empty space */
-  flex: 1;
-  /* The phone number input should shrink
-	   to make room for the extension input */
-  min-width: 0;
+  @apply flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300;
 }
 
 .PhoneInputCountryIcon {
@@ -88,7 +86,6 @@
   align-self: stretch;
   display: flex;
   align-items: center;
-  margin-right: var(--PhoneInputCountrySelect-marginRight);
 }
 
 .PhoneInputCountrySelect {
