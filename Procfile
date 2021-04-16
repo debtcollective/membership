@@ -1,3 +1,3 @@
-web: rails s
+web: bin/rails server
 sidekiq: bundle exec sidekiq -C ./config/sidekiq.yml
-client: bin/webpack -w
+client: bin/webpack-dev-server
