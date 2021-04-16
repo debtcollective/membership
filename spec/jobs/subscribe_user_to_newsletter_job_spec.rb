@@ -55,7 +55,7 @@ RSpec.describe SubscribeUserToNewsletterJob, type: :job do
           email: "no-reply@debtcollective.org",
           name: "Orlando Del Aguila",
           custom_fields: {
-            phone_number: "+1 (603) 337-6816",
+            phone_number: "+16033376816",
             customer_ip: "127.0.0.1",
             address_city: "Canton",
             address_country_code: "US",
@@ -63,9 +63,9 @@ RSpec.describe SubscribeUserToNewsletterJob, type: :job do
             address_zip: "13617-9998"
           })
 
-        stub_request(:put, "https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252").
-          with(
-            body: "{\"email_address\":\"no-reply@debtcollective.org\",\"status\":\"subscribed\",\"ip_signup\":\"127.0.0.1\",\"merge_fields\":{\"FNAME\":\"Orlando\",\"LNAME\":\"Del Aguila\",\"PHONE\":\"+1 (603) 337-6816\"}}",
+        stub_request(:put, "https://us20.api.mailchimp.com/3.0/lists/ab12345ab6/members/cc580437dcf8d2ad667ccb8f4b416252")
+          .with(
+            body: "{\"email_address\":\"no-reply@debtcollective.org\",\"status\":\"subscribed\",\"ip_signup\":\"127.0.0.1\",\"merge_fields\":{\"FNAME\":\"Orlando\",\"LNAME\":\"Del Aguila\",\"PHONE\":\"+16033376816\"}}",
             headers: {
               "Accept" => "*/*",
               "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",

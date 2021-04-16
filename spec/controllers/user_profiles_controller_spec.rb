@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe UserProfilesController, type: :controller do
   describe "PATCH #update" do
     it "with valid params it updates the profile" do
-      user = FactoryBot.create(:user)
+      user = FactoryBot.create(:user, email: "example@debtcollective.org")
       valid_attributes = FactoryBot.attributes_for(:user_profile)
 
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
