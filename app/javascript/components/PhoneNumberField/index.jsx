@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PhoneInput from 'react-phone-number-input'
 
 const PhoneNumberField = (props = {}) => {
@@ -7,13 +7,21 @@ const PhoneNumberField = (props = {}) => {
     return null
   }
 
+  const { value, name } = props
+  const [phoneNumber, setPhoneNumber] = useState(value)
+
   return (
-    <PhoneInput
-      onChange={val => {
-        console.log(val)
-      }}
-      {...props}
-    />
+    <>
+      <PhoneInput
+        defaultCountry='US'
+        international={false}
+        onChange={value => setPhoneNumber(value || '')}
+        value={phoneNumber}
+        smartCaret={false}
+        withCountryCallingCode={false}
+      />
+      <input name={name} type='hidden' value={phoneNumber} />
+    </>
   )
 }
 
