@@ -4,9 +4,6 @@
 // that code so it'll be compiled.
 
 require('turbolinks').start()
-require('@rails/activestorage').start()
-require('channels')
-require('@rails/actiontext')
 require('alpinejs')
 
 import 'stylesheets/application'
