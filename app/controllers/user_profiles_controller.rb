@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-class UserProfilesController < ApplicationController
-  before_action :authenticate_user!, only: :update
-
+class UserProfilesController < HubController
   def edit
     @user_profile = current_user.find_or_create_user_profile
   end

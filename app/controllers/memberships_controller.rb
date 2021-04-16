@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-class MembershipsController < ApplicationController
-  before_action :authenticate_user!
-
+class MembershipsController < HubController
   def index
   end
 end
