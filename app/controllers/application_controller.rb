@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery unless: -> { request.format.json? }
   before_action :set_raven_context
+  before_action :allowed_to_view?
   helper_method :current_user, :logged_in?
 
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
@@ -24,7 +25,7 @@ class ApplicationController < ActionController::Base
       if request.format.json?
         head :unauthorized
       else
-        redirect_to root_path
+        redirect_to_home_page
       end
     end
   end
@@ -35,6 +36,16 @@ class ApplicationController < ActionController::Base
 
   def not_found
     raise ActionController::RoutingError.new("Not Found")
+  end
+
+  def allowed_to_view?
+    return true if current_user.email&.ends_with?("@debtcollective.org")
+
+    if request.get?
+      redirect_to_home_page
+    else
+      head :unauthorized
+    end
   end
 
   private
