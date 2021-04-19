@@ -11,7 +11,7 @@
 
   .PhoneInputCountryIcon,
   .PhoneInputCountrySelectArrow {
-    display: none;
+    @apply hidden;
   }
 
   .PhoneInputInput {
