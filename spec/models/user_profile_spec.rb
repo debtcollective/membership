@@ -14,11 +14,11 @@
 #  address_state            :string
 #  address_zip              :string
 #  birthday                 :date
-#  custom_fields            :jsonb
 #  facebook                 :string
 #  first_name               :string
 #  instagram                :string
 #  last_name                :string
+#  metadata                 :jsonb
 #  phone_number             :string
 #  profile_completed        :boolean          default(FALSE)
 #  registration_email       :string
@@ -45,6 +45,11 @@ RSpec.describe UserProfile, type: :model do
   describe "validations" do
     it { should validate_presence_of(:first_name) }
     it { should validate_presence_of(:last_name) }
+    it { should validate_presence_of(:phone_number) }
+    it { should validate_presence_of(:address_line1) }
+    it { should validate_presence_of(:address_city) }
+    it { should validate_presence_of(:address_zip) }
+    it { should validate_presence_of(:address_country_code) }
   end
 
   describe "associations" do

@@ -41,7 +41,7 @@ class User < ApplicationRecord
   has_many :subscriptions
   has_many :donations
 
-  validates :email, presence: true, 'valid_email_2/email': {disposable: true}, uniqueness: {case_sensitive: false}
+  validates :email, presence: true, 'valid_email_2/email': true, uniqueness: {case_sensitive: false}
 
   before_validation :normalize_attributes
 

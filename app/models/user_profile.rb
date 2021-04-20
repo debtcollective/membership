@@ -14,11 +14,11 @@
 #  address_state            :string
 #  address_zip              :string
 #  birthday                 :date
-#  custom_fields            :jsonb
 #  facebook                 :string
 #  first_name               :string
 #  instagram                :string
 #  last_name                :string
+#  metadata                 :jsonb
 #  phone_number             :string
 #  profile_completed        :boolean          default(FALSE)
 #  registration_email       :string
@@ -41,20 +41,18 @@ class UserProfile < ApplicationRecord
 
   belongs_to :user
 
-  validates :title, inclusion: {in: TITLES}, allow_nil: true
-  validates :first_name, presence: true
-  validates :last_name, presence: true
-  validates :registration_email, presence: true, 'valid_email_2/email': {disposable: true}, uniqueness: {case_sensitive: false}
-  validates :birthday, inclusion: {in: ->(date) { 15.years.ago..Date.today }}, allow_nil: true
-  validates :phone_number, presence: true, format: {with: PHONE_NUMBER_REGEX}
-  validates :address_line1, presence: true
   validates :address_city, presence: true
+  validates :address_country_code, presence: true, inclusion: {in: ISO3166::Country.all.map(&:alpha2)}
+  validates :address_line1, presence: true
   validates :address_zip, presence: true
-  validates :address_country_code,
-    presence: true,
-    inclusion: {in: ISO3166::Country.all.map(&:alpha2)}
+  validates :birthday, inclusion: {in: ->(date) { 15.years.ago..Date.today }}, allow_nil: true
   validates :facebook, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
-  validates :twitter, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
+  validates :first_name, presence: true
   validates :instagram, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
+  validates :last_name, presence: true
+  validates :phone_number, presence: true, format: {with: PHONE_NUMBER_REGEX}
+  validates :registration_email, presence: true, 'valid_email_2/email': true, uniqueness: {case_sensitive: false}
+  validates :title, inclusion: {in: TITLES}, allow_nil: true
+  validates :twitter, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
   validates :website, url: {allow_nil: true, no_local: true}
 end
