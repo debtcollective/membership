@@ -104,7 +104,7 @@ RSpec.describe DiscourseService, type: :service do
         address_country_code: Faker::Address.country_code,
         address_line1: Faker::Address.street_address,
         address_zip: Faker::Address.zip_code,
-        phone_number: Faker::PhoneNumber.phone_number
+        phone_number: Faker::PhoneNumber.cell_phone_in_e164
       }
 
       user = FactoryBot.create(:user, custom_fields: custom_fields)
@@ -135,7 +135,7 @@ RSpec.describe DiscourseService, type: :service do
         address_country_code: Faker::Address.country_code,
         address_line1: Faker::Address.street_address,
         address_zip: Faker::Address.zip_code,
-        phone_number: Faker::PhoneNumber.phone_number
+        phone_number: Faker::PhoneNumber.cell_phone_in_e164
       }
 
       user = FactoryBot.create(:user, custom_fields: custom_fields)
@@ -239,7 +239,7 @@ RSpec.describe DiscourseService, type: :service do
         address_country_code: Faker::Address.country_code,
         address_line1: Faker::Address.street_address,
         address_zip: Faker::Address.zip_code,
-        phone_number: Faker::PhoneNumber.phone_number
+        phone_number: Faker::PhoneNumber.cell_phone_in_e164
       }
 
       user = FactoryBot.create(:user, custom_fields: custom_fields, username: "orlando", external_id: 1)
@@ -277,7 +277,7 @@ RSpec.describe DiscourseService, type: :service do
         address_country_code: Faker::Address.country_code,
         address_line1: Faker::Address.street_address,
         address_zip: Faker::Address.zip_code,
-        phone_number: Faker::PhoneNumber.phone_number
+        phone_number: Faker::PhoneNumber.cell_phone_in_e164
       }
 
       user = FactoryBot.create(:user, custom_fields: custom_fields, external_id: 1, username: "orlando")

@@ -115,7 +115,7 @@ class User < ApplicationRecord
   def find_or_create_user_profile
     return user_profile if user_profile.present?
 
-    user_profile = build_user_profile
+    user_profile = build_user_profile(registration_email: email)
 
     # save without validations to initialize an empty user_profile
     user_profile.save(validate: false)
