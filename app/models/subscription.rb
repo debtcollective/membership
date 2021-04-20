@@ -32,7 +32,6 @@ class Subscription < ApplicationRecord
   has_many :donations
 
   validate :only_one_active_subscription, on: :create
-  validates_numericality_of :amount, only_integer: true
   validates_numericality_of :amount, greater_than_or_equal_to: 5, unless: proc { |service| service.amount == 0 }
 
   def self.overdue

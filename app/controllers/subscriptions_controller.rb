@@ -21,9 +21,6 @@ class SubscriptionsController < ApplicationController
       return render json: {status: "failed", errors: [error], message: message}, status: :unprocessable_entity
     end
 
-    # TODO: remove this line once we deprecate the old behaviour with the member hub
-    session.clear
-
     # We use current_user.user to make sure we are passing the user object and not the wrapper
     # TODO: find a better way to do this.
     subscription, errors = MembershipService.new(service_params, current_user&.user).execute

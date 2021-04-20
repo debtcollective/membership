@@ -74,13 +74,24 @@ RSpec.describe SubscriptionsController, type: :controller do
       it "doesn't create a Membership if a required field is missing" do
         user = FactoryBot.create(:user)
 
-        params = {subscription: {amount: 4, email: user.email, stripe_token: stripe_helper.generate_card_token, name: user.name}}
+        params = {subscription: {amount: 5, email: user.email, stripe_token: stripe_helper.generate_card_token, name: user.name}}
         expect { post :create, params: params, session: {} }.to change { Subscription.count }.by(0)
 
         parsed_body = JSON.parse(response.body)
         expect(response).to have_http_status(422)
         expect(parsed_body["errors"]).not_to be_empty
         expect(parsed_body["errors"]["address_line1"]).to eq(["can't be blank"])
+        expect(parsed_body["errors"]["phone_number"]).to eq(["can't be blank", "is invalid"])
+      end
+
+      it "doesn't create a Membership if the amount is less than 5" do
+        user = FactoryBot.create(:user)
+
+        params = {subscription: {amount: 4, email: user.email, stripe_token: stripe_helper.generate_card_token, name: user.name}}
+        expect { post :create, params: params, session: {} }.to change { Subscription.count }.by(0)
+
+        parsed_body = JSON.parse(response.body)
+        expect(response).to have_http_status(422)
         expect(parsed_body["errors"]["amount"]).to eq(["must be greater than or equal to 5"])
       end
 

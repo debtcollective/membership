@@ -43,17 +43,18 @@ class MembershipService
     return Subscription.new, errors unless valid?
 
     @user ||= find_or_create_user
-    user_profile = update_user_profile(@user)
 
-    if user_profile.errors.any?
-      return Subscription.new, user_profile.errors
-    end
-
-    # validate active subscription
+    # check if the user has a valid subscription already
     if Subscription.exists?(user_id: user.id, active: true)
       errors.add(:base, I18n.t("subscription.errors.active_subscription"))
 
       return Subscription.new, errors
+    end
+
+    user_profile = update_user_profile(@user)
+
+    if user_profile.errors.any?
+      return Subscription.new, user_profile.errors
     end
 
     # queue location data job
@@ -150,7 +151,7 @@ class MembershipService
     user_profile.last_name = name
     user_profile.address_city = address_city
     user_profile.address_country_code = address_country_code
-    user_profile.address_country = ISO3166::Country[address_country_code].name
+    user_profile.address_country = ISO3166::Country[address_country_code]&.name
     user_profile.address_line1 = address_line1
     user_profile.address_zip = address_zip
     user_profile.registration_email ||= email
