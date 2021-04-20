@@ -26,7 +26,7 @@
   <% end %>
 
   <div class="space-y-8 sm:space-y-5">
-    <div class="grid grid-cols-1 mt-6 gap-y-6 gap-x-4 sm:grid-cols-6">
+    <div class="grid grid-cols-1 mt-6 gap-y-4 gap-x-4 sm:grid-cols-6">
       <div class="sm:col-span-3">
         <%= render(TextFieldComponent.new(name: :first_name, form: f)) %>
       </div>
@@ -36,10 +36,7 @@
       </div>
 
       <div class="sm:col-span-6">
-        <%= f.label :phone_number, class: "block text-sm font-medium text-gray-700" %>
-        <div class="mt-1">
-          <%= f.phone_number_field :phone_number %>
-        </div>
+        <%= render(PhoneNumberFieldComponent.new(name: :phone_number, form: f)) %>
       </div>
 
       <div class="sm:col-span-6">
