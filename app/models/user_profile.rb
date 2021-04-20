@@ -21,6 +21,7 @@
 #  last_name                :string
 #  phone_number             :string
 #  profile_completed        :boolean          default(FALSE)
+#  registration_email       :string
 #  subscribed_to_newsletter :boolean
 #  title                    :string
 #  twitter                  :string
@@ -43,6 +44,7 @@ class UserProfile < ApplicationRecord
   validates :title, inclusion: {in: TITLES}, allow_nil: true
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :registration_email, presence: true, 'valid_email_2/email': {disposable: true}, uniqueness: {case_sensitive: false}
   validates :birthday, inclusion: {in: ->(date) { 15.years.ago..Date.today }}, allow_nil: true
   validates :phone_number, presence: true, format: {with: PHONE_NUMBER_REGEX}
   validates :address_line1, presence: true

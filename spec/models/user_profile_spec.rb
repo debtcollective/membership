@@ -21,6 +21,7 @@
 #  last_name                :string
 #  phone_number             :string
 #  profile_completed        :boolean          default(FALSE)
+#  registration_email       :string
 #  subscribed_to_newsletter :boolean
 #  title                    :string
 #  twitter                  :string

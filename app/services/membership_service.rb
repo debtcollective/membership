@@ -18,13 +18,18 @@ class MembershipService
     :stripe_token,
     :stripe_customer
 
-  validates :name, presence: true
+  # User validations
   validates :email, presence: true, 'valid_email_2/email': true
-  validates :phone_number, presence: true
+
+  # Membership validations
   validates :amount, presence: true
   validates_numericality_of :amount, only_integer: true
   validates_numericality_of :amount, greater_than_or_equal_to: 5, unless: proc { |service| service.amount == 0 }
   validates :stripe_token, presence: true, unless: proc { |service| service.amount == 0 }
+
+  # User Profile
+  validates :name, presence: true
+  validates :phone_number, presence: true
   validates :address_line1, presence: true
   validates :chapter, inclusion: {in: CHAPTERS}, allow_blank: true
   validates :address_city, presence: true
@@ -160,26 +165,26 @@ class MembershipService
 
   def find_or_create_user
     User.find_or_create_by(email: email) do |user|
+      user.registration_ip_address ||= customer_ip
+
       update_user_profile(user)
     end
   end
 
   def update_user_profile(user = self.user)
-    user.name = name
-    user.custom_fields = {
-      address_city: address_city,
-      address_country: ISO3166::Country[address_country_code].name,
-      address_country_code: address_country_code,
-      address_line1: address_line1,
-      address_zip: address_zip,
-      chapter: chapter,
-      email: email,
-      name: name,
-      phone_number: phone_number,
-      customer_ip: customer_ip
-    }
+    user_profile = user.user_profile
 
-    user.save
+    user_profile.first_name = name
+    user_profile.last_name = name
+    user_profile.address_city = address_city
+    user_profile.address_country_code = address_country_code
+    user_profile.address_country = ISO3166::Country[address_country_code].name
+    user_profile.address_line1 = address_line1
+    user_profile.address_zip = address_zip
+    user_profile.signup_email ||= email
+    user_profile.phone_number = phone_number
+
+    user_profile.save
   end
 
   def link_discourse_account
