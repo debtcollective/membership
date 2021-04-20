@@ -27,7 +27,6 @@
 
   <div class="space-y-8 sm:space-y-5">
     <div class="grid grid-cols-1 mt-6 gap-y-6 gap-x-4 sm:grid-cols-6">
-
       <div class="sm:col-span-3">
         <%= render(TextFieldComponent.new(name: :first_name, form: f)) %>
       </div>
@@ -44,48 +43,24 @@
       </div>
 
       <div class="sm:col-span-6">
-        <%= f.label :address_line1, class: "block text-sm font-medium text-gray-700" %>
-        <div class="mt-1">
-          <%= f.text_field :address_line1, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
-        </div>
+        <%= render(AddressFieldComponent.new(form: f)) %>
       </div>
 
       <div class="sm:col-span-6">
-        <%= f.label :address_city, class: "block text-sm font-medium text-gray-700" %>
-        <div class="mt-1">
-          <%= f.text_field :address_city, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
-        </div>
+        <%= render(TextFieldComponent.new(name: :facebook, form: f)) %>
       </div>
 
       <div class="sm:col-span-6">
-        <%= f.label :address_zip, class: "block text-sm font-medium text-gray-700" %>
-        <div class="mt-1">
-          <%= f.text_field :address_zip, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" %>
-        </div>
+        <%= render(TextFieldComponent.new(name: :twitter, form: f)) %>
       </div>
 
       <div class="sm:col-span-6">
-        <%= f.label :address_country_code, class: "block text-sm font-medium text-gray-700" %>
-        <div class="mt-1">
-          <%= f.country_select(:address_country_code, {priority_countries: ['US', 'CA']}, {class: 'shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md', id: 'address-country-code-select', required: true}) %>
-        </div>
+        <%= render(TextFieldComponent.new(name: :instagram, form: f)) %>
       </div>
-    </div>
 
-    <div class="sm:col-span-6">
-      <%= render(TextFieldComponent.new(name: :facebook, form: f)) %>
-    </div>
-
-    <div class="sm:col-span-6">
-      <%= render(TextFieldComponent.new(name: :twitter, form: f)) %>
-    </div>
-
-    <div class="sm:col-span-6">
-      <%= render(TextFieldComponent.new(name: :instagram, form: f)) %>
-    </div>
-
-    <div class="sm:col-span-6">
-      <%= render(TextFieldComponent.new(name: :website, form: f)) %>
+      <div class="sm:col-span-6">
+        <%= render(TextFieldComponent.new(name: :website, form: f)) %>
+      </div>
     </div>
 
     <div class="pt-5">
