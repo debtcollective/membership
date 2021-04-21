@@ -1,0 +1,20 @@
+.PhoneInput {
+  @apply flex rounded-md shadow-sm;
+
+  .PhoneInputCountry {
+    @apply inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm;
+  }
+
+  .PhoneInputCountrySelect {
+    @apply focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md;
+  }
+
+  .PhoneInputCountryIcon,
+  .PhoneInputCountrySelectArrow {
+    @apply hidden;
+  }
+
+  .PhoneInputInput {
+    @apply flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300;
+  }
+}

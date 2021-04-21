@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_01_230150) do
+ActiveRecord::Schema.define(version: 2021_04_07_182642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,36 @@ ActiveRecord::Schema.define(version: 2021_03_01_230150) do
     t.datetime "last_charge_at"
     t.money "amount", scale: 2, default: "0.0"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
+  create_table "user_profiles", force: :cascade do |t|
+    t.string "title"
+    t.string "first_name"
+    t.string "last_name"
+    t.date "birthday"
+    t.string "address_line1"
+    t.string "address_line2"
+    t.string "address_city"
+    t.string "address_state"
+    t.string "address_county"
+    t.string "address_zip"
+    t.string "address_country"
+    t.string "address_country_code"
+    t.decimal "address_lat", precision: 8, scale: 6
+    t.decimal "address_long", precision: 9, scale: 6
+    t.string "phone_number"
+    t.string "facebook"
+    t.string "twitter"
+    t.string "instagram"
+    t.string "website"
+    t.boolean "subscribed_to_newsletter"
+    t.boolean "profile_completed", default: false
+    t.jsonb "custom_fields"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["profile_completed"], name: "index_user_profiles_on_profile_completed"
+    t.index ["user_id"], name: "index_user_profiles_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

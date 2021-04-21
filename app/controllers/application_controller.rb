@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
       if request.format.json?
         head :unauthorized
       else
-        redirect_to root_path
+        redirect_to_home_page
       end
     end
   end

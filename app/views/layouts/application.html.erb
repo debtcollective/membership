@@ -18,101 +18,37 @@
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
 
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
     <%= render 'layouts/sentry' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'https://checkout.stripe.com/checkout.js' %>
-    <%= javascript_include_tag 'https://js.stripe.com/v3/' %>
-    <%= javascript_pack_tag 'user-bundle' %>
 
     <%= render 'shared/analytics_scripts'%>
   </head>
 
   <body>
-    <header>
-      <nav class="main-nav">
-        <%= link_to image_tag("logo-light.svg", :alt => "Debt Collective"), '/' %>
-        <ul class="links">
-          <li>
-            <a
-              href="http://tools.debtcollective.org/"
-              target="_blank"
-              rel="follow"
-              >Dispute your debt
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://powerreport.debtcollective.org/"
-              target="_blank"
-              rel="follow">
-            </a>
-              The Power Report
-          </li>
-          <li>
-            <a
-              href="http://community.debtcollective.org/"
-              target="_blank"
-              rel="follow"
-              >Community</a
-            >
-          </li>
-        </ul>
-      </nav>
-    </header>
-
-    <%= flash_messages %>
-
-    <div class="content">
-      <%= yield %>
-    </div>
-
-    <footer>
-      <nav>
-        <ul>
-          <li class="title"><h5>Organize</h5></li>
-          <li><a href="https://community.debtcollective.org/">Community</a></li>
-        </ul>
-        <ul>
-          <li class="title"><h5>Take Action</h5></li>
-          <li>
-            <a href="https://community.debtcollective.org/calendar">Events</a>
-          </li>
-          <li>
-            <a href="https://tools.debtcollective.org/">Dispute Your Debt</a>
-          </li>
-        </ul>
-        <ul>
-          <li class="title"><h5>Learn More</h5></li>
-          <li>
-            <a href="https://powerreport.debtcollective.org/"
-              >The Power Report</a
-            >
-          </li>
-          <li><a href="https://debtcollective.org/#about">About Us</a></li>
-          <li><a href="https://wiki.debtcollective.org/">Community Wiki</a></li>
-        </ul>
-        <ul>
-          <li class="title"><h5>More</h5></li>
-          <li>
-            <a href="https://tools.debtcollective.org/contact">Contact</a>
-          </li>
-          <li><a href="https://membership.debtcollective.org">Donate</a></li>
-          <li><a href="https://github.com/debtcollective/">Open Source</a></li>
-        </ul>
-      </nav>
-      <div class="notice">
-        <a href="https://debtcollective.org">
-          <%= image_tag('logo-dark.svg', alt: 'Debt Collective')%>
-        </a>
-        <p>
-          <a id="to-top-link" href="#">Back to top</a>
-          <a href="/">Home</a>
-          <span>Copyright <%= Time.new.year %></span>
-          <a href="https://community.debtcollective.org/tos"
-            >Terms and Conditions</a
+    <!-- x-data controls the state of the sidebar -->
+    <div class="flex h-screen overflow-hidden bg-white"
+      x-data="{ isOpen: false }"
+      x-on:keydown.escape="isOpen = false"
+    >
+      <%= render 'shared/sidebar' %>
+      <div class="flex flex-col flex-1 w-0 max-w-4xl mx-auto">
+        <div class="pt-1 pl-1 md:hidden sm:pl-3 sm:pt-3">
+          <button class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+            @click="isOpen = true"
           >
-        </p>
+            <span class="sr-only">Open sidebar</span>
+            <!-- Heroicon name: outline/menu -->
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+        <main class="relative flex-1 px-4 pt-5 overflow-y-auto md:px-8 xl:px-0 focus:outline-none content">
+          <%= yield %>
+        </main>
       </div>
-    </footer>
+    </div>
   </body>
 </html>

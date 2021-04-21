@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SubscriptionsController < ApplicationController
-  before_action :authenticate_user!, only: :destroy
+  before_action :authenticate_user!, except: :create
 
   def create
     service_params =

@@ -36,9 +36,9 @@ class User < ApplicationRecord
     external_id
   ].freeze
 
+  has_one :user_profile, autosave: true
   has_many :subscriptions
   has_many :donations
-  has_many :user_plan_changes
 
   validates :email, presence: true, 'valid_email_2/email': {disposable: true}, uniqueness: {case_sensitive: false}
 
@@ -109,6 +109,17 @@ class User < ApplicationRecord
 
   def find_stripe_customer
     return Stripe::Customer.retrieve(stripe_id) if stripe_id
+  end
+
+  def find_or_create_user_profile
+    return user_profile if user_profile.present?
+
+    user_profile = build_user_profile
+
+    # save without validations to initialize an empty user_profile
+    user_profile.save(validate: false)
+
+    user_profile
   end
 
   private
