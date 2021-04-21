@@ -16,9 +16,8 @@ RSpec.describe MembershipService, type: :service do
       customer_ip: "127.0.0.1",
       email: Faker::Internet.email,
       name: Faker::Name.name,
-      phone_number: Faker::PhoneNumber.phone_number,
-      stripe_token: stripe_helper.generate_card_token,
-      chapter: MembershipService::CHAPTERS.last
+      phone_number: Faker::PhoneNumber.cell_phone_in_e164,
+      stripe_token: stripe_helper.generate_card_token
     }
   end
 
@@ -38,12 +37,6 @@ RSpec.describe MembershipService, type: :service do
     it { should validate_presence_of(:amount) }
     it { should validate_numericality_of(:amount).only_integer.is_greater_than_or_equal_to(5) }
     it { should validate_presence_of(:customer_ip) }
-    it { should validate_presence_of(:phone_number) }
-    it { should validate_presence_of(:stripe_token) }
-    it { should validate_presence_of(:address_line1) }
-    it { should validate_presence_of(:address_city) }
-    it { should validate_presence_of(:address_zip) }
-    it { should validate_presence_of(:address_country_code) }
     it { should validate_presence_of(:stripe_token) }
 
     context "when amount is zero" do
@@ -58,29 +51,27 @@ RSpec.describe MembershipService, type: :service do
   describe ".execute" do
     let(:user) { FactoryBot.create(:user) }
 
-    it "creates a subscription and updates user custom_fields" do
+    it "creates a subscription and updates user profile" do
       params = valid_params.merge({
         stripe_token: stripe_helper.generate_card_token
       })
 
       subscription, errors = MembershipService.new(params, user).execute
       donation = subscription.donations.first
+      user.reload
+      user_profile = user.user_profile
 
       expect(errors.empty?).to eq(true)
       expect(donation).to be_persisted
       expect(donation.amount.to_i).to eq(10)
-      # Stripe stores the amount in cents
       expect(donation.charge_data["amount"]).to eq(donation.amount * 100)
       expect(donation.status).to eq("succeeded")
 
       expect(subscription.active).to eq(true)
       expect(subscription.amount).to eq(10)
 
-      user.reload
-
-      expect(user.custom_fields["address_city"]).to eq(params[:address_city])
-      expect(user.custom_fields["address_zip"]).to eq(params[:address_zip])
-      expect(user.custom_fields["customer_ip"]).to eq(params[:customer_ip])
+      expect(user_profile.address_city).to eq(params[:address_city])
+      expect(user_profile.address_zip).to eq(params[:address_zip])
     end
 
     it "creates a user if not provided" do
@@ -91,6 +82,7 @@ RSpec.describe MembershipService, type: :service do
 
       subscription, errors = MembershipService.new(params).execute
       user = subscription.user
+      user_profile = user.user_profile
       donation = user.donations.last
 
       expect(errors.empty?).to eq(true)
@@ -100,8 +92,10 @@ RSpec.describe MembershipService, type: :service do
       expect(donation.charge_data["amount"]).to eq(donation.amount * 100)
       expect(donation.status).to eq("succeeded")
 
+      expect(user.registration_ip_address).to eq(params[:customer_ip])
       expect(user.email).to eq(params[:email])
-      expect(user.custom_fields["address_city"]).to eq(params[:address_city])
+      expect(user_profile.address_city).to eq(params[:address_city])
+      expect(user_profile.address_zip).to eq(params[:address_zip])
 
       expect(subscription.user).to eq(user)
       expect(subscription.active).to eq(true)
@@ -118,12 +112,15 @@ RSpec.describe MembershipService, type: :service do
 
       subscription, errors = MembershipService.new(params).execute
       user = subscription.user
+      user_profile = user.user_profile
       donation = subscription.donations.last
 
       expect(errors.empty?).to eq(true)
 
+      expect(user.registration_ip_address).to eq(params[:customer_ip])
       expect(user.email).to eq(params[:email])
-      expect(user.custom_fields["address_city"]).to eq(params[:address_city])
+      expect(user_profile.address_city).to eq(params[:address_city])
+      expect(user_profile.address_zip).to eq(params[:address_zip])
 
       expect(subscription.user).to eq(user)
       expect(subscription.active).to eq(true)

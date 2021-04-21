@@ -4,21 +4,22 @@
 #
 # Table name: users
 #
-#  id                   :bigint           not null, primary key
-#  admin                :boolean          default(FALSE)
-#  avatar_url           :string
-#  banned               :boolean          default(FALSE)
-#  confirmation_sent_at :datetime
-#  confirmed_at         :datetime
-#  custom_fields        :jsonb
-#  email                :string
-#  email_token          :string
-#  name                 :string
-#  username             :string
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  external_id          :bigint
-#  stripe_id            :string
+#  id                      :bigint           not null, primary key
+#  admin                   :boolean          default(FALSE)
+#  avatar_url              :string
+#  banned                  :boolean          default(FALSE)
+#  confirmation_sent_at    :datetime
+#  confirmed_at            :datetime
+#  custom_fields           :jsonb
+#  email                   :string
+#  email_token             :string
+#  name                    :string
+#  registration_ip_address :inet
+#  username                :string
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  external_id             :bigint
+#  stripe_id               :string
 #
 # Indexes
 #
@@ -40,7 +41,7 @@ class User < ApplicationRecord
   has_many :subscriptions
   has_many :donations
 
-  validates :email, presence: true, 'valid_email_2/email': {disposable: true}, uniqueness: {case_sensitive: false}
+  validates :email, presence: true, 'valid_email_2/email': true, uniqueness: {case_sensitive: false}
 
   before_validation :normalize_attributes
 
@@ -114,7 +115,7 @@ class User < ApplicationRecord
   def find_or_create_user_profile
     return user_profile if user_profile.present?
 
-    user_profile = build_user_profile
+    user_profile = build_user_profile(registration_email: email)
 
     # save without validations to initialize an empty user_profile
     user_profile.save(validate: false)

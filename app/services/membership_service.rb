@@ -1,12 +1,11 @@
 class MembershipService
   include ActiveModel::Validations
 
-  CHAPTERS = ["pennsylvania", "massachusetts", "dc", "chicago", "san diego", "los angeles", "new york city"]
-
   attr_reader :user
   attr_accessor :address_city,
     :address_country_code,
     :address_line1,
+    :address_state,
     :address_zip,
     :amount,
     :chapter,
@@ -14,31 +13,25 @@ class MembershipService
     :email,
     :name,
     :phone_number,
+    :stripe_customer,
     :stripe_phone_number,
-    :stripe_token,
-    :stripe_customer
+    :stripe_token
 
   validates :name, presence: true
   validates :email, presence: true, 'valid_email_2/email': true
-  validates :phone_number, presence: true
+  validates :customer_ip, presence: true
   validates :amount, presence: true
   validates_numericality_of :amount, only_integer: true
   validates_numericality_of :amount, greater_than_or_equal_to: 5, unless: proc { |service| service.amount == 0 }
   validates :stripe_token, presence: true, unless: proc { |service| service.amount == 0 }
-  validates :address_line1, presence: true
-  validates :chapter, inclusion: {in: CHAPTERS}, allow_blank: true
-  validates :address_city, presence: true
-  validates :address_zip, presence: true
-  validates :address_country_code,
-    presence: true,
-    inclusion: {in: ISO3166::Country.all.map(&:alpha2)}
-  validates :customer_ip, presence: true
 
   def initialize(params, user = nil)
     params.each { |k, v| send("#{k}=", v) }
 
-    # amount needs to be int
-    self.amount = params[:amount].to_i
+    # amount needs to be int, but only cast it if present
+    if params[:amount].present?
+      self.amount = params[:amount].to_i
+    end
 
     # normalize email
     self.email = params[:email].downcase
@@ -49,18 +42,19 @@ class MembershipService
   def execute
     return Subscription.new, errors unless valid?
 
-    # find or create user if no user was provided
-    if @user.nil?
-      @user = find_or_create_user
-    else
-      update_user_profile(@user)
-    end
+    @user ||= find_or_create_user
 
-    # validate active subscription
+    # check if the user has a valid subscription already
     if Subscription.exists?(user_id: user.id, active: true)
       errors.add(:base, I18n.t("subscription.errors.active_subscription"))
 
       return Subscription.new, errors
+    end
+
+    user_profile = update_user_profile(@user)
+
+    if user_profile.errors.any?
+      return Subscription.new, user_profile.errors
     end
 
     # queue location data job
@@ -71,9 +65,6 @@ class MembershipService
     if amount == 0
       subscription = Subscription.create(user_id: user.id, active: true, amount: amount, last_charge_at: nil)
     else
-      # Stripe max length for the phone field is 20
-      self.stripe_phone_number = phone_number.truncate(20, omission: "")
-
       # find stripe customer
       @stripe_customer = user.find_stripe_customer
 
@@ -123,18 +114,7 @@ class MembershipService
         customer_stripe_id: stripe_customer.id,
         donation_type: Donation::DONATION_TYPES[:subscription],
         status: stripe_charge.status,
-        user_id: user.id,
-        user_data: {
-          address_city: address_city,
-          address_country: ISO3166::Country[address_country_code].name,
-          address_country_code: address_country_code,
-          address_line1: address_line1,
-          address_zip: address_zip,
-          email: email,
-          name: name,
-          phone_number: phone_number,
-          customer_ip: customer_ip
-        }
+        user_id: user.id
       )
 
     donation.save!
@@ -160,26 +140,26 @@ class MembershipService
 
   def find_or_create_user
     User.find_or_create_by(email: email) do |user|
-      update_user_profile(user)
+      user.registration_ip_address = customer_ip
     end
   end
 
   def update_user_profile(user = self.user)
-    user.name = name
-    user.custom_fields = {
-      address_city: address_city,
-      address_country: ISO3166::Country[address_country_code].name,
-      address_country_code: address_country_code,
-      address_line1: address_line1,
-      address_zip: address_zip,
-      chapter: chapter,
-      email: email,
-      name: name,
-      phone_number: phone_number,
-      customer_ip: customer_ip
-    }
+    user_profile = user.find_or_create_user_profile
 
-    user.save
+    user_profile.first_name = name
+    user_profile.last_name = name
+    user_profile.address_city = address_city
+    user_profile.address_country_code = address_country_code
+    user_profile.address_country = ISO3166::Country[address_country_code]&.name
+    user_profile.address_line1 = address_line1
+    user_profile.address_zip = address_zip
+    user_profile.registration_email ||= email
+    user_profile.phone_number = phone_number
+
+    user_profile.save
+
+    user_profile
   end
 
   def link_discourse_account

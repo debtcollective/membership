@@ -16,7 +16,7 @@ RSpec.describe ChargesController, type: :controller do
       email: Faker::Internet.email,
       fund_id: 1,
       name: Faker::Name.name,
-      phone_number: Faker::PhoneNumber.phone_number,
+      phone_number: Faker::PhoneNumber.cell_phone_in_e164,
       stripe_token: stripe_helper.generate_card_token
     }
   end
