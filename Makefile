@@ -9,7 +9,3 @@ push:
 
 pull:
 	docker pull debtcollective/membership:$(tag)
-
-# run rspec supressing rails ruby 2.7 warnings
-test:
-	env RUBYOPT='-W:no-deprecated -W:no-experimental' bundle exec rspec spec

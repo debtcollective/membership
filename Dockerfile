@@ -40,9 +40,6 @@ ENV SENTRY_AUTH_TOKEN=${sentry_auth_token}
 RUN yarn install --check-files
 RUN env SECRET_KEY_BASE=`bundle exec rake secret` bundle exec rake assets:precompile --trace
 
-# set this until Rails warnings are fixed in Ruby 2.7
-ENV RUBYOPT='-W:no-deprecated -W:no-experimental'
-
 ENV PORT=5000
 EXPOSE 5000
 

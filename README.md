@@ -97,12 +97,6 @@ We use cookie based authentication across subdomains instead of creating session
 
 ## Developer notes
 
-### Ruby 2.7 deprecations warnings
-
-Rails and other gems have to fix warnings in Ruby 2.7. Until that happens, we can supress these warnings by passing `RUBYOPT='-W:no-deprecated -W:no-experimental'` environment variable when running commands. ex `RUBYOPT='-W:no-deprecated -W:no-experimental' bundle exec rake db:migrate`
-
-We have added a make command to run specs with this env variable set, so you can run `make spec` and it will run without warnings.
-
 ### Running Overmind
 
 [Overmind](https://github.com/DarthSim/overmind) is a process manager for Procfile-based apps.
