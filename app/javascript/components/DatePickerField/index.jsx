@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import DatePicker from 'react-date-picker'
+import DatePicker from 'react-date-picker/dist/entry.nostyle'
 
 const DatePickerField = (props = {}) => {
   const { value, name } = props
