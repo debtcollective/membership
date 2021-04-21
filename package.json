@@ -46,6 +46,7 @@
     "prop-types": "15.7.2",
     "rails-erb-loader": "5.5.2",
     "react": "17.0.2",
+    "react-date-picker": "8.1.1",
     "react-dom": "17.0.2",
     "react-on-rails": "11.3.1",
     "react-phone-number-input": "3.1.19",

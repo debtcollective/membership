@@ -44,6 +44,13 @@
       </div>
 
       <div class="sm:col-span-6">
+        <%= f.label :birthday, class: "block text-sm font-medium text-gray-700" %>
+        <div class="mt-1">
+          <%= f.date_picker :birthday %>
+        </div>
+      </div>
+
+      <div class="sm:col-span-6">
         <%= render(AddressFieldComponent.new(form: f)) %>
       </div>
 
