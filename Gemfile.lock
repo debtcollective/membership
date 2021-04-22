@@ -468,7 +468,7 @@ DEPENDENCIES
   country_select (~> 4.0)
   cypress-on-rails (= 1.9.1)
   cypress-rails (= 0.4.2)
-  data_migrate
+  data_migrate (= 7.0.0)
   database_cleaner-active_record (= 2.0.0)
   date_validator (= 0.10.0)
   discourse_api (= 0.45.0)
