@@ -45,7 +45,7 @@ class UserProfile < ApplicationRecord
   validates :address_country_code, presence: true, inclusion: {in: ISO3166::Country.all.map(&:alpha2)}
   validates :address_line1, presence: true
   validates :address_zip, presence: true
-  validates :birthday, inclusion: {in: ->(date) { 15.years.ago..Date.today }}, allow_nil: true
+  validates :birthday, date: true, allow_nil: true
   validates :facebook, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
   validates :first_name, presence: true
   validates :instagram, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true

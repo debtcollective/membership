@@ -124,6 +124,9 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
+    date_validator (0.10.0)
+      activemodel (>= 3)
+      activesupport (>= 3)
     diff-lcs (1.4.4)
     discourse_api (0.45.0)
       faraday (~> 1.0)
@@ -463,6 +466,7 @@ DEPENDENCIES
   cypress-on-rails (= 1.9.1)
   cypress-rails (= 0.4.2)
   database_cleaner-active_record (= 2.0.0)
+  date_validator (= 0.10.0)
   discourse_api (= 0.45.0)
   dotenv-rails (= 2.7.6)
   e2mmap

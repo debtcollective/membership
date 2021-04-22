@@ -27,6 +27,7 @@ gem 'discourse_api', '0.45.0'
 # Validations
 gem 'validate_url', '1.0.13'
 gem 'valid_email2', '3.6.0'
+gem 'date_validator', '0.10.0'
 
 # Emails
 gem 'inky-rb', '1.3.8.0', require: 'inky'
