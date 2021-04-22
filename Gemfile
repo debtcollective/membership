@@ -39,7 +39,7 @@ gem 'gibbon', '3.3.4'
 gem 'react-rails', '2.6.1'
 gem 'mini_racer', platforms: :ruby
 gem 'country_select', '~> 4.0'
-gem 'view_component', '2.30.0'
+gem 'view_component', '2.30.0', require: "view_component/engine"
 
 # Payments
 gem 'stripe', '5.31.0'
