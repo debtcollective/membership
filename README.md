@@ -162,3 +162,17 @@ We use [codecov](https://github.com/codecov/codecov-ruby) for our test coverage 
 We use [Mailhog](https://github.com/mailhog/MailHog) to preview emails in development. You can install it with brew by running `brew install mailhog`. Once you have it installed, you can run it in a separated terminal session with `mailhog`.
 
 You can preview the email by going to http://127.0.0.1:8025
+
+## Data migrations with the data_migrate gem
+
+We use [data_migrate](https://github.com/ilyakatz/data-migrate) to handle data migrations, instead of having many one-off scripts. You can generate a data migration by running.
+
+```bash
+rails g data_migration migration_name
+```
+
+and apply the data migrations by running.
+
+```bash
+rails data:migrate
+```
