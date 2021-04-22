@@ -1,14 +1,20 @@
 import React, { useState } from 'react'
 import DatePicker from 'react-date-picker/dist/entry.nostyle'
+import moment from 'moment'
 
 const DatePickerField = (props = {}) => {
   const { value, name } = props
-  const [date, setDate] = useState(new Date())
+  let initialValue
+
+  if (value) {
+    initialValue = moment(value).toDate()
+  }
+
+  const [date, setDate] = useState(initialValue)
 
   return (
     <>
-      <DatePicker value={date} onChange={value => setDate(value)} />
-      <input name={name} type='hidden' value={date} />
+      <DatePicker name={name} value={date} onChange={value => setDate(value)} />
     </>
   )
 }
