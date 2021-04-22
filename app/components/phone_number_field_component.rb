@@ -7,4 +7,16 @@ class PhoneNumberFieldComponent < ViewComponent::Base
     @name = name
     @f = form
   end
+
+  def input_classes
+    if errors
+      "error"
+    else
+      ""
+    end
+  end
+
+  def errors
+    f.object.errors.to_hash.fetch(name, nil)
+  end
 end

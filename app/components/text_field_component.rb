@@ -3,8 +3,6 @@
 class TextFieldComponent < ViewComponent::Base
   attr_reader :name, :f
 
-  DEFAULT_CLASS = ""
-
   def initialize(name:, form:)
     @name = name
     @f = form
