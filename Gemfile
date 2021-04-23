@@ -65,7 +65,7 @@ group :development, :test do
   gem 'annotate', '3.1.1'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'cypress-on-rails', '1.9.1'
-  gem 'cypress-rails', '0.4.2'
+  gem 'cypress-rails', '0.5.0'
   gem 'dotenv-rails', '2.7.6'
   gem 'factory_bot', '~> 5.0', '>= 5.0.2'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
