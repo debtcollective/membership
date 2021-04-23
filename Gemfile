@@ -67,8 +67,8 @@ group :development, :test do
   gem 'cypress-on-rails', '1.9.1'
   gem 'cypress-rails', '0.4.2'
   gem 'dotenv-rails', '2.7.6'
-  gem 'factory_bot', '~> 5.0', '>= 5.0.2'
-  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
+  gem 'factory_bot', '~> 6.1'
+  gem 'factory_bot_rails', '~> 6.1'
   gem 'faker', '~> 2.1', '>= 2.1.2'
   gem 'guard-rspec', '4.7.3', require: false
   gem 'pry-byebug', '~> 3.9.0'
