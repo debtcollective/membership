@@ -23,10 +23,12 @@ gem 'redis-namespace', '1.8.1'
 gem 'ffi', '~> 1.9', '>= 1.9.25'
 gem 'rack-cors', '1.1.1'
 gem 'discourse_api', '0.45.0'
+gem 'data_migrate', '7.0.0'
 
 # Validations
 gem 'validate_url', '1.0.13'
 gem 'valid_email2', '3.6.0'
+gem 'date_validator', '0.10.0'
 
 # Emails
 gem 'inky-rb', '1.3.8.0', require: 'inky'
@@ -37,7 +39,7 @@ gem 'gibbon', '3.3.4'
 gem 'react-rails', '2.6.1'
 gem 'mini_racer', platforms: :ruby
 gem 'country_select', '~> 4.0'
-gem 'view_component', '2.30.0'
+gem 'view_component', '2.30.0', require: "view_component/engine"
 
 # Payments
 gem 'stripe', '5.31.0'
@@ -54,7 +56,7 @@ gem 'sidekiq', '6.2.0'
 gem 'sidekiq-scheduler', '3.0.1'
 
 # monitoring
-gem 'skylight', '4.3.2'
+gem 'skylight', '5.0.1'
 gem "health_check", github: 'ianheggie/health_check', :ref => '0b799ea'
 gem 'sentry-raven', '~> 3.0', '>= 3.0.0'
 

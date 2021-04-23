@@ -7,7 +7,7 @@ const PhoneNumberField = (props = {}) => {
     return null
   }
 
-  const { value, name } = props
+  const { value, name, className } = props
   const [phoneNumber, setPhoneNumber] = useState(value)
 
   return (
@@ -15,6 +15,7 @@ const PhoneNumberField = (props = {}) => {
       <PhoneInput
         defaultCountry='US'
         international={false}
+        className={className}
         onChange={value => setPhoneNumber(value || '')}
         value={phoneNumber}
         smartCaret={false}

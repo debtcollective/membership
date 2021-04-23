@@ -45,14 +45,14 @@ class UserProfile < ApplicationRecord
   validates :address_country_code, presence: true, inclusion: {in: ISO3166::Country.all.map(&:alpha2)}
   validates :address_line1, presence: true
   validates :address_zip, presence: true
-  validates :birthday, inclusion: {in: ->(date) { 15.years.ago..Date.today }}, allow_nil: true
+  validates :birthday, date: true, allow_nil: true
   validates :facebook, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
   validates :first_name, presence: true
   validates :instagram, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
   validates :last_name, presence: true
   validates :phone_number, presence: true, format: {with: PHONE_NUMBER_REGEX}
-  validates :registration_email, presence: true, 'valid_email_2/email': true, uniqueness: {case_sensitive: false}
-  validates :title, inclusion: {in: TITLES}, allow_nil: true
+  validates :registration_email, 'valid_email_2/email': true, uniqueness: {case_sensitive: false}
+  validates :title, inclusion: {in: TITLES}, allow_blank: true
   validates :twitter, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
   validates :website, url: {allow_nil: true, no_local: true}
 end

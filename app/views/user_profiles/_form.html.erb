@@ -27,6 +27,10 @@
 
   <div class="space-y-8 sm:space-y-5">
     <div class="grid grid-cols-1 mt-6 gap-y-4 gap-x-4 sm:grid-cols-6">
+      <div class="sm:col-span-6">
+        <%= render(SelectComponent.new(name: :title, options: UserProfile::TITLES, include_blank: true, form: f)) %>
+      </div>
+
       <div class="sm:col-span-3">
         <%= render(TextFieldComponent.new(name: :first_name, form: f)) %>
       </div>
@@ -37,6 +41,13 @@
 
       <div class="sm:col-span-6">
         <%= render(PhoneNumberFieldComponent.new(name: :phone_number, form: f)) %>
+      </div>
+
+      <div class="sm:col-span-6">
+        <%= f.label :birthday, class: "block text-sm font-medium text-gray-700" %>
+        <div class="mt-1">
+          <%= f.date_picker :birthday %>
+        </div>
       </div>
 
       <div class="sm:col-span-6">
