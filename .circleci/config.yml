@@ -46,14 +46,6 @@ jobs:
             bundle install --path vendor/bundle
             yarn install
 
-      - save_cache:
-          key: membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/membership/vendor/bundle
-            - ~/membership/node_modules
-            - ~/.cache/yarn
-            - ~/.cache/Cypress
-
       - run:
           name: wait for postgres
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
@@ -68,6 +60,14 @@ jobs:
       - run:
           name: run tests
           command: bundle exec rspec spec
+
+      - save_cache:
+          key: membership-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/membership/vendor/bundle
+            - ~/membership/node_modules
+            - ~/.cache/yarn
+            - ~/.cache/Cypress
 
       - store_artifacts:
           path: coverage
@@ -132,6 +132,7 @@ jobs:
 
       - store_artifacts:
           path: coverage
+
   build:
     executor: docker-publisher
     steps:
@@ -217,7 +218,7 @@ jobs:
             docker tag debtcollective/membership:$IMAGE_TAG debtcollective/membership:latest
             make push
 
-  publish_tag:
+  publish_development:
     executor: docker-publisher
     steps:
       - checkout
@@ -238,15 +239,13 @@ jobs:
             echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 
       - run:
-          name: alias docker images
-          command: |
-            export IMAGE_TAG=$(echo $CIRCLE_SHA1 | cut -c -7)
-            docker tag debtcollective/membership:$IMAGE_TAG debtcollective/membership:$CIRCLE_TAG
-
-      - run:
           name: push image to hub.docker.io
           command: |
-            docker push debtcollective/membership:$CIRCLE_TAG
+            export IMAGE_TAG=$(echo $CIRCLE_SHA1 | cut -c -7)
+            make push tag=$IMAGE_TAG
+
+            docker tag debtcollective/membership:$IMAGE_TAG debtcollective/membership:development
+            make push tag=development
 
   deploy_stage:
     working_directory: ~/membership
@@ -348,7 +347,13 @@ workflows:
             - build
           filters:
             branches:
-              only: [master, development]
+              only: [master]
+      - publish_development:
+          requires:
+            - build
+          filters:
+            branches:
+              only: [development]
       - release:
           requires:
             - build
@@ -357,7 +362,7 @@ workflows:
               only: master
       - deploy_stage:
           requires:
-            - publish_latest
+            - publish_development
           filters:
             branches:
               only: development
@@ -374,19 +379,3 @@ workflows:
           filters:
             branches:
               only: master
-  pipeline-tag:
-    jobs:
-      - build:
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
-      - publish_tag:
-          requires:
-            - build
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
