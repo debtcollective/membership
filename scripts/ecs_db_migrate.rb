@@ -19,7 +19,7 @@ end
 overrides = {
   containerOverrides: [{
     name: service,
-    memoryReservation: 64,
+    memoryReservation: 128,
     command: ['bundle', 'exec', 'rails', 'db:migrate']
   }]
 }
