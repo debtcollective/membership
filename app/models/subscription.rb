@@ -55,6 +55,12 @@ class Subscription < ApplicationRecord
     amount == 0
   end
 
+  def pretty_status
+    return "inactive" unless active?
+    return "overdue" if overdue?
+    return "active" if active?
+  end
+
   def overdue?
     return false if zero_amount?
     return true if last_charge_at.nil?

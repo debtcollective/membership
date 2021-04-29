@@ -2,5 +2,6 @@
 
 class MembershipsController < HubController
   def index
+    @membership = Subscription.last
   end
 end
