@@ -305,7 +305,7 @@ GEM
     regexp_parser (1.8.2)
     reverse_markdown (2.0.0)
       nokogiri
-    rexml (3.2.4)
+    rexml (3.2.5)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
@@ -473,7 +473,6 @@ DEPENDENCIES
   date_validator (= 0.10.0)
   discourse_api (= 0.45.0)
   dotenv-rails (= 2.7.6)
-  e2mmap
   factory_bot (~> 5.0, >= 5.0.2)
   factory_bot_rails (~> 5.0, >= 5.0.2)
   faker (~> 2.1, >= 2.1.2)
@@ -512,7 +511,6 @@ DEPENDENCIES
   standard (= 0.13.0)
   stripe (= 5.31.0)
   stripe-ruby-mock (= 3.0.1)
-  thwait
   timecop (~> 0.9.1)
   turbolinks (~> 5)
   valid_email2 (= 3.6.0)
