@@ -431,7 +431,7 @@ GEM
       activemodel (>= 3.0.0)
       public_suffix
     vcr (6.0.0)
-    view_component (2.30.0)
+    view_component (2.31.1)
       activesupport (>= 5.0.0, < 7.0)
     webdrivers (4.6.0)
       nokogiri (~> 1.6)
@@ -518,7 +518,7 @@ DEPENDENCIES
   valid_email2 (= 3.6.0)
   validate_url (= 1.0.13)
   vcr (= 6.0.0)
-  view_component (= 2.30.0)
+  view_component (= 2.31.1)
   webdrivers (= 4.6.0)
   webmock (= 3.12.2)
   webpacker (~> 5.0)
