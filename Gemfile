@@ -42,7 +42,7 @@ gem 'country_select', '~> 4.0'
 gem 'view_component', '2.30.0', require: "view_component/engine"
 
 # Payments
-gem 'stripe', '5.31.0'
+gem 'stripe', '5.32.1'
 
 # Authentication
 gem 'jwt', '~> 2.2.1'
