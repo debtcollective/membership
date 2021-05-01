@@ -58,8 +58,8 @@
   "devDependencies": {
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/commit-analyzer": "8.0.1",
-    "@semantic-release/github": "7.1.1",
-    "@semantic-release/release-notes-generator": "9.0.1",
+    "@semantic-release/github": "7.2.1",
+    "@semantic-release/release-notes-generator": "9.0.2",
     "cypress": "6.8.0",
     "eslint-plugin-react-hooks": "4.1.2",
     "faker": "5.5.2",
@@ -67,7 +67,7 @@
     "lint-staged": "10.5.4",
     "prettier": "2.2.1",
     "prettier-standard": "16.4.1",
-    "semantic-release": "17.2.3",
+    "semantic-release": "17.4.2",
     "standard": "14.3.4",
     "webpack-dev-server": "3.11.2"
   },
