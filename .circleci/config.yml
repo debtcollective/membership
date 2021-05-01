@@ -15,7 +15,7 @@ jobs:
   test:
     working_directory: ~/membership
     docker:
-      - image: circleci/ruby:2.7.2-node-browsers
+      - image: circleci/ruby:2.7.3-node-browsers
         environment:
           PGHOST: localhost
           PGUSER: membership
@@ -74,7 +74,7 @@ jobs:
   e2e:
     working_directory: ~/membership
     docker:
-      - image: circleci/ruby:2.7.2-node-browsers
+      - image: circleci/ruby:2.7.3-node-browsers
         environment:
           PGHOST: localhost
           PGUSER: membership
@@ -163,7 +163,7 @@ jobs:
   release:
     working_directory: ~/membership
     docker:
-      - image: circleci/ruby:2.7.2-node-browsers
+      - image: circleci/ruby:2.7.3-node-browsers
     steps:
       - checkout
 
@@ -250,7 +250,7 @@ jobs:
   deploy_stage:
     working_directory: ~/membership
     docker:
-      - image: circleci/ruby:2.7.2-node-browsers
+      - image: circleci/ruby:2.7.3-node-browsers
     environment:
       ECS_CLUSTER: test
       ECS_SERVICE: membership
@@ -292,7 +292,7 @@ jobs:
   deploy_prod:
     working_directory: ~/membership
     docker:
-      - image: circleci/ruby:2.7.2-node-browsers
+      - image: circleci/ruby:2.7.3-node-browsers
     environment:
       ECS_CLUSTER: prod
       ECS_SERVICE: membership
