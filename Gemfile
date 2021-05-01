@@ -33,7 +33,7 @@ gem 'date_validator', '0.10.0'
 # Emails
 gem 'inky-rb', '1.3.8.0', require: 'inky'
 gem 'premailer-rails', '1.11.1'
-gem 'gibbon', '3.3.4'
+gem 'gibbon', '3.4.0'
 
 # front-end libraries
 gem 'react-rails', '2.6.1'
