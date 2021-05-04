@@ -6,9 +6,9 @@
 </div>
 
 <!-- Membership -->
-<section aria-labelledby="membership_heading">
+<section aria-labelledby="membership_amount">
   <div class="mt-8">
-    <p class="max-w-4xl mt-2 text-gray-900 text-md">Your membership is <%= @membership&.pretty_status %></p>
+    <p class="max-w-4xl mt-2 text-xl text-gray-900 text-md">Your membership is <%= @membership&.pretty_status %></p>
 
     <div class="flex items-center justify-between">
       <p class="subscription-amount">
@@ -18,6 +18,23 @@
 
       <div class="py-3 text-right sm:px-6">
         <%= link_to "Change amount", edit_membership_amount_path, class: "inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900" %>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="membership_credit_card">
+  <div class="mt-10">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-lg">
+          Payment method
+        </p>
+        <p>
+          Card ending in <%= @membership.card_last4%>
+        </p>
+      </div>
+      <div class="py-3 text-right sm:px-6">
+        <%= link_to "Update credit card", edit_membership_card_path, class: "inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900" %>
     </div>
   </div>
 </section>

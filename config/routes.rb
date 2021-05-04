@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   match "/membership" => "memberships#index", :via => :get, :as => :user_membership
   match "/membership/edit_amount" => "memberships#edit_amount", :via => :get, :as => :edit_membership_amount
   match "/membership/update_amount" => "memberships#update_amount", :via => [:put, :patch], :as => :update_membership_amount
+  match "/membership/edit_card" => "memberships#edit_card", :via => :get, :as => :edit_membership_card
+  match "/membership/update_card" => "memberships#update_card", :via => [:put, :patch], :as => :update_membership_card
 
   # Funds
   match "/funds" => "funds#index", :via => :get

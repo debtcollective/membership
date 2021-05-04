@@ -88,6 +88,12 @@ class Subscription < ApplicationRecord
     SubscribeUserToNewsletterJob.perform_later(user_id: user.id, tags: tags)
   end
 
+  # TODO: this needs to be refactored. We are storing this information on Donation.charge_data
+  # I think the current payment information should be stored on the Subscription model
+  def card_last4
+    donations.last&.charge_data&.[]("source")&.[]("last4")
+  end
+
   private
 
   def store_start_date

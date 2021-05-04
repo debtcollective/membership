@@ -30,7 +30,10 @@ class MembershipsController < HubController
     end
   end
 
-  def update_credit_card
+  def edit_card
+  end
+
+  def update_card
   end
 
   private
