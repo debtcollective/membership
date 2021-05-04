@@ -12,11 +12,14 @@ Rails.application.routes.draw do
 
   get "/thank-you" => "static_pages#thank_you"
 
-  # User routes
+  # User Profile
   match "/profile" => "user_profiles#edit", :via => :get, :as => :user_profile
   match "/profile" => "user_profiles#update", :via => [:put, :patch]
 
+  # User Membership
   match "/membership" => "memberships#index", :via => :get, :as => :user_membership
+  match "/membership/edit_amount" => "memberships#edit_amount", :via => :get, :as => :edit_membership_amount
+  match "/membership/update_amount" => "memberships#update_amount", :via => [:put, :patch], :as => :update_membership_amount
 
   # Funds
   match "/funds" => "funds#index", :via => :get
