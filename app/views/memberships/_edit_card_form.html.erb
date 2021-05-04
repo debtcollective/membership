@@ -28,9 +28,9 @@
   <div class="space-y-8 sm:space-y-5">
     <div class="grid grid-cols-1 mt-6 gap-y-4 gap-x-4 sm:grid-cols-6">
       <div class="sm:col-span-6">
-        <%= f.label :amount, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.label :credit_card, class: "block text-sm font-medium text-gray-700" %>
         <div class="mt-1">
-          <%= f.number_field :amount, class: "block w-full sm:text-sm border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
+          <%= f.stripe_elements :credit_card, class: "block w-full sm:text-sm border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
         </div>
       </div>
     </div>
