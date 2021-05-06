@@ -9,42 +9,9 @@ import {
   useStripe,
   useElements
 } from '@stripe/react-stripe-js'
+import BillingAddressField from './BillingAddressField'
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx')
-
-const BillingAddressField = () => {
-  return (
-    <fieldset className='mt-2 bg-white'>
-      <legend className='block text-sm font-medium text-gray-700'>
-        Address
-      </legend>
-      <div className='mt-1 -space-y-px rounded-md shadow-sm'>
-        <div>
-          {/* <%= f.label :address_line1, class: "sr-only" %>
-          <%= f.text_field :address_line1, class: "focus:ring-indigo-500 focus:border-indigo-500 relative block w-full rounded-none rounded-t-md bg-transparent focus:z-10 sm:text-sm border-gray-300", placeholder: "Street" %> */}
-        </div>
-        <div>
-          {/* <%= f.label :address_city, class: "sr-only" %>
-          <%= f.text_field :address_city, class: "focus:ring-indigo-500 focus:border-indigo-500 relative block w-full rounded-none bg-transparent focus:z-10 sm:text-sm border-gray-300", placeholder: "City" %> */}
-        </div>
-        <div className='flex'>
-          <div className='w-full'>
-            {/* <%= f.label :address_state, class: "sr-only" %>
-            <%= f.text_field :address_state, class: "focus:ring-indigo-500 focus:border-indigo-500 relative block w-full rounded-none bg-transparent focus:z-10 sm:text-sm border-gray-300", placeholder: "State" %> */}
-          </div>
-          <div className='w-full'>
-            {/* <%= f.label :address_zip, class: "sr-only" %>
-            <%= f.text_field :address_zip, class: "focus:ring-indigo-500 focus:border-indigo-500 relative block w-full rounded-none bg-transparent focus:z-10 sm:text-sm border-gray-300 border-l-0", placeholder: "Postal code" %> */}
-          </div>
-        </div>
-        <div>
-          {/* <%= f.label :address_country_code, class: "sr-only" %>
-          <%= f.country_select(:address_country_code, {priority_countries: ['US', 'CA'], include_blank: "Select country"}, {class: 'focus:ring-indigo-500 focus:border-indigo-500 relative block w-full rounded-none rounded-b-md bg-transparent focus:z-10 sm:text-sm border-gray-300', id: 'address-country-code-select', required: true}) %> */}
-        </div>
-      </div>
-    </fieldset>
-  )
-}
 
 const CreditCardField = () => {
   const stripe = useStripe()
@@ -122,6 +89,10 @@ const UpdateCreditCardForm = ({ action, method, authenticityToken }) => {
               name='last_name'
               className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
             />
+          </div>
+
+          <div className='sm:col-span-6'>
+            <BillingAddressField />
           </div>
 
           <div className='sm:col-span-6'>
