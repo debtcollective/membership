@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  # Returns the full title on a per-page basis.
   def full_title(page_title = "")
     base_title = "Membership"
     if page_title.empty?
@@ -29,5 +28,18 @@ module ApplicationHelper
 
   def discourse_url(path = "/")
     "#{ENV["DISCOURSE_URL"]}#{path}"
+  end
+
+  def country_options
+    ISO3166::Country.codes.map do |code_or_name|
+      if country = ISO3166::Country.new(code_or_name)
+        code = country.alpha2
+      elsif country = ISO3166::Country.find_by_name(code_or_name)
+        code = country.first
+        country = ISO3166::Country.new(code)
+      end
+
+      [country.name, code]
+    end
   end
 end

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const BillingAddressField = () => {
+const BillingAddressField = ({ countryOptions }) => {
   return (
     <fieldset className='mt-2 bg-white'>
       <legend className='block text-sm font-medium text-gray-700'>
