@@ -11,8 +11,6 @@ import {
 } from '@stripe/react-stripe-js'
 import BillingAddressField from './BillingAddressField'
 
-const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx')
-
 const CreditCardField = () => {
   const stripe = useStripe()
   const elements = useElements()
@@ -46,7 +44,6 @@ const UpdateCreditCardForm = ({
 
   const handleSubmit = async event => {
     event.preventDefault()
-    debugger
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement)
@@ -79,6 +76,7 @@ const UpdateCreditCardForm = ({
               type='text'
               name='first_name'
               className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+              required
             />
           </div>
 
@@ -92,6 +90,7 @@ const UpdateCreditCardForm = ({
             <input
               type='text'
               name='last_name'
+              required
               className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
             />
           </div>
@@ -116,6 +115,8 @@ const UpdateCreditCardForm = ({
     </Elements>
   )
 }
+
+const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY)
 
 const FormWrapped = props => (
   <Elements stripe={stripePromise}>

@@ -30,15 +30,3 @@
   authenticityToken: form_authenticity_token,
   countryOptions: country_options,
 }) %>
-
-<%= form_with(model: membership, url: update_membership_card_path) do |f| %>
-  <div class="space-y-8 sm:space-y-5">
-    <div class="grid grid-cols-1 mt-6 gap-y-4 gap-x-4 sm:grid-cols-6">
-      <div class="sm:col-span-6">
-        <label for="stripe-card-element" class="block text-sm font-medium text-gray-700" />
-        <div class="mt-1">
-        </div>
-      </div>
-    </div>
-  </div>
-<% end %>
