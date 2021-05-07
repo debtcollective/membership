@@ -8,13 +8,13 @@ const BillingAddressField = ({ countryOptions = [] }) => {
       </legend>
       <div className='mt-1 -space-y-px rounded-md shadow-sm'>
         <div>
-          <label htmlFor='address_line_1' className='sr-only'>
+          <label htmlFor='address_line1' className='sr-only'>
             Street
           </label>
           <input
             type='text'
-            name='address_line_1'
-            id='address_line_1'
+            name='address_line1'
+            id='address_line1'
             placeholder='Street'
             className='relative block w-full bg-transparent border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-t-md focus:z-10 sm:text-sm'
             required
