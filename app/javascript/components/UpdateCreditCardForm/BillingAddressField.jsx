@@ -13,7 +13,7 @@ const BillingAddressField = ({ countryOptions = [] }) => {
           </label>
           <input
             type='text'
-            name='address_line1'
+            name='membership[address_line1]'
             id='address_line1'
             placeholder='Street'
             className='relative block w-full bg-transparent border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-t-md focus:z-10 sm:text-sm'
@@ -26,7 +26,7 @@ const BillingAddressField = ({ countryOptions = [] }) => {
           </label>
           <input
             type='text'
-            name='address_city'
+            name='membership[address_city]'
             id='address_city'
             placeholder='City'
             className='relative block w-full bg-transparent border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
@@ -40,7 +40,7 @@ const BillingAddressField = ({ countryOptions = [] }) => {
             </label>
             <input
               type='text'
-              name='address_state'
+              name='membership[address_state]'
               id='address_state'
               placeholder='State'
               className='relative block w-full bg-transparent border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
@@ -53,7 +53,7 @@ const BillingAddressField = ({ countryOptions = [] }) => {
             </label>
             <input
               type='text'
-              name='address_zip'
+              name='membership[address_zip]'
               id='address_zip'
               placeholder='Zip code'
               className='relative block w-full bg-transparent border-l-0 border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
@@ -63,7 +63,7 @@ const BillingAddressField = ({ countryOptions = [] }) => {
         </div>
         <div>
           <select
-            name='address_country_code'
+            name='membership[address_country_code]'
             defaultValue=''
             className='relative block w-full bg-transparent border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-b-md focus:z-10 sm:text-sm'
             required

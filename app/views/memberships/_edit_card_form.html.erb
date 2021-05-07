@@ -26,7 +26,7 @@
 
 <%= react_component("UpdateCreditCardForm", {
   action: update_membership_card_path,
-  method: 'post',
+  method: 'put',
   authenticityToken: form_authenticity_token,
   countryOptions: country_options,
 }) %>

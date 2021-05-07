@@ -52,15 +52,17 @@ const UpdateCreditCardForm = ({
     const formData = new FormData(event.target)
     event.preventDefault()
 
-    // validate stripe card
+    setIsLoading(true)
 
     const billingInformation = {
-      name: `${formData.get('first_name')} ${formData.get('last_name')}`,
-      address_line1: formData.get('address_line1'),
-      address_city: formData.get('address_city'),
-      address_zip: formData.get('address_zip'),
-      address_state: formData.get('address_state'),
-      address_country: formData.get('address_country_code')
+      name: `${formData.get('membership[first_name]')} ${formData.get(
+        'membership[last_name]'
+      )}`,
+      address_line1: formData.get('membership[address_line1]'),
+      address_city: formData.get('membership[address_city]'),
+      address_zip: formData.get('membership[address_zip]'),
+      address_state: formData.get('membership[address_state]'),
+      address_country: formData.get('membership[address_country_code]')
     }
 
     // tokenize card and billing information
@@ -79,13 +81,13 @@ const UpdateCreditCardForm = ({
 
     // add stripe_token and card information to payload
     // make request
-    formData.set('stripe_token', token.id)
-    formData.set('stripe_card_id', token.card.id)
-    formData.set('stripe_card_last4', token.card.last4)
+    formData.set('membership[stripe_token]', token.id)
+    formData.set('membership[stripe_card_id]', token.card.id)
+    formData.set('membership[stripe_card_last4]', token.card.last4)
 
     try {
       const response = await fetch('/membership/update_card.json', {
-        method: 'POST',
+        method: method,
         body: formData
       })
     } catch (e) {
@@ -119,7 +121,7 @@ const UpdateCreditCardForm = ({
           </label>
           <input
             type='text'
-            name='first_name'
+            name='membership[first_name]'
             className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
             required
           />
@@ -134,7 +136,7 @@ const UpdateCreditCardForm = ({
           </label>
           <input
             type='text'
-            name='last_name'
+            name='membership[last_name]'
             required
             className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
           />

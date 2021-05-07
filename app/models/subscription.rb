@@ -58,7 +58,8 @@ class Subscription < ApplicationRecord
   def pretty_status
     return "inactive" unless active?
     return "overdue" if overdue?
-    return "active" if active?
+
+    "active"
   end
 
   def overdue?
