@@ -30,4 +30,7 @@ RSpec.describe MembershipsController, type: :controller do
       expect(subscription.amount).not_to eq(4)
     end
   end
+
+  describe "PUT #update_card" do
+  end
 end

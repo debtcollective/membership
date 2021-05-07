@@ -48,11 +48,22 @@ class MembershipsController < HubController
         card_id: update_card_params[:stripe_card_id]
       }
     }
-    @membership.save
 
-    flash[:success] = "Your credit card was updated amd it will be used on your next billing"
+    respond_to do |format|
+      if @membership.save
+        format.json do
+          flash[:success] = "Your credit card was updated, and it will be effective on your next billing"
 
-    redirect_to action: :index
+          render json: {status: "succeeded", redirect_to: user_membership_path}, status: :ok
+        end
+      else
+        format.json do
+          flash[:error] = "There was an error updating your credit card, please try again or contact support"
+
+          render json: {status: "failed", redirect_to: user_membership_path}, status: :unprocessable_entity
+        end
+      end
+    end
   end
 
   private

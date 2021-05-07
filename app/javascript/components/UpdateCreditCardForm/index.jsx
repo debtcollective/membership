@@ -66,36 +66,32 @@ const UpdateCreditCardForm = ({
     }
 
     // tokenize card and billing information
-    let token
     try {
-      const tokenResult = await stripe.createToken(
+      const { token } = await stripe.createToken(
         elements.getElement(CardElement),
         billingInformation
       )
 
-      token = tokenResult.token
+      formData.set('membership[stripe_token]', token.id)
+      formData.set('membership[stripe_card_id]', token.card.id)
+      formData.set('membership[stripe_card_last4]', token.card.last4)
     } catch (e) {
       console.log(e)
       return
     }
 
-    // add stripe_token and card information to payload
-    // make request
-    formData.set('membership[stripe_token]', token.id)
-    formData.set('membership[stripe_card_id]', token.card.id)
-    formData.set('membership[stripe_card_last4]', token.card.last4)
-
     try {
-      const response = await fetch('/membership/update_card.json', {
+      const response = await fetch('/membership/update_card', {
         method: method,
         body: formData
       })
+
+      const json = await response.json()
+      window.location.href = json['redirect_to']
     } catch (e) {
       console.log(e)
       return
     }
-
-    setIsLoading(false)
   }
 
   return (
