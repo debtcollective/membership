@@ -39,7 +39,7 @@ const UpdateCreditCardForm = ({
   action,
   method,
   authenticityToken,
-  countryCodes
+  countryOptions
 }) => {
   const stripe = useStripe()
   const elements = useElements()
@@ -97,7 +97,7 @@ const UpdateCreditCardForm = ({
           </div>
 
           <div className='sm:col-span-6'>
-            <BillingAddressField countryCodes={countryCodes} />
+            <BillingAddressField countryOptions={countryOptions} />
           </div>
 
           <div className='sm:col-span-6'>

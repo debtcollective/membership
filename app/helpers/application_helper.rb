@@ -31,15 +31,14 @@ module ApplicationHelper
   end
 
   def country_options
-    ISO3166::Country.codes.map do |code_or_name|
-      if country = ISO3166::Country.new(code_or_name)
-        code = country.alpha2
-      elsif country = ISO3166::Country.find_by_name(code_or_name)
-        code = country.first
-        country = ISO3166::Country.new(code)
-      end
+    priority_countries = ["US", "CA", "GB"]
+    country_codes = ISO3166::Country.codes.sort
+    sorted_country_codes = priority_countries + (country_codes - priority_countries)
 
-      [country.name, code]
-    end
+    sorted_country_codes.map { |code|
+      country = ISO3166::Country.new(code)
+      country_name = country.translations[I18n.locale.to_s]
+      [country_name, code]
+    }
   end
 end

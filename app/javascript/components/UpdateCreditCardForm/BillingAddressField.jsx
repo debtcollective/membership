@@ -1,6 +1,6 @@
 import React from 'react'
 
-const BillingAddressField = ({ countryOptions }) => {
+const BillingAddressField = ({ countryOptions = [] }) => {
   return (
     <fieldset className='mt-2 bg-white'>
       <legend className='block text-sm font-medium text-gray-700'>
@@ -62,7 +62,16 @@ const BillingAddressField = ({ countryOptions }) => {
             name='address_country_code'
             className='relative block w-full bg-transparent border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-b-md focus:z-10 sm:text-sm'
           >
-            <option>te amo</option>
+            <option selected disabled hidden>
+              Select Country
+            </option>
+            {countryOptions.map(country => {
+              return (
+                <option value={country[1]} key={country[1]}>
+                  {country[0]}
+                </option>
+              )
+            })}
           </select>
         </div>
       </div>
