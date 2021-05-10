@@ -34,23 +34,8 @@ class MembershipsController < HubController
   end
 
   def update_card
-    customer = current_user.find_stripe_customer
-
-    Stripe::Customer.update(
-      customer.id,
-      {source: update_card_params[:stripe_token]}
-    )
-
-    @membership.metadata = {
-      payment_method: {
-        type: "card",
-        last4: update_card_params[:stripe_card_last4],
-        card_id: update_card_params[:stripe_card_id]
-      }
-    }
-
     respond_to do |format|
-      if @membership.save
+      if @membership.update_credit_card!(update_card_params)
         format.json do
           flash[:success] = "Your credit card was updated, and it will be effective on your next billing"
 

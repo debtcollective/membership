@@ -94,6 +94,40 @@ class Subscription < ApplicationRecord
     metadata["payment_method"]&.[]("last4")
   end
 
+  def update_credit_card!(params)
+    customer = user.find_stripe_customer
+
+    return false unless customer
+
+    # Update card on Stripe
+    customer = Stripe::Customer.update(
+      customer.id,
+      {
+        address: {
+          city: params[:address_city],
+          country: params[:address_country],
+          line1: params[:address_line1],
+          postal_code: params[:address_zip],
+          state: params[:address_state]
+        },
+        name: "#{params[:first_name]} #{params[:last_name]}",
+        source: params[:stripe_token]
+      }
+    )
+
+    self.metadata = {
+      payment_provider: "stripe",
+      payment_method: {
+        type: "card",
+        last4: params[:stripe_card_last4],
+        card_id: params[:stripe_card_id],
+        customer_id: customer.id
+      }
+    }
+
+    save
+  end
+
   private
 
   def store_start_date
