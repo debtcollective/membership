@@ -62,7 +62,7 @@
     "@semantic-release/commit-analyzer": "8.0.1",
     "@semantic-release/github": "7.1.1",
     "@semantic-release/release-notes-generator": "9.0.1",
-    "cypress": "6.8.0",
+    "cypress": "7.3.0",
     "eslint-plugin-react-hooks": "4.1.2",
     "faker": "5.5.2",
     "husky": "4.3.8",
