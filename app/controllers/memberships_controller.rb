@@ -10,8 +10,8 @@ class MembershipsController < HubController
   end
 
   def update_amount
-    membership_params = params.require(:subscription).permit(:amount)
-    @membership.assign_attributes(membership_params)
+    amount_params = params.require(:membership).permit(:amount)
+    @membership.assign_attributes(amount_params)
 
     respond_to do |format|
       if @membership.save

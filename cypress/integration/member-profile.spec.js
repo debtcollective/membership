@@ -6,7 +6,13 @@ describe('Member Profile', () => {
   })
 
   it('renders the profile page', () => {
-    cy.visit('/profile')
-    cy.contains('My membership my email', { matchCase: false })
+    cy.appFactories([
+      ['create', 'user', { email: 'example@debtcollective.org' }]
+    ]).then(async records => {
+      const [user] = records
+      cy.forceLogin({ email: user.email }).then(result => {
+        cy.visit('/profile')
+      })
+    })
   })
 })
