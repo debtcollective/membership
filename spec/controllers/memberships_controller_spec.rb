@@ -10,7 +10,7 @@ RSpec.describe MembershipsController, type: :controller do
 
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
 
-      put :update_amount, params: {subscription: {amount: 10}}
+      put :update_amount, params: {membership: {amount: 10}}
       subscription.reload
 
       expect(response.status).to eq(302)
@@ -23,7 +23,7 @@ RSpec.describe MembershipsController, type: :controller do
 
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
 
-      put :update_amount, params: {subscription: {amount: 4}}
+      put :update_amount, params: {membership: {amount: 4}}
       subscription.reload
 
       expect(response.status).to eq(200)
