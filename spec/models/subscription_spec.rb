@@ -8,6 +8,7 @@
 #  active         :boolean
 #  amount         :money            default(0.0)
 #  last_charge_at :datetime
+#  metadata       :jsonb            not null
 #  start_date     :datetime
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

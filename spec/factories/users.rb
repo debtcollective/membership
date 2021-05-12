@@ -36,7 +36,16 @@ FactoryBot.define do
 
     factory :user_with_subscription do
       after(:create) do |user|
-        FactoryBot.create(:subscription, user: user)
+        FactoryBot.create(:subscription_with_donation, user: user)
+      end
+    end
+
+    factory :user_with_subscription_and_stripe do
+      after(:create) do |user|
+        FactoryBot.create(:subscription_with_donation, user: user)
+
+        user.stripe_id = Stripe::Customer.create({email: user.email, description: "FactoryBot test user"}).id
+        user.save
       end
     end
 

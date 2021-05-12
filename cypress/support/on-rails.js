@@ -33,7 +33,7 @@ Cypress.Commands.add('appFactories', function (options) {
 })
 
 Cypress.Commands.add('appFixtures', function (options) {
-  cy.app('activerecord_fixtures', options)
+  return cy.app('activerecord_fixtures', options)
 })
 
 Cypress.Commands.add('forceLogin', details => {
@@ -41,7 +41,7 @@ Cypress.Commands.add('forceLogin', details => {
 
   if (!details.redirect_to) details.redirect_to = '/'
 
-  cy.visit('__cypress__/force_login', {
+  return cy.visit('__cypress__/force_login', {
     method: 'POST',
     body: { email: details.email, redirect_to: details.redirect_to }
   })

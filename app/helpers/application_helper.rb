@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  # Returns the full title on a per-page basis.
   def full_title(page_title = "")
     base_title = "Membership"
     if page_title.empty?
@@ -11,18 +10,15 @@ module ApplicationHelper
     end
   end
 
-  def flash_messages(_opts = {})
-    flash.each do |msg_type, message|
-      concat(
-        content_tag(:div, message, class: "alert alert-#{msg_type}", role: "alert") {
-          concat message
-          concat content_tag(:button, content_tag(:span, "×", data: {'aria-hidden': "true"}),
-            class: "close", data: {dismiss: "alert"})
-        }
-      )
-    end
+  def flash_message_class(type)
+    @flash_message_classes ||= {
+      error: "red",
+      info: "blue",
+      success: "green",
+      warning: "yellow"
+    }
 
-    nil
+    @flash_message_classes[type.to_sym]
   end
 
   # current_path? returns false on POST request, we use this one instead.
@@ -32,5 +28,17 @@ module ApplicationHelper
 
   def discourse_url(path = "/")
     "#{ENV["DISCOURSE_URL"]}#{path}"
+  end
+
+  def country_options
+    priority_countries = ["US", "CA", "GB"]
+    country_codes = ISO3166::Country.codes.sort
+    sorted_country_codes = priority_countries + (country_codes - priority_countries)
+
+    sorted_country_codes.map { |code|
+      country = ISO3166::Country.new(code)
+      country_name = country.translations[I18n.locale.to_s]
+      [country_name, code]
+    }
   end
 end
