@@ -22,7 +22,7 @@ class ChargesController < ApplicationController
     unless is_human
       message = "Oops! Something went wrong. Please try again"
       error = "Human validation has failed"
-      return render json: {status: "failed", errors: [error], message: message }, status: :unprocessable_entity
+      return render json: {status: "failed", errors: [error], message: message}, status: :unprocessable_entity
     end
 
     donation_params =

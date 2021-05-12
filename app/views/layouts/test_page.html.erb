@@ -18,6 +18,7 @@
     <script>
       window.DC_DONATE_API_URL = "<%= "#{request.protocol + request.host_with_port}/donate" %>"
       window.DC_MEMBERSHIP_API_URL = "<%= "#{request.protocol + request.host_with_port}/subscriptions" %>"
+      window.DC_FUNDS_API_URL = "<%= "#{request.protocol + request.host_with_port}/funds" %>"
       window.DC_RECAPTCHA_V3_SITE_KEY = "<%= ENV["RECAPTCHA_V3_SITE_KEY"] %>"
       window.DC_STRIPE_PUBLIC_TOKEN = "<%= ENV["STRIPE_PUBLISHABLE_KEY"] %>"
     </script>

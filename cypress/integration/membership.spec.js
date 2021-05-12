@@ -43,7 +43,9 @@ describe('Membership Spec', () => {
       cy.get("input[name='firstName']").type(faker.name.firstName())
       cy.get("input[name='lastName']").type(faker.name.lastName())
       cy.get("input[name='email']").type(faker.internet.email())
-      cy.get("input[name='phoneNumber']").type(faker.phone.phoneNumber())
+      cy.get("input[name='phoneNumber']").type(
+        faker.phone.phoneNumber('### ### ####')
+      )
 
       cy.getWithinIframe('[name="cardnumber"]').type('4242424242424242')
       cy.getWithinIframe('[name="exp-date"]').type('1232')
