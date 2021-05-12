@@ -8,6 +8,7 @@
 #  active         :boolean
 #  amount         :money            default(0.0)
 #  last_charge_at :datetime
+#  metadata       :jsonb            not null
 #  start_date     :datetime
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -55,6 +56,13 @@ class Subscription < ApplicationRecord
     amount == 0
   end
 
+  def pretty_status
+    return "inactive" unless active?
+    return "overdue" if overdue?
+
+    "active"
+  end
+
   def overdue?
     return false if zero_amount?
     return true if last_charge_at.nil?
@@ -80,6 +88,44 @@ class Subscription < ApplicationRecord
     tags = [{name: membership_type_tag, status: "active"}, {name: MEMBER_TAG, status: "active"}]
 
     SubscribeUserToNewsletterJob.perform_later(user_id: user.id, tags: tags)
+  end
+
+  def card_last4
+    metadata["payment_method"]&.[]("last4")
+  end
+
+  def update_credit_card!(params)
+    customer = user.find_stripe_customer
+
+    return false unless customer
+
+    # Update card on Stripe
+    customer = Stripe::Customer.update(
+      customer.id,
+      {
+        address: {
+          city: params[:address_city],
+          country: params[:address_country],
+          line1: params[:address_line1],
+          postal_code: params[:address_zip],
+          state: params[:address_state]
+        },
+        name: "#{params[:first_name]} #{params[:last_name]}",
+        source: params[:stripe_token]
+      }
+    )
+
+    self.metadata = {
+      payment_provider: "stripe",
+      payment_method: {
+        type: "card",
+        last4: params[:stripe_card_last4],
+        card_id: params[:stripe_card_id],
+        customer_id: customer.id
+      }
+    }
+
+    save
   end
 
   private

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_20_212637) do
+ActiveRecord::Schema.define(version: 2021_05_07_221503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,9 @@ ActiveRecord::Schema.define(version: 2021_04_20_212637) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
   end
 
   create_table "donations", force: :cascade do |t|
@@ -94,6 +97,7 @@ ActiveRecord::Schema.define(version: 2021_04_20_212637) do
     t.datetime "start_date"
     t.datetime "last_charge_at"
     t.money "amount", scale: 2, default: "0.0"
+    t.jsonb "metadata", default: {}, null: false
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 

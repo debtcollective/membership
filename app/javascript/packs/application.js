@@ -9,12 +9,13 @@ require('alpinejs')
 import 'stylesheets/application'
 
 document.addEventListener('DOMContentLoaded', function (event) {
-  const alert = document.querySelector('.alert button.close')
+  const alertsClose = document.querySelectorAll('.alert button.alert-close')
 
-  alert &&
-    alert.addEventListener('click', function () {
-      this.parentNode.parentNode.removeChild(this.parentNode)
+  alertsClose.forEach(function (node) {
+    node.addEventListener('click', function () {
+      this.closest('.alert').remove()
     })
+  })
 })
 
 // Support component names relative to this directory:
