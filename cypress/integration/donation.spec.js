@@ -33,6 +33,7 @@ describe('Donation Spec', () => {
       .click()
 
     // complete payment information
+    cy.get("select[name='fund']").select('2')
     cy.get("input[name='firstName']").type(faker.name.firstName())
     cy.get("input[name='lastName']").type(faker.name.lastName())
     cy.get("input[name='email']").type(faker.internet.email())
