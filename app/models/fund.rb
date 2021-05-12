@@ -20,7 +20,15 @@ class Fund < ApplicationRecord
   validates :name, presence: true
   validates :slug, uniqueness: true
 
+  after_commit :expire_funds_cache
+
   def self.default
     find_by!(slug: DEFAULT_SLUG)
+  end
+
+  private
+
+  def expire_funds_cache
+    Rails.cache.delete(FundsController::FUNDS_CACHE_KEY)
   end
 end

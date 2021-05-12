@@ -100,6 +100,9 @@ _Note:_ MacOS users can use the [Postgres app](https://postgresapp.com).
 
 # Running tests
 
+## Prepare tests
+rails db:test:prepare
+
 ## RSpec
 
 ```bash

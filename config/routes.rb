@@ -18,6 +18,9 @@ Rails.application.routes.draw do
 
   match "/membership" => "memberships#index", :via => :get, :as => :user_membership
 
+  # Funds
+  match "/funds" => "funds#index", :via => :get
+
   resources :subscriptions, only: %i[create]
   resources :charges, only: %i[new create], path: "donate", path_names: {new: ""}
 
