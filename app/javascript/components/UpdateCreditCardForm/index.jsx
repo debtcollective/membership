@@ -85,7 +85,7 @@ const UpdateCreditCardForm = ({
   const [isLoading, setIsLoading] = useState(false)
 
   const handleCardOnChange = event => {
-    // make sure we disable the input in case of error
+    // TODO: make sure we disable the input in case of card error
   }
 
   const handleSubmit = async event => {
