@@ -1,9 +1,11 @@
 class FundsController < ApplicationController
+  FUNDS_CACHE_KEY = "funds/index.json"
+
   def index
-    funds = Rails.cache.fetch("all_funds", expires_in: 24.hours) { Fund.all }
+    funds_json = Rails.cache.fetch(FUNDS_CACHE_KEY) { Fund.all.to_json }
 
     respond_to do |format|
-      format.json { render json: funds, status: :ok }
+      format.json { render json: funds_json, status: :ok }
     end
   end
 end
