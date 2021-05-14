@@ -1,6 +1,5 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'production'
 
-const webpack = require('webpack')
 const environment = require('./environment')
 const SentryCliPlugin = require('@sentry/webpack-plugin')
 
@@ -20,10 +19,5 @@ if (process.env.SENTRY_RELEASE && process.env.SENTRY_AUTH_TOKEN) {
     })
   )
 }
-
-environment.plugins.insert(
-  "Environment",
-  new webpack.EnvironmentPlugin(['STRIPE_PUBLISHABLE_KEY'])
-)
 
 module.exports = environment.toWebpackConfig()
