@@ -30,6 +30,7 @@ Membership is a simple app for non profit organizations, that allows users to cr
 - [Developer notes](#developer-notes)
   - [User sessions](#user-sessions)
   - [Running Overmind](#running-overmind)
+  - [Running Docker](#running-docker)
   - [Solargraph](#solargraph)
   - [Formatting with Standard and Prettier](#formatting-with-standard-and-prettier)
   - [Codecov](#codecov)
@@ -129,6 +130,14 @@ You can install on OSX by running `brew install tmux overmind`.
 
 A cool feature that Overmind has is that it allows you to connect to specific process terminal via tmux. This is really
 useful when debugging apps. If you use for example `binding.pry`, you can connect to the debugging terminal by running `overmind connect web`
+
+## Running Docker
+
+You can run the app using docker compose.
+
+```bash
+docker compose up
+```
 
 ## Solargraph
 

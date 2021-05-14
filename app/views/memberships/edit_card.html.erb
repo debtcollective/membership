@@ -7,3 +7,11 @@
 
 <!-- Membership -->
 <%= render 'edit_card_form', membership: @membership %>
+
+<% content_for :head do %>
+  <script type='text/javascript'>
+  window.App = {
+    STRIPE_PUBLISHABLE_KEY: '<%= ENV.fetch('STRIPE_PUBLISHABLE_KEY') %>'
+  };
+  </script>
+<% end %>
