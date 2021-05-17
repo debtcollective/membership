@@ -1,7 +1,0 @@
-{
-  "extends": ["config:base"],
-  "schedule": ["before 4am on the first day of the month"],
-  "bundler": {
-    "enabled": true
-  }
-}
