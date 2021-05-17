@@ -49,7 +49,7 @@ gem 'jwt', '~> 2.2.1'
 gem 'recaptcha', '~> 5.2', '>= 5.2.1'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '1.7.3', require: false
+gem 'bootsnap', '1.7.4', require: false
 
 # Background jobs
 gem 'sidekiq', '6.2.0'
@@ -65,10 +65,10 @@ group :development, :test do
   gem 'annotate', '3.1.1'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'cypress-on-rails', '1.9.1'
-  gem 'cypress-rails', '0.4.2'
+  gem 'cypress-rails', '0.5.0'
   gem 'dotenv-rails', '2.7.6'
-  gem 'factory_bot', '~> 5.0', '>= 5.0.2'
-  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'
+  gem 'factory_bot', '~> 6.2'
+  gem 'factory_bot_rails', '~> 6.2'
   gem 'faker', '~> 2.1', '>= 2.1.2'
   gem 'guard-rspec', '4.7.3', require: false
   gem 'pry-byebug', '~> 3.9.0'
@@ -76,7 +76,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'listen', '>= 3.0.5', '< 3.5'
+  gem 'listen', '>= 3.0.5', '< 3.6'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'solargraph', '0.40.4'
@@ -89,7 +89,7 @@ group :test do
   gem 'codecov', '0.4.3', require: false
   gem 'database_cleaner-active_record', '2.0.0'
   gem 'rspec-mocks', '3.10.2'
-  gem 'rspec-rails', '4.0.2'
+  gem 'rspec-rails', '5.0.1'
   gem 'selenium-webdriver', '~> 3.142', '>= 3.142.3'
   gem 'shoulda-matchers', '4.5.1'
   gem 'stripe-ruby-mock', '3.0.1', :require => 'stripe_mock'
