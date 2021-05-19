@@ -51,6 +51,12 @@ class MembershipsController < HubController
     end
   end
 
+  def edit_status
+  end
+
+  def update_status
+  end
+
   private
 
   def set_membership

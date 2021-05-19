@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   match "/membership/update_amount" => "memberships#update_amount", :via => [:put, :patch], :as => :update_membership_amount
   match "/membership/edit_card" => "memberships#edit_card", :via => :get, :as => :edit_membership_card
   match "/membership/update_card" => "memberships#update_card", :via => [:put, :patch], :as => :update_membership_card
+  match "/membership/edit_status" => "memberships#edit_status", :via => :get, :as => :edit_membership_status
+  match "/membership/update_status" => "memberships#update_status", :via => [:put, :patch], :as => :update_membership_status
 
   # Funds
   match "/funds" => "funds#index", :via => :get
