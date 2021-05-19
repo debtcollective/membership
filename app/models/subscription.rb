@@ -19,7 +19,7 @@
 #  index_subscriptions_on_user_id  (user_id)
 #
 class Subscription < ApplicationRecord
-  GRACE_PERIOD = 7.days
+  FAILED_CHARGE_COUNT_BEFORE_DISABLE = 5
   SUBSCRIPTION_PERIOD = 1.month
 
   # Mailchimp tags
@@ -70,15 +70,9 @@ class Subscription < ApplicationRecord
     last_charge_at <= SUBSCRIPTION_PERIOD.ago
   end
 
+  # This methods checks if the failed_charge_count is more than 5
   def beyond_grace_period?
-    return false if zero_amount?
-    return true if last_charge_at.nil?
-
-    last_charge_at <= (SUBSCRIPTION_PERIOD + GRACE_PERIOD).ago
-  end
-
-  def disable!
-    update!(active: false) if beyond_grace_period?
+    overdue? && failed_charge_count > FAILED_CHARGE_COUNT_BEFORE_DISABLE
   end
 
   def subscribe_user_to_newsletter
@@ -126,6 +120,18 @@ class Subscription < ApplicationRecord
     }
 
     save
+  end
+
+  def disable!
+    update(active: false)
+  end
+
+  def failed_charge_count
+    metadata["failed_charge_count"].to_i
+  end
+
+  def failed_charge_count=(count)
+    metadata["failed_charge_count"] = count
   end
 
   private

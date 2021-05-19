@@ -23,6 +23,7 @@ FactoryBot.define do
     active { true }
     amount { (5..100).to_a.sample }
     user
+    metadata { {} }
 
     factory :subscription_with_donation do
       after(:create) do |subscription|
@@ -37,7 +38,8 @@ FactoryBot.define do
     end
 
     factory :subscription_beyond_grace_period do
-      last_charge_at { (Subscription::SUBSCRIPTION_PERIOD + Subscription::GRACE_PERIOD + 1.day).ago }
+      last_charge_at { (Subscription::SUBSCRIPTION_PERIOD + 1.day).ago }
+      metadata {{failed_charge_count: Subscription::FAILED_CHARGE_COUNT_BEFORE_DISABLE + 1}}
 
       after(:create) do |subscription|
         FactoryBot.create(:donation, subscription: subscription, amount: subscription.amount.to_i, created_at: subscription.last_charge_at)
