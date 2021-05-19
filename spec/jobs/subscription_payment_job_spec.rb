@@ -71,7 +71,7 @@ RSpec.describe SubscriptionPaymentJob, type: :job do
         expect { SubscriptionPaymentJob.perform_now(subscription) }.to raise_error(SubscriptionNotOverdueError)
       end
 
-      it "doesn't disable subscription if charge fails beyond grace period" do
+      it "doesn't disable subscription if charge fails before grace period" do
         subscription = FactoryBot.create(:subscription_overdue, user: user, amount: 25)
 
         expect(subscription.active?).to eq(true)
