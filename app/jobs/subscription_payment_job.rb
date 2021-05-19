@@ -101,6 +101,6 @@ class SubscriptionPaymentJob < ApplicationJob
     )
 
     donation.save!
-    subscription.update!(last_charge_at: DateTime.now, active: true)
+    subscription.update!(last_charge_at: DateTime.now, status: :active)
   end
 end

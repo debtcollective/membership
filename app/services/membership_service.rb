@@ -45,7 +45,7 @@ class MembershipService
     @user ||= find_or_create_user
 
     # check if the user has a valid subscription already
-    if Subscription.exists?(user_id: user.id, active: true)
+    if Subscription.exists?(user_id: user.id, status: :active)
       errors.add(:base, I18n.t("subscription.errors.active_subscription"))
 
       return Subscription.new, errors
@@ -63,7 +63,7 @@ class MembershipService
     # handle creating a membership with the zero-amount option we are offering
     # create a membership but don't create a donation or stripe charge
     if amount == 0
-      subscription = Subscription.create(user_id: user.id, active: true, amount: amount, last_charge_at: nil)
+      subscription = Subscription.create(user_id: user.id, status: :active, amount: amount, last_charge_at: nil)
     else
       # find stripe customer
       @stripe_customer = user.find_stripe_customer
@@ -102,7 +102,7 @@ class MembershipService
     end
 
     # create subscription and the first donation
-    subscription = Subscription.create(user_id: user.id, active: true, amount: amount, last_charge_at: DateTime.now)
+    subscription = Subscription.create(user_id: user.id, status: :active, amount: amount, last_charge_at: DateTime.now)
 
     donation =
       subscription.donations.new(

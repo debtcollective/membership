@@ -5,11 +5,11 @@
 # Table name: subscriptions
 #
 #  id             :bigint           not null, primary key
-#  active         :boolean
 #  amount         :money            default(0.0)
 #  last_charge_at :datetime
 #  metadata       :jsonb            not null
 #  start_date     :datetime
+#  status         :string           default("active"), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  user_id        :bigint
@@ -20,7 +20,7 @@
 #
 FactoryBot.define do
   factory :subscription do
-    active { true }
+    status { :active }
     amount { (5..100).to_a.sample }
     user
     metadata { {} }
@@ -39,7 +39,7 @@ FactoryBot.define do
 
     factory :subscription_beyond_grace_period do
       last_charge_at { (Subscription::SUBSCRIPTION_PERIOD + 1.day).ago }
-      metadata {{failed_charge_count: Subscription::FAILED_CHARGE_COUNT_BEFORE_DISABLE + 1}}
+      metadata { {failed_charge_count: Subscription::FAILED_CHARGE_COUNT_BEFORE_DISABLE + 1} }
 
       after(:create) do |subscription|
         FactoryBot.create(:donation, subscription: subscription, amount: subscription.amount.to_i, created_at: subscription.last_charge_at)

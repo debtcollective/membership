@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
 class Admin::DashboardController < AdminController
-  before_action -> { current_page_title('Dashboard') }
+  before_action -> { current_page_title("Dashboard") }
 
   def index
-    @active_subscriptions_count = Subscription.where(active: true).count
+    @active_subscriptions_count = Subscription.where(status: :active).count
     @amount_from_subscriptions =
       Donation.where(
-        status: 'succeeded',
+        status: "succeeded",
         donation_type: Donation::DONATION_TYPES[:subscription]
       ).sum(:amount)
 
     one_off_donations =
       Donation.where(
-        status: 'succeeded', donation_type: Donation::DONATION_TYPES[:one_off]
+        status: "succeeded", donation_type: Donation::DONATION_TYPES[:one_off]
       )
 
     @donations_count = one_off_donations.count

@@ -5,11 +5,11 @@
 # Table name: subscriptions
 #
 #  id             :bigint           not null, primary key
-#  active         :boolean
 #  amount         :money            default(0.0)
 #  last_charge_at :datetime
 #  metadata       :jsonb            not null
 #  start_date     :datetime
+#  status         :string           default("active"), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  user_id        :bigint
@@ -42,7 +42,7 @@ RSpec.describe Subscription, type: :model do
       new_subscription = Subscription.new(
         user_id: user.id,
         amount: 20,
-        active: true
+        status: :active
       )
 
       new_subscription.save
@@ -57,7 +57,7 @@ RSpec.describe Subscription, type: :model do
       new_subscription = Subscription.new(
         user_id: user.id,
         amount: 20,
-        active: true
+        status: :active
       )
 
       new_subscription.save

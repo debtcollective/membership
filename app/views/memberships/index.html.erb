@@ -9,7 +9,7 @@
 <% if @membership.present? %>
   <section aria-labelledby="membership_amount">
     <div class="mt-8">
-      <p class="max-w-4xl mt-2 text-xl text-gray-900 text-md">Your membership is <%= @membership&.pretty_status %></p>
+      <p class="max-w-4xl mt-2 text-xl text-gray-900 text-md">Your membership is <%= @membership&.status %></p>
 
       <div class="flex items-center justify-between">
         <p class="subscription-amount">
