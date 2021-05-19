@@ -27,6 +27,9 @@ class Subscription < ApplicationRecord
   DUES_PAYING_TAG = "Dues-Paying Members"
   MEMBER_TAG = "Union Member"
 
+  # We do it like this to support strings instead of numbers in the status db column
+  enum status: {active: "active", paused: "paused", canceled: "canceled", overdue: "overdue", inactive: "inactive"}
+
   before_create :store_start_date
 
   belongs_to :user, optional: true
