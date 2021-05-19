@@ -67,7 +67,7 @@ RSpec.describe MembershipService, type: :service do
       expect(donation.charge_data["amount"]).to eq(donation.amount * 100)
       expect(donation.status).to eq("succeeded")
 
-      expect(subscription.active).to eq(true)
+      expect(subscription.active?).to eq(true)
       expect(subscription.amount).to eq(10)
 
       expect(user_profile.address_city).to eq(params[:address_city])
@@ -98,7 +98,7 @@ RSpec.describe MembershipService, type: :service do
       expect(user_profile.address_zip).to eq(params[:address_zip])
 
       expect(subscription.user).to eq(user)
-      expect(subscription.active).to eq(true)
+      expect(subscription.active?).to eq(true)
       expect(subscription.amount).to eq(10)
       expect(subscription.last_charge_at).to be_within(1.second).of DateTime.now
     end
@@ -123,7 +123,7 @@ RSpec.describe MembershipService, type: :service do
       expect(user_profile.address_zip).to eq(params[:address_zip])
 
       expect(subscription.user).to eq(user)
-      expect(subscription.active).to eq(true)
+      expect(subscription.active?).to eq(true)
       expect(subscription.amount).to eq(0)
       expect(subscription.last_charge_at).to eq(nil)
 

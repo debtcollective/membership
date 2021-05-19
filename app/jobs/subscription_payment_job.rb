@@ -83,7 +83,7 @@ class SubscriptionPaymentJob < ApplicationJob
 
   def disable_subscription(subscription)
     if subscription.beyond_grace_period?
-      subscription.disable!
+      subscription.overdue!
     end
   end
 

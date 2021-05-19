@@ -27,7 +27,9 @@ RSpec.describe Subscription, type: :model do
 
   describe "attributes" do
     it { is_expected.to respond_to(:user_id) }
-    it { is_expected.to respond_to(:active) }
+    it { is_expected.to respond_to(:status) }
+    it { is_expected.to respond_to("active?") }
+    it { is_expected.to respond_to("overdue?") }
     it { is_expected.to be_valid }
   end
 
@@ -37,7 +39,7 @@ RSpec.describe Subscription, type: :model do
 
     it "can have many subscriptions" do
       user = FactoryBot.create(:user)
-      FactoryBot.create(:subscription, user: user, active: false)
+      FactoryBot.create(:subscription, user: user, status: :canceled)
 
       new_subscription = Subscription.new(
         user_id: user.id,
@@ -88,7 +90,7 @@ RSpec.describe Subscription, type: :model do
     end
 
     it "returns true if subscription.last_charge_at is beyond grace period" do
-      subscription = FactoryBot.create(:subscription, last_charge_at: 2.months.ago, active: true)
+      subscription = FactoryBot.create(:subscription, last_charge_at: 2.months.ago, status: :active)
 
       expect(subscription.last_charge_at.to_i).to be_within(100).of(2.months.ago.to_i)
       expect(subscription.overdue?).to eq(true)

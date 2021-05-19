@@ -60,12 +60,6 @@ class Subscription < ApplicationRecord
     !user_id.blank?
   end
 
-  def cancel!
-    self.active = false
-
-    save
-  end
-
   def zero_amount?
     amount == 0
   end
@@ -120,10 +114,6 @@ class Subscription < ApplicationRecord
     }
 
     save
-  end
-
-  def disable!
-    update(status: :overdue)
   end
 
   def failed_charge_count

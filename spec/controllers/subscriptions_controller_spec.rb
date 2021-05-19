@@ -36,7 +36,7 @@ RSpec.describe SubscriptionsController, type: :controller do
         subscription = user.active_subscription
         donation = subscription.donations.last
 
-        expect(subscription.active).to eq(true)
+        expect(subscription.active?).to eq(true)
         expect(subscription.amount).to eq(23)
         expect(subscription.last_charge_at).to be_within(1.second).of DateTime.now
 
@@ -59,7 +59,7 @@ RSpec.describe SubscriptionsController, type: :controller do
         subscription = user.active_subscription
         donation = subscription.donations.last
 
-        expect(subscription.active).to eq(true)
+        expect(subscription.active?).to eq(true)
         expect(subscription.amount).to eq(0)
         expect(subscription.last_charge_at).to be_nil
 
@@ -114,7 +114,7 @@ RSpec.describe SubscriptionsController, type: :controller do
         expect(parsed_body["status"]).to eq("succeeded")
         expect(parsed_body["message"]).to eq("Thank you for joining! You will receive an email with instructions to activate your account.")
 
-        expect(subscription.active).to eq(true)
+        expect(subscription.active?).to eq(true)
         expect(subscription.amount).to eq(23)
         expect(subscription.last_charge_at).to be_within(2.second).of DateTime.now
 
