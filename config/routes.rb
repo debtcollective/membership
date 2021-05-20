@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   match "/membership/edit_card" => "memberships#edit_card", :via => :get, :as => :edit_membership_card
   match "/membership/update_card" => "memberships#update_card", :via => [:put, :patch], :as => :update_membership_card
   match "/membership/edit_status" => "memberships#edit_status", :via => :get, :as => :edit_membership_status
-  match "/membership/update_status" => "memberships#update_status", :via => [:put, :patch], :as => :update_membership_status
+  match "/membership/pause" => "memberships#pause", :via => [:put, :patch], :as => :pause_membership
 
   # Funds
   match "/funds" => "funds#index", :via => :get
