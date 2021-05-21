@@ -13,7 +13,7 @@ end
 gem 'rails', '6.1.3.1'
 gem 'rake', '13.0.3'
 gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '5.2.2'
+gem 'puma', '5.3.1'
 gem 'sassc', '~> 2.4', '>= 2.4.0'
 gem 'webpacker', '~> 5.0'
 gem 'turbolinks', '~> 5'
