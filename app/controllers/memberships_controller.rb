@@ -51,10 +51,49 @@ class MembershipsController < HubController
     end
   end
 
+  def edit_status
+  end
+
+  def pause
+    respond_to do |format|
+      if @membership.paused!
+        format.html do
+          flash[:success] = "Your membership is now paused"
+
+          redirect_to action: :index
+        end
+      else
+        format.html do
+          flash[:error] = "There were errors updating your membership"
+
+          render :edit_status
+        end
+      end
+    end
+  end
+
+  def resume
+    respond_to do |format|
+      if @membership.active!
+        format.html do
+          flash[:success] = "Your membership is now active"
+
+          redirect_to action: :index
+        end
+      else
+        format.html do
+          flash[:error] = "There were errors updating your membership"
+
+          render :edit_status
+        end
+      end
+    end
+  end
+
   private
 
   def set_membership
-    @membership = Subscription.last
+    @membership = current_user.subscriptions.last
   end
 
   def update_card_params

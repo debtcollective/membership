@@ -105,7 +105,7 @@ class User < ApplicationRecord
   end
 
   def active_subscription
-    @active_subscription ||= subscriptions.where(active: true).last
+    @active_subscription ||= subscriptions.where(status: :active).last
   end
 
   def find_stripe_customer

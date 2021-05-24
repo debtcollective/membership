@@ -55,11 +55,25 @@ class SubscriptionPaymentJob < ApplicationJob
         amount: amount_in_cents,
         description: "Debt Collective membership monthly payment",
         currency: "usd",
-        metadata: {subscription_id: subscription.id, amount: amount, user_id: user.id}
+        metadata: {subscription_id: subscription.id, user_id: user.id}
       )
     }
 
-    charge
+    # If charge was made correctly, return it
+    if charge.paid?
+      # reset subscription failed_charge_count
+      subscription.failed_charge_count = 0
+      subscription.save
+
+      charge
+    else
+      subscription.failed_charge_count = subscription.failed_charge_count + 1
+      subscription.save
+
+      disable_subscription(subscription)
+
+      false
+    end
   rescue Stripe::CardError => e
     Raven.capture_exception(e)
     disable_subscription(subscription)
@@ -68,7 +82,9 @@ class SubscriptionPaymentJob < ApplicationJob
   end
 
   def disable_subscription(subscription)
-    subscription.disable!
+    if subscription.beyond_grace_period?
+      subscription.overdue!
+    end
   end
 
   def create_donation(subscription, stripe_charge)
@@ -84,6 +100,7 @@ class SubscriptionPaymentJob < ApplicationJob
       user_data: {email: user.email, name: user.name}
     )
 
-    subscription.update!(last_charge_at: DateTime.now, active: true) if donation.save!
+    donation.save!
+    subscription.update!(last_charge_at: DateTime.now, status: :active)
   end
 end

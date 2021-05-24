@@ -1,0 +1,17 @@
+<div class="pb-5 border-b border-gray-200">
+  <h2 class="text-xl font-medium leading-6 text-gray-900">
+    Change your membership status
+  </h2>
+  <p class="max-w-4xl mt-2 text-gray-500 text-md">Your membership is <%= @membership.status %></p>
+</div>
+
+<section aria-labelledby="membership_credit_card">
+  <div class="mt-10">
+    <div class="flex items-center justify-between">
+      <% if @membership.paused? %>
+        <%= render "resume_membership" %>
+      <% else %>
+        <%= render "pause_membership" %>
+      <% end %>
+  </div>
+</section>

@@ -111,4 +111,31 @@ describe('Member Membership', () => {
       })
     })
   })
+
+  describe('Pause membership', () => {
+    it('pauses the membership', () => {
+      cy.appFactories([
+        [
+          'create',
+          'user_with_subscription',
+          { email: 'example@debtcollective.org' }
+        ]
+      ]).then(async records => {
+        const [user] = records
+        cy.forceLogin({ email: user.email }).then(result => {
+          cy.visit('/membership')
+
+          cy.get('a')
+            .contains('Update status', { matchCase: false })
+            .click()
+          cy.contains('Pause your membership')
+
+          cy.on('window:confirm', () => true)
+          cy.get('input[type="submit"][value="Pause membership"]').click()
+
+          cy.contains('Your membership is now paused')
+        })
+      })
+    })
+  })
 })

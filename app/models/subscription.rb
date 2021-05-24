@@ -5,11 +5,11 @@
 # Table name: subscriptions
 #
 #  id             :bigint           not null, primary key
-#  active         :boolean
 #  amount         :money            default(0.0)
 #  last_charge_at :datetime
 #  metadata       :jsonb            not null
 #  start_date     :datetime
+#  status         :string           default("active"), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  user_id        :bigint
@@ -19,13 +19,19 @@
 #  index_subscriptions_on_user_id  (user_id)
 #
 class Subscription < ApplicationRecord
-  GRACE_PERIOD = 7.days
+  # TODO: remove this after we run the migrations correctly on production and we can delete the `active :boolean` column
+  self.ignored_columns = ["active"]
+
+  FAILED_CHARGE_COUNT_BEFORE_DISABLE = 5
   SUBSCRIPTION_PERIOD = 1.month
 
   # Mailchimp tags
   ZERO_AMOUNT_TAG = "Zero-dollar Members"
   DUES_PAYING_TAG = "Dues-Paying Members"
   MEMBER_TAG = "Union Member"
+
+  # We do it like this to support strings instead of numbers in the status db column
+  enum status: {active: "active", paused: "paused", overdue: "overdue", canceled: "canceled", inactive: "inactive"}
 
   before_create :store_start_date
 
@@ -35,50 +41,32 @@ class Subscription < ApplicationRecord
   validate :only_one_active_subscription, on: :create
   validates_numericality_of :amount, greater_than_or_equal_to: 5, unless: proc { |service| service.amount == 0 }
 
-  def self.overdue
-    where(active: true).where(
+  def self.due
+    where(status: :active).where(
       "last_charge_at IS NULL OR last_charge_at <= ?",
       SUBSCRIPTION_PERIOD.ago
     ).where.not(amount: 0)
+  end
+
+  def overdue?
+    return false if zero_amount?
+    return true if last_charge_at.nil?
+    return true if status == :overdue
+
+    last_charge_at <= (SUBSCRIPTION_PERIOD + 1.day).ago
   end
 
   def user?
     !user_id.blank?
   end
 
-  def cancel!
-    self.active = false
-
-    save
-  end
-
   def zero_amount?
     amount == 0
   end
 
-  def pretty_status
-    return "inactive" unless active?
-    return "overdue" if overdue?
-
-    "active"
-  end
-
-  def overdue?
-    return false if zero_amount?
-    return true if last_charge_at.nil?
-
-    last_charge_at <= SUBSCRIPTION_PERIOD.ago
-  end
-
+  # This methods checks if the failed_charge_count is more than 5
   def beyond_grace_period?
-    return false if zero_amount?
-    return true if last_charge_at.nil?
-
-    last_charge_at <= (SUBSCRIPTION_PERIOD + GRACE_PERIOD).ago
-  end
-
-  def disable!
-    update!(active: false) if beyond_grace_period?
+    overdue? && failed_charge_count > FAILED_CHARGE_COUNT_BEFORE_DISABLE
   end
 
   def subscribe_user_to_newsletter
@@ -128,6 +116,14 @@ class Subscription < ApplicationRecord
     save
   end
 
+  def failed_charge_count
+    metadata["failed_charge_count"].to_i
+  end
+
+  def failed_charge_count=(count)
+    metadata["failed_charge_count"] = count
+  end
+
   private
 
   def store_start_date
@@ -137,7 +133,7 @@ class Subscription < ApplicationRecord
   def only_one_active_subscription
     return unless user?
 
-    if Subscription.exists?(user_id: user_id, active: true)
+    if Subscription.exists?(user_id: user_id, status: :active)
       errors.add(:base, "already has an active subscription")
     end
   end

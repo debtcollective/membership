@@ -34,10 +34,6 @@ class CurrentUser < Delegator
     !!@payload["moderator"]
   end
 
-  def active?
-    !!@payload["active"]
-  end
-
   def as_json(options = {})
     options[:only] = [:id, :name, :email, :external_id]
     options[:methods] = [:active_subscription, :confirmed?]
