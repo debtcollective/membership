@@ -72,6 +72,24 @@ class MembershipsController < HubController
     end
   end
 
+  def resume
+    respond_to do |format|
+      if @membership.active!
+        format.html do
+          flash[:success] = "Your membership is now active"
+
+          redirect_to action: :index
+        end
+      else
+        format.html do
+          flash[:error] = "There were errors updating your membership"
+
+          render :edit_status
+        end
+      end
+    end
+  end
+
   private
 
   def set_membership

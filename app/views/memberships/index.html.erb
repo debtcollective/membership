@@ -47,9 +47,15 @@
           <p class="text-lg">
             Change membership status
           </p>
-          <p>
-            Pause or cancel your membership
-          </p>
+          <% if @membership.active? %>
+            <p>
+              Pause or cancel your membership
+            </p>
+          <% else %>
+            <p>
+              Resume your membership
+            </p>
+          <% end %>
         </div>
         <div class="py-3 text-right sm:px-6">
           <%= link_to "Update status", edit_membership_status_path, class: "inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900" %>

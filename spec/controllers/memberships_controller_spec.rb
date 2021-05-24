@@ -85,4 +85,20 @@ RSpec.describe MembershipsController, type: :controller do
       expect(subscription.paused?).to eq(true)
     end
   end
+
+  describe "PUT #resume" do
+    it "it activates the membership" do
+      user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
+      subscription = user.active_subscription
+
+      allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
+      expect(subscription.paused?).to eq(false)
+
+      put :pause
+      subscription.reload
+
+      expect(response.status).to eq(302)
+      expect(subscription.paused?).to eq(true)
+    end
+  end
 end

@@ -1,0 +1,20 @@
+<div class="flex items-center justify-between w-full">
+  <div>
+    <p class="text-lg">
+      Resume your membership
+    </p>
+    <p>
+      You will be charged to your current card.<br />
+    </p>
+    <p class="mt-2">
+      <%= link_to "Update your card", edit_membership_card_path, class: "font-medium text-blue-700 hover:text-blue-600" %>
+    </p>
+  </div>
+  <div class="py-3 text-right sm:px-6">
+    <%= form_with(model: @membership, url: resume_membership_path, builder: ApplicationFormBuilder, local: true) do |f| %>
+      <%= f.submit 'Resume membership',
+        class: "inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+      %>
+    <% end %>
+  </div>
+</div>
