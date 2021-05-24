@@ -33,7 +33,7 @@ RSpec.describe SubscriptionsController, type: :controller do
         expect { post :create, params: params, session: {} }.to change { Subscription.count }.by(1)
 
         user = User.last
-        subscription = user.active_subscription
+        subscription = user.subscription
         donation = subscription.donations.last
 
         expect(subscription.active?).to eq(true)
@@ -56,7 +56,7 @@ RSpec.describe SubscriptionsController, type: :controller do
         expect { post :create, params: params, session: {} }.to change { Subscription.count }.by(1)
 
         user = User.last
-        subscription = user.active_subscription
+        subscription = user.subscription
         donation = subscription.donations.last
 
         expect(subscription.active?).to eq(true)
@@ -107,7 +107,7 @@ RSpec.describe SubscriptionsController, type: :controller do
 
         user = User.find_by(email: "newuser@example.com")
         donation = user.donations.last
-        subscription = user.active_subscription
+        subscription = user.subscription
 
         parsed_body = JSON.parse(response.body)
         expect(response).to have_http_status(200)

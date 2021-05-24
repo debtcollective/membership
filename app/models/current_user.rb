@@ -36,10 +36,9 @@ class CurrentUser < Delegator
 
   def as_json(options = {})
     options[:only] = [:id, :name, :email, :external_id]
-    options[:methods] = [:active_subscription, :confirmed?]
+    options[:methods] = [:subscription, :confirmed?]
     json = super(options)
     json["confirmed"] = json.delete("confirmed?")
-    json["subscription"] = json.delete("active_subscription")
 
     json
   end

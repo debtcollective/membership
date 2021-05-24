@@ -6,7 +6,7 @@ RSpec.describe MembershipsController, type: :controller do
   describe "PUT #update_amount" do
     it "with valid amount it updates the membership amount" do
       user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
-      subscription = user.active_subscription
+      subscription = user.subscription
 
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
 
@@ -19,7 +19,7 @@ RSpec.describe MembershipsController, type: :controller do
 
     it "it returns an error with an amount less than 5 USD" do
       user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
-      subscription = user.active_subscription
+      subscription = user.subscription
 
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
 
@@ -45,7 +45,7 @@ RSpec.describe MembershipsController, type: :controller do
         user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
         stripe_customer = Stripe::Customer.create(email: user.email)
         user.update(stripe_id: stripe_customer.id)
-        subscription = user.active_subscription
+        subscription = user.subscription
         allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
 
         params = {
@@ -73,7 +73,7 @@ RSpec.describe MembershipsController, type: :controller do
   describe "PUT #pause" do
     it "it pauses the membership" do
       user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
-      subscription = user.active_subscription
+      subscription = user.subscription
 
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
       expect(subscription.paused?).to eq(false)

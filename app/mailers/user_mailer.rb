@@ -8,7 +8,7 @@ class UserMailer < ApplicationMailer
 
   def welcome_email(user:)
     @user = user
-    @subscription = user.active_subscription
+    @subscription = user.subscription
     email = @user.email
 
     mail to: email, from: ENV["MAIL_FROM"]
