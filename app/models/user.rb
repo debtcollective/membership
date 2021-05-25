@@ -38,7 +38,7 @@ class User < ApplicationRecord
   ].freeze
 
   has_one :user_profile, autosave: true
-  has_many :subscriptions
+  has_one :subscription
   has_many :donations
 
   validates :email, presence: true, 'valid_email_2/email': true, uniqueness: {case_sensitive: false}
@@ -102,10 +102,6 @@ class User < ApplicationRecord
 
   def pending_plan_change
     @pending_plan_change ||= user_plan_changes.where(status: :pending).first
-  end
-
-  def active_subscription
-    @active_subscription ||= subscriptions.where(status: :active).last
   end
 
   def find_stripe_customer

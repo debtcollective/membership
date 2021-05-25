@@ -35,8 +35,12 @@ FactoryBot.define do
     email { Faker::Internet.email }
 
     factory :user_with_subscription do
-      after(:create) do |user|
-        FactoryBot.create(:subscription_with_donation, user: user)
+      transient do
+        subscription_status { :active }
+      end
+
+      after(:create) do |user, evaluator|
+        FactoryBot.create(:subscription_with_donation, user: user, status: evaluator.subscription_status)
       end
     end
 

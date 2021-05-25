@@ -36,7 +36,7 @@ RSpec.describe UsersController, type: :controller do
 
       expect(response.status).to eq(200)
       expect(json["id"]).to eq(user.id)
-      expect(json["subscription"]["id"]).to eq(user.active_subscription.id)
+      expect(json["subscription"]["id"]).to eq(user.subscription.id)
     end
   end
 end

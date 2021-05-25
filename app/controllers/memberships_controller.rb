@@ -93,7 +93,7 @@ class MembershipsController < HubController
   private
 
   def set_membership
-    @membership = current_user.subscriptions.last
+    @membership = current_user.subscription
   end
 
   def update_card_params

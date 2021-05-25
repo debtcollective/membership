@@ -24,6 +24,7 @@ gem 'ffi', '~> 1.9', '>= 1.9.25'
 gem 'rack-cors', '1.1.1'
 gem 'discourse_api', '0.45.0'
 gem 'data_migrate', '7.0.0'
+gem 'paper_trail', '12.0.0'
 
 # Validations
 gem 'validate_url', '1.0.13'

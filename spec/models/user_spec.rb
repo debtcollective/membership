@@ -49,7 +49,7 @@ RSpec.describe User, type: :model do
   end
 
   describe "associations" do
-    it { is_expected.to have_many(:subscriptions) }
+    it { is_expected.to have_one(:subscription) }
     it { is_expected.to have_many(:donations) }
   end
 

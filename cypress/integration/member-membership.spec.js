@@ -138,4 +138,34 @@ describe('Member Membership', () => {
       })
     })
   })
+
+  describe('Resume membership', () => {
+    it('activates the membership', () => {
+      cy.appFactories([
+        [
+          'create',
+          'user_with_subscription',
+          {
+            email: 'example@debtcollective.org',
+            subscription_status: 'paused'
+          }
+        ]
+      ]).then(async records => {
+        const [user] = records
+        cy.forceLogin({ email: user.email }).then(result => {
+          cy.visit('/membership')
+
+          cy.get('a')
+            .contains('Update status', { matchCase: false })
+            .click()
+          cy.contains('Resume your membership')
+
+          cy.on('window:confirm', () => true)
+          cy.get('input[type="submit"][value="Resume membership"]').click()
+
+          cy.contains('Your membership is now active')
+        })
+      })
+    })
+  })
 })
