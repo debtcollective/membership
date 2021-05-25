@@ -13,12 +13,4 @@ class UserMailer < ApplicationMailer
 
     mail to: email, from: ENV["MAIL_FROM"]
   end
-
-  def confirmation_email(user:)
-    @user = user
-    @confirmation_token = @user.confirmation_token
-    email = @user.email
-
-    mail to: email, from: ENV["MAIL_FROM"]
-  end
 end

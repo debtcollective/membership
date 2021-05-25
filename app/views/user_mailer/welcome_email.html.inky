@@ -1,14 +1,13 @@
 <container>
   <row>
     <columns large="12">
-      <spacer size="25"></spacer>
+      <spacer size="48"></spacer>
       <h5>
         Hello <strong><%= @user.name %></strong>
       </h5>
       <h6>
         Welcome to the Debt Collective!
       </h6>
-
 
       <p>
         We are excited to welcome you to the debtors’ union -- a new and exciting type of organization where debtors are coming together to fight for debt cancellation -- and so much more. Together, we are uniting to ensure housing, college, medicare and justice for ALL! You are not a loan!
@@ -28,7 +27,7 @@
         Make sure your email is correct, if not you can always change it from your profile page.
       </p>
 
-      <spacer size="25"></spacer>
+      <spacer size="24"></spacer>
 
       <h6>
         As a new member
@@ -63,6 +62,8 @@
         In solidarity,<br />
         The Debt Collective
       </p>
+
+      <spacer size="24"></spacer>
     </columns>
   </row>
 </container>
