@@ -126,6 +126,20 @@ class Subscription < ApplicationRecord
     metadata["failed_charge_count"] = count
   end
 
+  def next_payment_due_at
+    today = Date.today
+
+    if last_charge_at.nil?
+      today
+    else
+      next_payment_date = last_charge_at + SUBSCRIPTION_PERIOD
+
+      return today if next_payment_date < today
+
+      next_payment_date
+    end
+  end
+
   private
 
   def store_start_date
