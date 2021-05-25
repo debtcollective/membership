@@ -1,0 +1,31 @@
+<container>
+  <row>
+    <columns large="12">
+      <spacer size="48"></spacer>
+      <h5>
+        Your payment failed to process 😞
+      </h5>
+      <spacer size="24"></spacer>
+
+      <p>
+        Hi, <%= @user.first_name %>. thank you for your continued support!
+      </p>
+      <p>
+        Unfortunately, the credit card on file was declined and we couldn't process the monthly payment for your Debt Colletive Membership. Please contact your bank directly to resolve the problem.
+      </p>
+
+      <spacer size="12"></spacer>
+      <button href="<%= edit_membership_card_url %>" target="_blank">
+        Update Payment Info
+      </button>
+      <spacer size="12"></spacer>
+
+      <p>
+        In solidarity,<br />
+        The Debt Collective
+      </p>
+
+      <spacer size="24"></spacer>
+    </columns>
+  </row>
+</container>

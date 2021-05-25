@@ -6,7 +6,7 @@ describe('Membership Spec', () => {
   })
 
   describe('happy', () => {
-    it('renders the confirmation page and user cofirms the email', () => {
+    it('renders the confirmation page and user confirms its email address', () => {
       cy.appFactories([['create', 'user_with_email_token', {}]]).then(
         records => {
           const user = records[0]
