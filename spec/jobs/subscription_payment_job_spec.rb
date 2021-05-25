@@ -78,6 +78,7 @@ RSpec.describe SubscriptionPaymentJob, type: :job do
         expect(subscription.beyond_subscription_period?).to eq(true)
 
         StripeMock.prepare_card_error(:card_declined)
+        expect(MembershipMailer).to receive_message_chain(:payment_failure_email, :deliver_later)
 
         perform_enqueued_jobs { SubscriptionPaymentJob.perform_later(subscription) }
         subscription.reload
@@ -94,6 +95,7 @@ RSpec.describe SubscriptionPaymentJob, type: :job do
         expect(subscription.beyond_grace_period?).to eq(true)
 
         StripeMock.prepare_card_error(:card_declined)
+        expect(MembershipMailer).to receive_message_chain(:payment_failure_email, :deliver_later)
 
         perform_enqueued_jobs { SubscriptionPaymentJob.perform_later(subscription) }
         subscription.reload
