@@ -15,7 +15,7 @@ class SubscriptionPaymentJob < ApplicationJob
   queue_as :default
 
   def perform(subscription)
-    raise SubscriptionNotOverdueError.new(subscription) unless subscription.overdue?
+    raise SubscriptionNotOverdueError.new(subscription) unless subscription.beyond_subscription_period?
 
     stripe_charge = create_charge(subscription)
 
@@ -40,7 +40,7 @@ class SubscriptionPaymentJob < ApplicationJob
         }
       )
 
-      disable_subscription(subscription)
+      handle_payment_failure(subscription)
 
       return
     end
@@ -70,21 +70,23 @@ class SubscriptionPaymentJob < ApplicationJob
       subscription.failed_charge_count = subscription.failed_charge_count + 1
       subscription.save
 
-      disable_subscription(subscription)
+      handle_payment_failure(subscription)
 
       false
     end
   rescue Stripe::CardError => e
     Raven.capture_exception(e)
-    disable_subscription(subscription)
+    handle_payment_failure(subscription)
 
     false
   end
 
-  def disable_subscription(subscription)
-    if subscription.beyond_grace_period?
-      subscription.overdue!
-    end
+  def handle_payment_failure(subscription)
+    # Send payment failure email
+    user = subscription.user
+    MembershipMailer.payment_failure_email(user: user).deliver_later
+
+    subscription.overdue! if subscription.beyond_grace_period?
   end
 
   def create_donation(subscription, stripe_charge)

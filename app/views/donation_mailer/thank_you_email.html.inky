@@ -19,16 +19,16 @@
 <container>
   <row>
     <columns large="12">
-      <spacer size="25"></spacer>
+      <spacer size="48"></spacer>
       <h1 class="text-center ">Thank you for your contribution.</h1>
-      <spacer size="25"></spacer>
+      <spacer size="24"></spacer>
 
       <p>
-        <i>We are working hard to build the movement to end predatory debt.</i>
+        We are working hard to build the movement to end predatory debt.
       </p>
 
       <p>
-        <i>If you know others who support this mission, please help us spreading the word: <a href="https://membership.debtcollective.org/">https://membership.debtcollective.org/</a></i>
+        If you know others who support this mission, please help us spreading the word.
       </p>
 
       <p>
@@ -43,9 +43,7 @@
   <row>
     <columns large="12">
       <p>
-        <i>
-          Here's a receipt for your records:
-        </i>
+        Here's a receipt for your records:
       </p>
     </columns>
   </row>
@@ -58,13 +56,13 @@
       <h4>
         Your contribution receipt
       </h4>
-      <p class="text-right donation-amount mb-0">
+      <p class="mb-0 text-right donation-amount">
         <%= number_to_currency(@donation.amount) %>
       </p>
       <p class="text-right text-md">
         One-time contribution
       </p>
-      <p class="text-md mb-0">
+      <p class="mb-0 text-md">
         Thank you for your contribution in support of The Debt Collective!
       </p>
       <spacer size="12"></spacer>
@@ -77,7 +75,7 @@
       </p>
     </columns>
     <columns large="6">
-      <p class="text-right mb-0">
+      <p class="mb-0 text-right">
         <%= number_to_currency(@donation.amount) %>
       </p>
     </columns>
@@ -105,55 +103,57 @@
   </row>
   <row>
     <columns large="6">
-      <p class="text-right mb-0">
+      <p class="mb-0 text-right">
         <b>Name:</b>
       </p>
     </columns>
     <columns large="6">
-      <p class="text-left mb-0">
+      <p class="mb-0 text-left">
         <%= @donation.contributor_name %>
       </p>
     </columns>
   </row>
   <row>
     <columns large="6">
-      <p class="text-right mb-0">
+      <p class="mb-0 text-right">
         <b>Receipt:</b>
       </p>
     </columns>
     <columns large="6">
-      <p class="text-left mb-0">
-        <%= link_to (@donation.receipt_number || @donation.id), @donation.receipt_url %>
+      <p class="mb-0 text-left">
+        <% if @donation.receipt_url %>
+          <%= link_to (@donation.receipt_number || @donation.id), @donation.receipt_url %>
+        <% end %>
       </p>
     </columns>
   </row>
   <row>
     <columns large="6">
-      <p class="text-right mb-0">
+      <p class="mb-0 text-right">
         <b>Date:</b>
       </p>
     </columns>
     <columns large="6">
-      <p class="text-left mb-0">
+      <p class="mb-0 text-left">
         <%= @donation.date %>
       </p>
     </columns>
   </row>
   <row>
     <columns large="6">
-      <p class="text-right mb-0">
+      <p class="mb-0 text-right">
         <b>Payment Type:</b>
       </p>
     </columns>
     <columns large="6">
-      <p class="text-left mb-0">
+      <p class="mb-0 text-left">
         <%= @donation.payment_type %>
       </p>
     </columns>
   </row>
   <row>
     <columns large="6">
-      <p class="text-md mb-0">
+      <p class="mb-0 text-md">
         This transaction will appear as one or more charges to <b>DEBT COLLECTIVE DEBTCOLLECTIV NY</b> on your credit card statement.
       </p>
     </columns>
@@ -162,8 +162,8 @@
 <container>
   <row>
     <columns large="12">
-      <spacer size="25"></spacer>
-      <p class="text-justify text-sm">
+      <spacer size="24"></spacer>
+      <p class="text-sm text-justify">
         Note: Contributions and donations to Debt Collective are tax deductible.
         They support our efforts and allow us to build the most powerful debtors union.
         Sustainable Markets Foundation, our fiscal sponsor, is a tax-exempt, 501(c)(3) organization.

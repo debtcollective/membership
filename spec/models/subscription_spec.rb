@@ -81,48 +81,39 @@ RSpec.describe Subscription, type: :model do
     end
   end
 
-  describe ".overdue?" do
+  describe ".beyond_subscription_period?" do
     it "returns true if subscription.last_charge_at is nil" do
       subscription = FactoryBot.create(:subscription)
 
       expect(subscription.last_charge_at).to be_nil
-      expect(subscription.overdue?).to eq(true)
+      expect(subscription.beyond_subscription_period?).to eq(true)
     end
 
     it "returns true if subscription.last_charge_at is beyond grace period" do
       subscription = FactoryBot.create(:subscription, last_charge_at: 2.months.ago, status: :active)
 
       expect(subscription.last_charge_at.to_i).to be_within(100).of(2.months.ago.to_i)
-      expect(subscription.overdue?).to eq(true)
+      expect(subscription.beyond_subscription_period?).to eq(true)
     end
 
-    it "returns false if subscription is not overdue" do
+    it "returns false if subscription is not beyond subscription period" do
       subscription = FactoryBot.create(:subscription_with_donation)
 
       expect(subscription.last_charge_at.to_i).to be_within(100).of(DateTime.now.to_i)
-      expect(subscription.overdue?).to eq(false)
+      expect(subscription.beyond_subscription_period?).to eq(false)
     end
   end
 
   describe ".beyond_grace_period?" do
-    it "returns false if subscription is not overdue" do
-      subscription = FactoryBot.create(:subscription_with_donation)
-
-      expect(subscription.overdue?).to eq(false)
-      expect(subscription.beyond_grace_period?).to eq(false)
-    end
-
     it "returns false if the failed charge count is less than the limit" do
-      subscription = FactoryBot.create(:subscription_overdue, metadata: {failed_charge_count: Subscription::FAILED_CHARGE_COUNT_BEFORE_DISABLE - 1})
+      subscription = FactoryBot.create(:subscription_beyond_subscription_period, metadata: {failed_charge_count: Subscription::FAILED_CHARGE_COUNT_BEFORE_OVERDUE - 1})
 
-      expect(subscription.overdue?).to eq(true)
       expect(subscription.beyond_grace_period?).to eq(false)
     end
 
     it "returns true if the failed charge count is more than the limit" do
       subscription = FactoryBot.create(:subscription_beyond_grace_period)
 
-      expect(subscription.overdue?).to eq(true)
       expect(subscription.beyond_grace_period?).to eq(true)
     end
   end

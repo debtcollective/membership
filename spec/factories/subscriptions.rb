@@ -33,13 +33,13 @@ FactoryBot.define do
       end
     end
 
-    factory :subscription_overdue do
+    factory :subscription_beyond_subscription_period do
       last_charge_at { (Subscription::SUBSCRIPTION_PERIOD + 1.day).ago }
     end
 
     factory :subscription_beyond_grace_period do
       last_charge_at { (Subscription::SUBSCRIPTION_PERIOD + 1.day).ago }
-      metadata { {failed_charge_count: Subscription::FAILED_CHARGE_COUNT_BEFORE_DISABLE + 1} }
+      metadata { {failed_charge_count: Subscription::FAILED_CHARGE_COUNT_BEFORE_OVERDUE + 1} }
 
       after(:create) do |subscription|
         FactoryBot.create(:donation, subscription: subscription, amount: subscription.amount.to_i, created_at: subscription.last_charge_at)

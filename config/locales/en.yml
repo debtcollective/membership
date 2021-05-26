@@ -17,5 +17,8 @@ en:
   user_mailer:
     welcome_email:
       subject: Welcome to The Debt Collective.
+  membership_mailer:
+    payment_failure_email:
+      subject: Your Debt Collective membership failed to process.
   discourse_service:
     invite_custom_message: Welcome to the Debt Collective! With this account you will be able to authenticate to all of our services. Please click the link below to complete your registration.

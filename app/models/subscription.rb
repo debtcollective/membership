@@ -26,7 +26,7 @@ class Subscription < ApplicationRecord
     only: [:amount, :status]
   )
 
-  FAILED_CHARGE_COUNT_BEFORE_DISABLE = 5
+  FAILED_CHARGE_COUNT_BEFORE_OVERDUE = 1
   SUBSCRIPTION_PERIOD = 1.month
 
   # Mailchimp tags
@@ -52,10 +52,9 @@ class Subscription < ApplicationRecord
     ).where.not(amount: 0)
   end
 
-  def overdue?
+  def beyond_subscription_period?
     return false if zero_amount?
     return true if last_charge_at.nil?
-    return true if status == :overdue
 
     last_charge_at <= (SUBSCRIPTION_PERIOD + 1.day).ago
   end
@@ -68,9 +67,8 @@ class Subscription < ApplicationRecord
     amount == 0
   end
 
-  # This methods checks if the failed_charge_count is more than 5
   def beyond_grace_period?
-    overdue? && failed_charge_count > FAILED_CHARGE_COUNT_BEFORE_DISABLE
+    failed_charge_count >= FAILED_CHARGE_COUNT_BEFORE_OVERDUE
   end
 
   def subscribe_user_to_newsletter
@@ -126,6 +124,20 @@ class Subscription < ApplicationRecord
 
   def failed_charge_count=(count)
     metadata["failed_charge_count"] = count
+  end
+
+  def next_payment_due_at
+    today = Date.today
+
+    if last_charge_at.nil?
+      today
+    else
+      next_payment_date = last_charge_at + SUBSCRIPTION_PERIOD
+
+      return today if next_payment_date < today
+
+      next_payment_date
+    end
   end
 
   private
