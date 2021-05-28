@@ -65,4 +65,10 @@
       </div>
     </div>
   </section>
+<% else %>
+  <section aria-labelledby="membership_amount">
+    <div class="mt-8">
+      <p class="max-w-4xl mt-2 text-lg text-gray-900">You haven't started your membership. <a class="font-medium text-gray-700 underline" href="<%= "#{ENV["HOME_PAGE_URL"]}/debt-union" %>">Click here to start one.</a></p>
+    </div>
+  </section>
 <% end %>
