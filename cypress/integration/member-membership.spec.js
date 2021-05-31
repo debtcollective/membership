@@ -22,32 +22,95 @@ describe('Member Membership', () => {
   })
 
   describe('Update amount', () => {
-    it('updates the amount', () => {
-      cy.appFactories([
-        [
-          'create',
-          'user_with_subscription',
-          { email: 'example@debtcollective.org' }
-        ]
-      ]).then(async records => {
-        const [user] = records
-        cy.forceLogin({ email: user.email }).then(result => {
-          cy.visit('/membership')
-          cy.get('a')
-            .contains('Change amount', { matchCase: false })
-            .click()
+    describe('with payment method', () => {
+      it('updates the amount', () => {
+        cy.appFactories([
+          [
+            'create',
+            'user_with_subscription_and_stripe',
+            { email: 'example@debtcollective.org' }
+          ]
+        ]).then(async records => {
+          const [user] = records
+          cy.forceLogin({ email: user.email }).then(result => {
+            cy.visit('/membership')
+            cy.get('a')
+              .contains('Change amount', { matchCase: false })
+              .click()
 
-          // Name
-          cy.get("input[name='membership[amount]']")
-            .clear()
-            .type(5)
+            // Name
+            cy.get("input[name='membership[amount]']")
+              .clear()
+              .type(10)
 
-          // Submit
-          cy.get('input')
-            .contains('Save', { matchCase: false })
-            .click()
+            // Submit
+            cy.get('input')
+              .contains('Save', { matchCase: false })
+              .click()
 
-          cy.contains('Amount changed')
+            cy.contains('Amount changed')
+          })
+        })
+      })
+      describe('without payment method', () => {
+        it('updates the amount if amount is set to zero', () => {
+          cy.appFactories([
+            [
+              'create',
+              'user_with_subscription',
+              { email: 'example@debtcollective.org' }
+            ]
+          ]).then(async records => {
+            const [user] = records
+            cy.forceLogin({ email: user.email }).then(result => {
+              cy.visit('/membership')
+              cy.get('a')
+                .contains('Change amount', { matchCase: false })
+                .click()
+
+              // Name
+              cy.get("input[name='membership[amount]']")
+                .clear()
+                .type(0)
+
+              // Submit
+              cy.get('input')
+                .contains('Save', { matchCase: false })
+                .click()
+
+              cy.contains('Amount changed')
+            })
+          })
+        })
+
+        it('returns an error if amount is greater than five', () => {
+          cy.appFactories([
+            [
+              'create',
+              'user_with_subscription',
+              { email: 'example@debtcollective.org' }
+            ]
+          ]).then(async records => {
+            const [user] = records
+            cy.forceLogin({ email: user.email }).then(result => {
+              cy.visit('/membership')
+              cy.get('a')
+                .contains('Change amount', { matchCase: false })
+                .click()
+
+              // Name
+              cy.get("input[name='membership[amount]']")
+                .clear()
+                .type(5)
+
+              // Submit
+              cy.get('input')
+                .contains('Save', { matchCase: false })
+                .click()
+
+              cy.contains('You need to add a credit card first')
+            })
+          })
         })
       })
     })

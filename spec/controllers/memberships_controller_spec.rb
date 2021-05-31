@@ -4,8 +4,11 @@ require "rails_helper"
 
 RSpec.describe MembershipsController, type: :controller do
   describe "PUT #update_amount" do
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
     it "with valid amount it updates the membership amount" do
-      user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
+      user = FactoryBot.create(:user_with_subscription_and_stripe, email: "example@debtcollective.org")
       subscription = user.subscription
 
       allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
@@ -17,7 +20,7 @@ RSpec.describe MembershipsController, type: :controller do
       expect(subscription.amount).to eq(10)
     end
 
-    it "it returns an error with an amount less than 5 USD" do
+    it "doesn't update the amount if it's less than 5 USD" do
       user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
       subscription = user.subscription
 
@@ -28,6 +31,19 @@ RSpec.describe MembershipsController, type: :controller do
 
       expect(response.status).to eq(200)
       expect(subscription.amount).not_to eq(4)
+    end
+
+    it "doesn't update the amount if the user doesn't have a valid payment method" do
+      user = FactoryBot.create(:user, email: "example@debtcollective.org")
+      subscription = FactoryBot.create(:subscription, amount: 0, user_id: user.id)
+
+      allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
+
+      put :update_amount, params: {membership: {amount: 10}}
+      subscription.reload
+
+      expect(response.status).to eq(200)
+      expect(subscription.zero_amount?).to eq(true)
     end
   end
 

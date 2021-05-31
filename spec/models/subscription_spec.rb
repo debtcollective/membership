@@ -146,8 +146,8 @@ RSpec.describe Subscription, type: :model do
       expect(subscription.should_charge?).to eq(false)
     end
 
-    it "returns false if subscription is inactive" do
-      subscription = FactoryBot.create(:subscription, status: :inactive)
+    it "returns false if subscription is free" do
+      subscription = FactoryBot.create(:subscription, status: :active, amount: 0)
 
       expect(subscription.should_charge?).to eq(false)
     end

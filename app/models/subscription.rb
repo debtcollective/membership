@@ -55,6 +55,7 @@ class Subscription < ApplicationRecord
 
   validate :only_one_active_subscription, on: :create
   validates_numericality_of :amount, greater_than_or_equal_to: 5, unless: proc { |service| service.amount == 0 }
+  validate :payment_method_on_amount_change, on: :update
 
   def self.due
     where(status: :active).where(
@@ -104,7 +105,7 @@ class Subscription < ApplicationRecord
   end
 
   def update_credit_card!(params)
-    customer = user.find_stripe_customer
+    customer = user.find_or_create_stripe_customer
 
     return false unless customer
 
@@ -230,6 +231,16 @@ class Subscription < ApplicationRecord
 
     if Subscription.exists?(user_id: user_id, status: :active)
       errors.add(:base, "already has an active subscription")
+    end
+  end
+
+  # validates if there's a payment method before changing the amount
+  def payment_method_on_amount_change
+    return true unless amount_changed?
+    return true if amount.to_i == 0
+
+    if user.stripe_id.nil? && amount.to_i >= 5
+      errors.add(:amount, I18n.t("memberships.update_amount.no_payment_method"))
     end
   end
 end

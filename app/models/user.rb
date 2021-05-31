@@ -108,6 +108,18 @@ class User < ApplicationRecord
     return Stripe::Customer.retrieve(stripe_id) if stripe_id
   end
 
+  def find_or_create_stripe_customer
+    customer = find_stripe_customer
+
+    return customer if customer.present?
+
+    # create customer and save it
+    customer = Stripe::Customer.create(name: name, email: email)
+    update(stripe_id: customer.id)
+
+    customer
+  end
+
   def find_or_create_user_profile
     return user_profile if user_profile.present?
 

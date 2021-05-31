@@ -11,7 +11,7 @@
         </div>
         <div class="ml-3">
           <h3 class="text-sm font-medium text-red-800">
-            There were <%= pluralize(membership.errors.count, "error") %> with your submission
+            <%= pluralize(membership.errors.count, "error") %> with your submission
           </h3>
           <div class="mt-2 text-sm text-red-700">
             <ul class="pl-5 space-y-1 list-disc">
@@ -30,7 +30,7 @@
       <div class="sm:col-span-6">
         <%= f.label :amount, class: "block text-sm font-medium text-gray-700" %>
         <div class="mt-1">
-          <%= f.number_field :amount, name: 'membership[amount]', id: 'membership_amount', min: 1, step: 1, class: "block w-full sm:text-sm border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
+          <%= f.number_field :amount, name: 'membership[amount]', id: 'membership_amount', min: 0, step: 1, class: "block w-full sm:text-sm border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" %>
         </div>
       </div>
     </div>
