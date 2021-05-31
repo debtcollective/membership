@@ -53,6 +53,15 @@ FactoryBot.define do
       end
     end
 
+    factory :user_with_overdue_subscription do
+      after(:create) do |user|
+        FactoryBot.create(:subscription_beyond_subscription_period, user: user, status: :overdue)
+
+        user.stripe_id = Stripe::Customer.create({email: user.email, description: "FactoryBot test user"}).id
+        user.save
+      end
+    end
+
     factory :user_with_confirmation_token do
       confirmation_token { SecureRandom.hex(20) }
     end

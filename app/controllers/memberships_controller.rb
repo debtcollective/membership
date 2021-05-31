@@ -69,7 +69,7 @@ class MembershipsController < HubController
         end
       else
         format.json do
-          flash[:error] = "There was an error updating your credit card, please try again or contact support"
+          flash[:error] = I18n.t("memberships.update_card.error")
 
           render json: {status: "failed", redirect_to: user_membership_path}, status: :unprocessable_entity
         end

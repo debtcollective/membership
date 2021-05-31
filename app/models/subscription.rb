@@ -180,7 +180,7 @@ class Subscription < ApplicationRecord
       donation = donations.new(
         amount: charge.amount / 100,
         charge_data: JSON.parse(charge.to_json),
-        customer_stripe_id: user.stripe_id || metadata["payment_method"]["customer_id"],
+        customer_stripe_id: user.stripe_id || metadata["payment_method"]&.[]("customer_id"),
         donation_type: Donation::DONATION_TYPES[:subscription],
         status: charge.status,
         user: user,

@@ -105,8 +105,71 @@ describe('Member Membership', () => {
             .contains('Save', { matchCase: false })
             .click()
 
-          cy.contains('Your credit card was updated')
+          cy.contains(
+            'Your credit card was updated, and it will be effective on your next billing'
+          )
           cy.contains('Card ending in 4242')
+        })
+      })
+    })
+
+    describe('with a pending payment', () => {
+      it('updates the payment method and marks subscription as active', () => {
+        cy.appFactories([
+          [
+            'create',
+            'user_with_overdue_subscription',
+            { email: 'example@debtcollective.org' }
+          ]
+        ]).then(async records => {
+          const [user] = records
+          cy.forceLogin({ email: user.email }).then(result => {
+            cy.visit('/membership')
+            cy.get('a')
+              .contains('Update credit card', { matchCase: false })
+              .click()
+
+            // Name
+            cy.get("input[name='membership[first_name]']").type(
+              faker.name.firstName()
+            )
+            cy.get("input[name='membership[last_name]']").type(
+              faker.name.lastName()
+            )
+
+            // Address
+            cy.get("input[name='membership[address_line1]']").type(
+              faker.address.streetAddress()
+            )
+            cy.get("input[name='membership[address_city]']").type(
+              faker.address.city()
+            )
+            cy.get("input[name='membership[address_state]']").type(
+              faker.address.state()
+            )
+            cy.get("input[name='membership[address_zip]']").type(
+              faker.address.zipCode()
+            )
+            cy.get("select[name='membership[address_country_code]']").select(
+              'United States'
+            )
+
+            // Credit card
+            cy.getWithinIframe('[name="cardnumber"]').type('4242424242424242')
+            cy.getWithinIframe('[name="exp-date"]').type('1232')
+            cy.getWithinIframe('[name="cvc"]').type('987')
+            cy.getWithinIframe('[name="postal"]').type('12345')
+
+            // Submit
+            cy.get('button')
+              .contains('Save', { matchCase: false })
+              .click()
+
+            cy.contains(
+              'Your credit card was updated, and your payment was done correctly'
+            )
+            cy.contains('Card ending in 4242')
+          })
         })
       })
     })
