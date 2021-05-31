@@ -19,6 +19,7 @@
 #  index_subscriptions_on_user_id  (user_id)
 #
 require "rails_helper"
+require "stripe_mock"
 
 RSpec.describe Subscription, type: :model do
   let(:subscription) { FactoryBot.create(:subscription) }
@@ -157,16 +158,99 @@ RSpec.describe Subscription, type: :model do
       expect(subscription.should_charge?).to eq(false)
     end
 
-    it "returns false if subscription is active and is not beyond grace period" do
-      subscription = FactoryBot.create(:subscription, status: :active, last_charge_at: Subscription::SUBSCRIPTION_PERIOD + 1.day, metadata: {failed_charge_count: Subscription::FAILED_CHARGE_COUNT_BEFORE_OVERDUE - 1})
-
-      expect(subscription.should_charge?).to eq(false)
-    end
-
-    it "returns true if subscription is active, and its beyond subscription period and grace period" do
+    it "returns true if subscription is active and it's beyond subscription period" do
       subscription = FactoryBot.create(:subscription, status: :active, last_charge_at: Subscription::SUBSCRIPTION_PERIOD + 1.day, metadata: {failed_charge_count: Subscription::FAILED_CHARGE_COUNT_BEFORE_OVERDUE + 1})
 
       expect(subscription.should_charge?).to eq(true)
+    end
+  end
+
+  describe ".charge!" do
+    let(:stripe_helper) { StripeMock.create_test_helper }
+    before { StripeMock.start }
+    after { StripeMock.stop }
+
+    context "happy" do
+      let(:user) { FactoryBot.create(:user) }
+
+      it "charges subscription if last_charge_at is null" do
+        stripe_customer = Stripe::Customer.create(source: stripe_helper.generate_card_token)
+        user = FactoryBot.create(:user, stripe_id: stripe_customer.id)
+        subscription = FactoryBot.create(:subscription_beyond_subscription_period, user: user, amount: 25)
+
+        subscription.charge!
+
+        subscription.reload
+        donation = subscription.donations.last
+
+        expect(subscription.donations.count).to eq(1)
+        expect(donation.amount).to eq(subscription.amount)
+        expect(subscription.last_charge_at.to_i).to be_within(100).of(DateTime.now.to_i)
+      end
+
+      it "charges subscription if it's beyond subscription period" do
+        stripe_customer = Stripe::Customer.create(source: stripe_helper.generate_card_token)
+        user = FactoryBot.create(:user, stripe_id: stripe_customer.id)
+        subscription = FactoryBot.create(:subscription_beyond_subscription_period, user: user, amount: 25)
+
+        expect(subscription.beyond_subscription_period?).to eq(true)
+
+        subscription.charge!
+        subscription.reload
+
+        donation = subscription.donations.last
+
+        expect(subscription.beyond_grace_period?).to eq(false)
+        expect(subscription.donations.count).to eq(1)
+        expect(donation.amount).to eq(subscription.amount)
+        expect(subscription.last_charge_at.to_i).to be_within(100).of(DateTime.now.to_i)
+      end
+    end
+
+    context "error" do
+      let(:user) { FactoryBot.create(:user) }
+
+      it "raises error if trying to charge a subscription before subscription period" do
+        subscription = FactoryBot.create(:subscription_with_donation, user: user, amount: 25)
+
+        expect(subscription.beyond_subscription_period?).to eq(false)
+
+        expect { subscription.charge! }.to raise_error(SubscriptionNotOverdueError)
+      end
+
+      it "doesn't disable subscription if charge fails before grace period" do
+        subscription = FactoryBot.create(:subscription_beyond_subscription_period, user: user, amount: 25)
+
+        expect(subscription.active?).to eq(true)
+        expect(subscription.beyond_subscription_period?).to eq(true)
+
+        StripeMock.prepare_card_error(:card_declined)
+        expect(MembershipMailer).to receive_message_chain(:payment_failure_email, :deliver_later)
+
+        subscription.charge!
+        subscription.reload
+
+        expect(subscription.active?).to eq(true)
+        expect(subscription.beyond_subscription_period?).to eq(true)
+        expect(subscription.overdue?).to eq(false)
+      end
+
+      it "sets subscription to overdue if charge fails beyond grace period" do
+        subscription = FactoryBot.create(:subscription_beyond_grace_period, user: user, amount: 25)
+
+        expect(subscription.active?).to eq(true)
+        expect(subscription.beyond_grace_period?).to eq(true)
+
+        StripeMock.prepare_card_error(:card_declined)
+        expect(MembershipMailer).to receive_message_chain(:payment_failure_email, :deliver_later)
+
+        subscription.charge!
+        subscription.reload
+
+        expect(subscription.active?).to eq(false)
+        expect(subscription.overdue?).to eq(true)
+        expect(subscription.beyond_grace_period?).to eq(true)
+      end
     end
   end
 end

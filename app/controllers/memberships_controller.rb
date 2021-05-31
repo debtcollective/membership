@@ -61,9 +61,7 @@ class MembershipsController < HubController
     end
 
     respond_to do |format|
-      paid = membership.charge!
-
-      if paid
+      if @membership.charge!
         format.json do
           flash[:success] = I18n.t("memberships.update_card.paid")
 

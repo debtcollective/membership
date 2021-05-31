@@ -71,7 +71,7 @@ class Subscription < ApplicationRecord
   end
 
   def should_charge?
-    if active? && beyond_subscription_period? && beyond_grace_period?
+    if active? && beyond_subscription_period?
       return true
     end
 
@@ -164,6 +164,7 @@ class Subscription < ApplicationRecord
   def charge!
     raise SubscriptionNotOverdueError.new(self) unless beyond_subscription_period?
 
+    customer = user.find_stripe_customer
     client = Stripe::StripeClient.new
     charge, _ = client.request {
       Stripe::Charge.create(
@@ -201,7 +202,11 @@ class Subscription < ApplicationRecord
 
       false
     end
+  rescue SubscriptionNotOverdueError
+    # raise this error again
+    raise
   rescue => e
+    # capture Stripe errors or others
     Raven.capture_exception(e)
     handle_payment_failure
 

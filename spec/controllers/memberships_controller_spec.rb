@@ -73,11 +73,11 @@ RSpec.describe MembershipsController, type: :controller do
 
     context "with a pending payment" do
       context "with valid credit card" do
-        it "it updates correctly" do
-          user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
+        it "it updates correctly and charges the card" do
+          user = FactoryBot.create(:user, email: "example@debtcollective.org")
+          subscription = FactoryBot.create(:subscription_beyond_subscription_period, user_id: user.id, status: :overdue)
           stripe_customer = Stripe::Customer.create(email: user.email)
           user.update(stripe_id: stripe_customer.id)
-          subscription = user.subscription
           allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
 
           params = {
@@ -95,19 +95,25 @@ RSpec.describe MembershipsController, type: :controller do
 
           put :update_card, params: {membership: params}
           subscription.reload
+          donation = subscription.donations.last
 
           expect(response).to have_http_status(200)
           expect(subscription.metadata["payment_method"]["last4"]).to eq("4242")
+          expect(subscription.donations.count).to eq(1)
+          expect(subscription.overdue?).to eq(false)
+          expect(donation.amount).to eq(subscription.amount)
         end
       end
 
-      context "with innvalid credit card" do
+      context "with invalid credit card" do
         it "it returns an error" do
-          user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
+          user = FactoryBot.create(:user, email: "example@debtcollective.org")
+          subscription = FactoryBot.create(:subscription_beyond_subscription_period, user_id: user.id, status: :overdue)
           stripe_customer = Stripe::Customer.create(email: user.email)
           user.update(stripe_id: stripe_customer.id)
-          subscription = user.subscription
           allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
+
+          StripeMock.prepare_card_error(:card_declined)
 
           params = {
             address_city: "city",
@@ -124,9 +130,15 @@ RSpec.describe MembershipsController, type: :controller do
 
           put :update_card, params: {membership: params}
           subscription.reload
+          donation = subscription.donations.last
+          json = JSON.parse(response.body)
 
-          expect(response).to have_http_status(200)
+          expect(response).to have_http_status(422)
+          expect(json["status"]).to eq("failed")
           expect(subscription.metadata["payment_method"]["last4"]).to eq("4242")
+          expect(subscription.donations.count).to eq(0)
+          expect(subscription.overdue?).to eq(true)
+          expect(donation).to be_nil
         end
       end
     end
