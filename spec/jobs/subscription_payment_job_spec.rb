@@ -63,14 +63,6 @@ RSpec.describe SubscriptionPaymentJob, type: :job do
     context "error" do
       let(:user) { FactoryBot.create(:user) }
 
-      it "raises error if trying to charge a subscription before subscription period" do
-        subscription = FactoryBot.create(:subscription_with_donation, user: user, amount: 25)
-
-        expect(subscription.beyond_subscription_period?).to eq(false)
-
-        expect { SubscriptionPaymentJob.perform_now(subscription) }.to raise_error(SubscriptionNotOverdueError)
-      end
-
       it "doesn't disable subscription if charge fails before grace period" do
         subscription = FactoryBot.create(:subscription_beyond_subscription_period, user: user, amount: 25)
 

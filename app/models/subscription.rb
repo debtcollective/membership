@@ -18,6 +18,17 @@
 #
 #  index_subscriptions_on_user_id  (user_id)
 #
+class SubscriptionNotOverdueError < StandardError
+  def initialize(subscription, msg = "The subscription you are trying to charge is not due")
+    @subscription = subscription
+    super(msg)
+  end
+
+  def raven_context
+    {subscription_id: subscription.id}
+  end
+end
+
 class Subscription < ApplicationRecord
   # TODO: remove this after we run the migrations correctly on production and we can delete the `active :boolean` column
   self.ignored_columns = ["active"]
@@ -57,6 +68,14 @@ class Subscription < ApplicationRecord
     return true if last_charge_at.nil?
 
     last_charge_at <= (SUBSCRIPTION_PERIOD + 1.day).ago
+  end
+
+  def should_charge?
+    if active? && beyond_subscription_period?
+      return true
+    end
+
+    paused? || overdue?
   end
 
   def user?
@@ -140,7 +159,67 @@ class Subscription < ApplicationRecord
     end
   end
 
+  # Creates a Stripe::Charge using the current payment method on the Stripe::Customer
+  # returns true if the charge was successful
+  def charge!
+    raise SubscriptionNotOverdueError.new(self) unless beyond_subscription_period?
+
+    customer = user.find_stripe_customer
+    client = Stripe::StripeClient.new
+    charge, _ = client.request {
+      Stripe::Charge.create(
+        customer: customer,
+        amount: amount.to_i * 100,
+        description: "Debt Collective membership monthly payment",
+        currency: "usd",
+        metadata: {subscription_id: id, user_id: user.id}
+      )
+    }
+
+    if charge.paid?
+      donation = donations.new(
+        amount: charge.amount / 100,
+        charge_data: JSON.parse(charge.to_json),
+        customer_stripe_id: user.stripe_id || metadata["payment_method"]&.[]("customer_id"),
+        donation_type: Donation::DONATION_TYPES[:subscription],
+        status: charge.status,
+        user: user,
+        user_data: {email: user.email, name: user.name}
+      )
+
+      donation.save!
+
+      # reset subscription failed_charge_count
+      self.failed_charge_count = 0
+      update!(last_charge_at: DateTime.now, status: :active)
+
+      true
+    else
+      self.failed_charge_count = failed_charge_count + 1
+      save
+
+      handle_payment_failure
+
+      false
+    end
+  rescue SubscriptionNotOverdueError
+    # raise this error again
+    raise
+  rescue => e
+    # capture Stripe errors or others
+    Raven.capture_exception(e)
+    handle_payment_failure
+
+    false
+  end
+
   private
+
+  def handle_payment_failure
+    MembershipMailer.payment_failure_email(user: user).deliver_later
+
+    overdue! if beyond_subscription_period? && beyond_grace_period?
+  end
 
   def store_start_date
     self.start_date = DateTime.now if start_date.nil?

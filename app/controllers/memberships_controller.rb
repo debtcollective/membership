@@ -34,16 +34,42 @@ class MembershipsController < HubController
   end
 
   def update_card
-    respond_to do |format|
-      if @membership.update_credit_card!(update_card_params)
+    card_updated = @membership.update_credit_card!(update_card_params)
+
+    if !card_updated
+      respond_to do |format|
         format.json do
-          flash[:success] = "Your credit card was updated, and it will be effective on your next billing"
+          flash[:error] = I18n.t("memberships.update_card.error")
+
+          render json: {status: "failed", redirect_to: user_membership_path}, status: :unprocessable_entity
+        end
+      end
+
+      return
+    end
+
+    if !@membership.should_charge?
+      respond_to do |format|
+        format.json do
+          flash[:success] = I18n.t("memberships.update_card.next_cycle")
+
+          render json: {status: "succeeded", redirect_to: user_membership_path}, status: :ok
+        end
+      end
+
+      return
+    end
+
+    respond_to do |format|
+      if @membership.charge!
+        format.json do
+          flash[:success] = I18n.t("memberships.update_card.paid")
 
           render json: {status: "succeeded", redirect_to: user_membership_path}, status: :ok
         end
       else
         format.json do
-          flash[:error] = "There was an error updating your credit card, please try again or contact support"
+          flash[:error] = I18n.t("memberships.update_card.error")
 
           render json: {status: "failed", redirect_to: user_membership_path}, status: :unprocessable_entity
         end
