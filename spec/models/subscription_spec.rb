@@ -125,4 +125,48 @@ RSpec.describe Subscription, type: :model do
       expect(subscription.zero_amount?).to eq(true)
     end
   end
+
+  describe ".should_charge?" do
+    it "returns true if subscription is paused" do
+      subscription = FactoryBot.create(:subscription, status: :paused)
+
+      expect(subscription.should_charge?).to eq(true)
+    end
+
+    it "returns true if subscription is overdue" do
+      subscription = FactoryBot.create(:subscription, status: :overdue)
+
+      expect(subscription.should_charge?).to eq(true)
+    end
+
+    it "returns false if subscription is canceled" do
+      subscription = FactoryBot.create(:subscription, status: :canceled)
+
+      expect(subscription.should_charge?).to eq(false)
+    end
+
+    it "returns false if subscription is inactive" do
+      subscription = FactoryBot.create(:subscription, status: :inactive)
+
+      expect(subscription.should_charge?).to eq(false)
+    end
+
+    it "returns false if subscription is active but is not beyond subscription period" do
+      subscription = FactoryBot.create(:subscription, status: :active, last_charge_at: 2.weeks.ago)
+
+      expect(subscription.should_charge?).to eq(false)
+    end
+
+    it "returns false if subscription is active and is not beyond grace period" do
+      subscription = FactoryBot.create(:subscription, status: :active, last_charge_at: Subscription::SUBSCRIPTION_PERIOD + 1.day, metadata: {failed_charge_count: Subscription::FAILED_CHARGE_COUNT_BEFORE_OVERDUE - 1})
+
+      expect(subscription.should_charge?).to eq(false)
+    end
+
+    it "returns true if subscription is active, and its beyond subscription period and grace period" do
+      subscription = FactoryBot.create(:subscription, status: :active, last_charge_at: Subscription::SUBSCRIPTION_PERIOD + 1.day, metadata: {failed_charge_count: Subscription::FAILED_CHARGE_COUNT_BEFORE_OVERDUE + 1})
+
+      expect(subscription.should_charge?).to eq(true)
+    end
+  end
 end

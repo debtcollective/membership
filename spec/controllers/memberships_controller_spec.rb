@@ -40,32 +40,94 @@ RSpec.describe MembershipsController, type: :controller do
 
     let(:stripe_helper) { StripeMock.create_test_helper }
 
-    context "with valid credit card" do
-      it "it updates correctly" do
-        user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
-        stripe_customer = Stripe::Customer.create(email: user.email)
-        user.update(stripe_id: stripe_customer.id)
-        subscription = user.subscription
-        allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
+    context "without a pending payment" do
+      context "with valid credit card" do
+        it "it updates correctly" do
+          user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
+          stripe_customer = Stripe::Customer.create(email: user.email)
+          user.update(stripe_id: stripe_customer.id)
+          subscription = user.subscription
+          allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
 
-        params = {
-          address_city: "city",
-          address_country_code: "US",
-          address_line1: "line1",
-          address_state: "state",
-          address_zip: 33106,
-          first_name: Faker::Name.first_name,
-          last_name: Faker::Name.last_name,
-          stripe_card_id: "card_123",
-          stripe_card_last4: "4242",
-          stripe_token: stripe_helper.generate_card_token
-        }
+          params = {
+            address_city: "city",
+            address_country_code: "US",
+            address_line1: "line1",
+            address_state: "state",
+            address_zip: 33106,
+            first_name: Faker::Name.first_name,
+            last_name: Faker::Name.last_name,
+            stripe_card_id: "card_123",
+            stripe_card_last4: "4242",
+            stripe_token: stripe_helper.generate_card_token
+          }
 
-        put :update_card, params: {membership: params}
-        subscription.reload
+          put :update_card, params: {membership: params}
+          subscription.reload
 
-        expect(response).to have_http_status(200)
-        expect(subscription.metadata["payment_method"]["last4"]).to eq("4242")
+          expect(response).to have_http_status(200)
+          expect(subscription.metadata["payment_method"]["last4"]).to eq("4242")
+        end
+      end
+    end
+
+    context "with a pending payment" do
+      context "with valid credit card" do
+        it "it updates correctly" do
+          user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
+          stripe_customer = Stripe::Customer.create(email: user.email)
+          user.update(stripe_id: stripe_customer.id)
+          subscription = user.subscription
+          allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
+
+          params = {
+            address_city: "city",
+            address_country_code: "US",
+            address_line1: "line1",
+            address_state: "state",
+            address_zip: 33106,
+            first_name: Faker::Name.first_name,
+            last_name: Faker::Name.last_name,
+            stripe_card_id: "card_123",
+            stripe_card_last4: "4242",
+            stripe_token: stripe_helper.generate_card_token
+          }
+
+          put :update_card, params: {membership: params}
+          subscription.reload
+
+          expect(response).to have_http_status(200)
+          expect(subscription.metadata["payment_method"]["last4"]).to eq("4242")
+        end
+      end
+
+      context "with innvalid credit card" do
+        it "it returns an error" do
+          user = FactoryBot.create(:user_with_subscription, email: "example@debtcollective.org")
+          stripe_customer = Stripe::Customer.create(email: user.email)
+          user.update(stripe_id: stripe_customer.id)
+          subscription = user.subscription
+          allow_any_instance_of(SessionProvider).to receive(:current_user).and_return(CurrentUser.new(user))
+
+          params = {
+            address_city: "city",
+            address_country_code: "US",
+            address_line1: "line1",
+            address_state: "state",
+            address_zip: 33106,
+            first_name: Faker::Name.first_name,
+            last_name: Faker::Name.last_name,
+            stripe_card_id: "card_123",
+            stripe_card_last4: "4242",
+            stripe_token: stripe_helper.generate_card_token
+          }
+
+          put :update_card, params: {membership: params}
+          subscription.reload
+
+          expect(response).to have_http_status(200)
+          expect(subscription.metadata["payment_method"]["last4"]).to eq("4242")
+        end
       end
     end
   end

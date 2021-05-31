@@ -59,6 +59,14 @@ class Subscription < ApplicationRecord
     last_charge_at <= (SUBSCRIPTION_PERIOD + 1.day).ago
   end
 
+  def should_charge?
+    if active? && beyond_subscription_period? && beyond_grace_period?
+      return true
+    end
+
+    paused? || overdue?
+  end
+
   def user?
     !user_id.blank?
   end
