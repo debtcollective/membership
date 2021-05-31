@@ -46,13 +46,12 @@ class UserProfile < ApplicationRecord
   validates :address_line1, presence: true
   validates :address_zip, presence: true
   validates :birthday, date: true, allow_nil: true
-  validates :facebook, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
+  validates :facebook, format: {with: /[a-zA-Z0-9]+/}, allow_nil: true
   validates :first_name, presence: true
-  validates :instagram, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
+  validates :instagram, format: {with: /[a-zA-Z0-9]+/}, allow_nil: true
   validates :last_name, presence: true
   validates :phone_number, presence: true, format: {with: PHONE_NUMBER_REGEX}
-  validates :registration_email, 'valid_email_2/email': true, uniqueness: {case_sensitive: false}
-  validates :title, inclusion: {in: TITLES}, allow_blank: true
-  validates :twitter, format: {with: /[a-zA-Z0-9]+/}, allow_blank: true
-  validates :website, url: {allow_nil: true, no_local: true}
+  validates :registration_email, 'valid_email_2/email': true
+  validates :title, inclusion: {in: TITLES}, allow_nil: true
+  validates :twitter, format: {with: /[a-zA-Z0-9]+/}, allow_nil: true
 end
