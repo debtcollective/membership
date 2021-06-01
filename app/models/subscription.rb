@@ -30,9 +30,6 @@ class SubscriptionNotOverdueError < StandardError
 end
 
 class Subscription < ApplicationRecord
-  # TODO: remove this after we run the migrations correctly on production and we can delete the `active :boolean` column
-  self.ignored_columns = ["active"]
-
   has_paper_trail(
     only: [:amount, :status]
   )
