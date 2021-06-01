@@ -50,7 +50,7 @@ class UserProfile < ApplicationRecord
   validates :first_name, presence: true
   validates :instagram, format: {with: /[a-zA-Z0-9]+/}, allow_nil: true, allow_blank: true
   validates :last_name, presence: true
-  validates :phone_number, format: {with: PHONE_NUMBER_REGEX}, allow_blank: true
+  validates :phone_number, presence: true, format: {with: PHONE_NUMBER_REGEX}
   validates :registration_email, 'valid_email_2/email': true, allow_blank: true
   validates :title, inclusion: {in: TITLES}, allow_nil: true, allow_blank: true
   validates :twitter, format: {with: /[a-zA-Z0-9]+/}, allow_nil: true, allow_blank: true
