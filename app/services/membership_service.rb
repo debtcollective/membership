@@ -12,6 +12,8 @@ class MembershipService
     :customer_ip,
     :email,
     :name,
+    :firstname,
+    :lastname,
     :phone_number,
     :stripe_customer,
     :stripe_phone_number,
@@ -147,12 +149,13 @@ class MembershipService
   def update_user_profile(user = self.user)
     user_profile = user.find_or_create_user_profile
 
-    user_profile.first_name = name
-    user_profile.last_name = name
+    user_profile.first_name = firstname
+    user_profile.last_name = lastname
     user_profile.address_city = address_city
     user_profile.address_country_code = address_country_code
     user_profile.address_country = ISO3166::Country[address_country_code]&.name
     user_profile.address_line1 = address_line1
+    user_profile.address_state = address_state
     user_profile.address_zip = address_zip
     user_profile.registration_email ||= email
     user_profile.phone_number = phone_number
