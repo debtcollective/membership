@@ -64,6 +64,8 @@ class SubscriptionsController < ApplicationController
       :chapter,
       :email,
       :name,
+      :first_name,
+      :last_name,
       :phone_number,
       :stripe_token
     )
