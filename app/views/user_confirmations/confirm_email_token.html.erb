@@ -4,7 +4,7 @@
 
     <p><%= link_to "Click here to go to the login page", discourse_url('/login') %></p>
   <% else %>
-    <h2>Hello <%= @user.name.titleize %>!</h2>
+    <h2>Hello <%= @user.name %>!</h2>
     <p>Please click the button below to confirm your email.</p>
 
     <%= form_with(url: confirm_email_user_confirmations_path, method: 'post') do %>
