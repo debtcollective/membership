@@ -16,8 +16,6 @@ RSpec.describe MembershipService, type: :service do
       customer_ip: "127.0.0.1",
       email: Faker::Internet.email,
       name: Faker::Name.name,
-      first_name: Faker::Name.first_name,
-      last_name: Faker::Name.last_name,
       phone_number: Faker::PhoneNumber.cell_phone_in_e164,
       stripe_token: stripe_helper.generate_card_token
     }
@@ -35,8 +33,6 @@ RSpec.describe MembershipService, type: :service do
     subject { MembershipService.new(valid_params) }
 
     it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:first_name) }
-    it { should validate_presence_of(:last_name) }
     it { should validate_presence_of(:email) }
     it { should validate_presence_of(:amount) }
     it { should validate_numericality_of(:amount).only_integer.is_greater_than_or_equal_to(5) }

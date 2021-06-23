@@ -20,8 +20,6 @@ class MembershipService
     :stripe_token
 
   validates :name, presence: true
-  validates :first_name, presence: true
-  validates :last_name, presence: true
   validates :email, presence: true, 'valid_email_2/email': true
   validates :customer_ip, presence: true
   validates :amount, presence: true
@@ -151,8 +149,8 @@ class MembershipService
   def update_user_profile(user = self.user)
     user_profile = user.find_or_create_user_profile
 
-    user_profile.first_name = first_name
-    user_profile.last_name = last_name
+    user_profile.first_name = name.split(' ', 2)[0]
+    user_profile.last_name = name.split(' ', 2)[1]
     user_profile.address_city = address_city
     user_profile.address_country_code = address_country_code
     user_profile.address_country = ISO3166::Country[address_country_code]&.name
