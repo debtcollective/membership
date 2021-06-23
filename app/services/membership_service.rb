@@ -155,6 +155,7 @@ class MembershipService
     user_profile.address_country_code = address_country_code
     user_profile.address_country = ISO3166::Country[address_country_code]&.name
     user_profile.address_line1 = address_line1
+    user_profile.address_state = address_state
     user_profile.address_zip = address_zip
     user_profile.registration_email ||= email
     user_profile.phone_number = phone_number
