@@ -21,12 +21,14 @@
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
     <%= render 'layouts/sentry' %>
+    <%= render 'layouts/header' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
     <%= render 'shared/analytics_scripts'%>
   </head>
 
-  <body>
+  <body class="with-header">
+    <%= render 'shared/header' %>
     <!-- x-data controls the state of the sidebar -->
     <div class="flex h-screen overflow-hidden bg-white"
       x-data="{ isOpen: false }"
