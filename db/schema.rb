@@ -46,9 +46,6 @@ ActiveRecord::Schema.define(version: 2021_06_01_004722) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
-  end
-
   create_table "donations", force: :cascade do |t|
     t.money "amount", scale: 2
     t.string "card_id"

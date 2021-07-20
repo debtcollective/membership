@@ -1,6 +1,33 @@
 <div class="pb-5 border-b border-gray-200">
-  <h3 class="text-lg font-medium leading-6 text-gray-900">
+  <h3 class="text-5xl font-black text-black">
     Union Hub
   </h3>
-  <p class="max-w-4xl mt-2 text-sm text-gray-500">Here you can see the latest activity on your account and the union.</p>
+  <p class="max-w-4xl mt-2 text-xl text-gray-500" style="max-width: 655px; margin: 1rem 0 1.5rem">
+    Welcome to your union hub! Here you can update your information, make changes to your membership and find quick access to everything you need to get engaged.
+  </p>
+  <div class="button-tout-container">
+    <%= react_component("ButtonTout", {
+      title: 'New member guide',
+      text: 'includes more information about the union, details about how you get involved, where your closest branch is, and more!',
+    }, {class: 'button-tout'}) %>
+    <%= react_component("ButtonTout", {
+      title: 'Debt Collective Community Form',
+      text: 'introduce yourself, read other debtors\' stories, find information and resources about various types of debt, and get organized with fellow debtors! ',
+    }, {class: 'button-tout two-line-title'}
+    ) %>
+    <%= react_component("ButtonTout", {
+      title: 'Dispute your debt',
+      text: 'We have developed a suite of experimental dispute tools that help you exercise your rights as a debtor and simplify the process of disputing various debts you might owe.',
+    }, {class: 'button-tout'}) %>
+
+    <%= react_component("ButtonTout", {
+      title: 'Join our campaigns',
+      text: 'Learn more about our campaigns, take action right away to cancel student debt, and much more! ',
+    }, {class: 'button-tout'}) %>
+    <%= react_component("ButtonTout", {
+      title: 'Our call calendar',
+      text: 'join an upcoming welcome call, political education program, or campaign training.',
+    }, {class: 'button-tout'}) %>
+  </div>
+
 </div>

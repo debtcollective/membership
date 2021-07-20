@@ -1,7 +1,8 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 /* Components */
-@import "../components/PhoneNumberField/style";
-@import "../components/DatePickerField/style";
+@import '../components/PhoneNumberField/style';
+@import '../components/DatePickerField/style';
+@import '../components/ButtonTout/style';
