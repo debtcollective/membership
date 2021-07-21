@@ -26,13 +26,13 @@ class ApplicationController < ActionController::Base
       if request.format.json?
         head :unauthorized
       else
-        redirect_to_home_page
+        redirect_to_login_page
       end
     end
   end
 
-  def redirect_to_home_page
-    redirect_to ENV["HOME_PAGE_URL"]
+  def redirect_to_login_page
+    redirect_to ENV["LOGIN_PAGE_URL"]
   end
 
   def not_found
