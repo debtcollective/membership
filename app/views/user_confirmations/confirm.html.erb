@@ -1,7 +1,7 @@
 <% if @user_confirmed %>
   <p>Your account is now confirmed. Please visit your personalized hub by clicking the link below.</p>
 
-  <a href="<%= login_path(return_url: "#{ENV["HOME_PAGE_URL"]}/hub") %>" class="button primary">Go to Member Hub</a>
+  <a href="<%= login_path(return_url: "https://membership.debtcollective.org/") %>" class="button primary">Go to Member Hub</a>
 <% else %>
   <p>Your email is not confirmed.</p>
 <% end %>
