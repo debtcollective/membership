@@ -8,8 +8,8 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     marginTop: theme.spacing(3),
     padding: theme.spacing(4),
-    overflowX: 'auto'
-  }
+    overflowX: 'auto',
+  },
 }))
 
 function UserShowView ({ user, subscription, streak }) {
@@ -42,7 +42,7 @@ function UserShowView ({ user, subscription, streak }) {
 UserShowView.propTypes = {
   user: PropTypes.object.isRequired,
   streak: PropTypes.number,
-  subscription: PropTypes.object.isRequired
+  subscription: PropTypes.object.isRequired,
 }
 
 export const UserShow = props => <UserShowView {...props} />

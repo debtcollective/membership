@@ -7,7 +7,7 @@ import {
   CardElement,
   Elements,
   useStripe,
-  useElements
+  useElements,
 } from '@stripe/react-stripe-js'
 import BillingAddressField from './BillingAddressField'
 
@@ -77,7 +77,7 @@ const UpdateCreditCardForm = ({
   action,
   method,
   authenticityToken,
-  countryOptions
+  countryOptions,
 }) => {
   const stripe = useStripe()
   const elements = useElements()
@@ -101,7 +101,7 @@ const UpdateCreditCardForm = ({
       address_city: formData.get('membership[address_city]'),
       address_zip: formData.get('membership[address_zip]'),
       address_state: formData.get('membership[address_state]'),
-      address_country: formData.get('membership[address_country_code]')
+      address_country: formData.get('membership[address_country_code]'),
     }
 
     // tokenize card and billing information
@@ -122,7 +122,7 @@ const UpdateCreditCardForm = ({
     try {
       const response = await fetch('/membership/update_card', {
         method: method,
-        body: formData
+        body: formData,
       })
 
       const json = await response.json()

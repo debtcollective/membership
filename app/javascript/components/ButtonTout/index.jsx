@@ -5,8 +5,10 @@ const ButtonTout = (props = {}) => {
 
   return (
     <>
-      <h6>{title}</h6>
-      <p>{text}</p>
+      <a href={link}>
+        <h6>{title}</h6>
+        <p>{text}</p>
+      </a>
     </>
   )
 }

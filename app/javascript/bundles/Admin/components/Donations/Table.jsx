@@ -14,16 +14,16 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     marginTop: theme.spacing(3),
-    overflowX: 'auto'
+    overflowX: 'auto',
   },
   table: {
-    minWidth: 650
-  }
+    minWidth: 650,
+  },
 }))
 
 const DONATION_TYPES = {
   ONE_OFF: 'One time Contribution',
-  SUBSCRIPTION: 'Monthly Subscription'
+  SUBSCRIPTION: 'Monthly Subscription',
 }
 
 export default function DonationsTable ({ donations }) {
@@ -66,9 +66,9 @@ export default function DonationsTable ({ donations }) {
 }
 
 DonationsTable.propTypes = {
-  donations: PropTypes.array
+  donations: PropTypes.array,
 }
 
 DonationsTable.defaultTypes = {
-  donations: []
+  donations: [],
 }

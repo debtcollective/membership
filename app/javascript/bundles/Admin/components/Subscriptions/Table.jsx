@@ -13,11 +13,11 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     marginTop: theme.spacing(3),
-    overflowX: 'auto'
+    overflowX: 'auto',
   },
   table: {
-    minWidth: 650
-  }
+    minWidth: 650,
+  },
 }))
 
 export default function SubcriptionsTable ({ subscriptions }) {
@@ -81,9 +81,9 @@ export default function SubcriptionsTable ({ subscriptions }) {
 }
 
 SubcriptionsTable.propTypes = {
-  subscriptions: PropTypes.array
+  subscriptions: PropTypes.array,
 }
 
 SubcriptionsTable.defaultTypes = {
-  subscriptions: []
+  subscriptions: [],
 }

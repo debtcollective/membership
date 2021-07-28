@@ -12,11 +12,11 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     marginTop: theme.spacing(3),
-    overflowX: 'auto'
+    overflowX: 'auto',
   },
   table: {
-    minWidth: 650
-  }
+    minWidth: 650,
+  },
 }))
 
 export default function UsersTable ({ users }) {
@@ -54,9 +54,9 @@ export default function UsersTable ({ users }) {
 }
 
 UsersTable.propTypes = {
-  users: PropTypes.array
+  users: PropTypes.array,
 }
 
 UsersTable.defaultTypes = {
-  users: []
+  users: [],
 }

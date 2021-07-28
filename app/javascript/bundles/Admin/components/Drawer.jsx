@@ -25,38 +25,38 @@ const drawerWidth = 240
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex'
+    display: 'flex',
   },
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
-      flexShrink: 0
-    }
+      flexShrink: 0,
+    },
   },
   appBar: {
     marginLeft: drawerWidth,
     [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`
-    }
+      width: `calc(100% - ${drawerWidth}px)`,
+    },
   },
   menuButton: {
     marginRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
-      display: 'none'
-    }
+      display: 'none',
+    },
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
   },
   rootLink: {
     padding: '0.25rem 0.5rem 0',
-    display: 'block'
-  }
+    display: 'block',
+  },
 }))
 
 function ResponsiveDrawer (props) {
@@ -135,10 +135,10 @@ function ResponsiveDrawer (props) {
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
-              paper: classes.drawerPaper
+              paper: classes.drawerPaper,
             }}
             ModalProps={{
-              keepMounted: true // Better open performance on mobile.
+              keepMounted: true, // Better open performance on mobile.
             }}
           >
             {drawer(logoUrl)}
@@ -147,7 +147,7 @@ function ResponsiveDrawer (props) {
         <Hidden xsDown implementation='css'>
           <Drawer
             classes={{
-              paper: classes.drawerPaper
+              paper: classes.drawerPaper,
             }}
             variant='permanent'
             open
@@ -162,7 +162,7 @@ function ResponsiveDrawer (props) {
 
 ResponsiveDrawer.propTypes = {
   pageTitle: PropTypes.string.isRequired,
-  logoUrl: PropTypes.string.isRequired
+  logoUrl: PropTypes.string.isRequired,
 }
 
 export default props => <ResponsiveDrawer {...props} />
