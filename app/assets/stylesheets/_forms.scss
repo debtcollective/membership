@@ -31,3 +31,24 @@
 .StripeElement--webkit-autofill {
   background-color: #fefde5 !important;
 }
+
+.profile-container {
+  input,
+  .react-date-picker__wrapper,
+  textarea,
+  select {
+    background: rgba(91, 203, 181, 0.1);
+    border: 1px solid #219653;
+    box-sizing: border-box;
+    border-radius: 6px;
+    input {
+      // background: rgba(91, 203, 181, 0.1);
+      border: none;
+      border-radius: 0;
+    }
+  }
+  .react-date-picker__wrapper {
+    width: 68%;
+    min-width: 150px;
+  }
+}

@@ -1,30 +1,35 @@
-.PhoneInput {
-  @apply flex rounded-md shadow-sm;
+@layer components {
+  .PhoneInput {
+    @apply flex rounded-md shadow-sm;
+    .PhoneInputCountry {
+      @apply inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm;
+    }
 
-  .PhoneInputCountry {
-    @apply inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm;
+    .PhoneInputCountrySelect {
+      @apply focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md;
+      background: rgba(91, 203, 181, 0.1);
+      border: 1px solid #219653;
+      box-sizing: border-box;
+      border-radius: 6px;
+    }
+
+    .PhoneInputCountryIcon,
+    .PhoneInputCountrySelectArrow {
+      @apply hidden;
+    }
+
+    .PhoneInputInput {
+      @apply flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300;
+    }
   }
 
-  .PhoneInputCountrySelect {
-    @apply focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md;
-  }
+  .PhoneInput.error {
+    .PhoneInputCountry {
+      @apply text-red-900 placeholder-red-300 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500;
+    }
 
-  .PhoneInputCountryIcon,
-  .PhoneInputCountrySelectArrow {
-    @apply hidden;
-  }
-
-  .PhoneInputInput {
-    @apply flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300;
-  }
-}
-
-.PhoneInput.error {
-  .PhoneInputCountry {
-    @apply text-red-900 placeholder-red-300 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500;
-  }
-
-  .PhoneInputInput {
-    @apply pr-10 text-red-900 placeholder-red-300 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500;
+    .PhoneInputInput {
+      @apply pr-10 text-red-900 placeholder-red-300 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500;
+    }
   }
 }
