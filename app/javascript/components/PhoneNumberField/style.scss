@@ -1,16 +1,39 @@
+.PhoneInput {
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 640px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .PhoneInputCountrySelect,
+  .PhoneInputInput {
+    width: 100%;
+    background: rgba(91, 203, 181, 0.1);
+    border: 1px solid #219653;
+    box-sizing: border-box;
+    border-radius: 6px;
+    &:focus {
+      // border-color: #ff4630;
+    }
+  }
+  .PhoneInputCountry,
+  .PhoneInputInput {
+    @media (min-width: 640px) {
+      max-width: 49%;
+      min-width: 49%;
+    }
+  }
+}
+
 @layer components {
   .PhoneInput {
     @apply flex rounded-md shadow-sm;
     .PhoneInputCountry {
-      @apply inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm;
+      @apply inline-flex items-center rounded-l-md text-gray-500 sm:text-sm;
     }
 
     .PhoneInputCountrySelect {
       @apply focus:ring-indigo-500 focus:border-indigo-500 h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md;
-      background: rgba(91, 203, 181, 0.1);
-      border: 1px solid #219653;
-      box-sizing: border-box;
-      border-radius: 6px;
     }
 
     .PhoneInputCountryIcon,
@@ -19,7 +42,7 @@
     }
 
     .PhoneInputInput {
-      @apply flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300;
+      @apply flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300 sm:w-1/2;
     }
   }
 

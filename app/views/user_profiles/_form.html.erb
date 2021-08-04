@@ -43,38 +43,40 @@
       <%= render(TextFieldComponent.new(name: :last_name, form: f)) %>
     </div>
 
+    <%
+=begin%>
     <div class="sm:col-span-3">
       <%= render(TextFieldComponent.new(name: :username, form: f)) %>
       <a href="http://debtcollective.org/profile/username-hashed" class="text-xs">http://debtcollective.org/profile/username-hashed</a>
     </div>
-
-    <div class="sm:col-span-2 date-picker-container">
-      <%= f.label :birthday, class: "block text-sm font-medium text-gray-700" %>
-      <div class="mt-1">
-        <%= f.date_picker :birthday %>
+    <%
+=end%>
+    <div class="flex sm:col-span-6 flex-col sm:flex-row">
+      <div class="sm:col-span-2 w-full date-picker-container">
+        <%= f.label :birthday, class: "block text-sm font-medium text-gray-700" %>
+        <div class="mt-1">
+          <%= f.date_picker :birthday %>
+        </div>
       </div>
-    </div>
 
-    <div class="sm:col-span-3 flex flex-col">
-      <%= render(TextFieldComponent.new(name: :email, form: f)) %>
+      <div class="sm:col-span-3 w-full sm:ml-4">
+        <%= render(TextFieldComponent.new(name: :email, form: f)) %>
+      </div>
+
     </div>
 
     <div class="sm:col-span-6">
       <%= render(PhoneNumberFieldComponent.new(name: :phone_number, form: f)) %>
     </div>
 
-    <div class="sm:col-span-6">
-      <%= render(TextFieldComponent.new(name: :avatar_url, form: f)) %>
-    </div>
-
     <div class="sm:col-span-6 about-me">
-      <%= label_tag(:about_me, "About me", class: "block text-sm font-medium text-gray-700") %>
-      <%= text_area_tag(:about_me, "", :size => "24x6", class: "w-full") %>
+      <%= f.label(:about_me, "About me", class: "block text-sm font-medium text-gray-700") %>
+      <%= f.text_area(:about_me, :size => "24x6", class: "w-full") %>
     </div>
 
     <div class="sm:col-span-6 why-joined">
-      <%= label_tag(:why_joined, "Tell us why you joined", class: "block text-sm font-medium text-gray-700") %>
-      <%= text_area_tag(:why_joined, "", :size => "24x6", class: "w-full") %>
+      <%= f.label(:why_joined, "Tell us why you joined", class: "block text-sm font-medium text-gray-700") %>
+      <%= f.text_area(:why_joined, :size => "24x6", class: "w-full") %>
     </div>
 
     <div class="sm:col-span-6">
@@ -82,28 +84,31 @@
     </div>
 
     <div class="sm:col-span-6">
-      <%= render(TextFieldComponent.new(name: :website, form: f)) %>
-    </div>
+      <div class="flex sm:col-span-6 flex-col sm:flex-row">
+        <div class="w-full mb-2 sm:mr-2">
+          <%= render(TextFieldComponent.new(name: :website, form: f)) %>
+        </div>
 
-    <div class="flex sm:col-span-6 sm:flex-col">
-      <div class="w-full mr-2 sm:mr-0 sm:mb-2">
-        <%= render(TextFieldComponent.new(name: :facebook, form: f)) %>
+        <div class="w-full mb-2 sm:ml-2">
+          <%= render(TextFieldComponent.new(name: :facebook, form: f)) %>
+        </div>
       </div>
 
-      <div class="w-full ml-2 sm:ml-0">
-        <%= render(TextFieldComponent.new(name: :twitter, form: f)) %>
+      <div class="flex sm:col-span-6 flex-col sm:flex-row">
+        <div class="w-full mb-2 sm:mr-2">
+          <%= render(TextFieldComponent.new(name: :twitter, form: f)) %>
+        </div>
+
+        <div class="w-full mb-2 sm:ml-2">
+          <%= render(TextFieldComponent.new(name: :instagram, form: f)) %>
+        </div>
       </div>
     </div>
-
-    <div class="sm:col-span-6">
-      <%= render(TextFieldComponent.new(name: :instagram, form: f)) %>
-    </div>
-
   </div>
 
-  <div class="pt-5">
-    <div class="flex justify-end">
-      <%= f.submit 'Save', class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+  <div class="py-5">
+    <div class="submit-button-container flex justify-end">
+      <%= f.submit 'Save', class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-bold text-base text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
     </div>
   </div>
 </div>

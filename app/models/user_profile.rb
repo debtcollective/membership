@@ -3,6 +3,7 @@
 # Table name: user_profiles
 #
 #  id                       :bigint           not null, primary key
+#  about_me                 :text
 #  address_city             :string
 #  address_country          :string
 #  address_country_code     :string
@@ -26,6 +27,7 @@
 #  title                    :string
 #  twitter                  :string
 #  website                  :string
+#  why_joined               :text
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  user_id                  :bigint
