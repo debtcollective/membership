@@ -32,11 +32,14 @@
   background-color: #fefde5 !important;
 }
 
-.profile-container {
+.profile-container,
+.edit-card,
+.edit-status {
   input,
   .react-date-picker__wrapper,
   textarea,
-  select {
+  select,
+  #stripe-elements {
     background: rgba(91, 203, 181, 0.1);
     border: 1px solid #219653;
     box-sizing: border-box;
@@ -51,10 +54,12 @@
     width: 68%;
     min-width: 150px;
   }
-  .submit-button-container input {
+  .submit-btn-container input,
+  button.submit-btn,
+  .pause-membership-btn,
+  .resume-membership-btn {
     background: #24ba9d;
     border: solid 1px transparent;
     border-radius: 8px;
-    // color: #ffffff;
   }
 }
