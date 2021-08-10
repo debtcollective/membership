@@ -15,19 +15,19 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     marginTop: theme.spacing(3),
     padding: theme.spacing(4),
-    overflowX: 'auto'
+    overflowX: 'auto',
   },
   table: {
-    minWidth: 650
+    minWidth: 650,
   },
   link: {
-    color: 'blue'
-  }
+    color: 'blue',
+  },
 }))
 
 const DONATION_TYPES = {
   ONE_OFF: 'One time Contribution',
-  SUBSCRIPTION: 'Monthly Subscription'
+  SUBSCRIPTION: 'Monthly Subscription',
 }
 
 const calcDonationTotal = donations => {
@@ -104,7 +104,7 @@ function DonationsView ({ donations }) {
 }
 
 DonationsView.propTypes = {
-  donations: PropTypes.array
+  donations: PropTypes.array,
 }
 
 export const DonationsHistory = props => <DonationsView {...props} />

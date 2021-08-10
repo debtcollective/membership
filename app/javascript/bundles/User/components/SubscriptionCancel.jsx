@@ -11,7 +11,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Paper
+  Paper,
 } from '@material-ui/core'
 
 const SUBSCRIPTION_CANCEL_URL = userID => `/users/${userID}/subscription`
@@ -22,11 +22,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
     overflowX: 'auto',
     padding: theme.spacing(4),
-    width: '100%'
+    width: '100%',
   },
   table: {
-    minWidth: 650
-  }
+    minWidth: 650,
+  },
 }))
 
 const NoSubscriptionView = ({ user }) => {
@@ -48,7 +48,7 @@ const NoSubscriptionView = ({ user }) => {
 function SubscriptionCancelView ({
   user,
   subscription,
-  isSubscriptionChanging
+  isSubscriptionChanging,
 }) {
   const classes = useStyles()
   const isSubscriptionActive = subscription && subscription.active
@@ -71,8 +71,8 @@ function SubscriptionCancelView ({
         credentials: 'include',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
     )
 

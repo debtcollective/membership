@@ -1,9 +1,11 @@
-<div class="pb-5 border-b border-gray-200">
-  <h2 class="text-xl font-medium leading-6 text-gray-900">
-    Change membership amount
-  </h2>
-  <p class="max-w-4xl mt-2 text-gray-500 text-md">Here you can change your amount</p>
-</div>
+<div class="membership-edit-amount mb-20">
+  <div class="pb-5 border-b border-gray-200">
+    <h3 class="font-black text-black text-4xl sm:text-5xl">
+      Change membership amount
+    </h3>
+    <p class="max-w-2xl mt-2 text-2xl font-thin mt-4 mb-10 leading-normal">Here you can change your amount</p>
+  </div>
 
-<!-- Membership -->
-<%= render 'edit_amount_form', membership: @membership %>
+  <!-- Membership -->
+  <%= render 'edit_amount_form', membership: @membership %>
+</div>

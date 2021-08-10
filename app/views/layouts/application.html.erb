@@ -1,57 +1,54 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Membership</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-    <%= content_for?(:head) ? yield(:head) : '' %>
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;700&display=swap" rel="stylesheet" />
 
-    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
-    <meta name="msapplication-TileColor" content="#da532c" />
-    <meta name="theme-color" content="#ffffff" />
+<head>
+  <title>Membership</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= content_for?(:head) ? yield(:head) : '' %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
 
-    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+  <meta name="msapplication-TileColor" content="#da532c" />
+  <meta name="theme-color" content="#ffffff" />
 
-    <%= render 'layouts/sentry' %>
-    <%= render 'layouts/header' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
-    <%= render 'shared/analytics_scripts'%>
-  </head>
+  <%= render 'layouts/sentry' %>
+  <%= render 'layouts/header' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-  <body class="with-header">
-    <%= render 'shared/header' %>
-    <!-- x-data controls the state of the sidebar -->
-    <div class="flex h-screen overflow-hidden bg-white"
-      x-data="{ isOpen: false }"
-      x-on:keydown.escape="isOpen = false"
-    >
-      <%= render 'shared/sidebar' %>
-      <div class="flex flex-col flex-1 w-0 max-w-4xl mx-auto">
-        <div class="pt-1 pl-1 md:hidden sm:pl-3 sm:pt-3">
-          <button class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-            @click="isOpen = true"
-          >
-            <span class="sr-only">Open sidebar</span>
-            <!-- Heroicon name: outline/menu -->
-            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-        <main class="relative flex-1 px-4 pt-5 overflow-y-auto md:px-8 xl:px-0 focus:outline-none content">
-          <%= render 'shared/flash_messages'%>
-          <%= yield %>
-        </main>
+  <%= render 'shared/analytics_scripts'%>
+</head>
+
+<body class="with-header">
+  <%= render 'shared/header' %>
+  <!-- x-data controls the state of the sidebar -->
+  <div class="flex h-screen overflow-hidden bg-white" x-data="{ isOpen: false }" x-on:keydown.escape="isOpen = false">
+    <%= render 'shared/sidebar' %>
+    <div class="flex flex-col flex-1 w-0 max-w-4xl mx-auto">
+      <div class="pt-1 pl-1 md:hidden sm:pl-3 sm:pt-3">
+        <button class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" @click="isOpen = true">
+          <span class="sr-only">Open sidebar</span>
+          <!-- Heroicon name: outline/menu -->
+          <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
       </div>
+      <main class="relative flex-1 px-4 pt-8 overflow-y-auto md:px-8 xl:px-0 focus:outline-none content">
+        <%= render 'shared/flash_messages'%>
+        <%= yield %>
+      </main>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

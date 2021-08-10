@@ -11,14 +11,14 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
     padding: theme.spacing(2),
     flex: 1,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   text: {
-    fontSize: '3rem'
+    fontSize: '3rem',
   },
   description: {
-    fontSize: '1rem'
-  }
+    fontSize: '1rem',
+  },
 }))
 
 export const Metric = ({ description, text }) => {
@@ -34,5 +34,5 @@ export const Metric = ({ description, text }) => {
 
 Metric.propTypes = {
   description: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
 }

@@ -1,0 +1,36 @@
+div.button-tout-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  div.button-tout:nth-child(1) {
+    background-color: #ff4630;
+  }
+  div.button-tout.two-line-title h6 {
+    padding: 2.45rem 1rem 0.455rem;
+  }
+  div.button-tout {
+    background-color: #20a78c;
+    color: #ffffff;
+    height: 413px;
+    font-size: 22px;
+    margin: 1rem 0;
+    @media (min-width: 640px) {
+      max-width: 287px;
+      &.odd {
+        margin: 1rem 2rem 1rem 0;
+      }
+    }
+    h6 {
+      text-decoration: underline;
+      font-weight: 800;
+      padding: 2.5rem 1rem;
+      letter-spacing: 0.5px;
+    }
+    p {
+      font-weight: 200;
+      padding: 0 1rem;
+    }
+  }
+}

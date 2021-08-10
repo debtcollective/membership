@@ -15,14 +15,14 @@
  *= require_self
  */
 
-@import "base/globals.scss";
+@import 'base/globals.scss';
 
 html,
 body {
   font-size: 100%;
   margin: 0;
   padding: 0;
-  font-family: "Libre Franklin", sans-serif;
+  font-family: 'Libre Franklin' !important;
   height: 100vh;
 }
 

@@ -1,6 +1,38 @@
 <div class="pb-5 border-b border-gray-200">
-  <h3 class="text-lg font-medium leading-6 text-gray-900">
+  <h3 class="font-black text-black text-6xl">
     Union Hub
   </h3>
-  <p class="max-w-4xl mt-2 text-sm text-gray-500">Here you can see the latest activity on your account and the union.</p>
+  <p class="max-w-2xl mt-2 text-xl sm:text-2xl font-thin mt-4 mb-10 leading-normal" style="color:#232323">
+    Welcome to your union hub! Here you can update your information, make changes to your membership and find quick access to everything you need to get engaged.
+  </p>
+  <div class="button-tout-container">
+    <%= react_component("ButtonTout", {
+      title: 'New member guide',
+      text: 'includes more information about the union, details about how you get involved, where your closest branch is, and more!',
+      link: 'http://bit.ly/new-member-to-do'
+    }, {class: 'button-tout odd'}) %>
+    <%= react_component("ButtonTout", {
+      title: 'Debt Collective Community Forum',
+      text: 'introduce yourself, read other debtors\' stories, find information and resources about various types of debt, and get organized with fellow debtors! ',
+      link: 'https://community.debtcollective.org/'
+    }, {class: 'button-tout two-line-title'}
+    ) %>
+    <%= react_component("ButtonTout", {
+      title: 'Dispute your debt',
+      text: 'We have developed a suite of experimental dispute tools that help you exercise your rights as a debtor and simplify the process of disputing various debts you might owe.',
+      link: 'https://tools.debtcollective.org/'
+    }, {class: 'button-tout odd'}) %>
+
+    <%= react_component("ButtonTout", {
+      title: 'Join our campaigns',
+      text: 'Learn more about our campaigns, take action right away to cancel student debt, and much more! ',
+      link: 'http://stage.debtcollective.org/actions'
+    }, {class: 'button-tout'}) %>
+    <%= react_component("ButtonTout", {
+      title: 'Our call calendar',
+      text: 'join an upcoming welcome call, political education program, or campaign training.',
+      link: 'https://docs.google.com/document/d/1Azl1PHiqveK1Vuzt5_kQKP9IH_xoPMWizY7yObLvvBg/edit?ct=t()&mc_cid=ad30d07373&mc_eid=%5BUNIQID%5D'
+    }, {class: 'button-tout odd'}) %>
+  </div>
+
 </div>

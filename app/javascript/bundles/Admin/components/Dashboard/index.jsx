@@ -9,8 +9,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flexWrap: 'wrap'
-  }
+    flexWrap: 'wrap',
+  },
 }))
 
 const transformToMoneyFormat = number => numeral(number).format('$0,0.00')
@@ -19,7 +19,7 @@ const DashboardView = ({
   activeSubsctiptions,
   amountFromSubscriptions,
   donationsCount,
-  amountFromDonations
+  amountFromDonations,
 }) => {
   const classes = useStyles()
 
@@ -52,7 +52,7 @@ DashboardView.propTypes = {
   activeSubsctiptions: PropTypes.number.isRequired,
   amountFromSubscriptions: PropTypes.number.isRequired,
   donationsCount: PropTypes.number.isRequired,
-  amountFromDonations: PropTypes.number.isRequired
+  amountFromDonations: PropTypes.number.isRequired,
 }
 
 export const Dashboard = props => <DashboardView {...props} />
