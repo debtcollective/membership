@@ -3,14 +3,11 @@
     <columns large="12">
       <spacer size="48"></spacer>
       <h5>
-        Hello <strong><%= @user.name %></strong>
+        Hello <strong><%= @user.name %></strong> and Welcome to the Debt Collective!
       </h5>
-      <h6>
-        Welcome to the Debt Collective!
-      </h6>
 
       <p>
-        We are excited to welcome you to the debtors’ union -- a new and exciting type of organization where debtors are coming together to fight for debt cancellation -- and so much more. Together, we are uniting to ensure housing, college, medicare and justice for ALL! You are not a loan!
+        Welcome to your debtors’ union -- our new and exciting type of union where debtors are coming together collectively to fight for debt cancellation and publicly funded goods. Together, we are uniting to ensure housing, college, medicare and justice for ALL. You are not a loan!
       </p>
 
       <p>
@@ -24,39 +21,49 @@
       <spacer size="12"></spacer>
 
       <p>
-        Make sure your email is correct, if not you can always change it from your profile page.
+        The Debt Collective is a member-driven organization, which means we are run by and for our members. As a new member, you are encouraged to get involved in the campaigns, actions and direction of your organization. We are building this union together, and we enthusiastically welcome any thoughts, feedback and new ideas. We believe that no one should be forced into debt for an education, housing, medical care, or any of our basic needs. Together, we’ll change it!
       </p>
 
-      <spacer size="24"></spacer>
-
-      <h6>
-        As a new member
-      </h6>
-
+      <spacer size="12"></spacer>
+      <center>
+        <%= image_tag ("cancel_student_debt.jpg")%>
+      </center>
+      <spacer size="12"></spacer>
+      
       <p>
-        The Debt Collective is a member-driven organization, which means we are run by and for our members. As a new member, you are encouraged to get involved in the campaigns, culture and direction of the organization. We are building this union together, and we enthusiastically welcome any thoughts, feedback and new ideas.
-      </p>
-
-      <p>
-        <strong>First and foremost</strong>, as a new member we want you to <a href="http://bit.ly/debt-collective-dna" target="_blank">read through the Debt Collective DNA</a> (our principles and basic analysis). This document will give you the basic outline of the beliefs, values and priorities of the organization.
+        Here’s some guides and resources to help you out as a new member!
       </p>
 
       <p>
-        <strong>Second</strong>, we encourage you to read closely the <a href="https://bit.ly/new-member-to-do" target="_blank">list of things to do/ways to get involved</a> in the Debt Collective. This list will be constantly growing as our membership grows and our campaigns heat up, so remember to continue logging into the website and community forum for updates!
+        First, read through our <a href="https://docs.google.com/document/d/1wnFdVRSeY5b5XSiXt02Eeoe0SPw_bhrXDOMIRkabqaE" target="_blank">new member guide</a>! This guide is an outline of the beliefs, values and priorities, along with what it means to be a member of the debtors’ union, and the ways that you can get involved within the community. It can help you also find your local branch to take part in local actions and activities around the country! Also, be sure to check out and <strong>RSVP for our <a href="https://us02web.zoom.us/meeting/register/tZYtdu2ppzIiEtyjTH2o_b2ttXc1BJuSwCq-" target="_blank">new member calls</a></strong> that are held bi-weekly along with other activities and events you can be part of.
       </p>
 
       <p>
-        <strong>Third</strong>, be sure to check out our new member calls, held bi-weekly and other activities and events you can be part of. Just log into your website and community forum, and <a href="https://community.debtcollective.org/calendar" target="_blank">check out the events calendar</a>. Don’t forget to introduce yourself, too!
+        <strong>Login to our <a href="https://debtcollective.org/" target="_blank">website</a> and <a href="https://community.debtcollective.org/" target="_blank">community forum</a>, and <a href="https://community.debtcollective.org/calendar" target="_blank">check out the events calendar</a></strong>. You can use our <a href="https://community.debtcollective.org/" target="_blank">digital community platform</a> to connect with other members from around the country: share your story, discuss strategies, find information and resources, and MORE! You’ll have the opportunity to join a working group, local branch, committee or view any of our previous trainings. You can also use our <a href="https://tools.debtcollective.org/" target="_blank">dispute tools</a> to dispute your debts, win relief and take power back from creditors.
       </p>
 
       <p>
-        <strong>Fourth</strong>, watch and share <a href="https://theintercept.com/2021/01/25/student-debt-you-are-not-a-loan-film/" target="_blank">You Are Not Alone documentary</a> to see other Debt Collective members, learn about what we’re fighting for with student debt and help build our movement!
+        Also, don’t forget to <strong>check out your <a href="https://membership.debtcollective.org/" target="_blank">membership hub</a></strong>, where you have access to more information to begin getting involved in your union. If you need to make changes to your membership and payment, you can also do so in your hub! If you have issues making changes to your membership, email us at <a href="mailto:admin@debtcollective.org">admin@debtcollective.org</a>, and we’ll help out.
       </p>
 
       <p>
-        If you have any questions, please feel free to reach out to us at admin@debtcollective.org.
+        And, if you’re interested in learning more about debt watch <a href="https://theintercept.com/2021/01/25/student-debt-you-are-not-a-loan-film/" target="_blank">You Are Not Alone documentary</a> to see other Debt Collective members, learn about what we’re fighting for with student debt and help build our movement. You can also <a href="https://www.youtube.com/playlist?list=PLnQCwElJCNf9NHOqHicDrb03RX04nNl-h" target="_blank">learn more about debt</a> by watching some of our Jubilee School, our political education program, videos! 
+      </p>
+
+      <p>
+        We also encourage you to read closely the list of things to do/ways to get involved in the Debt Collective. This list will be constantly growing as our membership grows and our campaigns heat up, so remember to continue logging into the website and community forum for updates.
+      </p>
+
+      <p>
+        If you have any questions about your membership, technological issues within the platform or dues, please feel free to reach out to us at <a href="mailto:admin@debtcollective.org">admin@debtcollective.org</a>.
       </p>
       <br />
+
+      <spacer size="12"></spacer>
+      <center>
+        <%= image_tag ("you_are_not_a_loan.png")%>
+      </center>
+      <spacer size="12"></spacer>
 
       <p>
         In solidarity,<br />

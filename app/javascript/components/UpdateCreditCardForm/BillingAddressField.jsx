@@ -6,8 +6,8 @@ const BillingAddressField = ({ countryOptions = [] }) => {
       <legend className='block text-sm font-medium text-gray-700'>
         Address
       </legend>
-      <div className='mt-1 -space-y-px rounded-md shadow-sm'>
-        <div>
+      <div className='mt-1 rounded-md shadow-sm'>
+        <div className='my-4'>
           <label htmlFor='address_line1' className='sr-only'>
             Street
           </label>
@@ -20,7 +20,7 @@ const BillingAddressField = ({ countryOptions = [] }) => {
             required
           />
         </div>
-        <div>
+        <div className='my-4'>
           <label htmlFor='address_city' className='sr-only'>
             City
           </label>
@@ -33,8 +33,8 @@ const BillingAddressField = ({ countryOptions = [] }) => {
             required
           />
         </div>
-        <div className='flex'>
-          <div className='w-full'>
+        <div className='flex my-4'>
+          <div className='w-full mr-2'>
             <label htmlFor='address_state' className='sr-only'>
               State
             </label>
@@ -47,7 +47,7 @@ const BillingAddressField = ({ countryOptions = [] }) => {
               required
             />
           </div>
-          <div className='w-full'>
+          <div className='w-full ml-2'>
             <label htmlFor='address_zip' className='sr-only'>
               Zip code
             </label>

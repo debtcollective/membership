@@ -1,17 +1,18 @@
-<div class="pb-5 border-b border-gray-200">
-  <h2 class="text-xl font-medium leading-6 text-gray-900">
-    Change membership card
-  </h2>
-  <p class="max-w-4xl mt-2 text-gray-500 text-md">Here you can change your card</p>
+<div class="edit-card mb-20">
+  <div class="pb-5 border-b border-gray-200">
+    <h3 class="font-black text-black text-4xl sm:text-5xl max-w-4xl">
+      Change membership card
+    </h3>
+    <p class="max-w-4xl mt-2 text-gray-500 text-md">Update your card info.</p>
+  </div>
+
+  <!-- Membership -->
+  <%= render 'edit_card_form', membership: @membership %>
 </div>
-
-<!-- Membership -->
-<%= render 'edit_card_form', membership: @membership %>
-
 <% content_for :head do %>
-  <script type='text/javascript'>
+<script type='text/javascript'>
   window.App = {
     STRIPE_PUBLISHABLE_KEY: '<%= ENV.fetch('STRIPE_PUBLISHABLE_KEY') %>'
   };
-  </script>
+</script>
 <% end %>

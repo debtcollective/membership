@@ -40,6 +40,8 @@ class UserProfilesController < HubController
       :address_zip,
       :address_country,
       :address_country_code,
+      :about_me,
+      :why_joined,
       :facebook,
       :twitter,
       :instagram,
