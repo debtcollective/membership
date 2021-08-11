@@ -20,15 +20,15 @@
       </button>
       <spacer size="12"></spacer>
 
-      <spacer size="24"></spacer>
-
       <p>
         The Debt Collective is a member-driven organization, which means we are run by and for our members. As a new member, you are encouraged to get involved in the campaigns, actions and direction of your organization. We are building this union together, and we enthusiastically welcome any thoughts, feedback and new ideas. We believe that no one should be forced into debt for an education, housing, medical care, or any of our basic needs. Together, we’ll change it!
       </p>
 
+      <spacer size="12"></spacer>
       <center>
         <%= image_tag ("cancel_student_debt.jpg")%>
       </center>
+      <spacer size="12"></spacer>
       
       <p>
         Here’s some guides and resources to help you out as a new member!
@@ -59,9 +59,11 @@
       </p>
       <br />
 
+      <spacer size="12"></spacer>
       <center>
         <%= image_tag ("you_are_not_a_loan.png")%>
       </center>
+      <spacer size="12"></spacer>
 
       <p>
         In solidarity,<br />

@@ -1,115 +1,80 @@
 <%= form_with(model: user_profile, url: user_profile_path, builder: ApplicationFormBuilder, local: true, class: "space-y-8") do |f| %>
-<!-- List form errors -->
-<% if user_profile.errors.any? %>
-<div class="p-4 rounded-md bg-red-50">
-  <div class="flex">
-    <div class="flex-shrink-0">
-      <!-- Heroicon name: solid/x-circle -->
-      <svg class="w-5 h-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-      </svg>
-    </div>
-    <div class="ml-3">
-      <h3 class="text-sm font-medium text-red-800">
-        There were <%= pluralize(user_profile.errors.count, "error") %> with your submission
-      </h3>
-      <div class="mt-2 text-sm text-red-700">
-        <ul class="pl-5 space-y-1 list-disc">
-          <% user_profile.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-          <% end %>
-        </ul>
+  <!-- List form errors -->
+  <% if user_profile.errors.any? %>
+    <div class="p-4 rounded-md bg-red-50">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <!-- Heroicon name: solid/x-circle -->
+          <svg class="w-5 h-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            There were <%= pluralize(user_profile.errors.count, "error") %> with your submission
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul class="pl-5 space-y-1 list-disc">
+              <% user_profile.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<% end %>
+  <% end %>
 
-<div class="space-y-8 sm:space-y-5">
-  <div class="grid grid-cols-1 mt-6 gap-y-4 gap-x-4 sm:grid-cols-6 max-w-full">
-    <%
-=begin%>
-    <div class="sm:col-span-6">
-      <%= render(SelectComponent.new(name: :title, options: UserProfile::TITLES, include_blank: true, form: f)) %>
-    </div>
-    <%
-=end%>
+  <div class="space-y-8 sm:space-y-5">
+    <div class="grid grid-cols-1 mt-6 gap-y-4 gap-x-4 sm:grid-cols-6">
+      <div class="sm:col-span-6">
+        <%= render(SelectComponent.new(name: :title, options: UserProfile::TITLES, include_blank: true, form: f)) %>
+      </div>
 
-    <div class="sm:col-span-3">
-      <%= render(TextFieldComponent.new(name: :first_name, form: f)) %>
-    </div>
+      <div class="sm:col-span-3">
+        <%= render(TextFieldComponent.new(name: :first_name, form: f)) %>
+      </div>
 
-    <div class="sm:col-span-3">
-      <%= render(TextFieldComponent.new(name: :last_name, form: f)) %>
-    </div>
+      <div class="sm:col-span-3">
+        <%= render(TextFieldComponent.new(name: :last_name, form: f)) %>
+      </div>
 
-    <%
-=begin%>
-    <div class="sm:col-span-3">
-      <%= render(TextFieldComponent.new(name: :username, form: f)) %>
-      <a href="http://debtcollective.org/profile/username-hashed" class="text-xs">http://debtcollective.org/profile/username-hashed</a>
-    </div>
-    <%
-=end%>
-    <div class="flex sm:col-span-6 flex-col sm:flex-row">
-      <div class="sm:col-span-2 w-full date-picker-container">
+      <div class="sm:col-span-6">
+        <%= render(PhoneNumberFieldComponent.new(name: :phone_number, form: f)) %>
+      </div>
+
+      <div class="sm:col-span-6">
         <%= f.label :birthday, class: "block text-sm font-medium text-gray-700" %>
         <div class="mt-1">
           <%= f.date_picker :birthday %>
         </div>
       </div>
 
-      <div class="sm:col-span-3 w-full sm:ml-4">
-        <%= render(TextFieldComponent.new(name: :email, form: f)) %>
+      <div class="sm:col-span-6">
+        <%= render(AddressFieldComponent.new(form: f)) %>
       </div>
 
-    </div>
-
-    <div class="sm:col-span-6">
-      <%= render(PhoneNumberFieldComponent.new(name: :phone_number, form: f)) %>
-    </div>
-
-    <div class="sm:col-span-6 about-me">
-      <%= f.label(:about_me, "About me", class: "block text-sm font-medium text-gray-700") %>
-      <%= f.text_area(:about_me, :size => "24x6", class: "w-full") %>
-    </div>
-
-    <div class="sm:col-span-6 why-joined">
-      <%= f.label(:why_joined, "Tell us why you joined", class: "block text-sm font-medium text-gray-700") %>
-      <%= f.text_area(:why_joined, :size => "24x6", class: "w-full") %>
-    </div>
-
-    <div class="sm:col-span-6">
-      <%= render(AddressFieldComponent.new(form: f)) %>
-    </div>
-
-    <div class="sm:col-span-6">
-      <div class="flex sm:col-span-6 flex-col sm:flex-row">
-        <div class="w-full mb-2 sm:mr-2">
-          <%= render(TextFieldComponent.new(name: :website, form: f)) %>
-        </div>
-
-        <div class="w-full mb-2 sm:ml-2">
-          <%= render(TextFieldComponent.new(name: :facebook, form: f)) %>
-        </div>
+      <div class="sm:col-span-6">
+        <%= render(TextFieldComponent.new(name: :facebook, form: f)) %>
       </div>
 
-      <div class="flex sm:col-span-6 flex-col sm:flex-row">
-        <div class="w-full mb-2 sm:mr-2">
-          <%= render(TextFieldComponent.new(name: :twitter, form: f)) %>
-        </div>
+      <div class="sm:col-span-6">
+        <%= render(TextFieldComponent.new(name: :twitter, form: f)) %>
+      </div>
 
-        <div class="w-full mb-2 sm:ml-2">
-          <%= render(TextFieldComponent.new(name: :instagram, form: f)) %>
-        </div>
+      <div class="sm:col-span-6">
+        <%= render(TextFieldComponent.new(name: :instagram, form: f)) %>
+      </div>
+
+      <div class="sm:col-span-6">
+        <%= render(TextFieldComponent.new(name: :website, form: f)) %>
+      </div>
+    </div>
+
+    <div class="pt-5">
+      <div class="flex justify-end">
+        <%= f.submit 'Save', class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
       </div>
     </div>
   </div>
-
-  <div class="py-5">
-    <div class="submit-btn-container flex justify-end">
-      <%= f.submit 'Save', class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-bold text-base text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-    </div>
-  </div>
-</div>
 <% end %>
