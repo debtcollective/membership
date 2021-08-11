@@ -16,7 +16,7 @@ describe('Member Membership', () => {
       const [user] = records
       cy.forceLogin({ email: user.email }).then(result => {
         cy.visit('/membership')
-        cy.contains('My Membership', { matchCase: false })
+        cy.contains('Membership', { matchCase: false })
       })
     })
   })
