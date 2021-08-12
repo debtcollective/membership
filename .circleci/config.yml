@@ -257,7 +257,6 @@ jobs:
     steps:
       - checkout
       - aws-cli/install
-      - aws-cli/configure
 
       # restore cache
       - restore_cache:
@@ -299,7 +298,6 @@ jobs:
     steps:
       - checkout
       - aws-cli/install
-      - aws-cli/configure
 
       # restore cache
       - restore_cache:
