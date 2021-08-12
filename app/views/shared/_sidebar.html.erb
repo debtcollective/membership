@@ -18,7 +18,7 @@
     </div>
 
     <div class="flex-1 h-0 overflow-y-auto">
-      <nav class="px-2 pt-4 space-y-1">
+      <nav class="pr-2 pt-4 space-y-1">
         <!-- Current: "bg-gray-100 text-gray-900", Default: "text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
         <%= link_to root_path,
             class: "sidebar-item union-hub flex items-center group rounded-r px-6 py-4 justify-between text-base font-light h-16 #{current_page?(root_path) ? 'current-path' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}" do %>
@@ -57,7 +57,7 @@
       <div class="flex flex-col flex-grow mt-5">
         <%
 =end%>
-        <nav class="flex-1 px-2 space-y-1 bg-white">
+        <nav class="flex-1 pr-2 space-y-1 bg-white">
           <!-- Current: "bg-gray-100 text-gray-900", Default: "text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
           <%= link_to root_path,
             class: "sidebar-item union-hub flex items-center group rounded-r px-6 py-4 justify-between text-base font-light h-16 #{current_page?(root_path) ? 'current-path' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}" do %>

@@ -50,6 +50,16 @@
         </div>
       </div>
 
+      <div class="sm:col-span-6 about-me">
+        <%= f.label(:about_me, "About me", class: "block text-sm font-medium text-gray-700") %>
+        <%= f.text_area(:about_me, :size => "24x6", class: "w-full") %>
+      </div>
+
+      <div class="sm:col-span-6 why-joined">
+        <%= f.label(:why_joined, "Tell us why you joined", class: "block text-sm font-medium text-gray-700") %>
+        <%= f.text_area(:why_joined, :size => "24x6", class: "w-full") %>
+      </div>
+
       <div class="sm:col-span-6">
         <%= render(AddressFieldComponent.new(form: f)) %>
       </div>
