@@ -1,10 +1,10 @@
 .PhoneInput {
-  display: flex;
-  flex-direction: column;
-  @media (min-width: 640px) {
-    flex-direction: row;
-    justify-content: space-between;
-  }
+  // display: flex;
+  // flex-direction: column;
+  // @media (min-width: 640px) {
+  //   flex-direction: row;
+  //   justify-content: space-between;
+  // }
   .PhoneInputCountrySelect,
   .PhoneInputInput {
     width: 100%;
@@ -18,10 +18,6 @@
   }
   .PhoneInputCountry,
   .PhoneInputInput {
-    @media (min-width: 640px) {
-      max-width: 49%;
-      min-width: 49%;
-    }
   }
   .PhoneInputCountryIconImg {
     height: 0;
@@ -32,7 +28,7 @@
   .PhoneInput {
     @apply flex rounded-md shadow-sm;
     .PhoneInputCountry {
-      @apply inline-flex items-center rounded-l-md text-gray-500 sm:text-sm;
+      @apply inline-flex sm:col-span-3 items-center rounded-l-md text-gray-500 sm:text-sm;
     }
 
     .PhoneInputCountrySelect {
@@ -45,7 +41,7 @@
     }
 
     .PhoneInputInput {
-      @apply flex-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300 sm:w-1/2;
+      @apply flex-1 sm:col-span-3 focus:ring-indigo-500 focus:border-indigo-500 block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300 sm:w-1/2;
     }
   }
 
