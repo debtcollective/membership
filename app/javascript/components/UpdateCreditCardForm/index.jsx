@@ -26,7 +26,7 @@ const CreditCardField = ({ onChange }) => {
       <div className='mt-1'>
         <CardElement
           id='stripe-elements'
-          className='block w-full border-gray-300 rounded-md shadow-sm sm:text-sm focus:ring-indigo-500 focus:border-indigo-500'
+          className='block w-full border-gray-300 rounded-md shadow-sm sm:text-sm focus:ring-lilac focus:border-lilac'
           onChange={onChange}
         />
       </div>
@@ -38,7 +38,7 @@ const SubmitButton = ({ isLoading }) => {
   return (
     <button
       disabled={isLoading}
-      className='submit-btn inline-flex justify-center px-4 py-2 ml-3 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+      className='submit-btn inline-flex justify-center px-4 py-2 ml-3 text-sm font-medium text-white bg-lilac border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lilac'
     >
       {isLoading ? (
         <>
@@ -157,7 +157,7 @@ const UpdateCreditCardForm = ({
           <input
             type='text'
             name='membership[first_name]'
-            className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+            className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-lilac focus:border-lilac sm:text-sm'
             required
           />
         </div>
@@ -173,7 +173,7 @@ const UpdateCreditCardForm = ({
             type='text'
             name='membership[last_name]'
             required
-            className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
+            className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-lilac focus:border-lilac sm:text-sm'
           />
         </div>
 

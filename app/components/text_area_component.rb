@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TextFieldComponent < ViewComponent::Base
+class TextAreaComponent < ViewComponent::Base
   attr_reader :name, :f
 
   def initialize(name:, form:)

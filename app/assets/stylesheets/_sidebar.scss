@@ -2,20 +2,29 @@ nav {
   .sidebar-item {
     color: rgb(67, 67, 67);
     box-shadow: 1px 1px 3px rgba(34, 34, 34, 0.2);
-
-    // height: 4rem;
-    // font-weight: 300;
-
-    // font-size: 1rem;
-    // justify-content: space-between;
-    // padding: 1rem 1.5rem;
-    // border-radius: 0px 4px 4px 0px;
     &.current-path {
       background: #434343;
       color: #ffffff;
       svg path {
         fill: #ffffff;
       }
+    }
+  }
+}
+
+.mobile-nav-container {
+  margin-top: -0.1rem;
+  .sidebar-item {
+    height: 5.5rem;
+    box-shadow: 1px 1px 1px rgba(34, 34, 34, 0.2);
+    svg {
+      margin: 1rem 0 0.5rem;
+      height: 100%;
+      width: 35%;
+    }
+    &:nth-child(1) svg {
+      max-width: 3.75rem;
+      width: 53%;
     }
   }
 }

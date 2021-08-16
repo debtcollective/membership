@@ -1,9 +1,11 @@
+@import 'tailwindcss/utilities';
+
 .react-date-picker--disabled {
   background-color: #f0f0f0;
   color: #6d6d6d;
 }
 .react-date-picker__wrapper {
-  @apply flex shadow-sm focus:ring-indigo-500 focus:border-indigo-500 w-full sm:text-sm border border-gray-300 rounded-md;
+  @apply flex shadow-sm focus:ring-lilac focus:border-lilac w-full sm:text-sm border border-gray-300 rounded-md;
 }
 
 .react-date-picker__inputGroup {
@@ -24,6 +26,10 @@
   background: none;
   font: inherit;
   -moz-appearance: textfield;
+}
+
+.react-date-picker__inputGroup__day {
+  // width: 23px !important;
 }
 .react-date-picker__inputGroup__input::-webkit-outer-spin-button,
 .react-date-picker__inputGroup__input::-webkit-inner-spin-button {
