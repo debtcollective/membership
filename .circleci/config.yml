@@ -1,6 +1,6 @@
 ---
 
-version: 2.1
+version: 2.19.12
 executors:
   docker-publisher:
     working_directory: ~/membership
