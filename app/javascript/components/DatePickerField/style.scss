@@ -27,10 +27,9 @@
   font: inherit;
   -moz-appearance: textfield;
 }
+
 .react-date-picker__inputGroup__day {
-  width: -webkit-min-content !important;
-  width: -moz-min-content !important;
-  width: min-content !important;
+  // width: 23px !important;
 }
 .react-date-picker__inputGroup__input::-webkit-outer-spin-button,
 .react-date-picker__inputGroup__input::-webkit-inner-spin-button {
