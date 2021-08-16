@@ -38,7 +38,7 @@ const SubmitButton = ({ isLoading }) => {
   return (
     <button
       disabled={isLoading}
-      className='submit-btn inline-flex justify-center px-4 py-2 ml-3 text-sm font-medium text-white bg-lilac border border-transparent rounded-md shadow-sm hover:bg-lilac focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lilac'
+      className='submit-btn inline-flex justify-center px-4 py-2 ml-3 text-sm font-medium text-white bg-lilac border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lilac'
     >
       {isLoading ? (
         <>
