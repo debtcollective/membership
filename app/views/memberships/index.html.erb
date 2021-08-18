@@ -1,4 +1,4 @@
-<div class="membership mb-20">
+<div class="membership content mb-20">
   <div class="pb-5 border-b border-gray-200">
     <h3 class="font-black text-black text-4xl sm:text-6xl">
       Membership
@@ -33,14 +33,14 @@
     <div class="mt-10">
       <div class="flex items-center justify-between">
         <div>
-          <p class="text-lg min-w-min">
+          <p class="text-base sm:text-lg mr-2">
             Payment method
           </p>
-          <p>
+          <p class="text-sm sm:text-base">
             Card ending in <%= @membership.card_last4%>
           </p>
         </div>
-        <div class="py-3 text-right sm:px-6">
+        <div class="py-3 text-right sm:px-6 ml-2">
           <%= link_to "Update credit card", edit_membership_card_path, class: "update-cc-link min-w-max inline-flex justify-center px-4 py-2 text-sm font-bold text-white bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900" %>
         </div>
       </div>
@@ -49,12 +49,12 @@
   <section aria-labelledby="membership_credit_card">
     <div class="mt-10">
       <div class="flex items-center justify-between">
-        <div>
-          <p class="text-lg">
+        <div class="w-1/2">
+          <p class="text-base sm:text-lg mr-2">
             Change membership status
           </p>
           <% if @membership.active? %>
-          <p>
+          <p class="text-sm sm:text-base">
             Pause or cancel your membership
           </p>
           <% else %>
@@ -63,8 +63,8 @@
           </p>
           <% end %>
         </div>
-        <div class="py-3 text-right sm:px-6">
-          <%= link_to "Update status", edit_membership_status_path, class: "update-status-link min-w-max inline-flex justify-center px-4 py-2 text-sm font-bold text-white bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900" %>
+        <div class="py-3 text-right sm:px-6 ml-2">
+          <%= link_to "Update status", edit_membership_status_path, class: "update-status-link min-w-max inline-flex justify-center px-4 py-2 text-sm font-bold text-white border border-transparent rounded-md shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900" %>
         </div>
       </div>
   </section>

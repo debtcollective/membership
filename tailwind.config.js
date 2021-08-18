@@ -4,10 +4,16 @@ module.exports = {
       './app/**/*.html.erb',
       './app/helpers/**/*.rb',
       './app/javascript/**/*.js',
-      './app/javascript/**/*.jsx'
-    ]
+      './app/javascript/**/*.jsx',
+    ],
   },
-  theme: {},
+  theme: {
+    extend: {
+      colors: {
+        lilac: '#D2C4F5',
+      },
+    },
+  },
   variants: {},
-  plugins: [require('@tailwindcss/forms')]
+  plugins: [require('@tailwindcss/forms')],
 }

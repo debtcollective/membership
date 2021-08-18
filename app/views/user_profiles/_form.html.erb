@@ -51,13 +51,11 @@
       </div>
 
       <div class="sm:col-span-6 about-me">
-        <%= f.label(:about_me, "About me", class: "block text-sm font-medium text-gray-700") %>
-        <%= f.text_area(:about_me, :size => "24x6", class: "w-full") %>
+        <%= render(TextAreaComponent.new(name: :about_me, form: f)) %>
       </div>
 
-      <div class="sm:col-span-6 why-joined">
-        <%= f.label(:why_joined, "Tell us why you joined", class: "block text-sm font-medium text-gray-700") %>
-        <%= f.text_area(:why_joined, :size => "24x6", class: "w-full") %>
+      <div class="sm:col-span-6 about-me">
+        <%= render(TextAreaComponent.new(name: :why_joined, form: f)) %>
       </div>
 
       <div class="sm:col-span-6">
@@ -83,7 +81,7 @@
 
     <div class="py-5">
       <div class="submit-btn-container flex justify-end">
-        <%= f.submit 'Save', class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-bold text-base text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        <%= f.submit 'Save', class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-bold text-base text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lilac" %>
       </div>
     </div>
   </div>
