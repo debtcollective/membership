@@ -10,7 +10,7 @@ executors:
     docker:
       - image: circleci/buildpack-deps:stretch
 orbs:
-  aws-cli: circleci/aws-cli@0.1.15
+  aws-cli: circleci/aws-cli@2.0.3
 jobs:
   test:
     working_directory: ~/membership
@@ -257,7 +257,6 @@ jobs:
     steps:
       - checkout
       - aws-cli/install
-      - aws-cli/configure
 
       # restore cache
       - restore_cache:
@@ -299,7 +298,6 @@ jobs:
     steps:
       - checkout
       - aws-cli/install
-      - aws-cli/configure
 
       # restore cache
       - restore_cache:

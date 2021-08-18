@@ -6,7 +6,7 @@ describe('Donation Spec', () => {
   })
 
   it('renders donation widget', () => {
-    cy.visit('/test/widget/donation')
+    cy.visit('/test/widget/donation', { responseTimeout: 300000 })
     cy.contains('DONATE', { matchCase: false })
   })
 
@@ -15,7 +15,7 @@ describe('Donation Spec', () => {
       ['create', 'fund', { name: 'Betsy DeVos retirement fund' }]
     ]).then(records => {
       const fund = records[0]
-      cy.visit('/test/widget/donation')
+      cy.visit('/test/widget/donation', { responseTimeout: 300000 })
 
       // select amount
       cy.contains('$10').click()
