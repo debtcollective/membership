@@ -1,12 +1,4 @@
-@import 'tailwindcss/utilities';
-
 .PhoneInput {
-  // display: flex;
-  // flex-direction: column;
-  // @media (min-width: 640px) {
-  //   flex-direction: row;
-  //   justify-content: space-between;
-  // }
   .PhoneInputCountrySelect,
   .PhoneInputInput {
     width: 100%;
@@ -14,46 +6,52 @@
     border: 1px solid #219653;
     box-sizing: border-box;
     border-radius: 6px;
+    color: #000;
+    padding: 0.5rem;
     &:focus {
-      // border-color: #ff4630;
+      @apply ring-lilac border-lilac;
     }
   }
   .PhoneInputCountry,
   .PhoneInputInput {
+    @media (min-width: 640px) {
+      grid-column: span 3 / span 3;
+    }
   }
   .PhoneInputCountryIconImg {
     height: 0;
   }
+  .PhoneInputInput {
+    padding-left: 0.5rem;
+  }
 }
 
-@layer components {
-  .PhoneInput {
-    @apply flex rounded-md shadow-sm;
-    .PhoneInputCountry {
-      @apply inline-flex sm:col-span-3 items-center rounded-l-md text-gray-500 sm:text-sm;
-    }
-
-    .PhoneInputCountrySelect {
-      @apply focus:ring-lilac focus:border-lilac h-full py-0 pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md;
-    }
-
-    .PhoneInputCountryIcon,
-    .PhoneInputCountrySelectArrow {
-      @apply hidden;
-    }
-
-    .PhoneInputInput {
-      @apply flex-1 sm:col-span-3 focus:ring-lilac focus:border-lilac block w-full min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300 sm:w-1/2;
-    }
+.PhoneInput {
+  @apply shadow-sm;
+  .PhoneInputCountry {
+    @apply inline-flex items-center sm:text-sm;
   }
 
-  .PhoneInput.error {
-    .PhoneInputCountry {
-      @apply text-red-900 placeholder-red-300 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500;
-    }
+  .PhoneInputCountrySelect {
+    @apply sm:text-sm;
+  }
 
-    .PhoneInputInput {
-      @apply pr-10 text-red-900 placeholder-red-300 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500;
-    }
+  .PhoneInputCountryIcon,
+  .PhoneInputCountrySelectArrow {
+    @apply hidden;
+  }
+
+  .PhoneInputInput {
+    @apply flex-1 block sm:text-sm;
+  }
+}
+
+.PhoneInput.error {
+  .PhoneInputCountry {
+    @apply text-red-900 placeholder-red-300 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500;
+  }
+
+  .PhoneInputInput {
+    @apply pr-10 text-red-900 placeholder-red-300 border-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500;
   }
 }
