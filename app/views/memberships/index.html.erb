@@ -9,10 +9,19 @@
 
   <!-- Membership -->
   <% if @membership.present? %>
+
+  <section aria-labelledby="membership_status">
+    <div class="mt-10">
+      <% if @membership.paused? %>
+        <%= render "resume_membership" %>
+      <% else %>
+        <%= render "pause_membership" %>
+      <% end %>
+    </div>
+  </section>
+
   <section aria-labelledby="membership_amount">
     <div class="mt-8">
-      <p class="max-w-4xl mt-2 text-2xl font-black text-gray-900">Your membership is <%= @membership&.status %></p>
-
       <div class="flex items-center justify-between">
         <p class="subscription-amount px-4">
           <span class="mt-1 text-4xl font-semibold text-gray-900"><span class="text-sm align-text-top">$</span><%= @membership&.amount.to_i %></span>
@@ -45,28 +54,6 @@
       </div>
   </section>
 
-  <section aria-labelledby="membership_credit_card">
-    <div class="mt-10">
-      <div class="flex items-center justify-between">
-        <div class="w-1/2">
-          <p class="text-base sm:text-lg mr-2">
-            Change membership status
-          </p>
-          <% if @membership.active? %>
-          <p class="text-sm sm:text-base">
-            Pause or cancel your membership
-          </p>
-          <% else %>
-          <p>
-            Resume your membership
-          </p>
-          <% end %>
-        </div>
-        <div class="py-3 text-right sm:px-6 ml-2">
-          <%= link_to "Update status", edit_membership_status_path, class: "update-status-link min-w-max inline-flex justify-center px-4 py-2 text-sm font-bold text-white border border-transparent rounded-md shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900" %>
-        </div>
-      </div>
-  </section>
   <% else %>
   <section aria-labelledby="membership_amount">
     <div class="mt-8">

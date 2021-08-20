@@ -1,7 +1,6 @@
 .membership,
 .membership-edit-amount {
-  .subscription-amount,
-  input {
+  .subscription-amount {
     background: rgba(91, 203, 181, 0.1);
     border: 1px solid #219653;
     box-sizing: border-box;
@@ -9,15 +8,10 @@
   }
   .update-cc-link,
   .change-amount-link,
-  .update-status-link,
-  .edit-amount-button {
+  .edit-amount-button,
+  .update-status {
     background: #24ba9d;
     border: solid 1px transparent;
     border-radius: 8px;
   }
-}
-
-.membership h3 {
-  // font-size: 4rem;
-  // line-height: 1;
 }
