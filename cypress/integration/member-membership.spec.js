@@ -10,8 +10,8 @@ describe('Member Membership', () => {
       [
         'create',
         'user_with_subscription',
-        { email: 'example@debtcollective.org' }
-      ]
+        { email: 'example@debtcollective.org' },
+      ],
     ]).then(async records => {
       const [user] = records
       cy.forceLogin({ email: user.email }).then(result => {
@@ -28,8 +28,8 @@ describe('Member Membership', () => {
           [
             'create',
             'user_with_subscription_and_stripe',
-            { email: 'example@debtcollective.org' }
-          ]
+            { email: 'example@debtcollective.org' },
+          ],
         ]).then(async records => {
           const [user] = records
           cy.forceLogin({ email: user.email }).then(result => {
@@ -58,8 +58,8 @@ describe('Member Membership', () => {
             [
               'create',
               'user_with_subscription',
-              { email: 'example@debtcollective.org' }
-            ]
+              { email: 'example@debtcollective.org' },
+            ],
           ]).then(async records => {
             const [user] = records
             cy.forceLogin({ email: user.email }).then(result => {
@@ -88,8 +88,8 @@ describe('Member Membership', () => {
             [
               'create',
               'user_with_subscription',
-              { email: 'example@debtcollective.org' }
-            ]
+              { email: 'example@debtcollective.org' },
+            ],
           ]).then(async records => {
             const [user] = records
             cy.forceLogin({ email: user.email }).then(result => {
@@ -122,8 +122,8 @@ describe('Member Membership', () => {
         [
           'create',
           'user_with_subscription_and_stripe',
-          { email: 'example@debtcollective.org' }
-        ]
+          { email: 'example@debtcollective.org' },
+        ],
       ]).then(async records => {
         const [user] = records
         cy.forceLogin({ email: user.email }).then(result => {
@@ -182,8 +182,8 @@ describe('Member Membership', () => {
           [
             'create',
             'user_with_overdue_subscription',
-            { email: 'example@debtcollective.org' }
-          ]
+            { email: 'example@debtcollective.org' },
+          ],
         ]).then(async records => {
           const [user] = records
           cy.forceLogin({ email: user.email }).then(result => {
@@ -244,20 +244,14 @@ describe('Member Membership', () => {
         [
           'create',
           'user_with_subscription',
-          { email: 'example@debtcollective.org' }
-        ]
+          { email: 'example@debtcollective.org' },
+        ],
       ]).then(async records => {
         const [user] = records
         cy.forceLogin({ email: user.email }).then(result => {
           cy.visit('/membership')
 
-          cy.get('a')
-            .contains('Update status', { matchCase: false })
-            .click()
-          cy.contains('Pause your membership')
-
-          cy.on('window:confirm', () => true)
-          cy.get('input[type="submit"][value="Pause membership"]').click()
+          cy.get('input[type="submit"][value="Pause subscription"]').click()
 
           cy.contains('Your membership is now paused')
         })
@@ -273,21 +267,15 @@ describe('Member Membership', () => {
           'user_with_subscription',
           {
             email: 'example@debtcollective.org',
-            subscription_status: 'paused'
-          }
-        ]
+            subscription_status: 'paused',
+          },
+        ],
       ]).then(async records => {
         const [user] = records
         cy.forceLogin({ email: user.email }).then(result => {
           cy.visit('/membership')
 
-          cy.get('a')
-            .contains('Update status', { matchCase: false })
-            .click()
-          cy.contains('Resume your membership')
-
-          cy.on('window:confirm', () => true)
-          cy.get('input[type="submit"][value="Resume membership"]').click()
+          cy.get('input[type="submit"][value="Resume subscription"]').click()
 
           cy.contains('Your membership is now active')
         })
