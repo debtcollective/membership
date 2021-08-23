@@ -3,7 +3,7 @@
   .subscription-amount {
     background: rgba(91, 203, 181, 0.1);
     border: 1px solid #219653;
-    box-sizing: border-box;
+    // box-sizing: border-box;
     border-radius: 6px;
   }
   .update-cc-link,
@@ -14,4 +14,19 @@
     border: solid 1px transparent;
     border-radius: 8px;
   }
+}
+
+.input-green,
+.update-cc-container input {
+  background: rgba(91, 203, 181, 0.1);
+  border: 1px solid #219653;
+  // box-sizing: border-box;
+  border-radius: 6px;
+}
+
+.btn-green {
+  background: #24ba9d;
+  border: solid 1px transparent;
+  border-radius: 8px;
+  color: #ffffff;
 }

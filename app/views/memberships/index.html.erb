@@ -22,16 +22,11 @@
 
   <section aria-labelledby="membership_amount">
     <div class="mt-8">
-      <div class="flex items-center justify-between">
-        <p class="subscription-amount px-4">
-          <span class="mt-1 text-4xl font-semibold text-gray-900"><span class="text-sm align-text-top">$</span><%= @membership&.amount.to_i %></span>
-          <span class="text-sm font-medium text-gray-500 truncate">/ month</span>
-        </p>
-
-        <div class="py-3 text-right sm:px-6">
-          <%= link_to "Change amount", edit_membership_amount_path, class: "change-amount-link inline-flex justify-center px-4 py-2 text-sm font-bold text-white bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900" %>
-        </div>
+      <div class="flex flex-col sm:flex-row items-start justify-between">
+        <p class="font-black text-gray-900 leading-tight sm:w-1/2  sm:mr-3" style="font-size:1.75rem">Your current monthly donation amount is</p>
+        <%= render 'edit_amount_form', membership: @membership %>
       </div>
+
       <% if @membership.active? %>
       <p class="max-w-4xl mt-2 text-gray-900 text-md">Your next payment is due on <%= @membership&.next_payment_due_at.strftime("%b, %e") %></p>
       <% end %>
@@ -40,18 +35,7 @@
 
   <section aria-labelledby="membership_credit_card">
     <div class="mt-10">
-      <div class="flex items-center justify-between">
-        <div>
-          <p class="text-base sm:text-lg mr-2">
-            Payment method
-          </p>
-          <p class="text-sm sm:text-base">
-            Card ending in <%= @membership.card_last4%>
-          </p>
-        </div>
-        <div class="py-3 text-right sm:px-6 ml-2">
-          <%= link_to "Update credit card", edit_membership_card_path, class: "update-cc-link min-w-max inline-flex justify-center px-4 py-2 text-sm font-bold text-white bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900" %>
-        </div>
+      <%= render 'edit_card', membership: @membership %>
       </div>
     </div>
   </section>

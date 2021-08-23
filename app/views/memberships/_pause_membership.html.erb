@@ -1,7 +1,7 @@
 <div class="w-full flex flex-col sm:flex-row justify-between sm:justify-between sm:items-center">
-  <p class="max-w-4xl font-black text-gray-900 leading-loose" style="font-size:1.75rem">Your membership is</p>
-  <div class="flex items-center items-end">
-    <span class="update-status inline-flex justify-center px-8 py-1 font-bold text-white mr-2">
+  <p class="font-black text-gray-900 leading-loose" style="font-size:1.75rem">Your membership is</p>
+  <div class="flex items-center justify-between w-full sm:w-1/2 sm:pl-1.5">
+    <span class="update-status inline-flex justify-center px-8 py-1 font-bold text-white">
       Active
     </span>
     <%= form_with(model: @membership, url: pause_membership_path, builder: ApplicationFormBuilder, local: true) do |f| %>

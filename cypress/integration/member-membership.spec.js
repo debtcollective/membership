@@ -34,9 +34,9 @@ describe('Member Membership', () => {
           const [user] = records
           cy.forceLogin({ email: user.email }).then(result => {
             cy.visit('/membership')
-            cy.get('a')
-              .contains('Change amount', { matchCase: false })
-              .click()
+            // cy.get('a')
+            //   .contains('Change amount', { matchCase: false })
+            //   .click()
 
             // Name
             cy.get("input[name='membership[amount]']")
@@ -64,9 +64,9 @@ describe('Member Membership', () => {
             const [user] = records
             cy.forceLogin({ email: user.email }).then(result => {
               cy.visit('/membership')
-              cy.get('a')
-                .contains('Change amount', { matchCase: false })
-                .click()
+              // cy.get('a')
+              //   .contains('Change amount', { matchCase: false })
+              //   .click()
 
               // Name
               cy.get("input[name='membership[amount]']")
@@ -94,9 +94,9 @@ describe('Member Membership', () => {
             const [user] = records
             cy.forceLogin({ email: user.email }).then(result => {
               cy.visit('/membership')
-              cy.get('a')
-                .contains('Change amount', { matchCase: false })
-                .click()
+              // cy.get('a')
+              //   .contains('Change amount', { matchCase: false })
+              //   .click()
 
               // Name
               cy.get("input[name='membership[amount]']")

@@ -10,6 +10,7 @@ import {
   useElements,
 } from '@stripe/react-stripe-js'
 import BillingAddressField from './BillingAddressField'
+import Modal from '@material-ui/core/Modal'
 
 const CreditCardField = ({ onChange }) => {
   const stripe = useStripe()
@@ -67,7 +68,7 @@ const SubmitButton = ({ isLoading }) => {
           Saving
         </>
       ) : (
-        'Save'
+        'Update Card Info'
       )}
     </button>
   )
@@ -133,65 +134,100 @@ const UpdateCreditCardForm = ({
     }
   }
 
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => {
+    setOpen(true)
+  }
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className='space-y-8'
-      action={action}
-      method={method}
-    >
-      <input
-        type='hidden'
-        name='authenticity_token'
-        value={authenticityToken}
-      />
-
-      <div className='grid grid-cols-1 mt-6 gap-y-4 gap-x-4 sm:grid-cols-6'>
-        <div className='sm:col-span-3'>
-          <label
-            htmlFor='stripe-elements'
-            className='block text-sm font-medium text-gray-700'
+    <div className='update-cc-container w-full'>
+      <button
+        type='button'
+        onClick={handleOpen}
+        className='btn-green update-cc-link w-full inline-flex justify-center px-4 py-4 font-bold text-white shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 ml-1.5'
+      >
+        Update Card Info
+      </button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='update-cc-modal'
+        aria-describedby='update-credit-card'
+        className='flex justify-center align-center'
+      >
+        <div className='bg-white edit-card w-4/5'>
+          <div className='mx-4 sm:mx-8 my-5 border-b border-gray-200'>
+            <h3 className='font-black text-black text-4xl sm:text-5xl max-w-4xl'>
+              Change membership card
+            </h3>
+            <p className='max-w-4xl mt-2 text-gray-500 text-md'>
+              Update your card info.
+            </p>
+          </div>
+          <form
+            onSubmit={handleSubmit}
+            className='space-y-8 mx-4 sm:mx-8'
+            action={action}
+            method={method}
           >
-            First name
-          </label>
-          <input
-            type='text'
-            name='membership[first_name]'
-            className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-lilac focus:border-lilac sm:text-sm'
-            required
-          />
-        </div>
+            <input
+              type='hidden'
+              name='authenticity_token'
+              value={authenticityToken}
+            />
 
-        <div className='sm:col-span-3'>
-          <label
-            htmlFor='stripe-elements'
-            className='block text-sm font-medium text-gray-700'
-          >
-            Last name
-          </label>
-          <input
-            type='text'
-            name='membership[last_name]'
-            required
-            className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-lilac focus:border-lilac sm:text-sm'
-          />
-        </div>
+            <div className='grid grid-cols-1 mt-6 gap-y-4 gap-x-4 sm:grid-cols-6'>
+              <div className='sm:col-span-3'>
+                <label
+                  htmlFor='stripe-elements'
+                  className='block text-sm font-medium text-gray-700'
+                >
+                  First name
+                </label>
+                <input
+                  type='text'
+                  name='membership[first_name]'
+                  className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-lilac focus:border-lilac sm:text-sm'
+                  required
+                />
+              </div>
 
-        <div className='sm:col-span-6'>
-          <BillingAddressField countryOptions={countryOptions} />
-        </div>
+              <div className='sm:col-span-3'>
+                <label
+                  htmlFor='stripe-elements'
+                  className='block text-sm font-medium text-gray-700'
+                >
+                  Last name
+                </label>
+                <input
+                  type='text'
+                  name='membership[last_name]'
+                  required
+                  className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-lilac focus:border-lilac sm:text-sm'
+                />
+              </div>
 
-        <div className='sm:col-span-6'>
-          <CreditCardField onChange={handleCardOnChange} />
-        </div>
-      </div>
+              <div className='sm:col-span-6'>
+                <BillingAddressField countryOptions={countryOptions} />
+              </div>
 
-      <div className='pt-5'>
-        <div className='flex justify-end'>
-          <SubmitButton isLoading={isLoading} />
+              <div className='sm:col-span-6'>
+                <CreditCardField onChange={handleCardOnChange} />
+              </div>
+            </div>
+
+            <div className=''>
+              <div className='flex justify-end'>
+                <SubmitButton isLoading={isLoading} />
+              </div>
+            </div>
+          </form>
         </div>
-      </div>
-    </form>
+      </Modal>
+    </div>
   )
 }
 
