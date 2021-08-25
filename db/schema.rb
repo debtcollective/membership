@@ -46,9 +46,6 @@ ActiveRecord::Schema.define(version: 2021_08_03_220642) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
-  end
-
   create_table "donations", force: :cascade do |t|
     t.money "amount", scale: 2
     t.string "card_id"
@@ -89,8 +86,9 @@ ActiveRecord::Schema.define(version: 2021_08_03_220642) do
     t.index ["subscription_id"], name: "index_subscription_donations_on_subscription_id"
   end
 
-  create_table "subscriptions", force: :cascade do |t|
+  create_table "subscriptions", id: :bigint, default: nil, force: :cascade do |t|
     t.bigint "user_id"
+    t.boolean "active"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "start_date"
@@ -98,7 +96,6 @@ ActiveRecord::Schema.define(version: 2021_08_03_220642) do
     t.money "amount", scale: 2, default: "0.0"
     t.jsonb "metadata", default: {}, null: false
     t.string "status", default: "active", null: false
-    t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
   create_table "user_profiles", force: :cascade do |t|

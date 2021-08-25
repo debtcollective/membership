@@ -25,12 +25,12 @@
   <%= render 'layouts/header' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-  <%= render 'shared/chatwoot'%>
   <%= render 'shared/analytics_scripts'%>
 </head>
 
 <body class="with-header">
   <%= render 'shared/header' %>
+  <%= render 'shared/chatwoot'%>
   <div class="flex flex-col md:flex-row h-screen bg-white">
     <%= render 'shared/sidebar' %>
     <div class="flex flex-col flex-1 mx-auto">
