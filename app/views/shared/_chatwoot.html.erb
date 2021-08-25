@@ -8,8 +8,12 @@
       g.onload=function(){
         window.chatwootSDK.run({
           websiteToken: '<%= ENV['CHATWOOT_TOKEN'] %>',
-          baseUrl: BASE_URL
+          baseUrl: BASE_URL,
         })
+      }
+      window.chatwootSettings = {
+        type: 'expanded_bubble',
+        launcherTitle: 'Chat with us'
       }
     })(document,"script");
   </script>
