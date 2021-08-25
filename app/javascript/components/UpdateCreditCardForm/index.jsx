@@ -27,7 +27,7 @@ const CreditCardField = ({ onChange }) => {
       <div className='mt-1'>
         <CardElement
           id='stripe-elements'
-          className='block w-full border-gray-300 rounded-md shadow-sm sm:text-sm focus:ring-lilac focus:border-lilac'
+          className='input-green block w-full shadow-sm sm:text-sm focus:ring-lilac focus:border-lilac'
           onChange={onChange}
         />
       </div>
@@ -39,7 +39,7 @@ const SubmitButton = ({ isLoading }) => {
   return (
     <button
       disabled={isLoading}
-      className='submit-btn inline-flex justify-center px-4 py-2 ml-3 text-sm font-medium text-white bg-lilac border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lilac'
+      className='submit-btn btn-green inline-flex justify-center px-4 py-2 ml-3 text-sm font-bold text-white border border-transparent shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lilac'
     >
       {isLoading ? (
         <>
@@ -147,7 +147,7 @@ const UpdateCreditCardForm = ({
       <button
         type='button'
         onClick={handleOpen}
-        className='btn-green update-cc-link w-full inline-flex justify-center px-4 py-4 font-bold text-white shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 ml-1.5'
+        className='btn-green update-cc-link w-full inline-flex justify-center px-6 py-6 font-bold text-white shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 ml-1.5'
       >
         Update Card Info
       </button>
@@ -156,20 +156,22 @@ const UpdateCreditCardForm = ({
         onClose={handleClose}
         aria-labelledby='update-cc-modal'
         aria-describedby='update-credit-card'
-        className='flex justify-center align-center'
+        disableScrollLock
+        className='update-cc-modal flex justify-center sm:items-center relative sm:fixed overflow-y-auto'
       >
-        <div className='bg-white edit-card w-4/5'>
+        <div className='modal-inner bg-white sm:w-4/5 py-8 px-6'>
+          <div className='close-button'>
+            <button onClick={handleClose}>X</button>
+          </div>
           <div className='mx-4 sm:mx-8 my-5 border-b border-gray-200'>
             <h3 className='font-black text-black text-4xl sm:text-5xl max-w-4xl'>
               Change membership card
             </h3>
-            <p className='max-w-4xl mt-2 text-gray-500 text-md'>
-              Update your card info.
-            </p>
+            <p className='mt-2 text-gray-500 text-md'>Update your card info.</p>
           </div>
           <form
             onSubmit={handleSubmit}
-            className='space-y-8 mx-4 sm:mx-8'
+            className='space-y-4 mx-4'
             action={action}
             method={method}
           >
@@ -190,7 +192,7 @@ const UpdateCreditCardForm = ({
                 <input
                   type='text'
                   name='membership[first_name]'
-                  className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-lilac focus:border-lilac sm:text-sm'
+                  className='block w-full shadow-sm focus:ring-lilac focus:border-lilac sm:text-sm'
                   required
                 />
               </div>
@@ -206,7 +208,7 @@ const UpdateCreditCardForm = ({
                   type='text'
                   name='membership[last_name]'
                   required
-                  className='block w-full border-gray-300 rounded-md shadow-sm focus:ring-lilac focus:border-lilac sm:text-sm'
+                  className='block w-full rounded-md shadow-sm focus:ring-lilac focus:border-lilac sm:text-sm'
                 />
               </div>
 

@@ -1,5 +1,6 @@
-.membership,
-.membership-edit-amount {
+.membership
+// , .membership-edit-amount
+{
   .subscription-amount {
     background: rgba(91, 203, 181, 0.1);
     border: 1px solid #219653;
@@ -17,7 +18,7 @@
 }
 
 .input-green,
-.update-cc-container input {
+.update-cc-modal input {
   background: rgba(91, 203, 181, 0.1);
   border: 1px solid #219653;
   // box-sizing: border-box;
