@@ -5,12 +5,14 @@
   .modal-inner {
     height: fit-content;
     height: -moz-fit-content;
+    height: -webkit-fit-content;
+    box-shadow: 2px 2px 24px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
     .close-button {
-      position: absolute;
-      right: 12%;
-      top: 1rem;
-      font-size: 1.5rem;
-      font-weight: 900;
+      // position: absolute;
+      button {
+        font-weight: 900;
+      }
     }
   }
 }

@@ -165,7 +165,7 @@ describe('Member Membership', () => {
 
           // Submit
           cy.get('button')
-            .contains('Save', { matchCase: false })
+            .contains('Update Card Info', { matchCase: false })
             .click()
 
           cy.contains(

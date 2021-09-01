@@ -1,12 +1,12 @@
 <div class="w-full flex flex-col sm:flex-row justify-between sm:justify-between sm:items-center">
   <p class="font-black text-gray-900 leading-loose" style="font-size:1.75rem">Your membership is</p>
-  <div class="flex items-center justify-between w-full sm:w-1/2 sm:pl-1.5">
-    <span class="update-status inline-flex justify-center px-8 py-1 font-bold text-white">
+  <div class="flex items-center justify-between w-full sm:w-1/2 sm:pl-2">
+    <span class="btn-green inline-flex justify-center px-8 py-1 font-bold">
       Active
     </span>
-    <%= form_with(model: @membership, url: pause_membership_path, builder: ApplicationFormBuilder, local: true) do |f| %>
+    <%= form_with(model: @membership, url: pause_membership_path, builder: ApplicationFormBuilder, local: true, class: 'flex justify-end') do |f| %>
       <%= f.submit 'Pause subscription',
-        class: "sm:max-w-max inline-flex bg-transparent border-none underline hover:no-underline justify-center px-2 py-4 text-md sm:text-lg font-thin focus:outline-none ml-2",
+        class: "sm:max-w-max inline-flex bg-transparent border-none underline hover:no-underline justify-center py-4 text-md sm:text-lg font-thin focus:outline-none",
         data: { confirm: 'Are you sure?' }
       %>
     <% end %>

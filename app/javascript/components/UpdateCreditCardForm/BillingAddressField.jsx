@@ -2,11 +2,11 @@ import React from 'react'
 
 const BillingAddressField = ({ countryOptions = [] }) => {
   return (
-    <fieldset className='bg-white'>
-      <legend className='block text-sm font-medium text-gray-700'>
+    <fieldset>
+      <legend className='block text-sm font-medium text-gray-700 -mb-3'>
         Address
       </legend>
-      <div className='mt-1 rounded-md shadow-sm'>
+      <div className='shadow-sm'>
         <div className='my-4'>
           <label htmlFor='address_line1' className='sr-only'>
             Street
@@ -16,7 +16,7 @@ const BillingAddressField = ({ countryOptions = [] }) => {
             name='membership[address_line1]'
             id='address_line1'
             placeholder='Street'
-            className='relative block w-full focus:ring-lilac focus:border-lilac rounded-t-md focus:z-10 sm:text-sm'
+            className='relative block w-full focus:ring-lilac focus:border-lilac focus:z-10 sm:text-sm'
             required
           />
         </div>
