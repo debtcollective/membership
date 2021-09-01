@@ -128,8 +128,8 @@ describe('Member Membership', () => {
         const [user] = records
         cy.forceLogin({ email: user.email }).then(result => {
           cy.visit('/membership')
-          cy.get('a')
-            .contains('Update credit card', { matchCase: false })
+          cy.get('button')
+            .contains('Update Card Info', { matchCase: false })
             .click()
 
           // Name
