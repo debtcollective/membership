@@ -6,7 +6,7 @@
     </span>
     <%= form_with(model: @membership, url: resume_membership_path, builder: ApplicationFormBuilder, local: true, class: 'flex justify-end') do |f| %>
       <%= f.submit 'Resume subscription',
-        class: "btn-green inline-flex px-2 py-2 font-bold text-md ml-2 sm:max-w-max",
+        class: "btn-green inline-flex px-2 py-2 font-bold text-md ml-2 sm:max-w-max hover:bg-gray-900",
         data: { confirm: 'Are you sure?' }
       %>
     <% end %>
