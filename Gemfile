@@ -53,7 +53,7 @@ gem 'recaptcha', '~> 5.2', '>= 5.2.1'
 gem 'bootsnap', '1.7.4', require: false
 
 # Background jobs
-gem 'sidekiq', '6.2.0'
+gem 'sidekiq', '6.3.1'
 gem 'sidekiq-scheduler', '3.0.1'
 
 # monitoring
