@@ -24,7 +24,7 @@ class MembershipsController < HubController
         format.html do
           flash[:error] = "There were errors updating your membership"
 
-          render :edit_amount
+          render :index
         end
       end
     end

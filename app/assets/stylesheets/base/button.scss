@@ -61,3 +61,10 @@ button:not(:disabled) {
     width: 100%;
   }
 }
+
+.btn-green {
+  background: #24ba9d;
+  border: solid 1px transparent;
+  border-radius: 8px;
+  color: #ffffff;
+}

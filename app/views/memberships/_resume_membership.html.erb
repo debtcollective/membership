@@ -1,19 +1,13 @@
-<div class="flex items-center justify-between w-full flex-col sm:flex-row">
-  <div class="w-full">
-    <p class="text-2xl font-black">
-      Resume your membership
-    </p>
-    <p class="mt-2 text-gray-500 text-md">
-      You will be charged to your current card.<br />
-    </p>
-    <p class="mt-2">
-      <%= link_to "Update your card", edit_membership_card_path, class: "font-medium text-blue-700 hover:text-blue-600" %>
-    </p>
-  </div>
-  <div class="submit-btn-container py-3 text-right sm:px-6 w-full sm:max-w-max">
-    <%= form_with(model: @membership, url: resume_membership_path, builder: ApplicationFormBuilder, local: true) do |f| %>
-      <%= f.submit 'Resume membership',
-        class: "w-full sm:max-w-max inline-flex justify-center px-4 py-2 text-lg sm:text-sm font-medium text-white bg-gray-800 border border-transparent rounded-md shadow-sm hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+<div class="w-full flex flex-col sm:flex-row justify-between sm:justify-between sm:items-center">
+  <p class="font-black text-gray-900 leading-loose" style="font-size:1.75rem">Your membership is</p>
+  <div class="flex items-center justify-between w-full sm:w-1/2 sm:pl-2">
+    <span class="sm:max-w-max inline-flex bg-transparent border-none underline hover:no-underline justify-center py-4 text-md sm:text-lg font-thin focus:outline-none">
+      Inactive
+    </span>
+    <%= form_with(model: @membership, url: resume_membership_path, builder: ApplicationFormBuilder, local: true, class: 'flex justify-end') do |f| %>
+      <%= f.submit 'Resume subscription',
+        class: "btn-green inline-flex px-2 py-2 font-bold text-md ml-2 sm:max-w-max hover:bg-gray-900",
+        data: { confirm: 'Are you sure?' }
       %>
     <% end %>
   </div>
