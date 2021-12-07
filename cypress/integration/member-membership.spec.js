@@ -1,5 +1,13 @@
 import faker from 'faker'
 
+Cypress.Commands.add('getWithinIframe', (iframeSelector, targetElement) =>
+  cy
+    .get(`#${iframeSelector} iframe`)
+    .iframeLoaded()
+    .its('document')
+    .getInDocument(targetElement)
+)
+
 describe('Member Membership', () => {
   beforeEach(() => {
     cy.request('/cypress_rails_reset_state')
@@ -10,8 +18,8 @@ describe('Member Membership', () => {
       [
         'create',
         'user_with_subscription',
-        { email: 'example@debtcollective.org' },
-      ],
+        { email: 'example@debtcollective.org' }
+      ]
     ]).then(async records => {
       const [user] = records
       cy.forceLogin({ email: user.email }).then(result => {
@@ -28,8 +36,8 @@ describe('Member Membership', () => {
           [
             'create',
             'user_with_subscription_and_stripe',
-            { email: 'example@debtcollective.org' },
-          ],
+            { email: 'example@debtcollective.org' }
+          ]
         ]).then(async records => {
           const [user] = records
           cy.forceLogin({ email: user.email }).then(result => {
@@ -58,8 +66,8 @@ describe('Member Membership', () => {
             [
               'create',
               'user_with_subscription',
-              { email: 'example@debtcollective.org' },
-            ],
+              { email: 'example@debtcollective.org' }
+            ]
           ]).then(async records => {
             const [user] = records
             cy.forceLogin({ email: user.email }).then(result => {
@@ -88,8 +96,8 @@ describe('Member Membership', () => {
             [
               'create',
               'user_with_subscription',
-              { email: 'example@debtcollective.org' },
-            ],
+              { email: 'example@debtcollective.org' }
+            ]
           ]).then(async records => {
             const [user] = records
             cy.forceLogin({ email: user.email }).then(result => {
@@ -122,8 +130,8 @@ describe('Member Membership', () => {
         [
           'create',
           'user_with_subscription_and_stripe',
-          { email: 'example@debtcollective.org' },
-        ],
+          { email: 'example@debtcollective.org' }
+        ]
       ]).then(async records => {
         const [user] = records
         cy.forceLogin({ email: user.email }).then(result => {
@@ -158,13 +166,17 @@ describe('Member Membership', () => {
           )
 
           // Credit card
-          cy.getWithinIframe('[name="cardnumber"]').type('4242424242424242')
-          cy.getWithinIframe('[name="exp-date"]').type('1232')
-          cy.getWithinIframe('[name="cvc"]').type('987')
-          cy.getWithinIframe('[name="postal"]').type('12345')
+          cy.getWithinIframe('stripe-elements', '[name="cardnumber"]').type(
+            '4242424242424242'
+          )
+          cy.getWithinIframe('stripe-elements', '[name="exp-date"]').type(
+            '1232'
+          )
+          cy.getWithinIframe('stripe-elements', '[name="cvc"]').type('987')
+          cy.getWithinIframe('stripe-elements', '[name="postal"]').type('12345')
 
           // Submit
-          cy.get('button')
+          cy.get('.modal-inner button')
             .contains('Update Card Info', { matchCase: false })
             .click()
 
@@ -182,14 +194,14 @@ describe('Member Membership', () => {
           [
             'create',
             'user_with_overdue_subscription',
-            { email: 'example@debtcollective.org' },
-          ],
+            { email: 'example@debtcollective.org' }
+          ]
         ]).then(async records => {
           const [user] = records
           cy.forceLogin({ email: user.email }).then(result => {
             cy.visit('/membership')
-            cy.get('a')
-              .contains('Update credit card', { matchCase: false })
+            cy.get('button')
+              .contains('Update Card Info', { matchCase: false })
               .click()
 
             // Name
@@ -218,14 +230,20 @@ describe('Member Membership', () => {
             )
 
             // Credit card
-            cy.getWithinIframe('[name="cardnumber"]').type('4242424242424242')
-            cy.getWithinIframe('[name="exp-date"]').type('1232')
-            cy.getWithinIframe('[name="cvc"]').type('987')
-            cy.getWithinIframe('[name="postal"]').type('12345')
+            cy.getWithinIframe('stripe-elements', '[name="cardnumber"]').type(
+              '4242424242424242'
+            )
+            cy.getWithinIframe('stripe-elements', '[name="exp-date"]').type(
+              '1232'
+            )
+            cy.getWithinIframe('stripe-elements', '[name="cvc"]').type('987')
+            cy.getWithinIframe('stripe-elements', '[name="postal"]').type(
+              '12345'
+            )
 
             // Submit
-            cy.get('button')
-              .contains('Save', { matchCase: false })
+            cy.get('.modal-inner button')
+              .contains('Update Card Info', { matchCase: false })
               .click()
 
             cy.contains(
@@ -244,8 +262,8 @@ describe('Member Membership', () => {
         [
           'create',
           'user_with_subscription',
-          { email: 'example@debtcollective.org' },
-        ],
+          { email: 'example@debtcollective.org' }
+        ]
       ]).then(async records => {
         const [user] = records
         cy.forceLogin({ email: user.email }).then(result => {
@@ -267,9 +285,9 @@ describe('Member Membership', () => {
           'user_with_subscription',
           {
             email: 'example@debtcollective.org',
-            subscription_status: 'paused',
-          },
-        ],
+            subscription_status: 'paused'
+          }
+        ]
       ]).then(async records => {
         const [user] = records
         cy.forceLogin({ email: user.email }).then(result => {
