@@ -10,7 +10,7 @@ class TextFieldComponent < ViewComponent::Base
 
   def input_classes
     classes = "block w-full sm:text-sm"
-    normal_classes = "border-gray-300 rounded-md shadow-sm focus:ring-lilac focus:border-lilac"
+    normal_classes = "shadow-sm focus:ring-lilac focus:border-lilac"
     error_classes = "pr-10 text-red-900 placeholder-red-300 border-red-300 rounded-md focus:outline-none focus:ring-red-500 focus:border-red-500"
 
     if errors
