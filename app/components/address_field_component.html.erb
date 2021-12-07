@@ -3,25 +3,25 @@
   <div class="mt-1 rounded-md shadow-sm">
     <div class="my-4">
       <%= f.label :address_line1, class: "sr-only" %>
-      <%= f.text_field :address_line1, class: "focus:ring-lilac focus:border-lilac relative block w-full rounded-none rounded-t-md bg-transparent focus:z-10 sm:text-sm border-gray-300", placeholder: "Street" %>
+      <%= f.text_field :address_line1, class: "focus:ring-lilac focus:border-lilac relative block w-full focus:z-10 sm:text-sm", placeholder: "Street" %>
     </div>
     <div class="my-4">
       <%= f.label :address_city, class: "sr-only" %>
-      <%= f.text_field :address_city, class: "focus:ring-lilac focus:border-lilac relative block w-full rounded-none bg-transparent focus:z-10 sm:text-sm border-gray-300", placeholder: "City" %>
+      <%= f.text_field :address_city, class: "focus:ring-lilac focus:border-lilac relative block w-full focus:z-10 sm:text-sm", placeholder: "City" %>
     </div>
     <div class="flex my-4">
       <div class="w-full mr-2">
         <%= f.label :address_state, class: "sr-only" %>
-        <%= f.text_field :address_state, class: "focus:ring-lilac focus:border-lilac relative block w-full rounded-none bg-transparent focus:z-10 sm:text-sm border-gray-300", placeholder: "State" %>
+        <%= f.text_field :address_state, class: "focus:ring-lilac focus:border-lilac relative block w-full focus:z-10 sm:text-sm", placeholder: "State" %>
       </div>
       <div class="w-full ml-2">
         <%= f.label :address_zip, class: "sr-only" %>
-        <%= f.text_field :address_zip, class: "focus:ring-lilac focus:border-lilac relative block w-full rounded-none bg-transparent focus:z-10 sm:text-sm border-gray-300 border-l-0", placeholder: "Postal code" %>
+        <%= f.text_field :address_zip, class: "focus:ring-lilac focus:border-lilac relative block w-full focus:z-10 sm:text-sm", placeholder: "Postal code" %>
       </div>
     </div>
     <div class="my-4">
       <%= f.label :address_country_code, class: "sr-only" %>
-      <%= f.country_select(:address_country_code, {priority_countries: ['US', 'CA'], include_blank: "Select country"}, {class: 'focus:ring-lilac focus:border-lilac relative block w-full rounded-none rounded-b-md bg-transparent focus:z-10 sm:text-sm border-gray-300', id: 'address-country-code-select', required: true}) %>
+      <%= f.country_select(:address_country_code, {priority_countries: ['US', 'CA'], include_blank: "Select country"}, {class: 'input-green focus:ring-lilac focus:border-lilac relative block w-full focus:z-10 sm:text-sm', id: 'address-country-code-select', required: true}) %>
     </div>
   </div>
 </fieldset>
