@@ -27,7 +27,8 @@ RUN bundle config set without 'development test' && \
   bundle install
 
 # install forego
-RUN curl -LO https://github.com/viranch/forego/releases/download/20211019/forego-linux-amd64.tgz | tar -C /usr/local/bin/ -zx
+RUN curl -LO https://github.com/viranch/forego/releases/download/20211019/forego-linux-amd64.tgz
+RUN tar -C /usr/local/bin/ -zxf forego-linux-amd64.tgz
 
 ADD . $APP_HOME
 
