@@ -42,7 +42,7 @@
     "alpinejs": "2.8.2",
     "autoprefixer": "^9",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
-    "moment": "2.29.1",
+    "moment": "2.29.2",
     "numeral": "2.0.6",
     "postcss": "^7",
     "prop-types": "15.7.2",
