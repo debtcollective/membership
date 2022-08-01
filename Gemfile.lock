@@ -96,7 +96,7 @@ GEM
       capybara (>= 1.0, < 4)
       launchy
     childprocess (3.0.0)
-    climate_control (0.2.0)
+    climate_control (1.2.0)
     codecov (0.4.3)
       simplecov (>= 0.15, < 0.22)
     coderay (1.1.3)
@@ -468,7 +468,7 @@ DEPENDENCIES
   byebug
   capybara (~> 3.28)
   capybara-screenshot (= 1.0.25)
-  climate_control (~> 0.2.0)
+  climate_control (~> 1.2.0)
   codecov (= 0.4.3)
   country_select (~> 4.0)
   cypress-on-rails (= 1.9.1)
